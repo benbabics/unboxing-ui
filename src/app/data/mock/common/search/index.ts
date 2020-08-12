@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { cloneDeep } from 'lodash-es';
+import { cloneDeep } from 'lodash';
 import { TreoNavigationItem, TreoNavigationService } from '@treo/components/navigation';
 import { TreoMockApi } from '@treo/lib/mock-api/mock-api.interfaces';
 import { TreoMockApiService } from '@treo/lib/mock-api/mock-api.service';

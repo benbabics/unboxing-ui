@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { assign, cloneDeep } from 'lodash-es';
+import { assign, cloneDeep } from 'lodash';
 import { TreoMockApi } from '@treo/lib/mock-api/mock-api.interfaces';
 import { TreoMockApiUtils } from '@treo/lib/mock-api/mock-api.utils';
 import { TreoMockApiService } from '@treo/lib/mock-api/mock-api.service';
