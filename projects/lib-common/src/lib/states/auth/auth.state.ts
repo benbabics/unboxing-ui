@@ -1,5 +1,6 @@
-import { State, Action, StateContext, Selector } from "@ngxs/store";
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { State, Action, StateContext, Selector } from "@ngxs/store";
 import { map, tap } from 'rxjs/operators';
 import { AuthStateModel } from './auth.interfaces';
 import { Auth } from './auth.action';
@@ -11,6 +12,7 @@ import { Auth } from './auth.action';
     email: null,
   }
 })
+@Injectable()
 export class AuthState {
 
   @Selector()

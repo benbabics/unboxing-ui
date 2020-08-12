@@ -1,7 +1,8 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { State, Action, Selector } from '@ngxs/store';
 import { StateContext, Store } from '@ngxs/store';
 import { defaultEntityState, EntityStateModel, EntityState, IdStrategy, Add, Update, SetLoading, SetActive, CreateOrReplace } from '@ngxs-labs/entity-state';
-import { HttpClient } from '@angular/common/http';
 import { find, get } from 'lodash';
 import { tap } from 'rxjs/operators';
 import { Slide } from './slide.action';
@@ -14,6 +15,7 @@ export interface SlideStateModel extends EntityStateModel<Slide> {
   name: 'slide',
   defaults: defaultEntityState()
 })
+@Injectable()
 export class SlideState extends EntityState<Slide> {
 
   @Selector()

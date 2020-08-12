@@ -1,7 +1,8 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { State, Action, Selector } from '@ngxs/store';
 import { StateContext, Store } from '@ngxs/store';
 import { defaultEntityState, EntityStateModel, EntityState, IdStrategy, Add, Update, SetLoading, SetActive, CreateOrReplace } from '@ngxs-labs/entity-state';
-import { HttpClient } from '@angular/common/http';
 import { find, get } from 'lodash';
 import { tap } from 'rxjs/operators';
 import { Theme } from './theme.action';
@@ -13,6 +14,7 @@ export interface ThemeStateModel extends EntityStateModel<Theme> {
   name: 'theme',
   defaults: defaultEntityState()
 })
+@Injectable()
 export class ThemeState extends EntityState<Theme> {
 
   @Selector()
