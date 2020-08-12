@@ -5,104 +5,50 @@ import { AuthService } from 'app/core/auth/auth.service';
 import { switchMap } from 'rxjs/operators';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class AuthGuard implements CanActivate, CanActivateChild, CanLoad
 {
-    /**
-     * Constructor
-     *
-     * @param {AuthService} _authService
-     * @param {Router} _router
-     */
-    constructor(
-        private _authService: AuthService,
-        private _router: Router
-    )
-    {
+  constructor(
+    private _authService: AuthService,
+    private _router: Router
+  ) { }
+
+  private _check(redirectURL): Observable<boolean> {
+    return this._authService.check()
+      .pipe(
+        switchMap((authenticated) => {
+          if ( !authenticated ) {
+            this._router.navigate(['sign-in'], {queryParams: {redirectURL}});
+            return of(false);
+          }
+
+          return of(true);
+        })
+      );
+  }
+
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+    let redirectUrl = state.url;
+
+    if ( redirectUrl === '/sign-out' ) {
+      redirectUrl = '/';
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Private methods
-    // -----------------------------------------------------------------------------------------------------
+    return this._check(redirectUrl);
+  }
 
-    /**
-     * Check the authenticated status
-     *
-     * @param redirectURL
-     * @private
-     */
-    private _check(redirectURL): Observable<boolean>
-    {
-        // Check the authentication status
-        return this._authService.check()
-                   .pipe(
-                       switchMap((authenticated) => {
+  canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    let redirectUrl = state.url;
 
-                           // If the user is not authenticated...
-                           if ( !authenticated )
-                           {
-                               // Redirect to the sign-in page
-                               this._router.navigate(['sign-in'], {queryParams: {redirectURL}});
-
-                               // Prevent the access
-                               return of(false);
-                           }
-
-                           // Allow the access
-                           return of(true);
-                       })
-                   );
+    if ( redirectUrl === '/sign-out' ) {
+      redirectUrl = '/';
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
+    return this._check(redirectUrl);
+  }
 
-    /**
-     * Can activate
-     *
-     * @param route
-     * @param state
-     */
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean
-    {
-        let redirectUrl = state.url;
-
-        if ( redirectUrl === '/sign-out' )
-        {
-            redirectUrl = '/';
-        }
-
-        return this._check(redirectUrl);
-    }
-
-    /**
-     * Can activate child
-     *
-     * @param childRoute
-     * @param state
-     */
-    canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree
-    {
-        let redirectUrl = state.url;
-
-        if ( redirectUrl === '/sign-out' )
-        {
-            redirectUrl = '/';
-        }
-
-        return this._check(redirectUrl);
-    }
-
-    /**
-     * Can load
-     *
-     * @param route
-     * @param segments
-     */
-    canLoad(route: Route, segments: UrlSegment[]): Observable<boolean> | Promise<boolean> | boolean
-    {
-        return this._check('/');
-    }
+  canLoad(route: Route, segments: UrlSegment[]): Observable<boolean> | Promise<boolean> | boolean {
+    return this._check('/');
+  }
 }
