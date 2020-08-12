@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { merge } from 'lodash-es';
+import { merge } from 'lodash';
 import { TREO_APP_CONFIG } from '@treo/services/config/config.constants';
 
 @Injectable({

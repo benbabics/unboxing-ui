@@ -4,7 +4,7 @@ import { Platform } from '@angular/cdk/platform';
 import { fromEvent, Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import PerfectScrollbar from 'perfect-scrollbar';
-import { merge } from 'lodash-es';
+import { merge } from 'lodash';
 import { ScrollbarGeometry, ScrollbarPosition } from '@treo/directives/scrollbar/scrollbar.interfaces';
 
 // -----------------------------------------------------------------------------------------------------

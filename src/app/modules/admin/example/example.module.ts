@@ -10,9 +10,7 @@ import { exampleRoutes } from 'app/modules/admin/example/example.routing';
     ],
     imports     : [
         RouterModule.forChild(exampleRoutes),
-        SharedModule
+        SharedModule,
     ]
 })
-export class ExampleModule
-{
-}
+export class ExampleModule { }
