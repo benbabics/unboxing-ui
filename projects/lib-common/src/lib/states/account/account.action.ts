@@ -1,6 +1,7 @@
 export interface Account {
   id: string;
   title: string;
+  logo: string;
 
   // belongs to
   userId: string;

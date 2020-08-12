@@ -48,7 +48,7 @@ export class CurrentUserState {
       .pipe(
         map((users: any[]) => first(users)),
         map(user => set(user, 'accountIds', user.accounts.map(({id}) => id))),
-        map(user => pick(user, ['id', 'email', 'firstname', 'lastname', 'accountIds'])),
+        map(user => pick(user, ['id', 'email', 'firstname', 'lastname', 'accountIds', 'avatar'])),
         tap(user => ctx.patchState(user)),
         catchError(() => this.store.dispatch(new Auth.Logout())),
       );

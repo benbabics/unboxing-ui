@@ -27,8 +27,8 @@ export class AuthSignInComponent implements OnInit {
 
   ngOnInit(): void {
     this.signInForm = this._formBuilder.group({
-      email:      [ 'watkins.andrew@company.com' ],
-      password:   [ 'admin' ],
+      email:      [ '' ],
+      password:   [ '' ],
       rememberMe: [ '' ],
     });
   }
@@ -38,10 +38,11 @@ export class AuthSignInComponent implements OnInit {
     this.message = null;
 
     const credentials = this.signInForm.value;
-    this._authService.signIn(credentials).subscribe(
-      ()          => this.handleSigninSuccess(),
-      ({ error }) => this.handleSigninFailure(error)
-    );
+    this._authService.signIn(credentials)
+      .subscribe(
+        () => this.handleSigninSuccess(),
+        ({ error }) => this.handleSigninFailure(error)
+      );
   }
 
   private handleSigninSuccess(): void {

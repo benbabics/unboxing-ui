@@ -37,7 +37,7 @@ const modules = [
 
 @NgModule({
   declarations: [
-    LayoutComponent
+    LayoutComponent,
   ],
   imports: [
     SharedModule,

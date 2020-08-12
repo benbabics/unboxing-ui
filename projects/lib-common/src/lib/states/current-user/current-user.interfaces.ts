@@ -4,4 +4,5 @@ export interface CurrentUserStateModel {
   firstname: string;
   lastname: string;
   accountIds: string[];
+  avatar?: string;
 }

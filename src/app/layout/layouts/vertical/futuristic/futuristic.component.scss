@@ -13,15 +13,23 @@ futuristic-layout {
             .logo {
                 display: flex;
                 align-items: center;
-                height: 80px;
+                justify-content: center;
                 min-height: 80px;
-                max-height: 80px;
-                padding: 24px 24px 0 24px;
+                max-height: 150px;
+                padding: 20px 24px 20px 24px;
 
                 img {
-                    max-width: 120px;
+                  object-fit: scale-down;
+                  max-height: 100px;
+                  max-width: 120px;
                 }
             }
+        }
+
+        .treo-vertical-navigation-wrapper {
+          .treo-vertical-navigation-content > treo-vertical-navigation-group-item {
+            margin-top: 0;
+          }
         }
 
         .treo-vertical-navigation-footer {
@@ -307,18 +315,18 @@ futuristic-layout {
                 .navigation-footer-menu {
 
                     a {
-                        color: treo-color('indigo', 300);
+                        // color: treo-color('indigo', 300);
 
                         .mat-icon {
-                            color: treo-color('indigo', 400);
+                            // color: treo-color('indigo', 400);
                         }
 
                         &:hover {
-                            background-color: treo-color('indigo', 700);
-                            color: treo-color('indigo', 50);
+                            // background-color: treo-color('indigo', 700);
+                            // color: treo-color('indigo', 50);
 
                             .mat-icon {
-                                color: treo-color('indigo', 100);
+                                // color: treo-color('indigo', 100);
                             }
                         }
                     }
@@ -329,7 +337,7 @@ futuristic-layout {
                     .avatar {
 
                         .status {
-                            border-color: treo-color('indigo', 800);
+                            // border-color: treo-color('indigo', 800);
                         }
                     }
                 }
@@ -343,32 +351,32 @@ futuristic-layout {
 
                     // Normal state
                     .treo-vertical-navigation-item-icon {
-                        color: treo-color('indigo', 400);
+                        // color: treo-color('indigo', 400);
                     }
 
                     .treo-vertical-navigation-item-title {
-                        color: treo-color('indigo', 300);
+                        // color: treo-color('indigo', 300);
                     }
 
                     .treo-vertical-navigation-item-subtitle {
-                        color: treo-color('indigo', 400);
+                        // color: treo-color('indigo', 400);
                     }
 
                     // Active state
                     &.treo-vertical-navigation-item-active:not(.treo-vertical-navigation-item-disabled),
                     &.treo-vertical-navigation-item-active-forced:not(.treo-vertical-navigation-item-disabled) {
-                        background-color: treo-color('indigo', 900);
+                        // background-color: treo-color('indigo', 900);
 
                         .treo-vertical-navigation-item-icon {
-                            color: treo-color('indigo', 100);
+                            // color: treo-color('indigo', 100);
                         }
 
                         .treo-vertical-navigation-item-title {
-                            color: treo-color('indigo', 50);
+                            // color: treo-color('indigo', 50);
                         }
 
                         .treo-vertical-navigation-item-subtitle {
-                            color: treo-color('indigo', 300);
+                            // color: treo-color('indigo', 300);
                         }
                     }
 
@@ -379,7 +387,7 @@ futuristic-layout {
                         .treo-vertical-navigation-item-title,
                         .treo-vertical-navigation-item-subtitle,
                         .treo-vertical-navigation-item-arrow {
-                            color: treo-color('indigo', 600);
+                            // color: treo-color('indigo', 600);
                         }
                     }
                 }
@@ -396,18 +404,18 @@ futuristic-layout {
                             // Hover state
                             &:hover:not(.treo-vertical-navigation-item-active):not(.treo-vertical-navigation-item-disabled),
                             &:hover:not(.treo-vertical-navigation-item-active-forced):not(.treo-vertical-navigation-item-disabled) {
-                                background-color: treo-color('indigo', 700);
+                                // background-color: treo-color('indigo', 700);
 
                                 .treo-vertical-navigation-item-icon {
-                                    color: treo-color('indigo', 100);
+                                    // color: treo-color('indigo', 100);
                                 }
 
                                 .treo-vertical-navigation-item-title {
-                                    color: treo-color('indigo', 50);
+                                    // color: treo-color('indigo', 50);
                                 }
 
                                 .treo-vertical-navigation-item-subtitle {
-                                    color: treo-color('indigo', 300);
+                                    // color: treo-color('indigo', 300);
                                 }
                             }
                         }
@@ -424,16 +432,16 @@ futuristic-layout {
                             .treo-vertical-navigation-item {
 
                                 .treo-vertical-navigation-item-icon {
-                                    color: treo-color('indigo', 100);
+                                    // color: treo-color('indigo', 100);
                                 }
 
                                 .treo-vertical-navigation-item-title,
                                 .treo-vertical-navigation-item-arrow {
-                                    color: treo-color('indigo', 50);
+                                    // color: treo-color('indigo', 50);
                                 }
 
                                 .treo-vertical-navigation-item-subtitle {
-                                    color: treo-color('indigo', 300);
+                                    // color: treo-color('indigo', 300);
                                 }
                             }
                         }
@@ -448,15 +456,15 @@ futuristic-layout {
                         .treo-vertical-navigation-item {
 
                             .treo-vertical-navigation-item-icon {
-                                color: treo-color('indigo', 300);
+                                // color: treo-color('indigo', 300);
                             }
 
                             .treo-vertical-navigation-item-title {
-                                color: treo-color('indigo', 50);
+                                // color: treo-color('indigo', 50);
                             }
 
                             .treo-vertical-navigation-item-subtitle {
-                                color: treo-color('indigo', 500);
+                                // color: treo-color('indigo', 500);
                             }
                         }
                     }
