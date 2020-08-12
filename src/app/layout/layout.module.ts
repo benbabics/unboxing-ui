@@ -16,37 +16,35 @@ import { ThinLayoutModule } from 'app/layout/layouts/vertical/thin/thin.module';
 import { SharedModule } from 'app/shared/shared.module';
 
 const modules = [
-    // Empty
-    EmptyLayoutModule,
+  // Empty
+  EmptyLayoutModule,
 
-    // Horizontal navigation
-    CenteredLayoutModule,
-    EnterpriseLayoutModule,
-    MaterialLayoutModule,
-    ModernLayoutModule,
+  // Horizontal navigation
+  CenteredLayoutModule,
+  EnterpriseLayoutModule,
+  MaterialLayoutModule,
+  ModernLayoutModule,
 
-    // Vertical navigation
-    BasicLayoutModule,
-    ClassicLayoutModule,
-    ClassyLayoutModule,
-    CompactLayoutModule,
-    DenseLayoutModule,
-    FuturisticLayoutModule,
-    ThinLayoutModule
+  // Vertical navigation
+  BasicLayoutModule,
+  ClassicLayoutModule,
+  ClassyLayoutModule,
+  CompactLayoutModule,
+  DenseLayoutModule,
+  FuturisticLayoutModule,
+  ThinLayoutModule
 ];
 
 @NgModule({
-    declarations: [
-        LayoutComponent
-    ],
-    imports     : [
-        SharedModule,
-        ...modules
-    ],
-    exports     : [
-        ...modules
-    ]
+  declarations: [
+    LayoutComponent
+  ],
+  imports: [
+    SharedModule,
+    ...modules
+  ],
+  exports: [
+    ...modules
+  ]
 })
-export class LayoutModule
-{
-}
+export class LayoutModule { }

@@ -9,8 +9,8 @@ export type Theme = 'auto' | 'dark' | 'light';
  */
 export interface AppConfig
 {
-    layout: Layout;
-    theme: Theme;
+  layout: Layout;
+  theme: Theme;
 }
 
 /**
@@ -22,6 +22,6 @@ export interface AppConfig
  * 'ConfigService'.
  */
 export const appConfig: AppConfig = {
-    layout: 'dense',
-    theme : 'auto'
+  layout: 'dense',
+  theme : 'auto'
 };
