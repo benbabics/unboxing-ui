@@ -1,8 +1,10 @@
+import { CurrentUserState } from './../../projects/lib-common/src/lib/states/current-user/current-user.state';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Store } from '@ngxs/store';
 
 @Injectable({
   providedIn: 'root'
@@ -10,27 +12,32 @@ import { map } from 'rxjs/operators';
 export class InitialDataResolver implements Resolve<any> {
 
   constructor(
-    private _httpClient: HttpClient
+    private store: Store,
+    private _httpClient: HttpClient,
   ) { }
 
   private _loadMessages(): Observable<any> {
-    return this._httpClient.get('api/common/messages');
+    return this._httpClient.get('api/common/messages')
+      .pipe(map(({ messages }: any) => messages));
   }
 
   private _loadNavigation(): Observable<any> {
-    return this._httpClient.get('api/common/navigation');
+    return this._httpClient.get('api/common/navigation')
+      .pipe(map(navigation => navigation));
   }
 
   private _loadNotifications(): Observable<any> {
-    return this._httpClient.get('api/common/notifications');
+    return this._httpClient.get('api/common/notifications')
+      .pipe(map(({ notifications }: any) => notifications));
   }
 
   private _loadShortcuts(): Observable<any> {
-    return this._httpClient.get('api/common/shortcuts');
+    return this._httpClient.get('api/common/shortcuts')
+      .pipe(map(({ shortcuts }: any) => shortcuts));
   }
 
   private _loadUser(): Observable<any> {
-    return this._httpClient.get('api/common/user');
+    return this.store.selectOnce(CurrentUserState.details);
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
@@ -42,18 +49,13 @@ export class InitialDataResolver implements Resolve<any> {
       this._loadUser()
     ])
     .pipe(
-      map((data) => {
+      map(([ messages, navigation, notifications, shortcuts, user, ]) => {
         return {
-          messages: data[0].messages,
-          navigation: {
-            compact:    data[1].compact,
-            default:    data[1].default,
-            futuristic: data[1].futuristic,
-            horizontal: data[1].horizontal
-          },
-          notifications: data[2].notifications,
-          shortcuts:     data[3].shortcuts,
-          user:          data[4].user
+          messages,
+          navigation,
+          notifications,
+          shortcuts,
+          user,
         };
       })
     );

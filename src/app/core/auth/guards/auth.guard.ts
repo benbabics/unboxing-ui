@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad
       .pipe(
         switchMap((authenticated) => {
           if ( !authenticated ) {
-            this._router.navigate(['sign-in'], {queryParams: {redirectURL}});
+            this._router.navigate(['sign-in'], { queryParams: { redirectURL } });
             return of(false);
           }
 

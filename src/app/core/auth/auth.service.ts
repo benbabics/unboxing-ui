@@ -1,63 +1,42 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Store } from '@ngxs/store';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
 import { AuthUtils } from 'app/core/auth/auth.utils';
+import { Auth, AuthState, CurrentUser } from '../../../../projects/lib-common/src/public-api';
 
 @Injectable()
 export class AuthService {
-  private _authenticated: boolean;
 
   constructor(
-    private _httpClient: HttpClient
-  ) {
-    this._authenticated = false;
-  }
-
-  set accessToken(token: string) {
-    localStorage.setItem('access_token', token);
-  }
+    private store: Store,
+  ) { }
 
   get accessToken(): string {
-    return localStorage.getItem('access_token');
+    return this.store.selectSnapshot(AuthState.token);
+  }
+
+  get isAuthenticated(): boolean {
+    return this.store.selectSnapshot(AuthState.isAuthenticated);
   }
 
   signIn(credentials: { email: string, password: string }): Observable<any> {
-    if ( this._authenticated ) {
+    if (this.isAuthenticated ) {
       return throwError('User is already logged in.');
     }
 
-    return this._httpClient.post('api/auth/sign-in', credentials).pipe(
-      switchMap((response: any) => {
-        this.accessToken = response.access_token;
-        this._authenticated = true;
-        return of(response);
-      })
-    );
+    return this.store.dispatch( new Auth.Login(credentials) );
   }
 
   signInUsingToken(): Observable<any> {
-    return this._httpClient.post('api/auth/refresh-access-token', {
-      access_token: this.accessToken
-    })
-    .pipe(
-      catchError(() => of(false)),
-      switchMap((response: any) => {
-        this.accessToken = response.access_token;
-        this._authenticated = true;
-        return of(true);
-      })
-    );
+    return this.store.dispatch( new CurrentUser.Fetch() );
   }
 
   signOut(): Observable<any> {
-    localStorage.removeItem('access_token');
-    this._authenticated = false;
-    return of(true);
+    return this.store.dispatch( new Auth.Logout() );
   }
 
   check(): Observable<boolean> {
-    if ( this._authenticated ) {
+    if ( this.isAuthenticated ) {
       return of(true);
     }
 

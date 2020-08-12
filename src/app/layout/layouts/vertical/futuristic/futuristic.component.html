@@ -1,5 +1,5 @@
 <!-- Navigation -->
-<treo-vertical-navigation class="bg-indigo-800 theme-dark"
+<treo-vertical-navigation class="theme-dark"
                           [appearance]="'futuristic'"
                           [mode]="isScreenSmall ? 'over' : 'side'"
                           [name]="'mainNavigation'"
@@ -8,7 +8,8 @@
 
     <div treoVerticalNavigationHeader>
         <div class="logo">
-            <img src="assets/images/logo/logo-text-on-dark.svg">
+            <!-- <img src="assets/images/logo/logo-text-on-dark.svg"> -->
+            <img src="assets/images/accounts/highsailsmedia.png">
         </div>
     </div>
 
@@ -24,13 +25,6 @@
                 <mat-icon class="ml-auto -mr-1 icon-size-20"
                           [svgIcon]="'heroicons_outline:selector'"></mat-icon>
             </a>
-        </div>
-        <div class="user">
-            <user [user]="data.user"></user>
-            <div class="info">
-                <div class="name text-indigo-50">{{data.user.name}}</div>
-                <div class="email text-indigo-300">andrew.watkins@company.com</div>
-            </div>
         </div>
     </div>
 
@@ -64,6 +58,8 @@
         <!-- Notifications -->
         <notifications [notifications]="data.notifications"></notifications>
 
+        <!-- User -->
+        <user [user]="data.user"></user>
     </div>
 
     <!-- Content -->

@@ -29,14 +29,14 @@ export class AuthState {
 
   @Action(Auth.Login)
   login(ctx: StateContext<AuthStateModel>, action: Auth.Login) {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       const { email, password } = action.payload;
       this.http.post(`/api/signin`, { email, password })
         .pipe(
           map(({ accessToken }: any) => ({ email, token: accessToken })),
           tap((state => ctx.patchState(state))),
         )
-        .subscribe(() => resolve());
+        .subscribe(() => resolve(), err => reject(err));
     })
   }
 
