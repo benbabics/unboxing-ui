@@ -1,4 +1,5 @@
 import { Router } from '@angular/router';
+import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, Store, Actions, ofAction, ofActionSuccessful, ofActionErrored } from "@ngxs/store";
 import { zip, Observable } from 'rxjs';
 import { tap, flatMap } from 'rxjs/operators';
@@ -12,6 +13,7 @@ export interface AppStateModel {}
   name: 'app',
   defaults: {}
 })
+@Injectable()
 export class AppState {
 
   constructor(

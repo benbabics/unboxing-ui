@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { StateContext, Store, State, Action } from '@ngxs/store';
 import { defaultEntityState, EntityStateModel, EntityState, IdStrategy, SetActive, CreateOrReplace, SetLoading } from '@ngxs-labs/entity-state';
 import { get } from 'lodash';
@@ -22,6 +23,7 @@ export interface AccountStateModel extends EntityStateModel<Account> {
     }
   }
 })
+@Injectable()
 export class AccountState extends EntityState<Account> {
 
   constructor(

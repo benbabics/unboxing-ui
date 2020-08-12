@@ -1,5 +1,6 @@
-import { State, Action, StateContext, Selector, Store } from "@ngxs/store";
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { State, Action, StateContext, Selector, Store } from "@ngxs/store";
 import { map, tap, catchError } from 'rxjs/operators';
 import { first, get, pick, set } from 'lodash';
 import { Auth } from '../auth';
@@ -16,6 +17,7 @@ import { CurrentUserStateModel } from './current-user.interfaces';
     accountIds: [],
   }
 })
+@Injectable()
 export class CurrentUserState {
 
   @Selector()

@@ -1,6 +1,7 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { State, Action, StateContext, Store, Selector } from '@ngxs/store';
 import { EntityStateModel, EntityState, defaultEntityState, IdStrategy, SetLoading, CreateOrReplace, Add, Update, Remove } from '@ngxs-labs/entity-state';
-import { HttpClient } from '@angular/common/http';
 import { tap, finalize, flatMap } from 'rxjs/operators';
 import { filter, sortBy } from 'lodash';
 import { AssetDirectory } from './../asset-directory/asset-directory.action';
@@ -15,6 +16,7 @@ export interface AssetElementStateModel extends EntityStateModel<AssetElement> {
     ...defaultEntityState()
   }
 })
+@Injectable()
 export class AssetElementState extends EntityState<AssetElement> {
 
   @Selector([AssetElementState.entities, AssetDirectoryState.activeId])

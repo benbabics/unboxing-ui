@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import { State, Store, Selector, Actions, Action, StateContext } from '@ngxs/store';
 import { EntityStateModel, defaultEntityState, EntityState, IdStrategy, ofEntityActionSuccessful, EntityActionType } from '@ngxs-labs/entity-state';
 import { HttpClient } from '@angular/common/http';
@@ -27,6 +28,7 @@ export interface AssetStateModel extends EntityStateModel<FileElement> {
     },
   }
 })
+@Injectable()
 export class AssetState extends EntityState<Asset> {
   
   @Selector()

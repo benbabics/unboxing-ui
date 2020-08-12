@@ -12,6 +12,13 @@ import { mockDataServices } from 'app/data/mock';
 import { LayoutModule } from 'app/layout/layout.module';
 import { AppComponent } from 'app/app.component';
 import { appRoutes } from 'app/app.routing';
+import { AccountState, AppState, AuthState, BrandState, CurrentUserState, ProjectState, LibCommonModule } from '../../projects/lib-common/src/public-api';
+import { NgxsModule } from '@ngxs/store';
+import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
+import { NgxsFormPluginModule } from '@ngxs/form-plugin';
+import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
+import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { environment } from 'environments/environment';
 
 const routerConfig: ExtraOptions = {
   scrollPositionRestoration: 'enabled',
@@ -34,12 +41,35 @@ const routerConfig: ExtraOptions = {
 
     // Core
     CoreModule,
+    LibCommonModule,
 
     // Layout
     LayoutModule,
 
     // 3rd party modules
-    MarkdownModule.forRoot({})
+    MarkdownModule.forRoot({}),
+
+    // NGXS (last)
+    NgxsModule.forRoot([
+      AppState,
+      AuthState,
+      CurrentUserState,
+      AccountState,
+      BrandState,
+      ProjectState,
+    ], {
+      selectorOptions: {
+        suppressErrors:       false,
+        injectContainerState: false,
+      },
+      developmentMode: !environment.production,
+    }),
+    NgxsStoragePluginModule.forRoot({
+      key: ['auth', 'currentUser']
+    }),
+    NgxsFormPluginModule.forRoot(),
+    NgxsLoggerPluginModule.forRoot({ disabled: true }),
+    NgxsReduxDevtoolsPluginModule.forRoot(),
   ],
   bootstrap: [
     AppComponent

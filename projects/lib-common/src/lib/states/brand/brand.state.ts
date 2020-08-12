@@ -1,8 +1,9 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { State, Action, Selector } from '@ngxs/store';
 import { StateContext, Store } from '@ngxs/store';
 import { defaultEntityState, EntityStateModel, EntityState, IdStrategy, Add, Update, SetLoading } from '@ngxs-labs/entity-state';
 import { UpdateFormValue } from '@ngxs/form-plugin';
-import { HttpClient } from '@angular/common/http';
 import { finalize, flatMap } from 'rxjs/operators';
 import { sortBy } from 'lodash';
 import { Brand } from './brand.action';
@@ -25,6 +26,7 @@ export interface BrandStateModel extends EntityStateModel<Brand> {
     }
   }
 })
+@Injectable()
 export class BrandState extends EntityState<Brand> {
 
   get account(): Account {

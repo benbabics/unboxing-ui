@@ -1,8 +1,9 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { State, Action, Selector } from '@ngxs/store';
 import { StateContext, Store } from '@ngxs/store';
 import { defaultEntityState, EntityStateModel, EntityState, IdStrategy, Add, Update, SetLoading, SetActive, CreateOrReplace } from '@ngxs-labs/entity-state';
 import { UpdateFormValue, UpdateFormErrors, UpdateFormStatus } from '@ngxs/form-plugin';
-import { HttpClient } from '@angular/common/http';
 import { filter as rxFilter, finalize, flatMap, map, tap, delay } from 'rxjs/operators';
 import { assign, filter, first, get, pick, sortBy } from 'lodash';
 import { AccountState } from '../account/account.state';
@@ -25,6 +26,7 @@ export interface ProjectStateModel extends EntityStateModel<Project> {
     }
   }
 })
+@Injectable()
 export class ProjectState extends EntityState<Project> {
 
   get associations(): { accountId: string, brandId: string } {
