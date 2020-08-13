@@ -12,31 +12,29 @@ import { SearchModule } from 'app/layout/common/search/search.module';
 import { ShortcutsModule } from 'app/layout/common/shortcuts/shortcuts.module';
 import { UserModule } from 'app/layout/common/user/user.module';
 import { SharedModule } from 'app/shared/shared.module';
-import { CompactLayoutComponent } from 'app/layout/layouts/vertical/compact/compact.component';
+import { FuturisticLayoutComponent } from './futuristic.component';
 
 @NgModule({
-    declarations: [
-        CompactLayoutComponent
-    ],
-    imports     : [
-        HttpClientModule,
-        RouterModule,
-        MatButtonModule,
-        MatDividerModule,
-        MatIconModule,
-        MatMenuModule,
-        TreoNavigationModule,
-        MessagesModule,
-        NotificationsModule,
-        SearchModule,
-        ShortcutsModule,
-        UserModule,
-        SharedModule
-    ],
-    exports     : [
-        CompactLayoutComponent
-    ]
+  imports: [
+    HttpClientModule,
+    RouterModule,
+    MatButtonModule,
+    MatDividerModule,
+    MatIconModule,
+    MatMenuModule,
+    TreoNavigationModule,
+    MessagesModule,
+    NotificationsModule,
+    SearchModule,
+    ShortcutsModule,
+    UserModule,
+    SharedModule,
+  ],
+  declarations: [
+    FuturisticLayoutComponent
+  ],
+  exports: [
+    FuturisticLayoutComponent
+  ]
 })
-export class CompactLayoutModule
-{
-}
+export class FuturisticLayoutModule { }
