@@ -1,3 +1,9 @@
-<empty-layout *ngIf="layout === 'empty'"></empty-layout>
-
-<futuristic-layout *ngIf="layout === 'futuristic'"></futuristic-layout>
+<ng-container [ngSwitch]="layout">
+  <ng-template ngSwitchCase="empty">
+    <empty-layout></empty-layout>
+  </ng-template>
+  
+  <ng-template ngSwitchCase="vertical">
+    <futuristic-layout></futuristic-layout>
+  </ng-template>
+</ng-container>

@@ -1,1 +1,1 @@
-export type Layout = 'empty' | 'futuristic';
+export type Layout = 'empty' | 'vertical';
