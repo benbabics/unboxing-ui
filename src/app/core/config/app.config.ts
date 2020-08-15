@@ -22,6 +22,6 @@ export interface AppConfig
  * 'ConfigService'.
  */
 export const appConfig: AppConfig = {
-  layout: 'futuristic',
+  layout: 'vertical',
   theme : 'auto'
 };
