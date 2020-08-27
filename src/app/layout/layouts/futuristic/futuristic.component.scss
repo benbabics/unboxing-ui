@@ -28,17 +28,17 @@ futuristic-layout {
 
         .treo-vertical-navigation-wrapper {
           .treo-vertical-navigation-content > treo-vertical-navigation-group-item {
-            margin-top: 0;
+            margin-top: 16px;
           }
         }
 
         .treo-vertical-navigation-footer {
-            border-top-width: 1px;
+            border-bottom-width: 1px;
 
             .navigation-footer-menu {
                 display: flex;
                 flex-direction: column;
-                padding: 16px;
+                padding: 0 16px 16px;
 
                 a {
                     display: flex;
@@ -493,4 +493,38 @@ futuristic-layout {
             }
         }
     }
+}
+
+
+
+
+
+/**/
+// Example Color mat-icon
+@include treo-theme {
+  $is-dark: map-get($theme, is-dark);
+
+  .action {
+    @if ($is-dark) {
+      color: treo-color('red', 600);
+    } @else {
+      color: treo-color('indigo', 600);
+    }
+
+    .mat-icon {
+      @if ($is-dark) {
+        color: treo-color('red', 600);
+      } @else {
+        color: treo-color('indigo', 600);
+      }
+    }
+
+    .mat-button-focus-overlay {
+      @if ($is-dark) {
+        background: treo-color('indigo', 400) !important;
+      } @else {
+        background: treo-color('indigo', 300) !important;
+      }
+    }
+  }
 }
