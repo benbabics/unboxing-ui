@@ -30,7 +30,7 @@
                 </treo-message>
 
                 <!-- Sign in form -->
-                <form [formGroup]="signInForm">
+                <form [formGroup]="signInForm" (submit)="signIn()">
 
                     <!-- Email field -->
                     <mat-form-field>
@@ -49,7 +49,7 @@
                                [formControlName]="'password'"
                                #passwordField>
                         <button mat-icon-button
-                                (click)="passwordField.type === 'password' ? passwordField.type = 'text' : passwordField.type = 'password'"
+                                (mousedown)="passwordField.type === 'password' ? passwordField.type = 'text' : passwordField.type = 'password'"
                                 tabindex="-1"
                                 matSuffix>
                             <mat-icon *ngIf="passwordField.type === 'password'"
@@ -76,8 +76,7 @@
                             mat-flat-button
                             type="button"
                             [color]="'primary'"
-                            [disabled]="signInForm.disabled"
-                            (click)="signIn()">
+                            [disabled]="signInForm.disabled">
                         <span *ngIf="!signInForm.disabled">
                             Sign in
                         </span>
