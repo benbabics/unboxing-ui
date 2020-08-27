@@ -15,16 +15,54 @@
 
     <div treoVerticalNavigationFooter>
         <div class="navigation-footer-menu">
-            <a [routerLink]="['./']">
+            <!-- <a [routerLink]="['./']">
                 <mat-icon [svgIcon]="'heroicons_outline:cog'"></mat-icon>
                 <span>Settings</span>
-            </a>
-            <a [routerLink]="['./']">
+            </a> -->
+            <a [matMenuTriggerFor]="previousStatementMenu">
                 <mat-icon [svgIcon]="'heroicons_outline:briefcase'"></mat-icon>
                 <span>Company Corp.</span>
                 <mat-icon class="ml-auto -mr-1 icon-size-20"
                           [svgIcon]="'heroicons_outline:selector'"></mat-icon>
             </a>
+            <mat-menu #previousStatementMenu="matMenu">
+                <button mat-menu-item>
+                    <span class="flex items-center">
+                        <mat-icon class="icon-size-20 mr-3"
+                                  [svgIcon]="'payment'"></mat-icon>
+                        <span>View statement</span>
+                    </span>
+                </button>
+                <button mat-menu-item>
+                    <span class="flex items-center">
+                        <mat-icon class="icon-size-20 mr-3"
+                                  [svgIcon]="'attach_money'"></mat-icon>
+                        <span>Spending breakdown</span>
+                    </span>
+                </button>
+                <button mat-menu-item>
+                    <span class="flex items-center">
+                        <mat-icon class="icon-size-20 mr-3"
+                                  [svgIcon]="'account_balance'"></mat-icon>
+                        <span>Tax breakdown</span>
+                    </span>
+                </button>
+                <mat-divider class="my-2"></mat-divider>
+                <button mat-menu-item>
+                    <span class="flex items-center action">
+                        <mat-icon class="icon-size-20 mr-3"
+                                  [svgIcon]="'print'"></mat-icon>
+                        <span>Print statement</span>
+                    </span>
+                </button>
+                <button mat-menu-item>
+                    <span class="flex items-center">
+                        <mat-icon class="icon-size-20 mr-3"
+                                  [svgIcon]="'email'"></mat-icon>
+                        <span>Email statement</span>
+                    </span>
+                </button>
+            </mat-menu>
         </div>
     </div>
 
