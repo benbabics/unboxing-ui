@@ -67,7 +67,7 @@
             body treo-splash-screen .spinner > div {
                 width: 12px;
                 height: 12px;
-                background-color: #F50057;
+                background-color: #fff;
                 border-radius: 100%;
                 display: inline-block;
                 -webkit-animation: treo-bouncedelay 1s infinite ease-in-out both;
@@ -120,8 +120,7 @@
 
         <!-- Splash screen -->
         <treo-splash-screen>
-            <img src="assets/images/logo/logo.svg"
-                 alt="Treo logo">
+            <div id="loading-logo"></div>
             <div class="spinner">
                 <div class="bounce1"></div>
                 <div class="bounce2"></div>
@@ -132,6 +131,29 @@
         <!-- App root -->
         <app-root></app-root>
 
+        <script>
+          (function() {
+            let hasLoaded = false;
+            
+            document.addEventListener('appLoading', ({ detail }) => {
+              if ( !hasLoaded ) return hasLoaded = true;
+              document.body.classList.toggle('treo-splash-screen-hidden', !detail.isLoading);
+            });
+            
+            document.addEventListener('accountChanged', ({ detail }) => {
+              updateAccountLogo( detail.logo );
+            });
+
+            const appState = JSON.parse( localStorage.getItem('app') );
+            if ( appState ) updateAccountLogo( appState.currentAccount.logo );
+            else            updateAccountLogo( "assets/images/logo/logo.svg" );
+
+            function updateAccountLogo(logo) {
+              logo = logo || "assets/images/logo/logo.svg";
+              document.querySelector('#loading-logo').innerHTML = `<img src="${ logo }">`;
+            }
+          }());
+        </script>
     </body>
 
 </html>

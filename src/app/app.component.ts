@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { flatMap, tap } from 'rxjs/operators';
+import { flatMap, tap, map } from 'rxjs/operators';
 import { Store, Actions, ofActionSuccessful } from '@ngxs/store';
-import { Auth, CurrentAccount, CurrentUser } from '../../projects/lib-common/src/public-api';
+import { AppState, Auth, CurrentAccount, CurrentAccountState, CurrentUser } from '../../projects/lib-common/src/public-api';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,7 @@ export class AppComponent {
     store: Store,
     router: Router,
     actions$: Actions,
+    @Inject( DOCUMENT ) private document: any,
   ) {
     actions$.pipe(
       ofActionSuccessful( Auth.Login ),
@@ -29,6 +31,20 @@ export class AppComponent {
         new CurrentUser.Clear(),
         new CurrentAccount.Clear(),
       ])),
+    )
+    .subscribe();
+
+    store.select( AppState.isLoading ).pipe(
+      map(isLoading => ({ isLoading })),
+      map(detail    => new CustomEvent( 'appLoading', { detail } )),
+      tap(event     => this.document.dispatchEvent( event )),
+    )
+    .subscribe();
+
+    store.select( CurrentAccountState.logo ).pipe(
+      map(logo   => ({ logo })),
+      map(detail => new CustomEvent( 'accountChanged', { detail } )),
+      tap(event  => this.document.dispatchEvent( event )),
     )
     .subscribe();
   }
