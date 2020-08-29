@@ -4,11 +4,27 @@ import { RouterModule } from '@angular/router';
 import { ContextGuard } from './guards/context.guard';
 import { AccountsComponent } from './accounts/accounts.component';
 import { routes } from './context.routing';
+import { MatButtonModule } from '@angular/material/button';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { TreoMessageModule } from '@treo/components/message';
+import { SharedModule } from 'app/shared/shared.module';
+import { TreoCardModule } from '@treo/components/card';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild( routes ),
+    MatButtonModule,
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    TreoCardModule,
+    TreoMessageModule,
+    SharedModule,
   ],
   providers: [
     ContextGuard,
