@@ -3,7 +3,7 @@ import { ActivatedRoute, Data, Router } from '@angular/router';
 import { Subject, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Select } from '@ngxs/store';
-import { CurrentAccount, CurrentAccountState } from './../../../../../projects/lib-common/src/public-api';
+import { CurrentAccount, CurrentAccountState, UiNavigationItem, UiState } from './../../../../../projects/lib-common/src/public-api';
 import { TreoMediaWatcherService } from '@treo/services/media-watcher';
 import { TreoNavigationService } from '@treo/components/navigation';
 
@@ -19,6 +19,7 @@ export class FuturisticLayoutComponent implements OnInit, OnDestroy {
   isScreenSmall: boolean;
 
   @Select( CurrentAccountState.details ) currentAccount$: Observable<CurrentAccount>;
+  @Select( UiState.navigation ) navigation$: Observable<UiNavigationItem[]>;
   
   @HostBinding('class.fixed-header') fixedHeader: boolean;
   @HostBinding('class.fixed-footer') fixedFooter: boolean;
