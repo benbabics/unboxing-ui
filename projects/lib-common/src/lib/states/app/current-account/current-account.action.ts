@@ -15,6 +15,6 @@ export namespace CurrentAccount {
   }
 
   export class Clear {
-    static readonly type = '[CurrentAccount API] Clear';
+    static readonly type = '[CurrentAccount] Clear';
   }
 }

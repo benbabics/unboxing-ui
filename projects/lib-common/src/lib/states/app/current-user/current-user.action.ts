@@ -9,7 +9,7 @@ export interface CurrentUser {
 export namespace CurrentUser {
 
   export class Refresh {
-    static readonly type = '[CurrentUser] Refresh';
+    static readonly type = '[CurrentUser API] Refresh';
   }
 
   export class Clear {

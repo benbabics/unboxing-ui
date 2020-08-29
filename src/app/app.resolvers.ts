@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { forkJoin, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Store } from '@ngxs/store';
+import { Ui } from '../../projects/lib-common/src/public-api';
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +22,7 @@ export class InitialDataResolver implements Resolve<any> {
   }
 
   private _loadNavigation(): Observable<any> {
-    return this._httpClient.get('api/common/navigation')
-      .pipe(map(navigation => navigation));
+    return this.store.dispatch( new Ui.LoadNavigation() );
   }
 
   private _loadNotifications(): Observable<any> {
@@ -46,7 +46,6 @@ export class InitialDataResolver implements Resolve<any> {
       map(([ messages, navigation, notifications, shortcuts, ]) => {
         return {
           messages,
-          navigation,
           notifications,
           shortcuts,
         };

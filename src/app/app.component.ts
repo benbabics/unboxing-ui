@@ -3,7 +3,7 @@ import { Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { flatMap, tap, map } from 'rxjs/operators';
 import { Store, Actions, ofActionSuccessful } from '@ngxs/store';
-import { AppState, Auth, CurrentAccount, CurrentAccountState, CurrentUser } from '../../projects/lib-common/src/public-api';
+import { AppState, Auth, CurrentAccount, CurrentAccountState, CurrentUser, Ui } from '../../projects/lib-common/src/public-api';
 
 @Component({
   selector: 'app-root',
@@ -28,6 +28,7 @@ export class AppComponent {
     actions$.pipe(
       ofActionSuccessful( Auth.Logout ),
       tap(() => store.dispatch([
+        new Ui.ClearNavigation(),
         new CurrentUser.Clear(),
         new CurrentAccount.Clear(),
       ])),

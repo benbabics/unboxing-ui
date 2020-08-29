@@ -5,7 +5,7 @@
     [appearance]="'futuristic'"
     [mode]="isScreenSmall ? 'over' : 'side'"
     [name]="'mainNavigation'"
-    [navigation]="data.navigation.futuristic"
+    [navigation]="navigation$ | async"
     [opened]="!isScreenSmall">
 
     <div treoVerticalNavigationHeader>
@@ -36,12 +36,13 @@
   </div>
 
   <div class="content">
-    <!-- *ngIf="true" hack is required here for router-outlet to work correctly. Otherwise,
-          it won't register the changes on the layout and won't update the view. -->
+    <!-- 
+      *ngIf="true" hack is required here for router-outlet to work correctly. Otherwise, it won't register the changes on the layout and won't update the view.
+    -->
     <router-outlet *ngIf="true"></router-outlet>
   </div>
 
   <div class="footer">
-    Treo &copy; {{ currentYear }}
+    Unboxing &copy; {{ currentYear }}
   </div>
 </div>
