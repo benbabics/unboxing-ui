@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { State, Action, StateContext, Selector } from "@ngxs/store";
 import { map, tap } from 'rxjs/operators';
-import { AuthStateModel } from './auth.interfaces';
 import { Auth } from './auth.action';
+
+export interface AuthStateModel extends Auth { }
+
 
 @State<AuthStateModel>({
   name: 'auth',
@@ -15,6 +17,11 @@ import { Auth } from './auth.action';
 @Injectable()
 export class AuthState {
 
+  @Selector()
+  static email(state: AuthStateModel): string | null {
+    return state.email;
+  }
+  
   @Selector()
   static token(state: AuthStateModel): string | null {
     return state.token;

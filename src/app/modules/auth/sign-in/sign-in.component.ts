@@ -47,7 +47,8 @@ export class AuthSignInComponent implements OnInit {
 
   private handleSigninSuccess(): void {
     const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
-    this._router.navigateByUrl(redirectURL);
+    console.log('* sign-in redirectUrl', redirectURL);
+    // this._router.navigateByUrl(redirectURL);
   }
 
   private handleSigninFailure(error: any): void {

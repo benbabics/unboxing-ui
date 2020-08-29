@@ -1,16 +1,30 @@
 import { Injectable } from '@angular/core';
-import { Action, State, StateContext, Store } from "@ngxs/store";
+import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
 import { App } from './app.action';
-import { CurrentUser } from '../current-user/current-user.action';
+import { AuthState } from './auth';
+import { CurrentUserState, CurrentUser } from './current-user';
+import { CurrentAccount, CurrentAccountState } from './current-account';
 
-export interface AppStateModel {}
+export interface AppStateModel extends App {}
 
 @State<AppStateModel>({
   name: 'app',
-  defaults: {}
+  defaults: {
+    isLoading: true,
+  },
+  children: [
+    AuthState,
+    CurrentUserState,
+    CurrentAccountState,
+  ]
 })
 @Injectable()
 export class AppState {
+
+  @Selector()
+  static isLoading({ isLoading }: AppStateModel): boolean {
+    return isLoading;
+  }
 
   constructor(
     private store: Store,
@@ -18,8 +32,18 @@ export class AppState {
 
   @Action(App.Start)
   start(ctx: StateContext<AppStateModel>) {
-    new Promise(resolve => this.store.dispatch( new CurrentUser.Fetch() )
-      .subscribe(() => resolve())
-    );
+    return this.store.dispatch([
+      new CurrentUser.Refresh(),
+      new CurrentAccount.Refresh(),
+    ]);
+  }
+
+  @Action(App.SetLoading)
+  setLoading(ctx: StateContext<AppStateModel>, { isLoading }: App.SetLoading) {
+    ctx.patchState({ isLoading });
+  }
+
+  private toggleLoading(isLoading: boolean): void {
+    this.store.dispatch( new App.SetLoading(isLoading) );
   }
 }

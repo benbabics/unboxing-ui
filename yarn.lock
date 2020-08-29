@@ -1175,10 +1175,10 @@
     rxjs "6.5.5"
     webpack-sources "1.4.3"
 
-"@ngxs-labs/entity-state@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@ngxs-labs/entity-state/-/entity-state-0.0.1.tgz#228d8656d1d7c426acf915ff9b44b912344b12d8"
-  integrity sha512-AFFbGd9yhoXHZxVPFqEt31OkEjTRXFiazoQPm5sCH1HtcMunHqwyZzOgB2JGloYSpiQG1PJpJIBXhHNPUdRy/A==
+"@ngxs-labs/entity-state@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@ngxs-labs/entity-state/-/entity-state-0.0.2.tgz#6b736dce5d7fcdb61b4669634f38a1be54259790"
+  integrity sha512-jwIrxJOIIRz4J5yyQ1HezThzL0nv5S1ASqyFxIqdc70ccIXDITHKB5v80H0j88g7XRfrbPY2lhPqHh2Q+hqe6A==
   dependencies:
     tslib "^1.9.0"
 
@@ -1378,9 +1378,9 @@
   integrity sha512-7+2BITlgjgDhH0vvwZU/HZJVyk+2XUlvxXe8dFMedNX/aMkaOq++rMAFXc0tM7ij15QaWlbdQASBR9dihi+bDQ==
 
 "@types/lodash@4.17.3":
-  version "4.14.159"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.159.tgz#61089719dc6fdd9c5cb46efc827f2571d1517065"
-  integrity sha512-gF7A72f7WQN33DpqOWw9geApQPh4M3PxluMtaHxWHXEGSN12/WbcEk/eNSqWNQcQhF66VSZ06vCF94CrHwXJDg==
+  version "4.14.160"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.160.tgz#2f1bba6500bc3cb9a732c6d66a083378fb0b0b29"
+  integrity sha512-aP03BShJoO+WVndoVj/WNcB/YBPt+CIU1mvaao2GRAHy2yg4pT/XS4XnVHEQBjPJGycWf/9seKEO9vopTJGkvA==
 
 "@types/marked@^0.7.4":
   version "0.7.4"
@@ -8198,6 +8198,11 @@ rollup@^2.8.0:
   integrity sha512-Heyl885+lyN/giQwxA8AYT2GY3U+gOlTqVLrMQYno8Z1X9lAOpfXPiKiZCyPc25e9BLJM3Zlh957dpTlO4pa8A==
   optionalDependencies:
     fsevents "~2.1.2"
+
+route-matcher@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/route-matcher/-/route-matcher-0.1.0.tgz#56ef118eb022470a15bbed5735ae3bf3f4ea2300"
+  integrity sha1-Vu8RjrAiRwoVu+1XNa478/TqIwA=
 
 rrule@2.6.4:
   version "2.6.4"

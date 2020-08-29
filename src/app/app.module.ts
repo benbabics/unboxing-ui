@@ -12,7 +12,7 @@ import { mockDataServices } from 'app/data/mock';
 import { LayoutModule } from 'app/layout/layout.module';
 import { AppComponent } from 'app/app.component';
 import { appRoutes } from 'app/app.routing';
-import { AccountState, AppState, AuthState, BrandState, CurrentUserState, ProjectState, LibCommonModule } from '../../projects/lib-common/src/public-api';
+import { AccountState, AppState, AuthState, BrandState, CurrentUserState, CurrentAccountState, ProjectState, LibCommonModule } from '../../projects/lib-common/src/public-api';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
@@ -54,6 +54,7 @@ const routerConfig: ExtraOptions = {
       AppState,
       AuthState,
       CurrentUserState,
+      CurrentAccountState,
       AccountState,
       BrandState,
       ProjectState,
@@ -65,7 +66,7 @@ const routerConfig: ExtraOptions = {
       developmentMode: !environment.production,
     }),
     NgxsStoragePluginModule.forRoot({
-      key: ['auth', 'currentUser']
+      key: [ 'app' ]
     }),
     NgxsFormPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot({ disabled: true }),

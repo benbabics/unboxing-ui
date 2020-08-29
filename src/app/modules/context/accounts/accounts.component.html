@@ -1,0 +1,10 @@
+<ng-container *ngIf="accounts$ | async; let accounts">
+  <h1>Select an account:</h1>
+
+  <ng-container *ngFor="let account of accounts">
+    <button (click)="handleSelectAccount(account)">{{ account.title }}</button>
+    <br>
+  </ng-container>
+
+  <a routerLink="/sign-out">Signout</a>
+</ng-container>

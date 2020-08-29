@@ -1,6 +1,7 @@
 import { Route } from '@angular/router';
 import { AuthGuard } from 'app/core/auth/guards/auth.guard';
 import { NoAuthGuard } from 'app/core/auth/guards/noAuth.guard';
+import { CurrentAccountGuard } from 'app/core/current-account/current-account.guard';
 import { LayoutComponent } from 'app/layout/layout.component';
 import { InitialDataResolver } from 'app/app.resolvers';
 
@@ -32,6 +33,7 @@ const Routes = {
   ],
 
   User: [
+    { path: 'context' ,       loadChildren: () => import('app/modules/context/context.module').then(m => m.ContextModule) },
     { path: 'sign-out',       loadChildren: () => import('app/modules/auth/sign-out/sign-out.module').then(m => m.AuthSignOutModule) },
     { path: 'unlock-session', loadChildren: () => import('app/modules/auth/unlock-session/unlock-session.module').then(m => m.AuthUnlockSessionModule) },
   ],
@@ -89,8 +91,8 @@ export const appRoutes: Route[] = [
   // Admin
   {
     path: '',
-    canActivate:      [ AuthGuard ],
-    canActivateChild: [ AuthGuard ],
+    canActivate:      [ AuthGuard, CurrentAccountGuard ],
+    canActivateChild: [ AuthGuard, CurrentAccountGuard ],
     component: LayoutComponent,
     data: {
       layout: 'vertical'

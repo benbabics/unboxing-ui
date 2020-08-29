@@ -37,12 +37,10 @@ export class AccountState extends EntityState<Account> {
   crudIndex(ctx: StateContext<AccountStateModel>) {
     this.toggleLoading(true);
     
-    // temporary until request scoped by real API
-    const userId = get(this.store.snapshot(), 'currentUser.id');
-    return this.http.get<Account[]>(`/api/640/accounts?userId=${userId}`)
+    return this.http.get<Account[]>( `/api/accounts` )
       .pipe(
-        tap(accounts => this.store.dispatch(new CreateOrReplace(AccountState, accounts))),
-        tap(() => this.toggleLoading(false)),
+        tap(accounts => this.store.dispatch( new CreateOrReplace(AccountState, accounts) )),
+        tap(() => this.toggleLoading( false )),
       );
   }
 
@@ -50,15 +48,15 @@ export class AccountState extends EntityState<Account> {
   crudShow(ctx: StateContext<AccountStateModel>, { id }: Account.Show) {
     this.toggleLoading(true);
 
-    return this.http.get<Account>(`/api/accounts/${id}?_embed=brands&_embed=projects`)
+    return this.http.get<Account>( `/api/accounts/${id}` )
       .pipe(
-        tap(account => this.store.dispatch(new CreateOrReplace(AccountState, account))),
-        tap(() => this.store.dispatch(new SetActive(AccountState, `${id}`))),
-        tap(() => this.toggleLoading(false)),
+        tap(account => this.store.dispatch( new CreateOrReplace(AccountState, account) )),
+        tap(() => this.store.dispatch( new SetActive(AccountState, `${id}`) )),
+        tap(() => this.toggleLoading( false )),
       );
   }
 
   private toggleLoading(isLoading: boolean): void {
-    this.store.dispatch(new SetLoading(AccountState, isLoading));
+    this.store.dispatch( new SetLoading(AccountState, isLoading) );
   }
 }

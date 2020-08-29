@@ -1,4 +1,6 @@
 import { AuthMockApi } from 'app/data/mock/auth';
+import { AccountMockApi } from 'app/data/mock/account';
+
 import { CalendarMockApi } from 'app/data/mock/apps/calendar';
 import { ContactsMockApi } from 'app/data/mock/apps/contacts';
 import { AnalyticsMockApi } from 'app/data/mock/dashboards/analytics';
@@ -17,21 +19,23 @@ import { TasksMockApi } from 'app/data/mock/apps/tasks';
 import { UserMockApi } from 'app/data/mock/common/user';
 
 export const mockDataServices = [
-    AnalyticsMockApi,
-    AuthMockApi,
-    CalendarMockApi,
-    ContactsMockApi,
-    CryptoMockApi,
-    ECommerceInventoryMockApi,
-    FinanceMockApi,
-    HelpCenterMockApi,
-    IconsMockApi,
-    MailboxMockApi,
-    MessagesMockApi,
-    NavigationMockApi,
-    NotificationsMockApi,
-    SearchMockApi,
-    ShortcutsMockApi,
-    TasksMockApi,
-    UserMockApi
+  AuthMockApi,
+  AccountMockApi,
+  
+  AnalyticsMockApi,
+  CalendarMockApi,
+  ContactsMockApi,
+  CryptoMockApi,
+  ECommerceInventoryMockApi,
+  FinanceMockApi,
+  HelpCenterMockApi,
+  IconsMockApi,
+  MailboxMockApi,
+  MessagesMockApi,
+  NavigationMockApi,
+  NotificationsMockApi,
+  SearchMockApi,
+  ShortcutsMockApi,
+  TasksMockApi,
+  UserMockApi,
 ];

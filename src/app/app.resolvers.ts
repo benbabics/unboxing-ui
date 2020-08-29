@@ -1,4 +1,3 @@
-import { CurrentUserState } from './../../projects/lib-common/src/lib/states/current-user/current-user.state';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
@@ -36,26 +35,20 @@ export class InitialDataResolver implements Resolve<any> {
       .pipe(map(({ shortcuts }: any) => shortcuts));
   }
 
-  private _loadUser(): Observable<any> {
-    return this.store.selectOnce(CurrentUserState.details);
-  }
-
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
     return forkJoin([
       this._loadMessages(),
       this._loadNavigation(),
       this._loadNotifications(),
       this._loadShortcuts(),
-      this._loadUser()
     ])
     .pipe(
-      map(([ messages, navigation, notifications, shortcuts, user, ]) => {
+      map(([ messages, navigation, notifications, shortcuts, ]) => {
         return {
           messages,
           navigation,
           notifications,
           shortcuts,
-          user,
         };
       })
     );

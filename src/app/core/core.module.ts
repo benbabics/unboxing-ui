@@ -1,15 +1,16 @@
 import { APP_INITIALIZER, NgModule, Optional, SkipSelf } from '@angular/core';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { Store } from '@ngxs/store';
 import { MatIconRegistry } from '@angular/material/icon';
 import { AuthService } from 'app/core/auth/auth.service';
 import { AuthInterceptor } from 'app/core/auth/auth.interceptor';
 import { CurrentUserStateFactory } from './current-user/current-user.factory';
-import { Store } from '@ngxs/store';
+import { CurrentAccountGuard } from './current-account/current-account.guard';
 
 @NgModule({
   imports: [
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [
     AuthService,
@@ -23,7 +24,8 @@ import { Store } from '@ngxs/store';
       provide:  HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi:    true,
-    }
+    },
+    CurrentAccountGuard,
   ]
 })
 export class CoreModule {

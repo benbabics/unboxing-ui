@@ -1,117 +1,47 @@
 <!-- Navigation -->
-<treo-vertical-navigation class="theme-dark"
-                          [appearance]="'futuristic'"
-                          [mode]="isScreenSmall ? 'over' : 'side'"
-                          [name]="'mainNavigation'"
-                          [navigation]="data.navigation.futuristic"
-                          [opened]="!isScreenSmall">
+<ng-container *ngIf="currentAccount$ | async; let currentAccount">
+  <treo-vertical-navigation 
+    class="theme-dark"
+    [appearance]="'futuristic'"
+    [mode]="isScreenSmall ? 'over' : 'side'"
+    [name]="'mainNavigation'"
+    [navigation]="data.navigation.futuristic"
+    [opened]="!isScreenSmall">
 
     <div treoVerticalNavigationHeader>
-        <div class="logo">
-            <!-- <img src="assets/images/logo/logo-text-on-dark.svg"> -->
-            <img src="assets/images/accounts/highsailsmedia.png">
-        </div>
+      <div class="logo">
+        <img [src]="currentAccount.logo" [alt]="currentAccount.title">
+      </div>
     </div>
-
-    <div treoVerticalNavigationFooter>
-        <div class="navigation-footer-menu">
-            <!-- <a [routerLink]="['./']">
-                <mat-icon [svgIcon]="'heroicons_outline:cog'"></mat-icon>
-                <span>Settings</span>
-            </a> -->
-            <a [matMenuTriggerFor]="previousStatementMenu">
-                <mat-icon [svgIcon]="'heroicons_outline:briefcase'"></mat-icon>
-                <span>Company Corp.</span>
-                <mat-icon class="ml-auto -mr-1 icon-size-20"
-                          [svgIcon]="'heroicons_outline:selector'"></mat-icon>
-            </a>
-            <mat-menu #previousStatementMenu="matMenu">
-                <button mat-menu-item>
-                    <span class="flex items-center">
-                        <mat-icon class="icon-size-20 mr-3"
-                                  [svgIcon]="'payment'"></mat-icon>
-                        <span>View statement</span>
-                    </span>
-                </button>
-                <button mat-menu-item>
-                    <span class="flex items-center">
-                        <mat-icon class="icon-size-20 mr-3"
-                                  [svgIcon]="'attach_money'"></mat-icon>
-                        <span>Spending breakdown</span>
-                    </span>
-                </button>
-                <button mat-menu-item>
-                    <span class="flex items-center">
-                        <mat-icon class="icon-size-20 mr-3"
-                                  [svgIcon]="'account_balance'"></mat-icon>
-                        <span>Tax breakdown</span>
-                    </span>
-                </button>
-                <mat-divider class="my-2"></mat-divider>
-                <button mat-menu-item>
-                    <span class="flex items-center action">
-                        <mat-icon class="icon-size-20 mr-3"
-                                  [svgIcon]="'print'"></mat-icon>
-                        <span>Print statement</span>
-                    </span>
-                </button>
-                <button mat-menu-item>
-                    <span class="flex items-center">
-                        <mat-icon class="icon-size-20 mr-3"
-                                  [svgIcon]="'email'"></mat-icon>
-                        <span>Email statement</span>
-                    </span>
-                </button>
-            </mat-menu>
-        </div>
-    </div>
-
-</treo-vertical-navigation>
+  </treo-vertical-navigation>
+</ng-container>
 
 <!-- Wrapper -->
 <div class="wrapper">
+  <div class="header">
+    <button
+      class="navigation-toggle-button"
+      mat-icon-button
+      (click)="toggleNavigation('mainNavigation')">
+        <mat-icon [svgIcon]="'menu'"></mat-icon>
+    </button>
 
-    <!-- Header -->
-    <div class="header">
+    <div class="spacer"></div>
 
-        <!-- Navigation toggle button -->
-        <button class="navigation-toggle-button"
-                mat-icon-button
-                (click)="toggleNavigation('mainNavigation')">
-            <mat-icon [svgIcon]="'menu'"></mat-icon>
-        </button>
+    <search [appearance]="'bar'"></search>
+    <shortcuts [shortcuts]="data.shortcuts"></shortcuts>
+    <messages [messages]="data.messages"></messages>
+    <notifications [notifications]="data.notifications"></notifications>
+    <user></user>
+  </div>
 
-        <!-- Spacer -->
-        <div class="spacer"></div>
+  <div class="content">
+    <!-- *ngIf="true" hack is required here for router-outlet to work correctly. Otherwise,
+          it won't register the changes on the layout and won't update the view. -->
+    <router-outlet *ngIf="true"></router-outlet>
+  </div>
 
-        <!-- Search -->
-        <search [appearance]="'bar'"></search>
-
-        <!-- Shortcuts -->
-        <shortcuts [shortcuts]="data.shortcuts"></shortcuts>
-
-        <!-- Messages -->
-        <messages [messages]="data.messages"></messages>
-
-        <!-- Notifications -->
-        <notifications [notifications]="data.notifications"></notifications>
-
-        <!-- User -->
-        <user [user]="data.user"></user>
-    </div>
-
-    <!-- Content -->
-    <div class="content">
-
-        <!-- *ngIf="true" hack is required here for router-outlet to work correctly. Otherwise,
-             it won't register the changes on the layout and won't update the view. -->
-        <router-outlet *ngIf="true"></router-outlet>
-
-    </div>
-
-    <!-- Footer -->
-    <div class="footer">
-        Treo &copy; {{currentYear}}
-    </div>
-
+  <div class="footer">
+    Treo &copy; {{ currentYear }}
+  </div>
 </div>
