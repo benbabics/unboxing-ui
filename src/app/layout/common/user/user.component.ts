@@ -1,9 +1,9 @@
+import { Store } from '@ngxs/store';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { User } from 'app/layout/common/user/user.types';
-import { UserService } from 'app/layout/common/user/user.service';
+import { takeUntil, tap } from 'rxjs/operators';
+import { CurrentUser, CurrentUserState } from '../../../../../projects/lib-common/src/lib/states';
 
 @Component({
   selector: 'user',
@@ -15,33 +15,25 @@ import { UserService } from 'app/layout/common/user/user.service';
 })
 export class UserComponent implements OnInit, OnDestroy {
 
+  private _destroy$: Subject<any> = new Subject();
+  
   @Input() showAvatar: boolean = true;
 
-  private _destroy$: Subject<any>;
-  private _user: User;
+  user: CurrentUser;
 
   constructor(
-    private _changeDetectorRef: ChangeDetectorRef,
-    private _router: Router,
-    private _userService: UserService,
-  ) {
-    this._destroy$ = new Subject();
-  }
-
-  @Input()
-  set user(value: User) {
-    this._user = value;
-    this._userService.user = value;
-  }
-
-  get user(): User {
-    return this._user;
-  }
+    private changeDetectorRef: ChangeDetectorRef,
+    private store: Store,
+    private router: Router,
+  ) { }
 
   ngOnInit() {
-    this._userService.user$
-      .pipe(takeUntil(this._destroy$))
-      .subscribe((user: User) => this._user = user);
+    this.store.select( CurrentUserState.details )
+      .pipe(
+        takeUntil(this._destroy$),
+        tap(user => this.user = user),
+      )
+      .subscribe(() => this.changeDetectorRef.detectChanges());
   }
 
   ngOnDestroy() {
@@ -49,12 +41,7 @@ export class UserComponent implements OnInit, OnDestroy {
     this._destroy$.complete();
   }
 
-  updateUserStatus(status): void {
-    this.user.status = status;
-    this._userService.update(this.user);
-  }
-
   signOut(): void {
-    this._router.navigate(['/sign-out']);
+    this.router.navigate([ '/sign-out' ]);
   }
 }

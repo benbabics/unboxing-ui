@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
+import { set } from 'lodash';
 import { Observable, of, throwError } from 'rxjs';
 import { delay, switchMap } from 'rxjs/operators';
 import { TreoMockApiRequestHandler } from '@treo/lib/mock-api/mock-api.request-handler';
@@ -29,12 +30,24 @@ export class TreoMockApiInterceptor implements HttpInterceptor
      */
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>
     {
+      const requestHandlers = this._treoMockApiService.requestHandlers[ request.method.toLowerCase() ];
+
+      const activatedRoute = requestHandlers.find(({ route }) => !!route.parse(request.url));
+
         // Try to get the request handler
-        const requestHandler: TreoMockApiRequestHandler = this._treoMockApiService.requestHandlers[request.method.toLowerCase()].get(request.url);
+        // const requestHandler: TreoMockApiRequestHandler = this._treoMockApiService.requestHandlers[request.method.toLowerCase()].get(request.url);
 
         // If the request handler exists..
-        if ( requestHandler )
+        if ( activatedRoute )
         {
+            const requestHandler = activatedRoute.handler;
+
+            Object
+              .entries( activatedRoute.route.parse(request.url) )
+              .forEach(([key, val]: any) => 
+                set(request, 'params', request.params.append(key, val))
+              );
+            
             // Set the intercepted request on the requestHandler
             requestHandler.interceptedRequest = request;
 

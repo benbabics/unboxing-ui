@@ -30,8 +30,8 @@ export class AccountResolverService {
     return this.store.dispatch([
       new Reset(BrandState),
       new Reset(ProjectState),
-      new CreateOrReplace(BrandState,   account.brands),
-      new CreateOrReplace(ProjectState, account.projects),
+      // new CreateOrReplace(BrandState,   account.brands),
+      // new CreateOrReplace(ProjectState, account.projects),
     ]);
   }
 }

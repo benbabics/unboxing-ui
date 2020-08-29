@@ -28,7 +28,7 @@ export class AuthService {
   }
 
   signInUsingToken(): Observable<any> {
-    return this.store.dispatch( new CurrentUser.Fetch() );
+    return this.store.dispatch( new CurrentUser.Refresh() );
   }
 
   signOut(): Observable<any> {

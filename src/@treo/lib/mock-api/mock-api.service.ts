@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TreoMockApiRequestHandler } from '@treo/lib/mock-api/mock-api.request-handler';
+import { routeMatcher } from 'route-matcher';
 
 @Injectable({
     providedIn: 'root'
@@ -15,11 +16,11 @@ export class TreoMockApiService
     {
         // Set the defaults
         this.requestHandlers = {
-            delete: new Map<string, TreoMockApiRequestHandler>(),
-            get   : new Map<string, TreoMockApiRequestHandler>(),
-            patch : new Map<string, TreoMockApiRequestHandler>(),
-            post  : new Map<string, TreoMockApiRequestHandler>(),
-            put   : new Map<string, TreoMockApiRequestHandler>()
+            delete: [],
+            get   : [],
+            patch : [],
+            post  : [],
+            put   : [],
         };
     }
 
@@ -106,7 +107,10 @@ export class TreoMockApiService
         treoMockHttp.delay = delay;
 
         // Store the request handler to access them from the interceptor
-        this.requestHandlers[requestType].set(url, treoMockHttp);
+        this.requestHandlers[ requestType ].push({
+          handler: treoMockHttp,
+          route:   routeMatcher( treoMockHttp.url ),
+        });
 
         // Return the instance
         return treoMockHttp;

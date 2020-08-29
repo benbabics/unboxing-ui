@@ -2,17 +2,7 @@ export interface Account {
   id: string;
   title: string;
   logo: string;
-
-  // belongs to
   userId: string;
-
-  // has many
-  brandIds: string[];
-  projectIds: string[];
-
-  // side loaded data
-  brands?: any[];
-  projects?: any[];
 }
 
 
