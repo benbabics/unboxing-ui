@@ -3,9 +3,13 @@
     <h1>Ooops...</h1>
     <h6>The page you requested could not be found.</h6>
 
-    <a class="link"
-       [routerLink]="['/']">
-        Back to Dashboard
-    </a>
+    <button 
+      class="mt-4"
+      mat-button
+      routerLink=""
+      [color]="'primary'">
+      <mat-icon [svgIcon]="'arrow_back'"></mat-icon>
+    <span>Back to Dashboard</span>
+    </button>
 
 </div>
