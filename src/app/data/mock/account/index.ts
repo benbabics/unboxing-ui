@@ -26,7 +26,7 @@ export class AccountMockApi implements TreoMockApi {
      * GET /accounts
      */
     this.treoMockApiService
-      .onGet( "/api/accounts" )
+      .onGet( "/api/accounts", 1500 )
       .reply(request => {
         if ( !this.authService.isAuthenticated ) {
           return [ 403, { error: "Unauthorized" } ];
