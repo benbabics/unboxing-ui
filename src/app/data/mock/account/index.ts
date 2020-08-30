@@ -48,7 +48,7 @@ export class AccountMockApi implements TreoMockApi {
         }
 
         const accountId = request.params.get( 'accountId' );
-        return this.http.get(`/mock-api/accounts/${ accountId }` )
+        return this.http.get( `/mock-api/accounts/${ accountId }`, { params: request.params } )
           .pipe(map(account => [ 200, account ]));
       });
   }
