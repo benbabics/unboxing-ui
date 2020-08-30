@@ -1,1 +1,116 @@
-<p>list works!</p>
+<div class="content-layout right-sidebar-fullheight-basic-inner-scroll">
+
+  <mat-drawer-container (backdropClick)="handleClickBackdrop()">
+    <mat-drawer 
+      #matDrawer
+      [mode]="drawerMode"
+      [opened]="false"
+      [position]="'end'"
+      [disableClose]="true">
+
+      <router-outlet></router-outlet>
+
+    </mat-drawer>
+
+    <mat-drawer-content>
+      <div class="main">
+        <div class="header">
+          <ng-container *ngTemplateOutlet="contentHeader"></ng-container>
+        </div>
+
+        <div class="entity-list">
+          <ng-container *ngTemplateOutlet="contentList"></ng-container>
+        </div>
+      </div>
+    </mat-drawer-content>
+  </mat-drawer-container>
+  
+</div>
+
+
+<ng-template #contentHeader>
+  <div class="title">
+    <h1>Brands</h1>
+    
+    <div class="entity-count">
+      <ng-container *ngIf="contactsCount > 0">
+        {{ contactsCount }}
+      </ng-container>
+
+      {{ contactsCount | i18nPlural: {
+        '=0':    'No brands',
+        '=1':    'brand',
+        'other': 'brands'
+      } }}
+    </div>
+  </div>
+
+  <div class="main-actions">
+    <button
+      class="add-entity"
+      mat-flat-button
+      color="primary"
+      (click)="handleCreateBrand()">
+      
+      <mat-icon svgIcon="add"></mat-icon>
+      Add
+
+    </button>
+  </div>
+</ng-template>
+
+
+<ng-template #contentList>
+  <ng-container *ngTemplateOutlet="cardBrand"></ng-container>
+  <ng-container *ngTemplateOutlet="cardBrand"></ng-container>
+  <ng-container *ngTemplateOutlet="cardBrand"></ng-container>
+</ng-template>
+
+
+<ng-template #cardBrand>
+  <treo-card class="flex flex-col gt-md:flex-row max-w-100 gt-sm:max-w-140 w-full filter-pricing">
+    <div class="flex flex-col p-8 order-2 gt-sm:order-1">
+      <div class="text-2xl font-semibold leading-tight">Puzzles Coffee Shop</div>
+      <div class="flex items-center leading-none mt-2 -ml-1">
+        <div class="flex items-center">
+          <mat-icon class="text-orange icon-size-20" [svgIcon]="'mat_outline:star'"></mat-icon>
+          <mat-icon class="text-orange icon-size-20" [svgIcon]="'mat_outline:star'"></mat-icon>
+          <mat-icon class="text-orange icon-size-20" [svgIcon]="'mat_outline:star'"></mat-icon>
+          <mat-icon class="text-orange icon-size-20" [svgIcon]="'mat_outline:star'"></mat-icon>
+          <mat-icon class="text-orange icon-size-20" [svgIcon]="'mat_outline:star_half'"></mat-icon>
+        </div>
+        <div class="text-secondary ml-2">4.5</div>
+        <div class="text-secondary mx-2">&bull;</div>
+        <div class="text-secondary">98 reviews</div>
+      </div>
+      <div class="mt-6">
+        <div class="flex flex-wrap items-center text-secondary my-1">
+          <span>$$</span>
+          <span class="mx-2">&bull;</span>
+          <span class="whitespace-no-wrap">Arabian, Brazilian, Colombian</span>
+        </div>
+        <div class="flex items-center text-secondary my-1">
+          <span>774 Riverview St.</span>
+        </div>
+        <div class="flex flex-wrap items-center text-secondary my-1">
+          <span>Open</span>
+          <span class="mx-2">&bull;</span>
+          <span class="whitespace-no-wrap">07:00AM Weekdays</span>
+          <span class="mx-2">&bull;</span>
+          <span class="whitespace-no-wrap">10:00AM Weekends</span>
+        </div>
+      </div>
+      <div class="flex items-center mt-3 -mx-3">
+        <button class="px-3 mr-1" mat-button [color]="'primary'" [routerLink]="['./']">
+          Location
+        </button>
+        <button class="px-3" mat-button [color]="'primary'" [routerLink]="['./']">
+          Reviews
+        </button>
+      </div>
+    </div>
+    <div class="flex flex-col items-center order-1 gt-sm:order-2 justify-center px-10 gt-md:px-16 py-10 bg-gray-200">
+      <img class="w-32 rounded-full" src="/assets/images/accounts/doubleclick-detroit.jpg">
+    </div>
+  </treo-card>
+</ng-template>

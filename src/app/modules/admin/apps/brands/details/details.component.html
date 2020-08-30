@@ -1,1 +1,97 @@
-<p>details works!</p>
+<form [formGroup]="brandForm" [ngClass]="{'edit-mode': editMode}">
+
+  <!-- Actions -->
+  <div class="actions">
+
+    <!-- Edit button -->
+    <button 
+      mat-icon-button *ngIf="!editMode" 
+      [matMenuTriggerFor]="actionsMenu">
+
+      <mat-icon [svgIcon]="'more_vert'"></mat-icon>
+      
+    </button>
+
+    <mat-menu #actionsMenu="matMenu">
+      <button 
+        mat-menu-item *ngIf="!editMode"
+        (click)="toggleEditMode(true)">
+
+        <mat-icon [svgIcon]="'edit'"></mat-icon>
+        <span>Edit brand</span>
+
+      </button>
+    </mat-menu>
+
+    <!-- Cancel button -->
+    <button
+      class="cancel-button"
+      mat-icon-button
+      *ngIf="editMode"
+      [matTooltip]="'Cancel'"
+      (click)="toggleEditMode(false)">
+
+      <mat-icon [svgIcon]="'cancel'"></mat-icon>
+
+    </button>
+
+    <!-- Save button -->
+    <button 
+      mat-icon-button 
+      *ngIf="editMode"
+      [disabled]="brandForm.invalid"
+      [matTooltip]="'Save'"
+      (click)="updateBrand()">
+
+      <mat-icon [svgIcon]="'save'"></mat-icon>
+
+    </button>
+
+    <!-- Delete button -->
+    <button 
+      mat-icon-button
+      *ngIf="editMode"
+      [matTooltip]="'Delete'"
+      (click)="deleteBrand()">
+
+      <mat-icon [svgIcon]="'delete'"></mat-icon>
+
+    </button>
+
+    <!-- Close button -->
+    <button 
+      mat-icon-button 
+      *ngIf="!editMode"
+      [matTooltip]="'Close'"
+      [routerLink]="['../']">
+
+      <mat-icon [svgIcon]="'close'"></mat-icon>
+
+    </button>
+
+  </div>
+
+  <!-- Address -->
+  <div class="address" *ngIf="brand.address || editMode">
+  
+    <mat-icon class="icon" [svgIcon]="'room'"></mat-icon>
+  
+    <!-- View -->
+    <div class="view" *ngIf="!editMode">
+      {{ brand.address }}
+    </div>
+  
+    <!-- Edit -->
+    <div class="edit" *ngIf="editMode">
+      <mat-form-field class="treo-mat-no-subscript">
+        <input
+          matInput
+          [formControlName]="'address'"
+          [placeholder]="'Address'"
+          [spellcheck]="false">
+      </mat-form-field>
+    </div>
+  
+  </div>
+
+</form>

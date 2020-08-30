@@ -17,6 +17,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import * as moment from 'moment';
+import { TreoCardModule } from '@treo/components/card';
 import { TreoAutogrowModule } from '@treo/directives/autogrow';
 import { TreoFindByKeyPipeModule } from '@treo/pipes/find-by-key';
 import { SharedModule } from 'app/shared/shared.module';
@@ -44,6 +45,7 @@ import { BrandsDetailsComponent } from './details/details.component';
     MatSidenavModule,
     MatTableModule,
     MatTooltipModule,
+    TreoCardModule,
     TreoAutogrowModule,
     TreoFindByKeyPipeModule,
     SharedModule,
