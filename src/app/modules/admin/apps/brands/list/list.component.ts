@@ -1,9 +1,12 @@
+import { BrandState } from './../../../../../../../projects/lib-common/src/lib/states/brand/brand.state';
+import { Select } from '@ngxs/store';
 import { takeUntil, tap, map } from 'rxjs/operators';
 import { Component, OnInit, ViewChild, ChangeDetectorRef, ViewEncapsulation, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDrawer } from '@angular/material/sidenav';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { TreoMediaWatcherService } from '@treo/services/media-watcher/media-watcher.service';
+import { Brand } from '../../../../../../../projects/lib-common/src/lib/states';
 
 @Component({
   selector: 'app-brands-list',
@@ -18,6 +21,8 @@ export class BrandsListComponent implements OnInit, OnDestroy {
   
   drawerMode: 'side' | 'over';
   contactsCount: number;
+
+  @Select( BrandState.entities ) brands$: Observable<Brand[]>;
 
   @ViewChild('matDrawer', { static: true }) matDrawer: MatDrawer;
   

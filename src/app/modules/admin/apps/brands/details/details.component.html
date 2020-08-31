@@ -1,97 +1,315 @@
-<form [formGroup]="brandForm" [ngClass]="{'edit-mode': editMode}">
+<ng-container *ngIf="brand$ | async; let brand">
+  <form [formGroup]="brandForm" [ngClass]="{'edit-mode': editMode}">
+    
+    <!-- Actions -->
+    <div class="actions">
 
-  <!-- Actions -->
-  <div class="actions">
-
-    <!-- Edit button -->
-    <button 
-      mat-icon-button *ngIf="!editMode" 
-      [matMenuTriggerFor]="actionsMenu">
-
-      <mat-icon [svgIcon]="'more_vert'"></mat-icon>
-      
-    </button>
-
-    <mat-menu #actionsMenu="matMenu">
+      <!-- Edit button -->
       <button 
-        mat-menu-item *ngIf="!editMode"
-        (click)="toggleEditMode(true)">
+        mat-icon-button *ngIf="!editMode" 
+        [matMenuTriggerFor]="actionsMenu">
 
-        <mat-icon [svgIcon]="'edit'"></mat-icon>
-        <span>Edit brand</span>
+        <mat-icon [svgIcon]="'more_vert'"></mat-icon>
+        
+      </button>
+
+      <mat-menu #actionsMenu="matMenu">
+        <button 
+          mat-menu-item *ngIf="!editMode"
+          (click)="toggleEditMode(true)">
+
+          <mat-icon [svgIcon]="'edit'"></mat-icon>
+          <span>Edit brand</span>
+
+        </button>
+      </mat-menu>
+
+      <!-- Cancel button -->
+      <button
+        class="cancel-button"
+        mat-icon-button
+        *ngIf="editMode"
+        [matTooltip]="'Cancel'"
+        (click)="toggleEditMode(false)">
+
+        <mat-icon [svgIcon]="'cancel'"></mat-icon>
 
       </button>
-    </mat-menu>
 
-    <!-- Cancel button -->
-    <button
-      class="cancel-button"
-      mat-icon-button
-      *ngIf="editMode"
-      [matTooltip]="'Cancel'"
-      (click)="toggleEditMode(false)">
+      <!-- Save button -->
+      <button 
+        mat-icon-button 
+        *ngIf="editMode"
+        [disabled]="brandForm.invalid"
+        [matTooltip]="'Save'"
+        (click)="updateBrand()">
 
-      <mat-icon [svgIcon]="'cancel'"></mat-icon>
+        <mat-icon [svgIcon]="'save'"></mat-icon>
 
-    </button>
+      </button>
 
-    <!-- Save button -->
-    <button 
-      mat-icon-button 
-      *ngIf="editMode"
-      [disabled]="brandForm.invalid"
-      [matTooltip]="'Save'"
-      (click)="updateBrand()">
+      <!-- Delete button -->
+      <button 
+        mat-icon-button
+        *ngIf="editMode"
+        [matTooltip]="'Delete'"
+        (click)="deleteBrand()">
 
-      <mat-icon [svgIcon]="'save'"></mat-icon>
+        <mat-icon [svgIcon]="'delete'"></mat-icon>
 
-    </button>
+      </button>
 
-    <!-- Delete button -->
-    <button 
-      mat-icon-button
-      *ngIf="editMode"
-      [matTooltip]="'Delete'"
-      (click)="deleteBrand()">
+      <!-- Close button -->
+      <button 
+        mat-icon-button 
+        *ngIf="!editMode"
+        [matTooltip]="'Close'"
+        [routerLink]="['../']">
 
-      <mat-icon [svgIcon]="'delete'"></mat-icon>
+        <mat-icon [svgIcon]="'close'"></mat-icon>
 
-    </button>
+      </button>
 
-    <!-- Close button -->
-    <button 
-      mat-icon-button 
-      *ngIf="!editMode"
-      [matTooltip]="'Close'"
-      [routerLink]="['../']">
-
-      <mat-icon [svgIcon]="'close'"></mat-icon>
-
-    </button>
-
-  </div>
-
-  <!-- Address -->
-  <div class="address" *ngIf="brand.address || editMode">
-  
-    <mat-icon class="icon" [svgIcon]="'room'"></mat-icon>
-  
-    <!-- View -->
-    <div class="view" *ngIf="!editMode">
-      {{ brand.address }}
     </div>
-  
-    <!-- Edit -->
-    <div class="edit" *ngIf="editMode">
-      <mat-form-field class="treo-mat-no-subscript">
-        <input
-          matInput
-          [formControlName]="'address'"
-          [placeholder]="'Address'"
-          [spellcheck]="false">
-      </mat-form-field>
-    </div>
-  
-  </div>
 
-</form>
+    <!-- Avatar and Name -->
+    <div class="avatar-and-name">
+      <div class="avatar">
+        <div class="upload" *ngIf="editMode">
+          <input 
+            #avatarFileInput
+            id="avatar-file-input"
+            type="file"
+            [multiple]="false"
+            [accept]="'image/jpeg, image/png'"
+            (change)="uploadAvatar( avatarFileInput.files )">
+
+          <label for="avatar-file-input" matRipple>
+            <mat-icon [svgIcon]="'photo_camera'"></mat-icon>
+          </label>
+        </div>
+    
+        <div class="remove" *ngIf="editMode">
+          <button mat-icon-button (click)="removeAvatar()">
+            <mat-icon [svgIcon]="'delete'"></mat-icon>
+          </button>
+        </div>
+    
+        <img *ngIf="brand.logoUrl" [src]="brand.logoUrl" #avatar>
+    
+        <div class="no-avatar" *ngIf="!brand.logoUrl">
+          <mat-icon svgIcon="heroicons_outline:speakerphone"></mat-icon>
+        </div>
+      </div>
+    
+      <!-- View -->
+      <div class="view" *ngIf="brand.name && !editMode">
+        <div class="name">{{ brand.name }}</div>
+      </div>
+    
+      <!-- Edit -->
+      <div class="edit" *ngIf="editMode">
+        <mat-form-field class="name edit treo-mat-no-subscript">
+          <input 
+            matInput 
+            [formControlName]="'name'" 
+            [placeholder]="'Name'" 
+            [spellcheck]="false">
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- Website -->
+    <div class="address" 
+         *ngIf="brand.website || editMode">
+
+      <mat-icon class="icon" [svgIcon]="'desktop_mac'"></mat-icon>
+    
+      <div class="view" *ngIf="!editMode">
+        <a [href]="brand.website" class="link" target="_blank">
+          {{ brand.website }}
+        </a>
+      </div>
+    
+      <div class="edit" *ngIf="editMode">
+        <mat-form-field class="treo-mat-no-subscript">
+          <input
+            matInput
+            [formControlName]="'website'"
+            [placeholder]="'Website'"
+            [spellcheck]="false">
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- Phone numbers -->
+    <div class="phone-numbers"
+         *ngIf="brand.networks.length || editMode"
+         [ngClass]="{'editing': editMode}"
+         [formArrayName]="'networks'">
+
+      <mat-icon class="icon"
+                [svgIcon]="'chat'"></mat-icon>
+
+      <!-- View -->
+      <div class="view"
+           *ngIf="!editMode">
+
+        <div class="phone-number"
+             *ngFor="let network of brand.networks; let i = index; trackBy: trackByFn">
+
+          <div class="code flex items-center">
+            <mat-icon svgIcon="iconsmind:{{ network.network }}"
+                      class="icon-size-16 mr-2"
+                      [matTooltip]="network.network">
+            </mat-icon>
+
+            <a [href]="network.url" class="link" target="_blank">
+              {{ network.label }}
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit -->
+      <div class="edit"
+           *ngIf="editMode">
+
+        <div class="phone-number"
+             *ngFor="let network of brandForm.get('networks')['controls']; let i = index; let first = first; let last = last; trackBy: trackByFn">
+
+          <mat-form-field class="treo-mat-no-subscript">
+            <input matInput
+                   [formControl]="network.get('url')"
+                   [placeholder]="'Url'">
+            <mat-select [panelClass]="'contacts-details-country-code-selector-panel'"
+                        [formControl]="network.get('network')"
+                        matPrefix>
+              <mat-select-trigger>
+                <span class="code">
+                  <mat-icon [svgIcon]="'iconsmind:' + network.get('network').value"
+                            class="icon-size-16">
+                  </mat-icon>
+                </span>
+              </mat-select-trigger>
+
+              <mat-option value="facebook">
+                <span class="code">
+                  <mat-icon svgIcon="iconsmind:facebook"
+                            class="icon-size-16">
+                  </mat-icon>
+                  Facebook
+                </span>
+              </mat-option>
+              <mat-option value="instagram">
+                <span class="code">
+                  <mat-icon svgIcon="iconsmind:instagram"
+                            class="icon-size-16">
+                  </mat-icon>
+                  Instagram
+                </span>
+              </mat-option>
+              <mat-option value="twitter">
+                <span class="code">
+                  <mat-icon svgIcon="iconsmind:twitter"
+                            class="icon-size-16">
+                  </mat-icon>
+                  Twitter
+                </span>
+              </mat-option>
+              <mat-option value="vimeo">
+                <span class="code">
+                  <mat-icon svgIcon="iconsmind:vimeo"
+                            class="icon-size-16">
+                  </mat-icon>
+                  Vimeo
+                </span>
+              </mat-option>
+              <mat-option value="youtube">
+                <span class="code">
+                  <mat-icon svgIcon="iconsmind:youtube"
+                            class="icon-size-16">
+                  </mat-icon>
+                  Youtube
+                </span>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="treo-mat-no-subscript">
+            <input matInput
+                   [formControl]="network.get('label')"
+                   [placeholder]="'Label'">
+          </mat-form-field>
+
+          <div class="actions">
+            <button class="remove-phone-number-field"
+                    *ngIf="!(first && last)"
+                    mat-icon-button
+                    (click)="removeNetworkField(i)"
+                    matTooltip="Remove">
+              <mat-icon [svgIcon]="'cancel'"></mat-icon>
+            </button>
+
+            <button class="add-phone-number-field"
+                    *ngIf="last"
+                    mat-icon-button
+                    (click)="addNetworkField()"
+                    matTooltip="Add">
+              <mat-icon [svgIcon]="'add_circle'"></mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Emails -->
+    <div class="emails" 
+         *ngIf="brand.emails.length || editMode">
+
+      <mat-icon class="icon" [svgIcon]="'email'"></mat-icon>
+    
+      <!-- View -->
+      <div class="view" *ngIf="!editMode">
+        <div class="email" *ngFor="let email of brand.emails; let i = index; trackBy: trackByFn">
+          <div class="address">
+            <a class="link" [href]="'mailto:' + email.email">
+              {{ email.email }}
+            </a>
+          </div>
+
+          <div class="label" *ngIf="email.label">
+            <span class="separator">&bull;</span>
+            <span>{{ email.label }}</span>
+          </div>
+        </div>
+      </div>
+    
+      <!-- Edit -->
+      <div class="edit" *ngIf="editMode">
+        <div class="email" *ngFor="let email of brandForm.get('emails')['controls']; let i = index; let first = first; let last = last; trackBy: trackByFn">
+    
+          <mat-form-field class="treo-mat-no-subscript">
+            <input matInput [formControl]="email.get('email')" [placeholder]="'Email address'" [spellcheck]="false">
+          </mat-form-field>
+    
+          <mat-form-field class="treo-mat-no-subscript">
+            <input matInput [formControl]="email.get('label')" [placeholder]="'Label'">
+          </mat-form-field>
+    
+          <div class="actions">
+            <button class="remove-email-field" *ngIf="!(first && last)" mat-icon-button (click)="removeEmailField(i)"
+              matTooltip="Remove">
+              <mat-icon [svgIcon]="'cancel'"></mat-icon>
+            </button>
+    
+            <button class="add-email-field" *ngIf="last" mat-icon-button (click)="addEmailField()" matTooltip="Add">
+              <mat-icon [svgIcon]="'add_circle'"></mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</ng-container>

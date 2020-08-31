@@ -1,5 +1,4 @@
 <div class="content-layout right-sidebar-fullheight-basic-inner-scroll">
-
   <mat-drawer-container (backdropClick)="handleClickBackdrop()">
     <mat-drawer 
       #matDrawer
@@ -13,40 +12,40 @@
     </mat-drawer>
 
     <mat-drawer-content>
-      <!-- Background - Inline SVG for easy customizations -->
-      <svg class="background" viewBox="0 0 1531 891" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0 182c144.327 47.973 534.462 219.712 440.509 369.87C346.555 702.028 79.877 662.846 0 638V182z"></path>
-        <path d="M1405 848c-424.366 158.009-437-164-437-272s102-425 563-576v769c-21.333 29.333-63.333 55.667-126 79z"></path>
-        <path
-          d="M1531 162c-122.914-17.284-377.96 33.191-543.433 206.414C822.095 541.636 797.342 648.75 835.842 731.622c38.5 82.871 198.243 134.841 400.555 92.053C1438.71 780.886 1492.752 775.894 1531 768V162z">
-        </path>
-      </svg>
+      <ng-container *ngTemplateOutlet="background">
+      </ng-container>
       
-      <div class="main">
-        <div class="header">
-          <ng-container *ngTemplateOutlet="contentHeader"></ng-container>
-        </div>
+      <ng-container *ngIf="brands$ | async; let brands">
+        <div class="main">
+          <div class="header">
+            <ng-container 
+              *ngTemplateOutlet="contentHeader; context: { $implicit: brands }">
+            </ng-container>
+          </div>
 
-        <div class="entity-list">
-          <ng-container *ngTemplateOutlet="contentList"></ng-container>
+          <div class="entity-list">
+            <ng-container 
+              *ngTemplateOutlet="contentList; context: { $implicit: brands }">
+            </ng-container>
+          </div>
         </div>
-      </div>
+      </ng-container>
     </mat-drawer-content>
   </mat-drawer-container>
-  
 </div>
 
 
-<ng-template #contentHeader>
+<!-- Header -->
+<ng-template #contentHeader let-brands>
   <div class="title">
     <h1>Brands</h1>
     
     <div class="entity-count">
-      <ng-container *ngIf="contactsCount > 0">
-        {{ contactsCount }}
+      <ng-container *ngIf="brands.length > 0">
+        {{ brands.length }}
       </ng-container>
 
-      {{ contactsCount | i18nPlural: {
+      {{ brands.length | i18nPlural: {
         '=0':    'No brands',
         '=1':    'brand',
         'other': 'brands'
@@ -69,15 +68,21 @@
 </ng-template>
 
 
-<ng-template #contentList>
-  <ng-container *ngTemplateOutlet="cardBrand"></ng-container>
+<!-- List -->
+<ng-template #contentList let-brands>
+  <ng-container 
+    *ngFor="let brand of brands" 
+    [ngTemplateOutlet]="cardBrand" 
+    [ngTemplateOutletContext]="{ $implicit: brand }">
+  </ng-container>
 </ng-template>
 
 
-<ng-template #cardBrand>
-  <treo-card class="flex flex-col gt-md:flex-row max-w-100 gt-sm:max-w-140 w-full filter-pricing">
+<!-- Card -->
+<ng-template #cardBrand let-brand>
+  <treo-card [routerLink]="[ '.', brand.id ]" class="flex flex-col gt-md:flex-row max-w-100 gt-sm:max-w-140 w-full filter-pricing">
     <div class="flex flex-col p-8 order-2 gt-sm:order-1">
-      <div class="text-2xl font-semibold leading-tight">Puzzles Coffee Shop</div>
+      <div class="text-2xl font-semibold leading-tight">{{ brand.name }}</div>
       <div class="flex items-center leading-none mt-2 -ml-1">
         <div class="flex items-center">
           <mat-icon class="text-orange icon-size-20" [svgIcon]="'mat_outline:star'"></mat-icon>
@@ -116,8 +121,21 @@
         </button>
       </div>
     </div>
-    <div class="flex flex-col items-center order-1 gt-sm:order-2 justify-center px-10 gt-md:px-16 py-10 bg-gray-200">
-      <img class="w-32 rounded-full" src="/assets/images/accounts/doubleclick-detroit.jpg">
+    <div class="flex flex-col items-center order-1 gt-sm:order-2 justify-start px-10 py-10">
+      <img class="w-60" [src]="brand.logoUrl">
     </div>
   </treo-card>
+</ng-template>
+
+
+<!-- Background -->
+<ng-template #background>
+  <!-- Background - Inline SVG for easy customizations -->
+  <svg class="background" viewBox="0 0 1531 891" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 182c144.327 47.973 534.462 219.712 440.509 369.87C346.555 702.028 79.877 662.846 0 638V182z"></path>
+    <path d="M1405 848c-424.366 158.009-437-164-437-272s102-425 563-576v769c-21.333 29.333-63.333 55.667-126 79z"></path>
+    <path
+      d="M1531 162c-122.914-17.284-377.96 33.191-543.433 206.414C822.095 541.636 797.342 648.75 835.842 731.622c38.5 82.871 198.243 134.841 400.555 92.053C1438.71 780.886 1492.752 775.894 1531 768V162z">
+    </path>
+  </svg>
 </ng-template>

@@ -1,8 +1,20 @@
-import { CreateOrReplace } from '@ngxs-labs/entity-state';
+export interface BrandEmail {
+  email: string;
+  label: string;
+}
+export interface BrandNetwork {
+  network: 'facebook' | 'instagram' | 'twitter' | 'vimeo' | 'youtube';
+  label: string;
+  url: string;
+}
+
 export interface Brand {
   id: string;
   name: string;
   logoUrl: string;
+  website: string;
+  emails: BrandEmail[];
+  networks: BrandNetwork[];
 
   accountId?: string;
 }
