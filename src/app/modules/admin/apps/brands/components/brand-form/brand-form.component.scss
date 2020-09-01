@@ -1,6 +1,6 @@
 @import 'treo';
 
-app-brands-details {
+brand-form {
     display: flex;
     flex: 1 1 auto;
 
@@ -176,8 +176,9 @@ app-brands-details {
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    width: 100%;
+                    width:  100%;
                     height: 100%;
+                    min-width: 120px;
                     text-transform: uppercase;
                     font-size: 56px;
                     line-height: normal;
@@ -430,12 +431,12 @@ app-brands-details {
 
                     .flag {
                         display: flex;
-                        width: 24px;
-                        min-width: 24px;
-                        max-width: 24px;
-                        height: 16px;
-                        min-height: 16px;
-                        max-height: 16px;
+                        width:     100%;
+                        min-width: 100%;
+                        max-width: 100%;
+                        height:     18px;
+                        min-height: 18px;
+                        max-height: 18px;
                         margin-right: 12px;
                         background: url('/assets/images/apps/contacts/flags.png') no-repeat 0 0;
                         background-size: 24px 3876px;
@@ -489,7 +490,7 @@ app-brands-details {
                                 .flag {
                                     display: flex;
                                     width: 24px;
-                                    height: 16px;
+                                    height: 18px;
                                     background: url('/assets/images/apps/contacts/flags.png') no-repeat 0 0;
                                     background-size: 24px 3876px;
                                     overflow: hidden;
@@ -768,8 +769,9 @@ app-brands-details {
 
             .flag {
                 display: flex;
-                width: 24px;
-                height: 16px;
+                align-items: center;
+                width: 100%;
+                height: 18px;
                 background: url('/assets/images/apps/contacts/flags.png') no-repeat 0 0;
                 background-size: 24px 3876px;
                 margin-right: 12px;
@@ -800,7 +802,7 @@ app-brands-details {
     $primary: map-get($theme, primary);
     $is-dark: map-get($theme, is-dark);
 
-    app-brands-details {
+    brand-form {
 
         form {
 

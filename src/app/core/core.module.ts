@@ -42,6 +42,11 @@ export class CoreModule {
 
     // Register icon sets
     this._matIconRegistry.addSvgIconSet(this._domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/material-twotone.svg'));
+    this._matIconRegistry.addSvgIcon('brand_facebook', this._domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/brand-facebook.svg'));
+    this._matIconRegistry.addSvgIcon('brand_instagram', this._domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/brand-instagram.svg'));
+    this._matIconRegistry.addSvgIcon('brand_twitter', this._domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/brand-twitter.svg'));
+    this._matIconRegistry.addSvgIcon('brand_vimeo', this._domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/brand-vimeo.svg'));
+    this._matIconRegistry.addSvgIcon('brand_youtube', this._domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/brand-youtube.svg'));
     this._matIconRegistry.addSvgIconSetInNamespace('mat_outline', this._domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/material-outline.svg'));
     this._matIconRegistry.addSvgIconSetInNamespace('iconsmind', this._domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/iconsmind.svg'));
     this._matIconRegistry.addSvgIconSetInNamespace('dripicons', this._domSanitizer.bypassSecurityTrustResourceUrl('assets/icons/dripicons.svg'));

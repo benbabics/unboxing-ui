@@ -22,9 +22,11 @@ import { TreoAutogrowModule } from '@treo/directives/autogrow';
 import { TreoFindByKeyPipeModule } from '@treo/pipes/find-by-key';
 import { SharedModule } from 'app/shared/shared.module';
 import { routes } from './brands.routing';
-import { BrandsComponent } from './brands.component';
-import { BrandsListComponent } from './list/list.component';
-import { BrandsDetailsComponent } from './details/details.component';
+import { BrandFormComponent } from './components/brand-form/brand-form.component';
+import { BrandEditComponent } from './pages/brand-edit/brand-edit.component';
+import { BrandShowComponent } from './pages/brand-show/brand-show.component';
+import { BrandIndexComponent } from './pages/brand-index/brand-index.component';
+import { BrandNewComponent } from './pages/brand-new/brand-new.component';
 
 @NgModule({
   imports: [
@@ -51,9 +53,11 @@ import { BrandsDetailsComponent } from './details/details.component';
     SharedModule,
   ],
   declarations: [
-    BrandsComponent,
-    BrandsListComponent,
-    BrandsDetailsComponent,
+    BrandFormComponent,
+    BrandEditComponent,
+    BrandShowComponent,
+    BrandIndexComponent,
+    BrandNewComponent,
   ],
 })
 export class BrandsModule { }

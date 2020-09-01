@@ -1,21 +1,20 @@
-import { BrandState } from './../../../../../../../projects/lib-common/src/lib/states/brand/brand.state';
 import { Select } from '@ngxs/store';
 import { takeUntil, tap, map } from 'rxjs/operators';
 import { Component, OnInit, ViewChild, ChangeDetectorRef, ViewEncapsulation, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatDrawer } from '@angular/material/sidenav';
+import { MatDrawer, MatDrawerToggleResult } from '@angular/material/sidenav';
 import { Subject, Observable } from 'rxjs';
 import { TreoMediaWatcherService } from '@treo/services/media-watcher/media-watcher.service';
-import { Brand } from '../../../../../../../projects/lib-common/src/lib/states';
+import { Brand, BrandState } from './../../../../../../../../projects/lib-common/src/public-api';
 
 @Component({
-  selector: 'app-brands-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss'],
+  selector: 'brand-index',
+  templateUrl: './brand-index.component.html',
+  styleUrls: ['./brand-index.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BrandsListComponent implements OnInit, OnDestroy {
+export class BrandIndexComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<any>;
   
@@ -40,7 +39,6 @@ export class BrandsListComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil( this.destroy$ ),
         map(({ matches }) => matches ? 'side' : 'over'),
-        tap(drawerMode => console.log('* drawerMode', drawerMode)),
         tap((drawerMode: any) => this.drawerMode = drawerMode),
         tap(() => this._changeDetectorRef.markForCheck()),
       )
@@ -52,6 +50,16 @@ export class BrandsListComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  openDrawer(): void {
+    this.matDrawer.open();
+    this._changeDetectorRef.markForCheck();
+  }
+
+  closeDrawer(): void {
+    this.matDrawer.close();
+    this._changeDetectorRef.markForCheck();
+  }
+
   navigateToBrand(id: string): void {
     this._router.navigateByUrl( `/brands/${ id }` );
     this._changeDetectorRef.markForCheck();
@@ -60,10 +68,5 @@ export class BrandsListComponent implements OnInit, OnDestroy {
   handleClickBackdrop(): void {
     this._router.navigateByUrl( `/brands` );
     this._changeDetectorRef.markForCheck();
-  }
-
-  handleCreateBrand(): void {
-    const id = `${ (new Date()).getTime() }`;
-    this.navigateToBrand( id );
   }
 }

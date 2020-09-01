@@ -1,6 +1,6 @@
 @import 'treo';
 
-app-brands-list {
+brand-index {
   display: flex;
   flex: 1 1 auto;
 
@@ -140,7 +140,7 @@ app-brands-list {
   $primary: map-get($theme, primary);
   $is-dark: map-get($theme, is-dark);
 
-  app-brands-list {
+  brand-index {
     .background {
       path {
         @if ($is-dark) {

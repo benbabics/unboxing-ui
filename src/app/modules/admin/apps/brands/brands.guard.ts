@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import { CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
-import { BrandsDetailsComponent } from './details/details.component';
+import { BrandIndexComponent } from './pages';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CanDeactivateBrandsGuard implements CanDeactivate<BrandsDetailsComponent> {
+export class CanDeactivateBrandsGuard implements CanDeactivate<BrandIndexComponent> {
+  
   canDeactivate(
-    component: BrandsDetailsComponent,
+    component: BrandIndexComponent,
     currentRoute: ActivatedRouteSnapshot,
     currentState: RouterStateSnapshot,
-    nextState?: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    nextState?: RouterStateSnapshot
+  ): boolean | UrlTree {
     
     let nextRoute: ActivatedRouteSnapshot = nextState.root;
     while ( nextRoute.firstChild ) nextRoute = nextRoute.firstChild;
@@ -25,8 +26,8 @@ export class CanDeactivateBrandsGuard implements CanDeactivate<BrandsDetailsComp
       return true;
     }
     else {
-      return component.closeDrawer().then(() => true);
+      component.closeDrawer();
+      return true;
     }
   }
-  
 }

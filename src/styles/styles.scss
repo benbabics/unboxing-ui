@@ -4,3 +4,12 @@
 // @ Styles from this file will override anything from 'vendors.scss' file allowing customizations and
 //  modifications of third party libraries.
 // -----------------------------------------------------------------------------------------------------
+.treo-theme-light {
+  .mat-primary {
+    .mat-option.mat-selected:not(.mat-option-disabled) {
+      .mat-icon {
+        color: inherit;
+      }
+    }
+  }
+}

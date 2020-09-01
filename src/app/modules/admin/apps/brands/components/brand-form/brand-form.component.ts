@@ -1,62 +1,57 @@
-import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { MatDrawerToggleResult } from '@angular/material/sidenav';
 import { Subject, Observable } from 'rxjs';
-import { withLatestFrom, map, tap } from 'rxjs/operators';
-import { Store } from '@ngxs/store';
-import { BrandsListComponent } from './../list/list.component';
-import { Brand, BrandState, BrandEmail, BrandNetwork } from '../../../../../../../projects/lib-common/src/public-api';
+import { Brand, BrandEmail, BrandNetwork } from '../../../../../../../../projects/lib-common/src/public-api';
+import { BrandIndexComponent } from './../../pages';
 
 @Component({
-  selector: 'app-brands-details',
-  templateUrl: './details.component.html',
-  styleUrls: ['./details.component.scss'],
+  selector: 'brand-form',
+  templateUrl: './brand-form.component.html',
+  styleUrls: ['./brand-form.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BrandsDetailsComponent implements OnInit, OnDestroy {
+export class BrandFormComponent implements OnInit, OnDestroy {
 
-  private destroy$: Subject<any>;
+  private _destroy$: Subject<any>;
+  private _brand: Brand;
   
-  brand$: Observable<Brand>;
-  editMode: boolean;
+  readonly optionsNetworks = [
+    { label: "Facebook",  value: "facebook", },
+    { label: "Instagram", value: "instagram", },
+    { label: "Twitter",   value: "twitter", },
+    { label: "Vimeo",     value: "vimeo", },
+    { label: "Youtube",   value: "youtube", },
+  ];
+
   brandForm: FormGroup;
 
+  @Input() editMode: boolean = true;
+
+  @Input() 
+  set brand(brand: Brand) {
+    this._brand = brand;
+    this.buildForm( brand );
+  }
+  get brand(): Brand {
+    return this._brand;
+  }
+
   constructor(
-    private store: Store,
-    private activatedRoute: ActivatedRoute,
     private _formBuilder: FormBuilder,
-    private _brandsListComponent: BrandsListComponent,
+    private _brandIndexComponent: BrandIndexComponent,
     private _changeDetectorRef: ChangeDetectorRef,
   ) {
-    this.destroy$ = new Subject();
-    this.editMode = false;
+    this._destroy$ = new Subject();
   }
 
   ngOnInit() {
-    this.brand$ = this.activatedRoute.params
-      .pipe(
-        withLatestFrom( this.store.select(BrandState.entitiesMap) ),
-        map(([ params, brands ]) => brands[ params.id ]),
-        tap(brand => this.buildForm( brand )),
-      );
-    
-    this._brandsListComponent.matDrawer.open();
+    this._brandIndexComponent.openDrawer();
   }
 
   ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
-  closeDrawer(): Promise<MatDrawerToggleResult> {
-    return this._brandsListComponent.matDrawer.close();
-  }
-
-  toggleEditMode(editMode: boolean = null): void {
-    this.editMode = editMode === null ? !this.editMode : editMode;
-    this._changeDetectorRef.markForCheck();
+    this._destroy$.next();
+    this._destroy$.complete();
   }
 
   uploadAvatar(fileList: FileList): void {
@@ -97,7 +92,7 @@ export class BrandsDetailsComponent implements OnInit, OnDestroy {
 
   addNetworkField(group?: BrandNetwork): void {
     const networkFormGroup = this._formBuilder.group({
-      network: [ group?.network || '' ],
+      network: [ group?.network || 'facebook' ],
       label:   [ group?.label   || '' ],
       url:     [ group?.url     || '' ],
     });
@@ -120,14 +115,14 @@ export class BrandsDetailsComponent implements OnInit, OnDestroy {
       networks: this._formBuilder.array([ ]),
     });
 
-    if ( brand.emails.length ) {
+    if ( brand?.emails.length ) {
       brand.emails.forEach(group => this.addEmailField( group ));
     }
     else {
       this.addEmailField();
     }
 
-    if ( brand.networks.length ) {
+    if ( brand?.networks.length ) {
       brand.networks.forEach(group => this.addNetworkField( group ));
     }
     else {
