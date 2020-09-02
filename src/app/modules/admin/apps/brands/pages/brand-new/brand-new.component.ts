@@ -18,10 +18,7 @@ export class BrandNewComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.brand = <Brand>{
-      emails:   [],
-      networks: [],
-    };
+    this.brand = <Brand>{ };
   }
 
   closeDrawer() {

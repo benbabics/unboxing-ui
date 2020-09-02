@@ -1,51 +1,57 @@
-<ng-container *ngIf="brand">
-  <form [formGroup]="brandForm" [ngClass]="{'edit-mode': editMode}">
-    
-    <!-- Actions -->
-    <div class="actions">
-      <ng-container
-        *ngTemplateOutlet="actions; context: { $implicit: brand }">
-      </ng-container>
-    </div>
+<form [ngClass]="{'edit-mode': editMode}"
+      [formGroup]="manageBrandForm" 
+      ngxsForm="brand.manageBrandForm">
+  
+  <!-- Actions -->
+  <div class="actions">
+    <ng-container
+      *ngTemplateOutlet="actions; context: { $implicit: brand }">
+    </ng-container>
+  </div>
 
-    <!-- Avatar and Name -->
-    <div class="avatar-and-name">
-      <ng-container
-        *ngTemplateOutlet="logo; context: { $implicit: brand, form: brandForm }">
-      </ng-container>
-    </div>
+  <!-- Avatar and Name -->
+  <div class="avatar-and-name">
+    <ng-container
+      *ngTemplateOutlet="logo; context: { $implicit: brand }">
+    </ng-container>
 
-    <!-- Website -->
-    <div class="address" 
-         *ngIf="brand.website || editMode">
+    <ng-container
+      *ngTemplateOutlet="name; context: { $implicit: brand, form: manageBrandForm }">
+    </ng-container>
+  </div>
 
-      <ng-container
-        *ngTemplateOutlet="website; context: { $implicit: brand, form: brandForm }">
-      </ng-container>
-    </div>
+  <!-- Website -->
+  <div class="address" 
+        *ngIf="brand.website || editMode">
 
-    <!-- Networks -->
-    <div class="phone-numbers"
-         *ngIf="brand.networks.length || editMode"
-         [ngClass]="{'editing': editMode}"
-         [formArrayName]="'networks'">
+    <ng-container
+      *ngTemplateOutlet="website; context: { $implicit: brand, form: manageBrandForm }">
+    </ng-container>
+  </div>
 
-      <ng-container
-        *ngTemplateOutlet="networks; context: { $implicit: brand, form: brandForm }">
-      </ng-container>
-    </div>
-    
-    <!-- Emails -->
-    <div class="emails" 
-         *ngIf="brand.emails.length || editMode">
+  <!-- Networks -->
+  <div class="phone-numbers"
+        *ngIf="brand.networks?.length || editMode"
+        [ngClass]="{'editing': editMode}"
+        [formArrayName]="'networks'">
 
-      <ng-container
-        *ngTemplateOutlet="emails; context: { $implicit: brand, form: brandForm }">
-      </ng-container>
-    </div>
+    <ng-container
+      *ngTemplateOutlet="networks; context: { $implicit: brand, form: manageBrandForm }">
+    </ng-container>
+  </div>
+  
+  <!-- Emails -->
+  <div class="emails" 
+       *ngIf="brand.emails?.length || editMode">
 
-  </form>
-</ng-container>
+    <ng-container
+      *ngTemplateOutlet="emails; context: { $implicit: brand, form: manageBrandForm }">
+    </ng-container>
+  </div>
+
+</form>
+
+
 
 
 <!-- Actions: Show -->
@@ -84,7 +90,7 @@
   <button 
     mat-icon-button 
     *ngIf="editMode"
-    [disabled]="brandForm.invalid"
+    [disabled]="manageBrandForm.invalid"
     [matTooltip]="'Save'"
     (click)="updateBrand()">
 
@@ -113,9 +119,11 @@
 </ng-template>
 
 
-<!-- Avatar and Name -->
-<ng-template #logo let-brand let-form="form">
-  <div class="avatar">
+<!-- Logo -->
+<ng-template #logo let-brand>
+  <div class="avatar" 
+       *ngIf="brand.id">
+
     <div class="upload" *ngIf="editMode">
       <input 
         #avatarFileInput
@@ -142,7 +150,11 @@
       <mat-icon svgIcon="heroicons_outline:speakerphone"></mat-icon>
     </div>
   </div>
+</ng-template>
 
+
+<!-- Name -->
+<ng-template #name let-brand let-form="form">
   <!-- View -->
   <div class="view" *ngIf="brand.name && !editMode">
     <div class="name">{{ brand.name }}</div>
@@ -150,13 +162,14 @@
 
   <!-- Edit -->
   <div class="edit" 
-       *ngIf="editMode" 
+       *ngIf="editMode"
+       [class.mt-12]="!brand.id"
        [formGroup]="form">
 
     <mat-form-field class="name edit treo-mat-no-subscript">
       <input 
         matInput 
-        [formControlName]="'name'" 
+        formControlName="name" 
         [placeholder]="'Name'" 
         [spellcheck]="false">
     </mat-form-field>
@@ -219,7 +232,7 @@
        [formGroup]="form">
 
     <div class="phone-number"
-          *ngFor="let network of brandForm.get('networks')['controls']; let i = index; let first = first; let last = last; trackBy: trackByFn">
+          *ngFor="let network of manageBrandForm.get('networks')['controls']; let i = index; let first = first; let last = last; trackBy: trackByFn">
 
       <mat-form-field class="treo-mat-no-subscript">
         <input matInput
@@ -302,7 +315,7 @@
        *ngIf="editMode" 
        [formGroup]="form">
 
-    <div class="email" *ngFor="let email of brandForm.get('emails')['controls']; let i = index; let first = first; let last = last; trackBy: trackByFn">
+    <div class="email" *ngFor="let email of manageBrandForm.get('emails')['controls']; let i = index; let first = first; let last = last; trackBy: trackByFn">
 
       <mat-form-field class="treo-mat-no-subscript">
         <input matInput [formControl]="email.get('email')" [placeholder]="'Email address'" [spellcheck]="false">

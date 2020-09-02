@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { State, Action, Selector } from '@ngxs/store';
 import { StateContext, Store } from '@ngxs/store';
 import { defaultEntityState, EntityStateModel, EntityState, IdStrategy, Add, Update, SetLoading } from '@ngxs-labs/entity-state';
-import { UpdateFormValue } from '@ngxs/form-plugin';
+import { UpdateFormDirty, UpdateFormValue } from '@ngxs/form-plugin';
 import { finalize, flatMap } from 'rxjs/operators';
 import { sortBy } from 'lodash';
 import { Brand } from './brand.action';
@@ -46,11 +46,21 @@ export class BrandState extends EntityState<Brand> {
   }
 
   @Action(Brand.Manage)
-  open(ctx: StateContext<BrandStateModel>, action: Brand.Manage) {
-    this.store.dispatch(new UpdateFormValue({
-      path: 'brand.manageBrandForm',
-      value: action.payload,
-    }));
+  manage(ctx: StateContext<BrandStateModel>, action: Brand.Manage) {
+    return new Promise(resolve => {
+      this.store.dispatch([
+        new UpdateFormValue({
+          path:  'brand.manageBrandForm',
+          value: action.payload,
+        }),
+
+        new UpdateFormDirty({
+          path: 'brand.manageBrandForm',
+          dirty: false,
+        }),
+      ])
+      .subscribe(() => resolve());
+    });
   }
 
   @Action(Brand.Create)

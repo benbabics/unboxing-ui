@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { Subject, Observable } from 'rxjs';
+import { Subject } from 'rxjs';
+import { tap, takeUntil, map } from 'rxjs/operators';
+import { Store, Actions, ofActionDispatched, ofActionCompleted } from '@ngxs/store';
 import { Brand, BrandEmail, BrandNetwork } from '../../../../../../../../projects/lib-common/src/public-api';
 import { BrandIndexComponent } from './../../pages';
 
@@ -24,25 +26,46 @@ export class BrandFormComponent implements OnInit, OnDestroy {
     { label: "Youtube",   value: "youtube", },
   ];
 
-  brandForm: FormGroup;
+  manageBrandForm: FormGroup;
 
   @Input() editMode: boolean = true;
 
   @Input() 
   set brand(brand: Brand) {
     this._brand = brand;
-    this.buildForm( brand );
+    this._store.dispatch( new Brand.Manage(brand) );
   }
   get brand(): Brand {
     return this._brand;
   }
 
   constructor(
+    actions$: Actions,
+    private _store: Store,
     private _formBuilder: FormBuilder,
     private _brandIndexComponent: BrandIndexComponent,
     private _changeDetectorRef: ChangeDetectorRef,
   ) {
     this._destroy$ = new Subject();
+
+    actions$.pipe(
+      ofActionDispatched( Brand.Manage ),
+      takeUntil(this._destroy$),
+      tap(() => this._buildForm()),
+    )
+    .subscribe();
+
+    const addField = (fn, arr = []) =>
+      arr.length ? arr.forEach(group => fn.call( this, group )) : fn.call( this );
+    
+    actions$.pipe(
+      ofActionCompleted( Brand.Manage ),
+      takeUntil( this._destroy$ ),
+      map(() => ({ emails: this.brand.emails, networks: this.brand.networks })),
+      tap(({ emails })   => addField( this.addEmailField,   emails )),
+      tap(({ networks }) => addField( this.addNetworkField, networks )),
+    )
+    .subscribe();
   }
 
   ngOnInit() {
@@ -80,12 +103,12 @@ export class BrandFormComponent implements OnInit, OnDestroy {
       label: [ group?.label || '' ],
     });
 
-    (this.brandForm.get('emails') as FormArray).push( emailFormGroup );
+    (this.manageBrandForm.get('emails') as FormArray).push( emailFormGroup );
     this._changeDetectorRef.markForCheck();
   }
 
   removeEmailField(index: number): void {
-    const emailsFormArray = this.brandForm.get('emails') as FormArray;
+    const emailsFormArray = this.manageBrandForm.get('emails') as FormArray;
     emailsFormArray.removeAt( index );
     this._changeDetectorRef.markForCheck();
   }
@@ -97,36 +120,22 @@ export class BrandFormComponent implements OnInit, OnDestroy {
       url:     [ group?.url     || '' ],
     });
 
-    (this.brandForm.get('networks') as FormArray).push( networkFormGroup );
+    (this.manageBrandForm.get('networks') as FormArray).push( networkFormGroup );
     this._changeDetectorRef.markForCheck();
   }
 
   removeNetworkField(index: number): void {
-    const networksFormArray = this.brandForm.get('networks') as FormArray;
+    const networksFormArray = this.manageBrandForm.get('networks') as FormArray;
     networksFormArray.removeAt( index );
     this._changeDetectorRef.markForCheck();
   }
 
-  private buildForm(brand: Brand): void {
-    this.brandForm = this._formBuilder.group({
-      name:     [ brand?.name, [ Validators.required ] ],
-      website:  [ brand?.website, [ Validators.required ] ],
+  private _buildForm(): void {
+    this.manageBrandForm = this._formBuilder.group({
+      name:     [ '', [ Validators.required ] ],
+      website:  [ '', [ Validators.required ] ],
       emails:   this._formBuilder.array([ ]),
       networks: this._formBuilder.array([ ]),
     });
-
-    if ( brand?.emails.length ) {
-      brand.emails.forEach(group => this.addEmailField( group ));
-    }
-    else {
-      this.addEmailField();
-    }
-
-    if ( brand?.networks.length ) {
-      brand.networks.forEach(group => this.addNetworkField( group ));
-    }
-    else {
-      this.addNetworkField();
-    }
   }
 }

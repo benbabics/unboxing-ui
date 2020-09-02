@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MAT_DATE_FORMATS, MatRippleModule } from '@angular/material/core';
@@ -31,6 +32,7 @@ import { BrandNewComponent } from './pages/brand-new/brand-new.component';
 @NgModule({
   imports: [
     RouterModule.forChild( routes ),
+    NgxsFormPluginModule,
     MatButtonModule,
     MatCheckboxModule,
     MatDatepickerModule,

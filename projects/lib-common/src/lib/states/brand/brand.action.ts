@@ -20,9 +20,10 @@ export interface Brand {
 }
 
 export namespace Brand {
+  
   export class Manage {
-    static readonly type = '[Brand] Modal Open';
-    constructor(public payload?: Brand) { }
+    static readonly type = '[Brand Form] Manage';
+    constructor(public payload: Partial<Brand>) { }
   }
 
   export class Create {
