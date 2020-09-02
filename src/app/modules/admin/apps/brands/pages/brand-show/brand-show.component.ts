@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 import { Store } from '@ngxs/store';
 import { Brand, BrandState } from '../../../../../../../../projects/lib-common/src/public-api';
 import { BrandIndexComponent } from './../brand-index/brand-index.component';
+import { ComponentCanDeactivateAndCloseDrawer } from '../../brands.guard';
 
 @Component({
   selector: 'brand-show',
   templateUrl: './brand-show.component.html',
   styleUrls: ['./brand-show.component.scss']
 })
-export class BrandShowComponent implements OnInit {
+export class BrandShowComponent implements OnInit, ComponentCanDeactivateAndCloseDrawer {
 
   brand$: Observable<Brand>;
   
@@ -31,5 +32,9 @@ export class BrandShowComponent implements OnInit {
 
   closeDrawer() {
     this._brandIndexComponent.closeDrawer();
+  }
+
+  canDeactivate(): Observable<boolean> {
+    return of( true );
   }
 }

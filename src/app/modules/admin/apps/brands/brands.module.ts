@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MAT_DATE_FORMATS, MatRippleModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -36,6 +37,7 @@ import { BrandNewComponent } from './pages/brand-new/brand-new.component';
     MatButtonModule,
     MatCheckboxModule,
     MatDatepickerModule,
+    MatDialogModule,
     MatDividerModule,
     MatFormFieldModule,
     MatIconModule,

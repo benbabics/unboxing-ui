@@ -39,6 +39,10 @@ export class BrandFormComponent implements OnInit, OnDestroy {
     return this._brand;
   }
 
+  get hasUnsavedChanges(): boolean {
+    return this.manageBrandForm.dirty;
+  }
+
   constructor(
     actions$: Actions,
     private _store: Store,
