@@ -1,10 +1,11 @@
-import { Select } from '@ngxs/store';
-import { takeUntil, tap, map } from 'rxjs/operators';
 import { Component, OnInit, ViewChild, ChangeDetectorRef, ViewEncapsulation, ChangeDetectionStrategy, OnDestroy, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { MatDrawer, MatDrawerToggleResult } from '@angular/material/sidenav';
+import { MatDrawer } from '@angular/material/sidenav';
 import { Subject, Observable } from 'rxjs';
+import { takeUntil, tap, map } from 'rxjs/operators';
+import { Select, Store } from '@ngxs/store';
+import { ClearActive } from '@ngxs-labs/entity-state';
 import { TreoMediaWatcherService } from '@treo/services/media-watcher/media-watcher.service';
 import { Brand, BrandState } from './../../../../../../../../projects/lib-common/src/public-api';
 
@@ -27,9 +28,10 @@ export class BrandIndexComponent implements OnInit, OnDestroy {
   @ViewChild('dialogSaveChanges') dialogSaveChangesRef: TemplateRef<any>;
   
   constructor(
+    private _store: Store,
+    private _router: Router,
     private _dialog: MatDialog,
     private _changeDetectorRef: ChangeDetectorRef,
-    private _router: Router,
     private _treoMediaWatcherService: TreoMediaWatcherService,
   ) {
     this._destroy$ = new Subject();
@@ -56,14 +58,16 @@ export class BrandIndexComponent implements OnInit, OnDestroy {
     this._changeDetectorRef.markForCheck();
   }
 
+  closeDrawer(): void {
+    this._store.dispatch( new ClearActive(BrandState) )
+      .toPromise()
+      .then(() => this.matDrawer.close())
+      .then(() => this._changeDetectorRef.markForCheck());
+  }
+
   openDialogSaveChanges(): Observable<boolean> {
     const dialogRef = this._dialog.open( this.dialogSaveChangesRef );
     return dialogRef.afterClosed();
-  }
-
-  closeDrawer(): void {
-    this.matDrawer.close();
-    this._changeDetectorRef.markForCheck();
   }
 
   navigateToBrand(id: string): void {

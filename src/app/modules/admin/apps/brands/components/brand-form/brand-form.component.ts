@@ -1,10 +1,13 @@
+import { CurrentAccountState } from './../../../../../../../../projects/lib-common/src/lib/states/app/current-account/current-account.state';
+import { CurrentAccount } from './../../../../../../../../projects/lib-common/src/lib/states/app/current-account/current-account.action';
 import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { tap, takeUntil, map } from 'rxjs/operators';
 import { find, fromPairs } from 'lodash';
-import { Store, Actions, ofActionDispatched, ofActionCompleted } from '@ngxs/store';
-import { Brand, BrandEmail, BrandNetwork } from '../../../../../../../../projects/lib-common/src/public-api';
+import { Store } from '@ngxs/store';
+import { UpdateFormDirty, UpdateFormValue } from '@ngxs/form-plugin';
+import { Brand, BrandState, BrandEmail, BrandNetwork } from '../../../../../../../../projects/lib-common/src/public-api';
 import { BrandIndexComponent } from './../../pages';
 
 @Component({
@@ -17,7 +20,6 @@ import { BrandIndexComponent } from './../../pages';
 export class BrandFormComponent implements OnInit, OnDestroy {
 
   private _destroy$: Subject<any>;
-  private _brand: Brand;
 
   private readonly _fieldCollections = [
     { id: "emails",   key: "email" },
@@ -33,27 +35,22 @@ export class BrandFormComponent implements OnInit, OnDestroy {
   ];
 
   manageBrandForm: FormGroup;
-
-  @Output() onSave    = new EventEmitter<Brand>();
-  @Output() onDestroy = new EventEmitter<string>();
+  brand$: Observable<Brand>;
 
   @Input() editMode: boolean = true;
-
-  @Input() 
-  set brand(brand: Brand) {
-    this._brand = brand;
-    this._store.dispatch( new Brand.Manage(brand) );
-  }
-  get brand(): Brand {
-    return this._brand;
-  }
+  
+  @Output() onSave    = new EventEmitter<Brand>();
+  @Output() onDestroy = new EventEmitter<string>();
 
   get hasUnsavedChanges(): boolean {
     return this.manageBrandForm.dirty;
   }
 
+  get fieldLogoUrl(): string {
+    return this.manageBrandForm.get( 'logoUrl' ).value;
+  }
+
   constructor(
-    actions$: Actions,
     private _store: Store,
     private _formBuilder: FormBuilder,
     private _brandIndexComponent: BrandIndexComponent,
@@ -61,24 +58,21 @@ export class BrandFormComponent implements OnInit, OnDestroy {
   ) {
     this._destroy$ = new Subject();
 
-    actions$.pipe(
-      ofActionDispatched( Brand.Manage ),
-      takeUntil(this._destroy$),
-      tap(() => this._buildForm()),
-    )
-    .subscribe();
-
-    const addField = (fn, arr = []) =>
+    const populateGroup = (fn, arr = []) =>
       arr.length ? arr.forEach(group => fn.call( this, group )) : fn.call( this );
     
-    actions$.pipe(
-      ofActionCompleted( Brand.Manage ),
-      takeUntil( this._destroy$ ),
-      map(() => ({ emails: this.brand.emails, networks: this.brand.networks })),
-      tap(({ emails })   => addField( this.addEmailField,   emails )),
-      tap(({ networks }) => addField( this.addNetworkField, networks )),
-    )
-    .subscribe();
+    this.brand$ = _store.select( BrandState.active )
+      .pipe(
+        takeUntil( this._destroy$ ),
+        map(brand => brand || {}),
+        tap(brand => this._buildForm( brand )),
+        tap(brand => _store.dispatch([
+          new UpdateFormValue({ path: "brand.manageBrandForm", value: brand }),
+          new UpdateFormDirty({ path: "brand.manageBrandForm", dirty: false }),
+        ])),
+        tap(brand => populateGroup( this.addEmailField, brand?.emails )),
+        tap(brand => populateGroup( this.addNetworkField, brand?.networks )),
+      );
   }
 
   ngOnInit() {
@@ -91,16 +85,18 @@ export class BrandFormComponent implements OnInit, OnDestroy {
   }
 
   uploadAvatar(fileList: FileList): void {
-    console.log('* uploadAvatar', fileList);
+    const logoUrl = prompt( `Enter a path for the logo` );
+    if ( logoUrl ) {
+      this.manageBrandForm.patchValue({ logoUrl });
+    }
   }
 
   removeAvatar(): void {
-    console.log('* removeAvatar');
+    this.manageBrandForm.patchValue({ logoUrl: "" });
   }
 
   updateBrand(): void {
     let brand = this.manageBrandForm.getRawValue();
-    if ( this.brand ) brand.id = this.brand.id;
 
     const filterCollection = (arr, key) =>
       arr.filter(item => !!item[ key ].trim());
@@ -115,9 +111,8 @@ export class BrandFormComponent implements OnInit, OnDestroy {
   }
 
   deleteBrand(): void {
-    if ( this.brand ) {
-      this.onDestroy.emit( this.brand.id );
-    }
+    let id = this.manageBrandForm.value.id;
+    this.onDestroy.emit( id );
   }
 
   trackByFn(index: number, item: any): any {
@@ -157,10 +152,18 @@ export class BrandFormComponent implements OnInit, OnDestroy {
     this._changeDetectorRef.markForCheck();
   }
 
-  private _buildForm(): void {
+  private _buildForm(brand?: Brand): void {
+    const accountId = this._store.selectSnapshot( CurrentAccountState.id );
+    
     this.manageBrandForm = this._formBuilder.group({
-      name:     [ '', [ Validators.required ] ],
-      website:  [ '', [ Validators.required ] ],
+      // static
+      id:        [ brand?.id ],
+      accountId: [ accountId ],
+      
+      // editable
+      name:     [ brand?.name,   [ Validators.required ] ],
+      website:  [ brand?.website ],
+      logoUrl:  [ brand?.logoUrl ],
       emails:   this._formBuilder.array([ ]),
       networks: this._formBuilder.array([ ]),
     });

@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, of, Subject } from 'rxjs';
 import { tap, takeUntil } from 'rxjs/operators';
 import { Store, Actions } from '@ngxs/store';
-import { EntityActionType, ofEntityActionSuccessful } from '@ngxs-labs/entity-state';
+import { ClearActive, EntityActionType, ofEntityActionSuccessful } from '@ngxs-labs/entity-state';
 import { Brand, BrandState } from '../../../../../../../../projects/lib-common/src/public-api';
 import { BrandIndexComponent } from './../brand-index/brand-index.component';
 import { ComponentCanDeactivateAndCloseDrawer } from '../../brands.guard';
@@ -40,7 +40,7 @@ export class BrandNewComponent implements OnInit, OnDestroy, ComponentCanDeactiv
   }
 
   ngOnInit() {
-    this.brand = <Brand>{ };
+    this._store.dispatch( new ClearActive(BrandState) );
   }
 
   ngOnDestroy() {

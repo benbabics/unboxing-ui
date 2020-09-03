@@ -97,6 +97,10 @@ brand-form {
             }
         }
 
+        &.show-mode .avatar {
+          animation: popin .25s ease;
+        }
+
         > .avatar-and-name {
             display: flex;
             flex-direction: column;
@@ -790,6 +794,13 @@ brand-form {
             }
         }
     }
+}
+
+
+@keyframes popin {
+  from { transform: scale(0) }
+  50% {  transform: scale(1.2) }
+  to {   transform: scale(1) }
 }
 
 // -----------------------------------------------------------------------------------------------------

@@ -36,6 +36,7 @@ export class BrandMockApi implements TreoMockApi {
         Object.assign(request.body, { accountId });
         
         const brandId = request.params.get( 'brandId' );
+        request.body.id = brandId;
         return this.http.put( `/mock-api/brands/${ brandId }`, request.body )
           .pipe(map(brand => [ 200, brand ]));
       });

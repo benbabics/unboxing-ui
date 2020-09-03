@@ -1,10 +1,10 @@
-import { EntityActionType, ofEntityActionSuccessful } from '@ngxs-labs/entity-state';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, of, Subject } from 'rxjs';
-import { map, withLatestFrom, takeUntil, tap } from 'rxjs/operators';
+import { map, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { Store, Actions } from '@ngxs/store';
+import { EntityActionType, ofEntityActionSuccessful, SetActive } from '@ngxs-labs/entity-state';
 import { Brand, BrandState } from '../../../../../../../../projects/lib-common/src/public-api';
 import { BrandIndexComponent } from './../brand-index/brand-index.component';
 import { ComponentCanDeactivateAndCloseDrawer } from '../../brands.guard';
@@ -19,8 +19,6 @@ export class BrandEditComponent implements OnInit, ComponentCanDeactivateAndClos
 
   private _destroy$ = new Subject();
   
-  brand$: Observable<Brand>;
-
   @ViewChild('brandForm', { static: true }) brandForm: BrandFormComponent;
   
   constructor(
@@ -52,11 +50,13 @@ export class BrandEditComponent implements OnInit, ComponentCanDeactivateAndClos
   }
 
   ngOnInit() {
-    this.brand$ = this._activatedRoute.params
-      .pipe(
-        withLatestFrom( this._store.select(BrandState.entitiesMap) ),
-        map(([ params, brands ]) => brands[ params.id ]),
-      );
+    this._activatedRoute.params.pipe(
+      takeUntil( this._destroy$ ),
+      tap(params => this._store.dispatch( new SetActive(BrandState, params.id) )),
+      withLatestFrom( this._store.select(BrandState.entitiesMap) ),
+      map(([ params, brands ]) => brands[ params.id ]),
+    )
+    .subscribe()
   }
 
   ngOnDestroy() {

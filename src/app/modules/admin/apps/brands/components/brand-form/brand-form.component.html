@@ -1,56 +1,56 @@
-<form [ngClass]="{'edit-mode': editMode}"
-      [formGroup]="manageBrandForm" 
-      ngxsForm="brand.manageBrandForm">
-  
-  <!-- Actions -->
-  <div class="actions">
-    <ng-container
-      *ngTemplateOutlet="actions; context: { $implicit: brand }">
-    </ng-container>
-  </div>
+<ng-container *ngIf="brand$ | async; let brand">
+  <form [ngClass]="{ 'edit-mode': editMode, 'show-mode': !editMode }"
+        [formGroup]="manageBrandForm" 
+        ngxsForm="brand.manageBrandForm">
+    
+    <!-- Actions -->
+    <div class="actions">
+      <ng-container
+        *ngTemplateOutlet="actions; context: { $implicit: brand }">
+      </ng-container>
+    </div>
 
-  <!-- Avatar and Name -->
-  <div class="avatar-and-name">
-    <ng-container
-      *ngTemplateOutlet="logo; context: { $implicit: brand }">
-    </ng-container>
+    <!-- Avatar and Name -->
+    <div class="avatar-and-name">
+      <ng-container
+        *ngTemplateOutlet="logo; context: { $implicit: brand }">
+      </ng-container>
 
-    <ng-container
-      *ngTemplateOutlet="name; context: { $implicit: brand, form: manageBrandForm }">
-    </ng-container>
-  </div>
+      <ng-container
+        *ngTemplateOutlet="name; context: { $implicit: brand, form: manageBrandForm }">
+      </ng-container>
+    </div>
 
-  <!-- Website -->
-  <div class="address" 
-        *ngIf="brand.website || editMode">
+    <!-- Website -->
+    <div class="address" 
+          *ngIf="brand.website || editMode">
 
-    <ng-container
-      *ngTemplateOutlet="website; context: { $implicit: brand, form: manageBrandForm }">
-    </ng-container>
-  </div>
+      <ng-container
+        *ngTemplateOutlet="website; context: { $implicit: brand, form: manageBrandForm }">
+      </ng-container>
+    </div>
 
-  <!-- Networks -->
-  <div class="phone-numbers"
-        *ngIf="brand.networks?.length || editMode"
-        [ngClass]="{'editing': editMode}"
-        [formArrayName]="'networks'">
+    <!-- Networks -->
+    <div class="phone-numbers"
+          *ngIf="brand.networks?.length || editMode"
+          [ngClass]="{'editing': editMode}"
+          [formArrayName]="'networks'">
 
-    <ng-container
-      *ngTemplateOutlet="networks; context: { $implicit: brand, form: manageBrandForm }">
-    </ng-container>
-  </div>
-  
-  <!-- Emails -->
-  <div class="emails" 
-       *ngIf="brand.emails?.length || editMode">
+      <ng-container
+        *ngTemplateOutlet="networks; context: { $implicit: brand, form: manageBrandForm }">
+      </ng-container>
+    </div>
+    
+    <!-- Emails -->
+    <div class="emails" 
+        *ngIf="brand.emails?.length || editMode">
 
-    <ng-container
-      *ngTemplateOutlet="emails; context: { $implicit: brand, form: manageBrandForm }">
-    </ng-container>
-  </div>
-
-</form>
-
+      <ng-container
+        *ngTemplateOutlet="emails; context: { $implicit: brand, form: manageBrandForm }">
+      </ng-container>
+    </div>
+  </form>
+</ng-container>
 
 
 
@@ -143,10 +143,12 @@
         <mat-icon [svgIcon]="'delete'"></mat-icon>
       </button>
     </div>
+    
+    <img *ngIf="fieldLogoUrl" 
+         [src]="fieldLogoUrl"
+         #avatar>
 
-    <img *ngIf="brand.logoUrl" [src]="brand.logoUrl" #avatar>
-
-    <div class="no-avatar" *ngIf="!brand.logoUrl">
+    <div class="no-avatar" *ngIf="!fieldLogoUrl">
       <mat-icon svgIcon="heroicons_outline:speakerphone"></mat-icon>
     </div>
   </div>

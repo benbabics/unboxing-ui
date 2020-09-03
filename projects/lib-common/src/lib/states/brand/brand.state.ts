@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Store, State, Action, Selector, StateContext } from '@ngxs/store';
 import { defaultEntityState, EntityStateModel, EntityState, IdStrategy, Add, Update, SetLoading, Remove } from '@ngxs-labs/entity-state';
-import { UpdateFormDirty, UpdateFormValue } from '@ngxs/form-plugin';
+import { UpdateFormDirty } from '@ngxs/form-plugin';
 import { finalize, flatMap } from 'rxjs/operators';
 import { sortBy } from 'lodash';
 import { Brand } from './brand.action';
-import { CurrentAccount, CurrentAccountState } from './../app/current-account';
 
 export interface BrandStateModel extends EntityStateModel<Brand> {
   manageBrandForm,
@@ -27,10 +26,6 @@ export interface BrandStateModel extends EntityStateModel<Brand> {
 @Injectable()
 export class BrandState extends EntityState<Brand> {
 
-  get account(): CurrentAccount {
-    return this.store.selectSnapshot( CurrentAccountState.details );
-  }
-  
   @Selector()
   static sortedEntities(state: BrandStateModel) {
     return sortBy( state.entities, [ 'name' ] );
@@ -40,27 +35,13 @@ export class BrandState extends EntityState<Brand> {
     private store: Store,
     private http: HttpClient,
   ) {
-    super(BrandState, 'id', IdStrategy.EntityIdGenerator);
-  }
-
-  @Action( Brand.Manage )
-  manage(ctx: StateContext<BrandStateModel>, action: Brand.Manage) {
-    const path = "brand.manageBrandForm";
-
-    return new Promise(resolve => {
-      this.store.dispatch([
-        new UpdateFormValue({ path, value: action.payload }),
-        new UpdateFormDirty({ path, dirty: false }),
-      ])
-      .subscribe(() => resolve());
-    });
+    super( BrandState, 'id', IdStrategy.EntityIdGenerator );
   }
 
   @Action( Brand.Create )
   crudCreate(ctx: StateContext<BrandStateModel>, { payload }: Brand.Create) {
     this.toggleLoading( true );
     
-    payload.accountId = this.account.id;
     return this.http.post<Brand>( `/api/accounts/${ payload.accountId }/brands`, payload )
       .pipe(
         flatMap(brand => this.store.dispatch([
