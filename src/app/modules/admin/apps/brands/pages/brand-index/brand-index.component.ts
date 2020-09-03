@@ -17,10 +17,9 @@ import { Brand, BrandState } from './../../../../../../../../projects/lib-common
 })
 export class BrandIndexComponent implements OnInit, OnDestroy {
 
-  private destroy$: Subject<any>;
+  private _destroy$: Subject<any>;
   
   drawerMode: 'side' | 'over';
-  contactsCount: number;
 
   @Select( BrandState.entities ) brands$: Observable<Brand[]>;
 
@@ -28,19 +27,18 @@ export class BrandIndexComponent implements OnInit, OnDestroy {
   @ViewChild('dialogSaveChanges') dialogSaveChangesRef: TemplateRef<any>;
   
   constructor(
-    public dialog: MatDialog,
+    private _dialog: MatDialog,
     private _changeDetectorRef: ChangeDetectorRef,
     private _router: Router,
     private _treoMediaWatcherService: TreoMediaWatcherService,
   ) {
-    this.destroy$ = new Subject();
-    this.contactsCount = 3;
+    this._destroy$ = new Subject();
   }
 
   ngOnInit() {
     this._treoMediaWatcherService.onMediaQueryChange$( '(min-width: 1440px)' )
       .pipe(
-        takeUntil( this.destroy$ ),
+        takeUntil( this._destroy$ ),
         map(({ matches }) => matches ? 'side' : 'over'),
         tap((drawerMode: any) => this.drawerMode = drawerMode),
         tap(() => this._changeDetectorRef.markForCheck()),
@@ -49,8 +47,8 @@ export class BrandIndexComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this._destroy$.next();
+    this._destroy$.complete();
   }
 
   openDrawer(): void {
@@ -59,7 +57,7 @@ export class BrandIndexComponent implements OnInit, OnDestroy {
   }
 
   openDialogSaveChanges(): Observable<boolean> {
-    const dialogRef = this.dialog.open( this.dialogSaveChangesRef );
+    const dialogRef = this._dialog.open( this.dialogSaveChangesRef );
     return dialogRef.afterClosed();
   }
 
