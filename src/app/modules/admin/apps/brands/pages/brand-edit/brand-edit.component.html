@@ -1,5 +1,7 @@
 <brand-form 
   #brandForm
   [editMode]="true"
-  [brand]="brand$ | async">
+  [brand]="brand$ | async"
+  (onSave)="handleBrandSave( $event )"
+  (onDestroy)="handleBrandDestroy( $event )">
 </brand-form>

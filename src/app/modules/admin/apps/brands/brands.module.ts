@@ -16,6 +16,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import * as moment from 'moment';
@@ -49,6 +50,7 @@ import { BrandNewComponent } from './pages/brand-new/brand-new.component';
     MatRippleModule,
     MatSelectModule,
     MatSidenavModule,
+    MatSnackBarModule,
     MatTableModule,
     MatTooltipModule,
     TreoCardModule,
@@ -63,5 +65,15 @@ import { BrandNewComponent } from './pages/brand-new/brand-new.component';
     BrandIndexComponent,
     BrandNewComponent,
   ],
+  providers: [
+    { 
+      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+      useValue: {
+        duration: 3000,
+        horizontalPosition: 'end',
+        verticalPosition:   'bottom',
+      }
+    },
+  ]
 })
 export class BrandsModule { }

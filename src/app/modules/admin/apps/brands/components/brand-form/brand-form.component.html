@@ -220,7 +220,7 @@
         </mat-icon>
 
         <a [href]="network.url" class="link" target="_blank">
-          {{ network.label }}
+          {{ network.label || network.url }}
         </a>
       </div>
     </div>

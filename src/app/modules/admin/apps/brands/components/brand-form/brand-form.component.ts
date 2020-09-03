@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef, Input } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { tap, takeUntil, map } from 'rxjs/operators';
+import { find, fromPairs } from 'lodash';
 import { Store, Actions, ofActionDispatched, ofActionCompleted } from '@ngxs/store';
 import { Brand, BrandEmail, BrandNetwork } from '../../../../../../../../projects/lib-common/src/public-api';
 import { BrandIndexComponent } from './../../pages';
@@ -17,6 +18,11 @@ export class BrandFormComponent implements OnInit, OnDestroy {
 
   private _destroy$: Subject<any>;
   private _brand: Brand;
+
+  private readonly _fieldCollections = [
+    { id: "emails",   key: "email" },
+    { id: "networks", key: "url" },
+  ];
   
   readonly optionsNetworks = [
     { label: "Facebook",  value: "facebook", },
@@ -27,6 +33,9 @@ export class BrandFormComponent implements OnInit, OnDestroy {
   ];
 
   manageBrandForm: FormGroup;
+
+  @Output() onSave    = new EventEmitter<Brand>();
+  @Output() onDestroy = new EventEmitter<string>();
 
   @Input() editMode: boolean = true;
 
@@ -90,11 +99,25 @@ export class BrandFormComponent implements OnInit, OnDestroy {
   }
 
   updateBrand(): void {
-    console.log('* updateBrand');
+    let brand = this.manageBrandForm.getRawValue();
+    if ( this.brand ) brand.id = this.brand.id;
+
+    const filterCollection = (arr, key) =>
+      arr.filter(item => !!item[ key ].trim());
+
+    brand = Object.entries( brand )
+      .map(([ key, value ]: any[]) => {
+        const field = find(this._fieldCollections, { id: key });
+        return [ key, field ? filterCollection( value, field.key ) : value ];
+      });
+
+    this.onSave.emit( <Brand>fromPairs(brand) );
   }
 
   deleteBrand(): void {
-    console.log('* deleteBrand');
+    if ( this.brand ) {
+      this.onDestroy.emit( this.brand.id );
+    }
   }
 
   trackByFn(index: number, item: any): any {

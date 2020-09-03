@@ -29,6 +29,11 @@ export class CurrentAccountState {
   }
 
   @Selector()
+  static id({ id }: CurrentAccountStateModel): string {
+    return id;
+  }
+  
+  @Selector()
   static details(state: CurrentAccountStateModel): CurrentAccount {
     return state;
   }

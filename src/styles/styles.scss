@@ -1,3 +1,5 @@
+@import 'treo';
+
 // -----------------------------------------------------------------------------------------------------
 // @ You can use this file to import custom styles.
 //
@@ -11,5 +13,21 @@
         color: inherit;
       }
     }
+  }
+}
+
+
+// -----------------------------------------------------------------------------------------------------
+// @ Theming
+// -----------------------------------------------------------------------------------------------------
+@include treo-theme {
+
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+  $primary: map-get($theme, primary);
+  $is-dark: map-get($theme, is-dark);
+
+  .mat-simple-snackbar-action {
+    color: map-get($primary, default);
   }
 }
