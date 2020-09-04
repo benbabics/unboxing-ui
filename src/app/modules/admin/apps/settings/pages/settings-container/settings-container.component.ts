@@ -31,7 +31,7 @@ export class SettingsContainerComponent implements OnInit, OnDestroy {
     this._treoMediaWatcherService.onMediaChange$
       .pipe( takeUntil(this._destroy$) )
       .subscribe(({ matchingAliases }) => {
-        if ( matchingAliases.includes('lt-md') ) {
+        if ( matchingAliases.includes('lt-lg') ) {
           this.drawerMode = 'over';
           this.drawerOpened = false;
         }

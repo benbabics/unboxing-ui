@@ -3,7 +3,8 @@ import { Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { flatMap, tap, map } from 'rxjs/operators';
 import { Store, Actions, ofActionSuccessful } from '@ngxs/store';
-import { AppState, Auth, CurrentAccount, CurrentAccountState, CurrentUser, Ui } from '../../projects/lib-common/src/public-api';
+import { TreoConfigService } from '@treo/services/config/config.service';
+import { AppState, Auth, CurrentAccount, CurrentAccountState, CurrentUser, Ui, UiState } from '../../projects/lib-common/src/public-api';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,7 @@ export class AppComponent {
     store: Store,
     router: Router,
     actions$: Actions,
+    treoConfigService: TreoConfigService,
     @Inject( DOCUMENT ) private document: any,
   ) {
     actions$.pipe(
@@ -46,6 +48,11 @@ export class AppComponent {
       map(logo   => ({ logo })),
       map(detail => new CustomEvent( 'accountChanged', { detail } )),
       tap(event  => this.document.dispatchEvent( event )),
+    )
+    .subscribe();
+
+    store.select( UiState.themeAppearance ).pipe(
+      tap(theme => treoConfigService.config = { theme }),
     )
     .subscribe();
   }

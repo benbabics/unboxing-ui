@@ -1,7 +1,10 @@
-import { SettingsUiComponent } from './pages/settings-ui/settings-ui.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { SettingsContainerComponent } from './pages/settings-container/settings-container.component';
+import {
+  SettingsContainerComponent,
+  SettingsAccountComponent,
+  SettingsUiComponent,
+} from './pages';
 
 
 const routes: Routes = [
@@ -13,11 +16,22 @@ const routes: Routes = [
     },
     children: [
       {
+        path: "account",
+        component: SettingsAccountComponent,
+        data: {
+          breadcrumb: "Personal Account"
+        },
+      },
+      {
         path: "ui",
         component: SettingsUiComponent,
         data: {
           breadcrumb: "User Interface"
         },
+      },
+      {
+        path: "",
+        redirectTo: "ui"
       }
     ]
   }

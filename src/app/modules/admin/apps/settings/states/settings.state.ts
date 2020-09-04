@@ -3,12 +3,20 @@ import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { Settings } from './settings.action';
 import { settingsNavigation } from './../../../../../../../projects/lib-common/src/public-api';
 
-export interface SettingsStateModel extends Settings { }
+export interface SettingsStateModel extends Settings {
+  manageSettingsForm,
+}
 
 @State<SettingsStateModel>({
   name: 'settings',
   defaults: {
     navigationItems: [],
+    manageSettingsForm: {
+      model: undefined,
+      dirty: false,
+      status: '',
+      errors: {}
+    }
   },
 })
 @Injectable()
