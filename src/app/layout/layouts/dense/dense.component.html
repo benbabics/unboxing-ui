@@ -1,0 +1,56 @@
+<!-- Navigation -->
+<ng-container *ngIf="currentAccount$ | async; let currentAccount">
+  <treo-vertical-navigation 
+    class="theme-dark"
+    [appearance]="navigationAppearance"
+    [mode]="isScreenSmall ? 'over' : 'side'"
+    [name]="'mainNavigation'"
+    [navigation]="navigation$ | async"
+    [opened]="!isScreenSmall">
+
+    <div treoVerticalNavigationContentHeader>
+      <a routerLink="/context" class="logo">
+        <img [src]="currentAccount.logo" [alt]="currentAccount.title">
+      </a>
+    </div>
+  </treo-vertical-navigation>
+</ng-container>
+
+<!-- Wrapper -->
+<div class="wrapper">
+  <div class="header">
+    <button 
+      class="navigation-toggle-button"
+      mat-icon-button
+      (click)="toggleNavigation('mainNavigation')">
+        <mat-icon [svgIcon]="'menu'"></mat-icon>
+    </button>
+
+    <button 
+      class="navigation-appearance-toggle-button"
+      [ngClass]="{mirror: navigationAppearance === 'dense'}"
+      mat-icon-button
+      (click)="toggleNavigationAppearance()">
+        <mat-icon [svgIcon]="'menu_open'"></mat-icon>
+    </button>
+
+    <div class="spacer"></div>
+
+    <search [appearance]="'bar'"></search>
+    <shortcuts [shortcuts]="data.shortcuts"></shortcuts>
+    <messages [messages]="data.messages"></messages>
+    <notifications [notifications]="data.notifications"></notifications>
+    <user></user>
+  </div>
+
+  <div class="content">
+    <!-- 
+      *ngIf="true" hack is required here for router-outlet to work correctly. Otherwise, it won't register the changes on the layout and won't update the view.
+    -->
+    <router-outlet *ngIf="true"></router-outlet>
+  </div>
+
+  <div class="footer">
+    Unboxing &copy; {{ currentYear }}
+  </div>
+</div>
