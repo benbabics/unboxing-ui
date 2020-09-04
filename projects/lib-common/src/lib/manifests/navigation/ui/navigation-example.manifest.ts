@@ -1,6 +1,6 @@
 import { TreoNavigationItem } from '@treo/components/navigation';
 
-export const exampleNavigation: TreoNavigationItem[] = [
+export const exampleUiNavigation: TreoNavigationItem[] = [
   {
     id: 'apps',
     title: 'APPS',

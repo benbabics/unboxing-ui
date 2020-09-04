@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { State, Store, Action, StateContext, Selector } from '@ngxs/store';
 import { Ui, UiNavigationAppearance } from './ui.action';
-import { defaultNavigation } from './../../manifests';
+import { defaultUiNavigation } from './../../manifests';
 
 export interface UiStateModel extends Ui { }
 
@@ -47,7 +47,7 @@ export class UiState {
 
   @Action( Ui.LoadNavigationItems )
   loadNavigationItems(ctx: StateContext<UiStateModel>) {
-    const navigationItems = defaultNavigation;
+    const navigationItems = defaultUiNavigation;
     ctx.patchState({ navigationItems });
   }
 
