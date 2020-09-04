@@ -38,12 +38,12 @@ export class InitialDataResolver implements Resolve<any> {
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
     return forkJoin([
       this._loadMessages(),
-      this._loadNavigation(),
       this._loadNotifications(),
       this._loadShortcuts(),
+      this._loadNavigation(),
     ])
     .pipe(
-      map(([ messages, navigation, notifications, shortcuts, ]) => {
+      map(([ messages, notifications, shortcuts, ]) => {
         return {
           messages,
           notifications,

@@ -1,5 +1,6 @@
 import { AuthMockApi } from 'app/data/mock/auth';
 import { AccountMockApi } from 'app/data/mock/account';
+import { BrandMockApi } from 'app/data/mock/brand';
 
 import { CalendarMockApi } from 'app/data/mock/apps/calendar';
 import { ContactsMockApi } from 'app/data/mock/apps/contacts';
@@ -21,6 +22,7 @@ import { UserMockApi } from 'app/data/mock/common/user';
 export const mockDataServices = [
   AuthMockApi,
   AccountMockApi,
+  BrandMockApi,
   
   AnalyticsMockApi,
   CalendarMockApi,

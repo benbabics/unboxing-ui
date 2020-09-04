@@ -1,0 +1,175 @@
+@import 'treo';
+
+brand-index {
+  display: flex;
+  flex: 1 1 auto;
+
+  .content-layout {
+    .background {
+      position: fixed;
+      top:  0;
+      left: 0;
+      width:  100%;
+      height: 100%;
+      -moz-transform: scale(-1, -1);
+        -o-transform: scale(-1, -1);
+        -webkit-transform: scale(-1, -1);
+        transform: scale(-1, -1);
+
+      path {
+        opacity: 0.1;
+      }
+    }
+  }
+
+  .mat-drawer-container {
+    .mat-drawer {
+      width:     512px !important;
+      min-width: 512px !important;
+      max-width: 512px !important;
+
+      @include treo-breakpoint('xs') {
+        width:     100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+      }
+    }
+
+    .mat-drawer-content {
+      .main {
+        padding: 0 !important;
+        min-height: 100%;
+
+        .header {
+          display: flex;
+          flex: 1 1 auto;
+          align-items: center;
+          padding: 40px 32px;
+          border-bottom-width: 1px;
+
+          @include treo-breakpoint('xs') {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+
+          .title {
+            margin-right: 32px;
+
+            @include treo-breakpoint('xs') {
+              margin-right: 0;
+            }
+
+            h1 {
+              margin: 0;
+              line-height: 1;
+            }
+          }
+
+          .entity-count {
+            margin-left: 2px;
+            font-weight: 500;
+          }
+
+          .main-actions {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+
+            @include treo-breakpoint('xs') {
+              margin-top: 32px;
+              margin-left: 0;
+              width: 100%;
+            }
+
+            .search {
+              flex: 1 1 auto;
+              margin-right: 16px;
+              min-width: 200px;
+              width: 100%;
+
+              @include treo-breakpoint('xs') {
+                min-width: 0;
+              }
+
+              .mat-form-field {
+                width: 100%;
+              }
+            }
+
+            .add-entity {
+              flex: 1 0 auto;
+              padding: 0 20px 0 16px;
+
+              .mat-icon {
+                margin-right: 8px;
+                @include treo-icon-size(20);
+              }
+            }
+          }
+        }
+
+        .entity-list {
+          padding: 40px 32px;
+
+          treo-card + treo-card {
+            margin-top: 32px;
+          }
+
+          .no-entities {
+            padding: 64px;
+            font-size: 24px;
+            text-align: center;
+
+            @include treo-breakpoint('xs') {
+              padding: 32px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------------------------------
+// @ Theming
+// -----------------------------------------------------------------------------------------------------
+@include treo-theme {
+
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+  $primary: map-get($theme, primary);
+  $is-dark: map-get($theme, is-dark);
+
+  brand-index {
+    .background {
+      path {
+        @if ($is-dark) {
+          fill: treo-color('cool-gray', 800);
+        } @else {
+          fill: treo-color('blue', 300);
+        }
+      }
+    }
+
+    .mat-drawer-container {
+      .mat-drawer-content {
+        .main {
+          .header {
+            .entity-count {
+              color: map-get($foreground, secondary-text);
+            }
+          }
+
+          .entity-list {
+          }
+        }
+      }
+
+      .mat-drawer {
+        @if ($is-dark) {
+          background: map-get($background, background);
+        }
+      }
+    }
+  }
+}

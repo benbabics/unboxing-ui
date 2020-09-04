@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { finalize, tap } from 'rxjs/operators';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { finalize, map } from 'rxjs/operators';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
+import { Reset, CreateOrReplace } from '@ngxs-labs/entity-state';
 import { CurrentAccount } from './current-account.action';
+import { AccountState } from './../../account';
+import { BrandState } from './../../brand';
+import { ProjectState } from '../../project';
 
 export interface CurrentAccountStateModel extends CurrentAccount {
 }
@@ -24,6 +28,11 @@ export class CurrentAccountState {
     return !!id;
   }
 
+  @Selector()
+  static id({ id }: CurrentAccountStateModel): string {
+    return id;
+  }
+  
   @Selector()
   static details(state: CurrentAccountStateModel): CurrentAccount {
     return state;
@@ -47,13 +56,25 @@ export class CurrentAccountState {
   @Action(CurrentAccount.Refresh)
   refresh(ctx: StateContext<CurrentAccountStateModel>) {
     const id = ctx.getState().id;
-
     if (!id) return Promise.resolve();
 
+    let params = new HttpParams();
+    params = params.append('_embed', 'brands');
+    params = params.append('_embed', 'projects');
+
     return new Promise(resolve => {
-      this.http.get<CurrentAccount>( `/api/accounts/${id}` )
+      this.http.get<CurrentAccount>( `/api/accounts/${id}`, { params } )
         .pipe(
-          tap(account => this.store.dispatch( new CurrentAccount.Select(account) )),
+          map(({ brands, projects, ...account }: any) =>
+            this.store.dispatch([
+              ctx.patchState( account ),
+              new CreateOrReplace( AccountState, account ),
+              new Reset( BrandState ),
+              new CreateOrReplace( BrandState, brands ),
+              new Reset( ProjectState ),
+              new CreateOrReplace( ProjectState, projects ),
+            ])
+          ),
           finalize(() => resolve()),
         )
         .subscribe();
@@ -62,7 +83,8 @@ export class CurrentAccountState {
 
   @Action(CurrentAccount.Select)
   select(ctx: StateContext<CurrentAccountStateModel>, { payload }: CurrentAccount.Select) {
-    return ctx.patchState( payload );
+    ctx.patchState( payload );
+    return this.store.dispatch( new CurrentAccount.Refresh() );
   }
 
   @Action(CurrentAccount.Clear)

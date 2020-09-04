@@ -1,0 +1,153 @@
+<div class="content-layout right-sidebar-fullheight-basic-inner-scroll">
+  <mat-drawer-container (backdropClick)="handleClickBackdrop()">
+    <mat-drawer 
+      #matDrawer
+      [mode]="drawerMode"
+      [opened]="false"
+      [position]="'end'"
+      [disableClose]="true">
+
+      <router-outlet></router-outlet>
+
+    </mat-drawer>
+
+    <mat-drawer-content>
+      <ng-container *ngTemplateOutlet="background">
+      </ng-container>
+      
+      <ng-container *ngIf="brands$ | async; let brands">
+        <div class="main">
+          <div class="header">
+            <ng-container 
+              *ngTemplateOutlet="contentHeader; context: { $implicit: brands }">
+            </ng-container>
+          </div>
+
+          <div class="entity-list">
+            <ng-container 
+              *ngTemplateOutlet="contentList; context: { $implicit: brands }">
+            </ng-container>
+          </div>
+        </div>
+      </ng-container>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</div>
+
+
+<!-- Header -->
+<ng-template #contentHeader let-brands>
+  <div class="title">
+    <h1>Brands</h1>
+    
+    <div class="entity-count">
+      <ng-container *ngIf="brands.length > 0">
+        {{ brands.length }}
+      </ng-container>
+
+      {{ brands.length | i18nPlural: {
+        '=0':    'No brands',
+        '=1':    'brand',
+        'other': 'brands'
+      } }}
+    </div>
+  </div>
+
+  <div class="main-actions">
+    <button
+      class="add-entity"
+      mat-flat-button
+      color="primary"
+      routerLink="./new">
+      
+      <mat-icon svgIcon="add"></mat-icon>
+      Add
+
+    </button>
+  </div>
+</ng-template>
+
+
+<!-- List -->
+<ng-template #contentList let-brands>
+  <ng-container 
+    *ngFor="let brand of brands" 
+    [ngTemplateOutlet]="cardBrand" 
+    [ngTemplateOutletContext]="{ $implicit: brand }">
+  </ng-container>
+</ng-template>
+
+
+<!-- Card -->
+<ng-template #cardBrand let-brand>
+  <treo-card [routerLink]="[ '.', brand.id ]" class="flex flex-col gt-md:flex-row max-w-100 gt-sm:max-w-140 w-full filter-pricing">
+    <div class="flex flex-col p-8 order-2 gt-sm:order-1">
+      <div class="text-2xl font-semibold leading-tight">{{ brand.name }}</div>
+      <div class="flex items-center leading-none mt-2 -ml-1">
+        <div class="flex items-center">
+          <mat-icon class="text-orange icon-size-20" [svgIcon]="'mat_outline:star'"></mat-icon>
+          <mat-icon class="text-orange icon-size-20" [svgIcon]="'mat_outline:star'"></mat-icon>
+          <mat-icon class="text-orange icon-size-20" [svgIcon]="'mat_outline:star'"></mat-icon>
+          <mat-icon class="text-orange icon-size-20" [svgIcon]="'mat_outline:star'"></mat-icon>
+          <mat-icon class="text-orange icon-size-20" [svgIcon]="'mat_outline:star_half'"></mat-icon>
+        </div>
+        <div class="text-secondary ml-2">4.5</div>
+        <div class="text-secondary mx-2">&bull;</div>
+        <div class="text-secondary">98 reviews</div>
+      </div>
+      <div class="mt-6">
+        <div class="flex flex-wrap items-center text-secondary my-1">
+          <span>$$</span>
+          <span class="mx-2">&bull;</span>
+          <span class="whitespace-no-wrap">Arabian, Brazilian, Colombian</span>
+        </div>
+        <div class="flex items-center text-secondary my-1">
+          <span>774 Riverview St.</span>
+        </div>
+        <div class="flex flex-wrap items-center text-secondary my-1">
+          <span>Open</span>
+          <span class="mx-2">&bull;</span>
+          <span class="whitespace-no-wrap">07:00AM Weekdays</span>
+          <span class="mx-2">&bull;</span>
+          <span class="whitespace-no-wrap">10:00AM Weekends</span>
+        </div>
+      </div>
+      <div class="flex items-center mt-3 -mx-3">
+        <button class="px-3 mr-1" mat-button [color]="'primary'" [routerLink]="['./']">
+          Location
+        </button>
+        <button class="px-3" mat-button [color]="'primary'" [routerLink]="['./']">
+          Reviews
+        </button>
+      </div>
+    </div>
+    <div class="flex flex-col items-center order-1 gt-sm:order-2 justify-start px-10 py-10">
+      <img class="w-60" [src]="brand.logoUrl">
+    </div>
+  </treo-card>
+</ng-template>
+
+
+<!-- Background -->
+<ng-template #background>
+  <!-- Background - Inline SVG for easy customizations -->
+  <svg class="background" viewBox="0 0 1531 891" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 182c144.327 47.973 534.462 219.712 440.509 369.87C346.555 702.028 79.877 662.846 0 638V182z"></path>
+    <path d="M1405 848c-424.366 158.009-437-164-437-272s102-425 563-576v769c-21.333 29.333-63.333 55.667-126 79z"></path>
+    <path
+      d="M1531 162c-122.914-17.284-377.96 33.191-543.433 206.414C822.095 541.636 797.342 648.75 835.842 731.622c38.5 82.871 198.243 134.841 400.555 92.053C1438.71 780.886 1492.752 775.894 1531 768V162z">
+    </path>
+  </svg>
+</ng-template>
+
+
+<!-- Save Changes Modal -->
+<ng-template #dialogSaveChanges>
+  <h2 mat-dialog-title>Discard Changes?</h2>
+
+  <mat-dialog-content class="mat-typography">
+    <p>Your changes have not been saved. Are sure you want to leave?</p>
+    <button mat-button [mat-dialog-close]="true">Yes</button>
+    <button mat-button [mat-dialog-close]="false" cdkFocusInitial>No</button>
+  </mat-dialog-content>
+</ng-template>
