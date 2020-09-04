@@ -3,6 +3,11 @@
 $treo-vertical-navigation-width: 280;
 $treo-vertical-navigation-dense-width: 72;
 
+@keyframes scaleLogo {
+  0%   { width: 32px; height: 32px; }
+  100% { width: 4rem; height: 4rem; }
+}
+
 dense-layout {
     position: relative;
     display: flex;
@@ -37,6 +42,11 @@ dense-layout {
                   }
                   &.classic {
                     @extend %logo-classic;
+
+                    &.animateScale {
+                      animation-delay: .25;
+                      animation: scaleLogo .5s ease-in-out;
+                    }
                   }
                 }
             }
@@ -228,6 +238,12 @@ dense-layout {
 
             .navigation-toggle-button {
                 margin-right: 8px;
+            }
+
+            .navigation-toggle-button {
+              @include treo-breakpoint('gt-sm') {
+                  display: none !important;
+                }
             }
 
             .navigation-appearance-toggle-button {

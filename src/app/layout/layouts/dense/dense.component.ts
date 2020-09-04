@@ -17,10 +17,11 @@ export class DenseLayoutComponent implements OnInit, OnDestroy {
   
   data: any;
   isScreenSmall: boolean;
-  navigationAppearance$: Observable<UiNavigationAppearance>;
-
+  hasToggledNavigation: boolean;
+  
   @Select( CurrentAccountState.details ) currentAccount$: Observable<CurrentAccount>;
   @Select( UiState.navigationItems ) navigationItems$: Observable<UiNavigationItem[]>;
+  @Select( UiState.navigationAppearance ) navigationAppearance$: Observable<UiNavigationAppearance>;
 
   @HostBinding( 'class.fixed-header' ) fixedHeader: boolean;
   @HostBinding( 'class.fixed-footer' ) fixedFooter: boolean;
@@ -36,9 +37,7 @@ export class DenseLayoutComponent implements OnInit, OnDestroy {
   ) {
     this.fixedHeader = false;
     this.fixedFooter = false;
-
-    this.navigationAppearance$ = _store.select( UiState.navigationAppearance )
-      .pipe( takeUntil(this._destroy$) );
+    this.hasToggledNavigation = false;
   }
   
   get currentYear(): number {
@@ -67,6 +66,7 @@ export class DenseLayoutComponent implements OnInit, OnDestroy {
   }
 
   toggleNavigationAppearance(): void {
+    this.hasToggledNavigation = true;
     this._store.dispatch( new Ui.ToggleNavigationAppearance() );
   }
 }
