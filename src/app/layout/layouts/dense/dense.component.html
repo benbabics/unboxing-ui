@@ -2,15 +2,18 @@
 <ng-container *ngIf="currentAccount$ | async; let currentAccount">
   <treo-vertical-navigation 
     class="theme-dark"
-    [appearance]="navigationAppearance"
+    [appearance]="navigationAppearance$ | async"
     [mode]="isScreenSmall ? 'over' : 'side'"
     [name]="'mainNavigation'"
-    [navigation]="navigation$ | async"
+    [navigation]="navigationItems$ | async"
     [opened]="!isScreenSmall">
 
     <div treoVerticalNavigationContentHeader>
       <a routerLink="/context" class="logo">
-        <img [src]="currentAccount.logo" [alt]="currentAccount.title">
+        <img 
+          [src]="currentAccount.logo" 
+          [alt]="currentAccount.title"
+          [ngClass]="navigationAppearance$ | async">
       </a>
     </div>
   </treo-vertical-navigation>
@@ -19,20 +22,24 @@
 <!-- Wrapper -->
 <div class="wrapper">
   <div class="header">
+    <!--
     <button 
       class="navigation-toggle-button"
       mat-icon-button
       (click)="toggleNavigation('mainNavigation')">
         <mat-icon [svgIcon]="'menu'"></mat-icon>
     </button>
+    -->
 
-    <button 
-      class="navigation-appearance-toggle-button"
-      [ngClass]="{mirror: navigationAppearance === 'dense'}"
-      mat-icon-button
-      (click)="toggleNavigationAppearance()">
-        <mat-icon [svgIcon]="'menu_open'"></mat-icon>
-    </button>
+    <ng-container *ngIf="navigationAppearance$ | async; let navigationAppearance">
+      <button
+        class="navigation-appearance-toggle-button"
+        [ngClass]="{ mirror: navigationAppearance === 'dense' }"
+        mat-icon-button
+        (click)="toggleNavigationAppearance()">
+          <mat-icon [svgIcon]="'menu_open'"></mat-icon>
+      </button>
+    </ng-container>
 
     <div class="spacer"></div>
 

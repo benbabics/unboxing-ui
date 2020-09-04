@@ -1,11 +1,11 @@
-import { Select } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { Component, HostBinding, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { Subject, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TreoMediaWatcherService } from '@treo/services/media-watcher';
 import { TreoNavigationService } from '@treo/components/navigation';
-import { CurrentAccount, CurrentAccountState, UiNavigationItem, UiState } from '../../../../../projects/lib-common/src/public-api';
+import { CurrentAccount, CurrentAccountState, Ui, UiNavigationAppearance, UiNavigationItem, UiState } from '../../../../../projects/lib-common/src/public-api';
 
 @Component({
   selector     : 'dense-layout',
@@ -17,10 +17,10 @@ export class DenseLayoutComponent implements OnInit, OnDestroy {
   
   data: any;
   isScreenSmall: boolean;
-  navigationAppearance: 'classic' | 'dense';
+  navigationAppearance$: Observable<UiNavigationAppearance>;
 
   @Select( CurrentAccountState.details ) currentAccount$: Observable<CurrentAccount>;
-  @Select( UiState.navigation ) navigation$: Observable<UiNavigationItem[]>;
+  @Select( UiState.navigationItems ) navigationItems$: Observable<UiNavigationItem[]>;
 
   @HostBinding( 'class.fixed-header' ) fixedHeader: boolean;
   @HostBinding( 'class.fixed-footer' ) fixedFooter: boolean;
@@ -28,6 +28,7 @@ export class DenseLayoutComponent implements OnInit, OnDestroy {
   private _destroy$ = new Subject();
 
   constructor(
+    private _store: Store,
     private _router: Router,
     private _activatedRoute: ActivatedRoute,
     private _treoMediaWatcherService: TreoMediaWatcherService,
@@ -35,7 +36,9 @@ export class DenseLayoutComponent implements OnInit, OnDestroy {
   ) {
     this.fixedHeader = false;
     this.fixedFooter = false;
-    this.navigationAppearance = 'dense';
+
+    this.navigationAppearance$ = _store.select( UiState.navigationAppearance )
+      .pipe( takeUntil(this._destroy$) );
   }
   
   get currentYear(): number {
@@ -48,7 +51,7 @@ export class DenseLayoutComponent implements OnInit, OnDestroy {
 
     this._treoMediaWatcherService.onMediaChange$
       .pipe( takeUntil(this._destroy$) )
-      .subscribe(({matchingAliases}) => {
+      .subscribe(({ matchingAliases }) => {
         this.isScreenSmall = matchingAliases.includes( 'lt-md' );
       });
   }
@@ -64,7 +67,6 @@ export class DenseLayoutComponent implements OnInit, OnDestroy {
   }
 
   toggleNavigationAppearance(): void {
-    const appearance = this.navigationAppearance === 'classic' ? 'dense' : 'classic';
-    this.navigationAppearance = appearance;
+    this._store.dispatch( new Ui.ToggleNavigationAppearance() );
   }
 }

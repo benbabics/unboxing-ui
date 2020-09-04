@@ -19,7 +19,7 @@ export class FuturisticLayoutComponent implements OnInit, OnDestroy {
   isScreenSmall: boolean;
 
   @Select( CurrentAccountState.details ) currentAccount$: Observable<CurrentAccount>;
-  @Select( UiState.navigation ) navigation$: Observable<UiNavigationItem[]>;
+  @Select( UiState.navigationItems ) navigationItems$: Observable<UiNavigationItem[]>;
   
   @HostBinding( 'class.fixed-header' ) fixedHeader: boolean;
   @HostBinding( 'class.fixed-footer' ) fixedFooter: boolean;

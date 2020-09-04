@@ -28,7 +28,7 @@ export class AppComponent {
     actions$.pipe(
       ofActionSuccessful( Auth.Logout ),
       tap(() => store.dispatch([
-        new Ui.ClearNavigation(),
+        new Ui.ClearNavigationItems(),
         new CurrentUser.Clear(),
         new CurrentAccount.Clear(),
       ])),

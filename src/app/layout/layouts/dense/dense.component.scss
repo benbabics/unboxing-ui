@@ -11,20 +11,43 @@ dense-layout {
 
     > treo-vertical-navigation {
 
+      %logo-dense {
+        margin: 24px 0;
+        max-width:  32px;
+        max-height: 32px;
+      }
+      %logo-classic {
+        margin-top: 24px;
+        max-width:  4rem;
+        max-height: 4rem;
+      }
+      
         .treo-vertical-navigation-content-header {
 
             .logo {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                height: 80px;
-                min-height: 80px;
-                max-height: 80px;
 
                 img {
-                    max-width: 32px;
+                  transition: all .3s;
+
+                  &.dense {
+                    @extend %logo-dense;
+                  }
+                  &.classic {
+                    @extend %logo-classic;
+                  }
                 }
             }
+        }
+
+        &.treo-vertical-navigation-hover {
+          .treo-vertical-navigation-content-header .logo {
+            img {
+              // @extend %logo-classic;
+            }
+          }
         }
 
         // Dense appearance overrides
