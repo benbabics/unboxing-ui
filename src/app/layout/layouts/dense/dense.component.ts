@@ -1,32 +1,34 @@
+import { Select, Store } from '@ngxs/store';
 import { Component, HostBinding, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { Subject, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Select } from '@ngxs/store';
-import { CurrentAccount, CurrentAccountState, UiNavigationItem, UiState } from './../../../../../projects/lib-common/src/public-api';
 import { TreoMediaWatcherService } from '@treo/services/media-watcher';
 import { TreoNavigationService } from '@treo/components/navigation';
+import { CurrentAccount, CurrentAccountState, Ui, UiNavigationAppearance, UiNavigationItem, UiState } from '../../../../../projects/lib-common/src/public-api';
 
 @Component({
-  selector     : 'futuristic-layout',
-  templateUrl  : './futuristic.component.html',
-  styleUrls    : ['./futuristic.component.scss'],
+  selector     : 'dense-layout',
+  templateUrl  : './dense.component.html',
+  styleUrls    : ['./dense.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class FuturisticLayoutComponent implements OnInit, OnDestroy {
-
+export class DenseLayoutComponent implements OnInit, OnDestroy {
+  
   data: any;
   isScreenSmall: boolean;
+  navigationAppearance$: Observable<UiNavigationAppearance>;
 
   @Select( CurrentAccountState.details ) currentAccount$: Observable<CurrentAccount>;
   @Select( UiState.navigationItems ) navigationItems$: Observable<UiNavigationItem[]>;
-  
+
   @HostBinding( 'class.fixed-header' ) fixedHeader: boolean;
   @HostBinding( 'class.fixed-footer' ) fixedFooter: boolean;
 
   private _destroy$ = new Subject();
 
   constructor(
+    private _store: Store,
     private _router: Router,
     private _activatedRoute: ActivatedRoute,
     private _treoMediaWatcherService: TreoMediaWatcherService,
@@ -34,8 +36,11 @@ export class FuturisticLayoutComponent implements OnInit, OnDestroy {
   ) {
     this.fixedHeader = false;
     this.fixedFooter = false;
-  }
 
+    this.navigationAppearance$ = _store.select( UiState.navigationAppearance )
+      .pipe( takeUntil(this._destroy$) );
+  }
+  
   get currentYear(): number {
     return new Date().getFullYear();
   }
@@ -57,7 +62,11 @@ export class FuturisticLayoutComponent implements OnInit, OnDestroy {
   }
   
   toggleNavigation(key): void {
-    const navigation = this._treoNavigationService.getComponent( key );
-    navigation?.toggle();
+    const navigation = this._treoNavigationService.getComponent(key);
+    if ( navigation ) navigation.toggle();
+  }
+
+  toggleNavigationAppearance(): void {
+    this._store.dispatch( new Ui.ToggleNavigationAppearance() );
   }
 }

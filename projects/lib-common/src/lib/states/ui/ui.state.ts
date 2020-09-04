@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { State, Store, Action, StateContext, Selector } from '@ngxs/store';
-import { Ui } from './ui.action';
+import { Ui, UiNavigationAppearance } from './ui.action';
 import { defaultNavigation } from './../../manifests';
 
 export interface UiStateModel extends Ui { }
@@ -8,7 +8,8 @@ export interface UiStateModel extends Ui { }
 @State<UiStateModel>({
   name: 'ui',
   defaults: {
-    navigation: [],
+    navigationAppearance: UiNavigationAppearance.Dense,
+    navigationItems: [],
   },
   children: [
   ]
@@ -17,23 +18,42 @@ export interface UiStateModel extends Ui { }
 export class UiState {
 
   @Selector()
-  static navigation({ navigation }: UiStateModel) {
-    return navigation;
+  static navigationAppearance({ navigationAppearance }: UiStateModel) {
+    return navigationAppearance;
+  }
+  
+  @Selector()
+  static navigationItems({ navigationItems }: UiStateModel) {
+    return navigationItems;
   }
   
   constructor(
     private store: Store,
   ) { }
 
-  @Action(Ui.LoadNavigation)
-  loadNavigation(ctx: StateContext<UiStateModel>) {
-    const navigation = defaultNavigation;
-    ctx.patchState({ navigation });
+  @Action( Ui.SetNavigationAppearance )
+  setNavigationAppearance(ctx: StateContext<UiStateModel>, { navigationAppearance }: Ui.SetNavigationAppearance) {
+    ctx.patchState({ navigationAppearance });
   }
 
-  @Action(Ui.ClearNavigation)
-  clearNavigation(ctx: StateContext<UiStateModel>) {
-    const navigation = [];
-    ctx.patchState({ navigation });
+  @Action( Ui.ToggleNavigationAppearance )
+  toggleNavigationAppearance(ctx: StateContext<UiStateModel>) {
+    const Style = UiNavigationAppearance;
+    const isClassic = ctx.getState().navigationAppearance === Style.Classic;
+    const navigationAppearance = isClassic ? Style.Dense : Style.Classic;
+    
+    ctx.patchState({ navigationAppearance });
+  }
+
+  @Action( Ui.LoadNavigationItems )
+  loadNavigationItems(ctx: StateContext<UiStateModel>) {
+    const navigationItems = defaultNavigation;
+    ctx.patchState({ navigationItems });
+  }
+
+  @Action( Ui.ClearNavigationItems )
+  clearNavigationItems(ctx: StateContext<UiStateModel>) {
+    const navigationItems = [];
+    ctx.patchState({ navigationItems });
   }
 }

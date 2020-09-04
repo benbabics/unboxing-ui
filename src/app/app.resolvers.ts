@@ -22,7 +22,7 @@ export class InitialDataResolver implements Resolve<any> {
   }
 
   private _loadNavigation(): Observable<any> {
-    return this.store.dispatch( new Ui.LoadNavigation() );
+    return this.store.dispatch( new Ui.LoadNavigationItems() );
   }
 
   private _loadNotifications(): Observable<any> {

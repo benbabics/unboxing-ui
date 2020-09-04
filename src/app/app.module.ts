@@ -77,7 +77,7 @@ const routerConfig: ExtraOptions = {
       developmentMode: !environment.production,
     }),
     NgxsStoragePluginModule.forRoot({
-      key: [ 'app' ]
+      key: [ 'app', 'ui.navigationAppearance' ]
     }),
     NgxsFormPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot({ disabled: true }),
