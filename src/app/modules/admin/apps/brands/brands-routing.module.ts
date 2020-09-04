@@ -1,6 +1,8 @@
-import { Route } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { Route, RouterModule } from '@angular/router';
 import { CanDeactivateBrandsGuard } from './brands.guard';
 import { BrandIndexComponent, BrandNewComponent, BrandEditComponent, BrandShowComponent } from './pages';
+
 
 export const routes: Route[] = [
   {
@@ -25,3 +27,9 @@ export const routes: Route[] = [
     ]
   },
 ];
+
+@NgModule({
+  imports: [ RouterModule.forChild(routes) ],
+  exports: [ RouterModule ]
+})
+export class BrandsRoutingModule { }

@@ -1,5 +1,5 @@
+import { BrandsRoutingModule } from './brands-routing.module';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -24,7 +24,6 @@ import { TreoCardModule } from '@treo/components/card';
 import { TreoAutogrowModule } from '@treo/directives/autogrow';
 import { TreoFindByKeyPipeModule } from '@treo/pipes/find-by-key';
 import { SharedModule } from 'app/shared/shared.module';
-import { routes } from './brands.routing';
 import { BrandFormComponent } from './components/brand-form/brand-form.component';
 import { BrandEditComponent } from './pages/brand-edit/brand-edit.component';
 import { BrandShowComponent } from './pages/brand-show/brand-show.component';
@@ -33,7 +32,7 @@ import { BrandNewComponent } from './pages/brand-new/brand-new.component';
 
 @NgModule({
   imports: [
-    RouterModule.forChild( routes ),
+    BrandsRoutingModule,
     NgxsFormPluginModule,
     MatButtonModule,
     MatCheckboxModule,
