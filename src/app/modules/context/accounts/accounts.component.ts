@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
 import { Account, AccountState, CurrentAccount } from '../../../../../projects/lib-common/src/public-api';
@@ -11,16 +11,18 @@ import { Account, AccountState, CurrentAccount } from '../../../../../projects/l
 })
 export class AccountsComponent {
 
-  @Select(AccountState.entities) accounts$: Observable<Account[]>;
+  @Select( AccountState.entities ) accounts$: Observable<Account[]>;
 
   constructor(
-    private store: Store,
-    private router: Router,
+    private _store: Store,
+    private _router: Router,
+    private _activatedRoute: ActivatedRoute,
   ) { }
 
   handleSelectAccount(account: Account): void {
-    this.store.dispatch( new CurrentAccount.Select(account) )
+    this._store.dispatch( new CurrentAccount.Select(account) )
       .toPromise()
-      .then(() => this.router.navigateByUrl( '/example' ));
+      .then(() => this._activatedRoute.snapshot.queryParamMap.get( 'redirectURL' ))
+      .then(redirectURL => this._router.navigateByUrl( redirectURL || '/example' ));
   }
 }

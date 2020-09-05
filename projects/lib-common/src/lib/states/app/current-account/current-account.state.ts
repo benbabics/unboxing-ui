@@ -53,11 +53,11 @@ export class CurrentAccountState {
     private http: HttpClient,
   ) { }
 
-  @Action(CurrentAccount.Refresh)
+  @Action( CurrentAccount.Refresh )
   refresh(ctx: StateContext<CurrentAccountStateModel>) {
     const id = ctx.getState().id;
-    if (!id) return Promise.resolve();
-
+    if ( !id ) return Promise.resolve();
+    
     let params = new HttpParams();
     params = params.append('_embed', 'brands');
     params = params.append('_embed', 'projects');
@@ -81,13 +81,13 @@ export class CurrentAccountState {
     });
   }
 
-  @Action(CurrentAccount.Select)
+  @Action( CurrentAccount.Select )
   select(ctx: StateContext<CurrentAccountStateModel>, { payload }: CurrentAccount.Select) {
     ctx.patchState( payload );
     return this.store.dispatch( new CurrentAccount.Refresh() );
   }
 
-  @Action(CurrentAccount.Clear)
+  @Action( CurrentAccount.Clear )
   clear(ctx: StateContext<CurrentAccountStateModel>) {
     return ctx.patchState({
       id:     null,

@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { flatMap, tap, map } from 'rxjs/operators';
 import { Store, Actions, ofActionSuccessful } from '@ngxs/store';
 import { TreoConfigService } from '@treo/services/config/config.service';
@@ -16,6 +16,7 @@ export class AppComponent {
   constructor(
     store: Store,
     router: Router,
+    activatedRoute: ActivatedRoute,
     actions$: Actions,
     treoConfigService: TreoConfigService,
     @Inject( DOCUMENT ) private document: any,
@@ -23,7 +24,8 @@ export class AppComponent {
     actions$.pipe(
       ofActionSuccessful( Auth.Login ),
       flatMap(() => store.dispatch( new CurrentUser.Refresh()) ),
-      tap(() => router.navigateByUrl( '/signed-in-redirect' )),
+      map(() => activatedRoute.snapshot.queryParamMap.get( 'redirectURL' )),
+      tap(redirectURL => router.navigateByUrl( redirectURL || '/signed-in-redirect' )),
     )
     .subscribe();
     
