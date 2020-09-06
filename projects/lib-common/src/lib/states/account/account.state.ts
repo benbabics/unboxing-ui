@@ -30,10 +30,10 @@ export class AccountState extends EntityState<Account> {
     private store: Store,
     private http: HttpClient,
   ) {
-    super(AccountState, 'id', IdStrategy.EntityIdGenerator);
+    super( AccountState, 'id', IdStrategy.EntityIdGenerator );
   }
 
-  @Action(Account.Index)
+  @Action( Account.Index )
   crudIndex(ctx: StateContext<AccountStateModel>) {
     this.toggleLoading(true);
     
@@ -44,7 +44,7 @@ export class AccountState extends EntityState<Account> {
       );
   }
 
-  @Action(Account.Show)
+  @Action( Account.Show )
   crudShow(ctx: StateContext<AccountStateModel>, { id }: Account.Show) {
     this.toggleLoading(true);
 

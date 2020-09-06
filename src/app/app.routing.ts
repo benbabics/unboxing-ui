@@ -10,7 +10,8 @@ import { InitialDataResolver } from 'app/app.resolvers';
 // tslint:disable:max-line-length
 const Routes = {
   Admin: [
-    { path: "brands", loadChildren: () => import("app/modules/admin/apps/brands/brands.module").then(m => m.BrandsModule) },
+    { path: "brands",   loadChildren: () => import("app/modules/admin/apps/brands/brands.module").then(m => m.BrandsModule) },
+    { path: "settings", loadChildren: () => import("app/modules/admin/apps/settings/settings.module").then(m => m.SettingsModule) },
     
     { path: 'example',     loadChildren: () => import('app/modules/admin/example/example.module').then(m => m.ExampleModule) },
     { path: 'profile',     loadChildren: () => import('app/modules/admin/pages/profile/profile.module').then(m => m.ProfileModule) },

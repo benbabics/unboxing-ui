@@ -1,3 +1,4 @@
+import { catchError } from 'rxjs/operators';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { TreoAnimations } from '@treo/animations';
@@ -38,17 +39,9 @@ export class AuthSignInComponent implements OnInit {
     this.message = null;
 
     const credentials = this.signInForm.value;
-    this._authService.signIn(credentials)
-      .subscribe(
-        () => this.handleSigninSuccess(),
-        ({ error }) => this.handleSigninFailure(error)
-      );
-  }
-
-  private handleSigninSuccess(): void {
-    const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
-    console.log('* sign-in redirectUrl', redirectURL);
-    // this._router.navigateByUrl(redirectURL);
+    this._authService.signIn( credentials )
+      .toPromise()
+      .catch(({ error }) => this.handleSigninFailure( error ));
   }
 
   private handleSigninFailure(error: any): void {

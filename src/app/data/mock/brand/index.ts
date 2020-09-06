@@ -26,7 +26,7 @@ export class BrandMockApi implements TreoMockApi {
      * PUT /brands/:brandId
      */
     this.treoMockApiService
-      .onPut( "/api/brands/:brandId" )
+      .onPatch( "/api/brands/:brandId" )
       .reply(request => {
         if ( !this.authService.isAuthenticated ) {
           return [ 403, { error: "Unauthorized" } ];
@@ -37,7 +37,7 @@ export class BrandMockApi implements TreoMockApi {
         
         const brandId = request.params.get( 'brandId' );
         request.body.id = brandId;
-        return this.http.put( `/mock-api/brands/${ brandId }`, request.body )
+        return this.http.patch( `/mock-api/brands/${ brandId }`, request.body )
           .pipe(map(brand => [ 200, brand ]));
       });
 

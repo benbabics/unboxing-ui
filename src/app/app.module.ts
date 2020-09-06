@@ -17,11 +17,12 @@ import {
   AppState,
   AuthState,
   BrandState,
-  CurrentUserState,
   CurrentAccountState,
-  ProjectState,
+  CurrentUserState,
   LibCommonModule,
+  ProjectState,
   UiState,
+  UserState,
 } from '../../projects/lib-common/src/public-api';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
@@ -69,6 +70,7 @@ const routerConfig: ExtraOptions = {
       AccountState,
       BrandState,
       ProjectState,
+      UserState,
     ], {
       selectorOptions: {
         suppressErrors:       false,
@@ -77,7 +79,11 @@ const routerConfig: ExtraOptions = {
       developmentMode: !environment.production,
     }),
     NgxsStoragePluginModule.forRoot({
-      key: [ 'app', 'ui.navigationAppearance' ]
+      key: [
+        "app",
+        "ui.navigationAppearance",
+        "ui.themeAppearance",
+      ]
     }),
     NgxsFormPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot({ disabled: true }),

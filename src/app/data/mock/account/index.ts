@@ -66,21 +66,5 @@ export class AccountMockApi implements TreoMockApi {
         return this.http.post( `/mock-api/accounts/${ accountId }/brands`, request.body)
           .pipe(map(brand => [ 200, brand ]));
       });
-
-    /**
-     * PUT /accounts/:accountId/brands/:brandId
-     */
-    this.treoMockApiService
-      .onPut( "/api/accounts/:accountId/brands/:brandId" )
-      .reply(request => {
-        if ( !this.authService.isAuthenticated ) {
-          return [ 403, { error: "Unauthorized" } ];
-        }
-
-        const accountId = request.params.get( 'accountId' );
-        const brandId   = request.params.get( 'brandId' );
-        return this.http.put( `/mock-api/accounts/${ accountId }/brands/${ brandId }`, request.body)
-          .pipe(map(brand => [ 200, brand ]));
-      });
   }
 }

@@ -13,6 +13,7 @@
         <img 
           [src]="currentAccount.logo" 
           [alt]="currentAccount.title"
+          [class.animateScale]="hasToggledNavigation"
           [ngClass]="navigationAppearance$ | async">
       </a>
     </div>
@@ -22,14 +23,12 @@
 <!-- Wrapper -->
 <div class="wrapper">
   <div class="header">
-    <!--
     <button 
       class="navigation-toggle-button"
       mat-icon-button
       (click)="toggleNavigation('mainNavigation')">
         <mat-icon [svgIcon]="'menu'"></mat-icon>
     </button>
-    -->
 
     <ng-container *ngIf="navigationAppearance$ | async; let navigationAppearance">
       <button

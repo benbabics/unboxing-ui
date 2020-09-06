@@ -1,0 +1,33 @@
+<div class="content-layout" [ngClass]="'left-sidebar-content-standard-inner-scroll'">
+
+  <mat-drawer-container>
+
+    <mat-drawer 
+      [autoFocus]="false"
+      [mode]="drawerMode"
+      [opened]="drawerOpened" 
+      #matDrawer>
+        <settings-sidebar></settings-sidebar>
+    </mat-drawer>
+
+    <mat-drawer-content>
+      <div class="main">
+
+        <div class="flex lt-md:items-center gt-lg:mb-2 lt-md:mb-6">
+          <lib-breadcrumbs></lib-breadcrumbs>
+
+          <button 
+            class="ml-auto" 
+            mat-stroked-button 
+            (click)="matDrawer.toggle()">
+              <mat-icon class="icon-size-18" [svgIcon]="'menu'"></mat-icon>
+              <span class="ml-2 xs:hidden">Menu</span>
+          </button>
+        </div>
+        
+        <router-outlet></router-outlet>
+      </div>
+    </mat-drawer-content>
+
+  </mat-drawer-container>
+</div>

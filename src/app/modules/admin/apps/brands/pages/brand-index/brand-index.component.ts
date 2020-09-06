@@ -22,7 +22,7 @@ export class BrandIndexComponent implements OnInit, OnDestroy {
   
   drawerMode: 'side' | 'over';
 
-  @Select( BrandState.entities ) brands$: Observable<Brand[]>;
+  @Select( BrandState.sortedEntities ) brands$: Observable<Brand[]>;
 
   @ViewChild('matDrawer', { static: true }) matDrawer: MatDrawer;
   @ViewChild('dialogSaveChanges') dialogSaveChangesRef: TemplateRef<any>;

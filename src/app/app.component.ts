@@ -1,9 +1,10 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { flatMap, tap, map } from 'rxjs/operators';
 import { Store, Actions, ofActionSuccessful } from '@ngxs/store';
-import { AppState, Auth, CurrentAccount, CurrentAccountState, CurrentUser, Ui } from '../../projects/lib-common/src/public-api';
+import { TreoConfigService } from '@treo/services/config/config.service';
+import { AppState, Auth, CurrentAccount, CurrentAccountState, CurrentUser, Ui, UiState } from '../../projects/lib-common/src/public-api';
 
 @Component({
   selector: 'app-root',
@@ -15,13 +16,16 @@ export class AppComponent {
   constructor(
     store: Store,
     router: Router,
+    activatedRoute: ActivatedRoute,
     actions$: Actions,
+    treoConfigService: TreoConfigService,
     @Inject( DOCUMENT ) private document: any,
   ) {
     actions$.pipe(
       ofActionSuccessful( Auth.Login ),
       flatMap(() => store.dispatch( new CurrentUser.Refresh()) ),
-      tap(() => router.navigateByUrl( '/signed-in-redirect' )),
+      map(() => activatedRoute.snapshot.queryParamMap.get( 'redirectURL' )),
+      tap(redirectURL => router.navigateByUrl( redirectURL || '/signed-in-redirect' )),
     )
     .subscribe();
     
@@ -46,6 +50,11 @@ export class AppComponent {
       map(logo   => ({ logo })),
       map(detail => new CustomEvent( 'accountChanged', { detail } )),
       tap(event  => this.document.dispatchEvent( event )),
+    )
+    .subscribe();
+
+    store.select( UiState.themeAppearance ).pipe(
+      tap(theme => treoConfigService.config = { theme }),
     )
     .subscribe();
   }

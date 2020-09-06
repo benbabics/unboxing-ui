@@ -20,14 +20,14 @@
         </span>
     </button>
     <mat-divider class="my-2"></mat-divider>
-    <a [routerLink]="['/profile']" mat-menu-item>
+    <a routerLink="/profile" mat-menu-item>
         <mat-icon [svgIcon]="'account_circle'"></mat-icon>
         <span>Profile</span>
     </a>
-    <button mat-menu-item>
+    <a routerLink="/settings" mat-menu-item>
         <mat-icon [svgIcon]="'settings'"></mat-icon>
         <span>Settings</span>
-    </button>
+    </a>
     <mat-divider class="my-2"></mat-divider>
     <button mat-menu-item
             (click)="signOut()">

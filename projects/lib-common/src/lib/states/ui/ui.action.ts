@@ -1,16 +1,9 @@
-import { UiNavigationItem } from './ui.interfaces';
-
-export type UiNavigationAppearance = keyof {
-  "classic", "dense"
-}
-export namespace UiNavigationAppearance {
-  export const Classic: UiNavigationAppearance = "classic";
-  export const Dense: UiNavigationAppearance = "dense";
-}
+import { UiNavigationItem, UiNavigationAppearance, UiThemeAppearance } from './ui.interfaces';
 
 export interface Ui {
   navigationAppearance: UiNavigationAppearance;
   navigationItems: UiNavigationItem[],
+  themeAppearance: UiThemeAppearance;
 }
 
 export namespace Ui {
@@ -30,5 +23,10 @@ export namespace Ui {
 
   export class ClearNavigationItems {
     static readonly type = '[Ui] ClearNavigationItems';
+  }
+
+  export class SetThemeAppearance {
+    static readonly type = '[Ui] SetThemeAppearance';
+    constructor( public themeAppearance: UiThemeAppearance ) { }
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { CurrentAccountState } from './../../../../projects/lib-common/src/public-api';
 
@@ -11,16 +11,17 @@ export class CurrentAccountGuard implements CanActivate {
     private router: Router,
   ) { }
   
-  canActivate(next, state): boolean | UrlTree {
-    return this.checkCurrentAccount();
+  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree {
+    return this.checkCurrentAccount( state.url );
   }
 
-  canActivateChild(childRoute, state): boolean | UrlTree {
-    return this.checkCurrentAccount();
+  canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree {
+    return this.checkCurrentAccount( state.url );
   }
 
-  private checkCurrentAccount(): boolean | UrlTree {
+  private checkCurrentAccount(redirectURL: string): boolean | UrlTree {
+    const queryParams = { redirectURL };
     const exists = this.store.selectSnapshot( CurrentAccountState.exists );
-    return exists ? true : this.router.createUrlTree([ "/context" ]);
+    return exists ? true : this.router.createUrlTree([ "/context" ], { queryParams });
   }
 }

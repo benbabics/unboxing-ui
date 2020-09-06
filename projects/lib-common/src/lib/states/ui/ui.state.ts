@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { State, Store, Action, StateContext, Selector } from '@ngxs/store';
-import { Ui, UiNavigationAppearance } from './ui.action';
-import { defaultNavigation } from './../../manifests';
+import { Ui } from './ui.action';
+import { UiNavigationAppearance, UiThemeAppearance } from './ui.interfaces';
+import { defaultUiNavigation } from './../../manifests';
 
 export interface UiStateModel extends Ui { }
 
@@ -10,6 +11,7 @@ export interface UiStateModel extends Ui { }
   defaults: {
     navigationAppearance: UiNavigationAppearance.Dense,
     navigationItems: [],
+    themeAppearance: UiThemeAppearance.Auto,
   },
   children: [
   ]
@@ -25,6 +27,11 @@ export class UiState {
   @Selector()
   static navigationItems({ navigationItems }: UiStateModel) {
     return navigationItems;
+  }
+
+  @Selector()
+  static themeAppearance({ themeAppearance }: UiStateModel) {
+    return themeAppearance;
   }
   
   constructor(
@@ -47,7 +54,7 @@ export class UiState {
 
   @Action( Ui.LoadNavigationItems )
   loadNavigationItems(ctx: StateContext<UiStateModel>) {
-    const navigationItems = defaultNavigation;
+    const navigationItems = defaultUiNavigation;
     ctx.patchState({ navigationItems });
   }
 
@@ -55,5 +62,10 @@ export class UiState {
   clearNavigationItems(ctx: StateContext<UiStateModel>) {
     const navigationItems = [];
     ctx.patchState({ navigationItems });
+  }
+
+  @Action( Ui.SetThemeAppearance )
+  setThemeAppearance(ctx: StateContext<UiStateModel>, { themeAppearance }: Ui.SetThemeAppearance) {
+    ctx.patchState({ themeAppearance });
   }
 }
