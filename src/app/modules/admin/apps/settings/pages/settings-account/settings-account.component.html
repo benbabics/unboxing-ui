@@ -3,7 +3,7 @@
   <p>Sed vitae tincidunt justo. Quisque sed vestibulum ligula. Etiam rutrum varius velit ut condimentum. Vivamus vitae imperdiet augue. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer.</p>
 </div>
 
-<form class="mt-8">
+<form class="mt-8" [formGroup]="manageSettingsForm" ngxsForm="settings.manageSettingsForm" (ngSubmit)="handleSubmit()">
   <div class="flex flex-col gt-xs:flex-row gt-xs:items-start">
     <div class="gt-xs:max-w-64 gt-xs:pr-12">
       <p class="text-lg font-medium">Basic information</p>
@@ -14,23 +14,7 @@
     <div class="flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
       <mat-form-field class="treo-mat-dense flex-auto">
         <mat-label>Email Address</mat-label>
-        <input matInput>
-      </mat-form-field>
-      <mat-form-field class="treo-mat-dense flex-auto">
-        <mat-label>Country / Region</mat-label>
-        <mat-select>
-          <mat-option value="country-1">Country 1</mat-option>
-          <mat-option value="country-2">Country 2</mat-option>
-          <mat-option value="country-3">Country 3</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field class="treo-mat-dense flex-auto">
-        <mat-label>Language</mat-label>
-        <mat-select>
-          <mat-option value="language-1">Language 1</mat-option>
-          <mat-option value="language-2">Language 2</mat-option>
-          <mat-option value="language-3">Language 3</mat-option>
-        </mat-select>
+        <input matInput formControlName="email">
       </mat-form-field>
     </div>
   </div>
@@ -42,33 +26,27 @@
         People here will get to know you with this information
       </p>
     </div>
+
     <div class="flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
       <mat-form-field class="treo-mat-dense flex-auto">
         <mat-label>First name</mat-label>
-        <input matInput>
+        <input matInput formControlName="firstname">
       </mat-form-field>
       <mat-form-field class="treo-mat-dense flex-auto">
         <mat-label>Last name</mat-label>
-        <input matInput>
-      </mat-form-field>
-      <mat-form-field class="treo-mat-dense flex-auto">
-        <mat-label>Username</mat-label>
-        <input matInput>
-        <span matPrefix>www.example.com/</span>
-      </mat-form-field>
-      <mat-form-field class="treo-mat-textarea flex-auto">
-        <mat-label>About</mat-label>
-        <textarea matInput [rows]="3"></textarea>
+        <input matInput formControlName="lastname">
       </mat-form-field>
     </div>
   </div>
 
   <div class="flex items-center justify-end mt-10">
-    <button mat-button>
-      Cancel
-    </button>
-    <button class="px-6 ml-3" mat-flat-button [color]="'primary'">
-      Save
+    <button 
+      class="px-6 ml-3"
+      mat-flat-button
+      color="primary"
+      [disabled]="manageSettingsForm.invalid">
+
+      Update
     </button>
   </div>
 </form>

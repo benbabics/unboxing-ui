@@ -35,11 +35,13 @@
   </div>
 
   <div class="flex items-center justify-end mt-10">
-    <button mat-button>
-      Cancel
-    </button>
-    <button class="px-6 ml-3" mat-flat-button [color]="'primary'">
-      Save
+    <button
+      class="px-6 ml-3"
+      mat-flat-button
+      color="primary"
+      [disabled]="manageSettingsForm.invalid">
+      
+      Update
     </button>
   </div>
 </form>

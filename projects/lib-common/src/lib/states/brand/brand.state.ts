@@ -56,7 +56,7 @@ export class BrandState extends EntityState<Brand> {
   crudUpdate(ctx: StateContext<BrandStateModel>, { payload }: Brand.Update) {
     this.toggleLoading( true );
 
-    return this.http.put<Brand>( `/api/brands/${ payload.id }`, payload )
+    return this.http.patch<Brand>( `/api/brands/${ payload.id }`, payload )
       .pipe(
         flatMap(brand => this.store.dispatch([
           new UpdateFormDirty({ path: "brand.manageBrandForm", dirty: false }),

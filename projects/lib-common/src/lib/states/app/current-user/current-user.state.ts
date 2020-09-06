@@ -37,18 +37,26 @@ export class CurrentUserState {
     private authService: AuthService,
   ) { }
 
-  @Action(CurrentUser.Refresh)
+  @Action( CurrentUser.Refresh )
   refresh(ctx: StateContext<CurrentUserStateModel>) {
     if ( !this.authService.isAuthenticated ) return Promise.resolve();
 
-    return this.http.get(`/api/sessions/me`)
+    return this.http.get( `/api/sessions/me` )
       .pipe(
         tap(user => ctx.patchState( user )),
         catchError(() => this.store.dispatch( new Auth.Logout() )),
       );
   }
 
-  @Action(CurrentUser.Clear)
+  @Action( CurrentUser.Update )
+  crudUpdate(ctx: StateContext<CurrentUserStateModel>, { payload }: CurrentUser.Update) {
+    return this.http.patch( `/api/sessions/me`, payload )
+      .pipe(
+        tap(user => ctx.patchState( user )),
+      );
+  }
+
+  @Action( CurrentUser.Clear )
   clear(ctx: StateContext<CurrentUserStateModel>) {
     ctx.patchState({
       id:        null,
