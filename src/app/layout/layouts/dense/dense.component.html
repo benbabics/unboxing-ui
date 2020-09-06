@@ -9,7 +9,7 @@
     [opened]="!isScreenSmall">
 
     <div treoVerticalNavigationContentHeader>
-      <a routerLink="/context" class="logo">
+      <a [routerLink]="[ '/context' ]" [queryParams]="{ redirectURL: currentUrl }" class="logo">
         <img 
           [src]="currentAccount.logo" 
           [alt]="currentAccount.title"

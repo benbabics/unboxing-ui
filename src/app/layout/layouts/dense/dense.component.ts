@@ -43,6 +43,10 @@ export class DenseLayoutComponent implements OnInit, OnDestroy {
   get currentYear(): number {
     return new Date().getFullYear();
   }
+
+  get currentUrl(): string {
+    return this._router.url;
+  }
   
   ngOnInit(): void {
     this._activatedRoute.data
