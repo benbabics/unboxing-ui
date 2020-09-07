@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Store } from '@ngxs/store';
@@ -9,8 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-settings-account',
   templateUrl: './settings-account.component.html',
-  styleUrls: ['./settings-account.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./settings-account.component.scss']
 })
 export class SettingsAccountComponent extends SettingsFormComponent {
 

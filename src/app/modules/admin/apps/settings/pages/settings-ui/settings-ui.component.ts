@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngxs/store';
@@ -9,8 +9,7 @@ import { SettingsFormComponent } from './../../components';
 @Component({
   selector: 'settings-ui',
   templateUrl: './settings-ui.component.html',
-  styleUrls: ['./settings-ui.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./settings-ui.component.scss']
 })
 export class SettingsUiComponent extends SettingsFormComponent {
 
