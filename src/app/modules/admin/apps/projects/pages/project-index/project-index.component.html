@@ -1,1 +1,50 @@
-<p>project-index works!</p>
+<div class="content-layout left-sidebar-fullheight-basic-inner-scroll">
+  <mat-drawer-container>
+
+    <mat-drawer 
+      [mode]="drawerMode"
+      [opened]="drawerOpened"
+      #drawer>
+        <project-sidebar></project-sidebar>
+    </mat-drawer>
+
+    <mat-drawer-content>
+      <div class="flex flex-col flex-auto w-full p-10 xs:p-2">
+        <div class="flex flex-wrap w-full">
+          <ng-container *ngTemplateOutlet="projects"></ng-container>
+        </div>
+      </div>
+    </mat-drawer-content>
+
+  </mat-drawer-container>
+</div>
+
+
+<ng-template #projects>
+  <div class="flex items-center justify-between w-full">
+    <div class="header mr-6">
+      <h1>Projects</h1>
+      <div class="subtitle">Monitor key metrics, check reporting and review insights</div>
+    </div>
+
+    <!-- Action buttons -->
+    <div class="flex self-start">
+      <button 
+        class="ml-2"
+        mat-stroked-button
+        (click)="drawer.toggle()">
+        
+        <mat-icon 
+          class="icon-size-20 rotate-90 mirror"
+          svgIcon="tune">
+        </mat-icon>
+        <span class="ml-2">Filters</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="flex flex-col w-full mt-10 mb-3">
+    <h3 class="m-0">Audience & Behavior</h3>
+    <div class="text-secondary tracking-tight">Demographic properties and general behaviors of the users</div>
+  </div>
+</ng-template>

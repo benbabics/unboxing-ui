@@ -16,7 +16,7 @@
       </ng-container>
       
       <ng-container *ngIf="brands$ | async; let brands">
-        <div class="main">
+        <div class="main relative">
           <div class="header">
             <ng-container 
               *ngTemplateOutlet="contentHeader; context: { $implicit: brands }">

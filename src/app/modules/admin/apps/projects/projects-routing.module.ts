@@ -1,15 +1,33 @@
+import { ProjectIndexComponent } from './pages/project-index/project-index.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ProjectContainerComponent } from './pages';
+import { 
+  ProjectContainerComponent,
+  ProjectNewComponent,
+  ProjectShowComponent,
+  ProjectEditComponent,
+} from './pages';
 
 
 const routes: Routes = [
   {
     path: "",
-    component: ProjectContainerComponent,
-    children: [
-
-    ]
+    component: ProjectIndexComponent,
+  },
+  {
+    path: "new",
+    component: ProjectNewComponent,
+    canDeactivate: [],
+  },
+  {
+    path: ":id",
+    component: ProjectShowComponent,
+    canDeactivate: [],
+  },
+  {
+    path: ":id/edit",
+    component: ProjectEditComponent,
+    canDeactivate: [],
   }
 ];
 

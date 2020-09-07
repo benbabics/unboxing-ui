@@ -44,7 +44,7 @@ brand-index {
           display: flex;
           flex: 1 1 auto;
           align-items: center;
-          padding: 40px 32px;
+          padding: 40px;
           border-bottom-width: 1px;
 
           @include treo-breakpoint('xs') {
@@ -72,7 +72,7 @@ brand-index {
 
           .main-actions {
             display: flex;
-            align-items: center;
+            align-self: flex-start;
             margin-left: auto;
 
             @include treo-breakpoint('xs') {
@@ -109,7 +109,13 @@ brand-index {
         }
 
         .entity-list {
-          padding: 40px 32px;
+          display: flex;
+          flex-direction: column;
+          padding: 40px;
+          
+          @include treo-breakpoint('xs') {
+            align-items: center;
+          }
 
           treo-card + treo-card {
             margin-top: 32px;

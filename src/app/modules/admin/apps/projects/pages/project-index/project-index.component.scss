@@ -1,0 +1,29 @@
+@import 'treo';
+
+:host {
+  .header {
+    h1 {
+      margin: 0;
+    }
+
+    .subtitle {
+      font-size: 15px;
+      margin: 4px 0 0 0;
+    }
+  }
+}
+
+
+@include treo-theme {
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+  $is-dark: map-get($theme, is-dark);
+
+  :host {
+    .header {
+      .subtitle {
+        color: map-get($foreground, secondary-text);
+      }
+    }
+  }
+}

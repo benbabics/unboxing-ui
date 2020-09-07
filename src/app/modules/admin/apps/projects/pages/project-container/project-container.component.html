@@ -10,6 +10,14 @@
 
       <mat-drawer-content>
         <div class="main">
+          <button 
+            class="ml-auto" 
+            mat-stroked-button 
+            (click)="drawer.toggle()">
+              <mat-icon class="icon-size-18" [svgIcon]="'menu'"></mat-icon>
+              <span class="ml-2 xs:hidden">Menu</span>
+          </button>
+
           <router-outlet></router-outlet>
         </div>
       </mat-drawer-content>
