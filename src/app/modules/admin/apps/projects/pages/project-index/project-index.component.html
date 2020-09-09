@@ -2,18 +2,21 @@
   <mat-drawer-container>
 
     <mat-drawer 
+      #drawer
       [mode]="drawerMode"
-      [opened]="drawerOpened"
-      #drawer>
-        <project-sidebar></project-sidebar>
+      [opened]="drawerOpened">
+
+      <project-filters></project-filters>
     </mat-drawer>
 
     <mat-drawer-content>
-      <div class="flex flex-col flex-auto w-full p-10 xs:p-2">
+      <div class="relative z-10 flex flex-col flex-auto w-full p-10 xs:p-2">
         <div class="flex flex-wrap w-full">
           <ng-container *ngTemplateOutlet="projects"></ng-container>
         </div>
       </div>
+      
+      <ng-container *ngTemplateOutlet="background"></ng-container>
     </mat-drawer-content>
 
   </mat-drawer-container>
@@ -24,7 +27,7 @@
   <div class="flex items-center justify-between w-full">
     <div class="header mr-6">
       <h1>Projects</h1>
-      <div class="subtitle">Monitor key metrics, check reporting and review insights</div>
+      <div class="subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
     </div>
 
     <!-- Action buttons -->
@@ -43,8 +46,118 @@
     </div>
   </div>
 
-  <div class="flex flex-col w-full mt-10 mb-3">
-    <h3 class="m-0">Audience & Behavior</h3>
-    <div class="text-secondary tracking-tight">Demographic properties and general behaviors of the users</div>
+  <div class="flex mt-10 mb-3">
+    <brand-selector 
+      [active]="activeBrand$ | async"
+      (activeChanged)="handleBrandUpdate( $event )">
+
+      <ng-template let-active>
+        <ng-container *ngTemplateOutlet="brandSelector; context: { $implicit: active }"></ng-container>
+      </ng-template>
+    </brand-selector>
   </div>
+  
+  <div class="flex flex-wrap w-full">
+    <ng-container
+      *ngFor="let project of activeProjects"
+      [ngTemplateOutlet]="projectCard"
+      [ngTemplateOutletContext]="project">
+    </ng-container>
+  </div>
+</ng-template>
+
+
+<ng-template #brandSelector let-active>
+  <div class="flex items-center pr-3">
+    <div class="flex items-start w-20 mr-3">
+      <img 
+        class="h-10 object-contain"
+        [src]="active.logoUrl" 
+        [alt]="active.name">
+    </div>
+
+    <div>
+      <h3 class="m-0">{{ active.name }}</h3>
+      <div class="text-secondary tracking-tight">
+        {{ activeProjects.length }}
+        {{ activeProjects.length | i18nPlural: {
+          '=1':    'Project',
+          'other': 'Projects'
+        } }}
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #projectCard let-project>
+  <treo-card class="flex flex-col w-1/5 min-w-100 mr-4 mb-4">
+    <div class="flex items-center mx-6 gt-xs:mx-8 my-4">
+      <img src="https://treo.pulsethemes.com/angular/demo/assets/images/avatars/female-14.jpg" class="w-10 h-10 rounded-full mr-4">
+      <div class="flex flex-col">
+        <span class="font-semibold leading-none">Marleah Eagleston</span>
+        <span class="text-sm text-secondary leading-none mt-1">29 minutes ago</span>
+      </div>
+      <button aria-haspopup="true" mat-icon-button="" class="mat-focus-indicator mat-menu-trigger ml-auto -mr-4 mat-icon-button mat-button-base">
+        <span class="mat-button-wrapper">
+          <mat-icon role="img" class="mat-icon notranslate icon-size-20 mat-icon-no-color" aria-hidden="true"><svg x="480" y="1200" viewBox="0 0 24 24" fit="" height="100%" width="100%" preserveAspectRatio="xMidYMid meet" focusable="false"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></svg></mat-icon>
+        </span>
+        <div matripple="" class="mat-ripple mat-button-ripple mat-button-ripple-round"></div>
+      </button>
+    </div>
+    <div class="mx-6 gt-xs:mx-8 mt-2 mb-6"> Look at that sky! I so want to be there.. Can we arrange a trip? Is that a possibility? Please!!!</div>
+    <div class="flex flex-col mx-0 mb-4">
+      <div class="flex pb-1">
+        <div class="flex h-40 pr-1"><img src="https://treo.pulsethemes.com/angular/demo/assets/images/cards/29-640x480.jpg" class="object-cover"></div>
+        <div class="flex h-40"><img src="https://treo.pulsethemes.com/angular/demo/assets/images/cards/30-640x480.jpg" class="object-cover"></div>
+      </div>
+      <div class="flex">
+        <div class="flex h-24"><img src="https://treo.pulsethemes.com/angular/demo/assets/images/cards/31-640x480.jpg" class="object-cover"></div>
+        <div class="flex h-24 px-1"><img src="https://treo.pulsethemes.com/angular/demo/assets/images/cards/32-640x480.jpg" class="object-cover"></div>
+        <div class="flex h-24 relative">
+          <div class="absolute flex items-center justify-center inset-0 overflow-hidden">
+            <span class="z-10 text-4xl text-white">+12</span>
+            <span class="absolute w-full h-full bg-primary opacity-70"></span>
+          </div>
+          <img src="https://treo.pulsethemes.com/angular/demo/assets/images/cards/33-640x480.jpg" class="object-cover">
+        </div>
+      </div>
+    </div>
+    <div class="flex items-center mx-3 gt-xs:mx-5 mb-4">
+      <button mat-button="" class="mat-focus-indicator px-3 mr-1 mat-button mat-button-base" tabindex="0">
+        <span class="mat-button-wrapper">
+          <mat-icon role="img" class="mat-icon notranslate icon-size-20 text-red mr-2 mat-icon-no-color" aria-hidden="true"><svg x="0" y="672" viewBox="0 0 24 24" fit="" height="100%" width="100%" preserveAspectRatio="xMidYMid meet" focusable="false"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path></svg></mat-icon>
+          <span>Unlike</span>
+        </span>
+        <div matripple="" class="mat-ripple mat-button-ripple"></div>
+      </button>
+      <button mat-button="" class="mat-focus-indicator px-3 mr-1 mat-button mat-button-base" tabindex="0">
+        <span class="mat-button-wrapper">
+          <mat-icon role="img" class="mat-icon notranslate icon-size-20 mr-2 mat-icon-no-color" aria-hidden="true"><svg x="96" y="1200" viewBox="0 0 24 24" fit="" height="100%" width="100%" preserveAspectRatio="xMidYMid meet" focusable="false"><path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm0 15.17L18.83 16H4V4h16v13.17z"></path><path opacity=".3" d="M4 4v12h14.83L20 17.17V4z"></path></svg></mat-icon>
+          <span>Comment</span>
+        </span>
+        <div matripple="" class="mat-ripple mat-button-ripple"></div>
+      </button>
+      <button mat-button="" class="mat-focus-indicator px-3 mr-1 mat-button mat-button-base" tabindex="0">
+        <span class="mat-button-wrapper">
+          <mat-icon role="img" class="mat-icon notranslate icon-size-20 mr-2 mat-icon-no-color" aria-hidden="true"><svg x="96" y="1680" viewBox="0 0 24 24" fit="" height="100%" width="100%" preserveAspectRatio="xMidYMid meet" focusable="false"><path opacity=".3" d="M19 5a1 1 0 11-2 0 1 1 0 012 0zM7 12a1 1 0 11-2 0 1 1 0 012 0zM19 19.02a1 1 0 11-2 0 1 1 0 012 0z"></path><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92zM18 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM6 13c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm12 7.02c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"></path></svg></mat-icon>
+          <span>Share</span>
+        </span>
+        <div matripple="" class="mat-ripple mat-button-ripple"></div>
+      </button>
+    </div>
+  </treo-card>
+</ng-template>
+
+
+<!-- Background -->
+<ng-template #background>
+  <!-- Background - Inline SVG for easy customizations -->
+  <svg class="background" viewBox="0 0 1531 891" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 182c144.327 47.973 534.462 219.712 440.509 369.87C346.555 702.028 79.877 662.846 0 638V182z"></path>
+    <path d="M1405 848c-424.366 158.009-437-164-437-272s102-425 563-576v769c-21.333 29.333-63.333 55.667-126 79z"></path>
+    <path
+      d="M1531 162c-122.914-17.284-377.96 33.191-543.433 206.414C822.095 541.636 797.342 648.75 835.842 731.622c38.5 82.871 198.243 134.841 400.555 92.053C1438.71 780.886 1492.752 775.894 1531 768V162z">
+    </path>
+  </svg>
 </ng-template>

@@ -11,6 +11,22 @@
       margin: 4px 0 0 0;
     }
   }
+
+  .background {
+    position: fixed;
+    top:  0;
+    left: 0;
+    width:  100%;
+    height: 100%;
+    -moz-transform:    scale(-1, -1);
+    -o-transform:      scale(-1, -1);
+    -webkit-transform: scale(-1, -1);
+    transform:         scale(-1, -1);
+
+    path {
+      opacity: 0.1;
+    }
+  }
 }
 
 
@@ -23,6 +39,16 @@
     .header {
       .subtitle {
         color: map-get($foreground, secondary-text);
+      }
+    }
+
+    .background {
+      path {
+        @if ($is-dark) {
+          fill: treo-color('cool-gray', 800);
+        } @else {
+          fill: treo-color('blue', 300);
+        }
       }
     }
   }

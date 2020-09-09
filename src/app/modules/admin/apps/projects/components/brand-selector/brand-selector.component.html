@@ -1,0 +1,27 @@
+<div [formGroup]="form">
+  <mat-select 
+    matPrefix
+    formControlName="brand"
+    panelClass="brand-selector-panel">
+
+    <mat-select-trigger>
+      <ng-template
+        *ngIf="active"
+        [ngTemplateOutlet]="templateRef"
+        [ngTemplateOutletContext]="{ $implicit: active }">
+      </ng-template>
+    </mat-select-trigger>
+
+    <ng-container *ngIf="brands$ | async as brands">
+      <mat-option *ngFor="let brand of brands" [value]="brand">
+        <div class="flex items-center">
+          <div class="w-14 mr-4">
+            <img [src]="brand.logoUrl" [alt]="brand.name" class="h-8 object-contain">
+          </div>
+          <span>{{ brand.name }}</span>
+        </div>
+      </mat-option>
+    </ng-container>
+
+  </mat-select>
+</div>

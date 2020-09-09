@@ -2,7 +2,6 @@ import { ProjectIndexComponent } from './pages/project-index/project-index.compo
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { 
-  ProjectContainerComponent,
   ProjectNewComponent,
   ProjectShowComponent,
   ProjectEditComponent,

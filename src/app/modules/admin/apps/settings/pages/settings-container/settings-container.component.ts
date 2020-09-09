@@ -32,11 +32,11 @@ export class SettingsContainerComponent implements OnInit, OnDestroy {
       .pipe( takeUntil(this._destroy$) )
       .subscribe(({ matchingAliases }) => {
         if ( matchingAliases.includes('lt-lg') ) {
-          this.drawerMode = 'over';
+          this.drawerMode   = 'over';
           this.drawerOpened = false;
         }
         else {
-          this.drawerMode = 'side';
+          this.drawerMode   = 'side';
           this.drawerOpened = true;
         }
       });

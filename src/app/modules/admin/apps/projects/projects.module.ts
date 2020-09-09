@@ -25,18 +25,24 @@ import { TreoFindByKeyPipeModule } from '@treo/pipes/find-by-key';
 import { SharedModule } from 'app/shared/shared.module';
 import { ProjectsRoutingModule } from './projects-routing.module';
 
-import { ProjectContainerComponent } from './pages/project-container/project-container.component';
-import { ProjectIndexComponent } from './pages/project-index/project-index.component';
-import { ProjectEditComponent } from './pages/project-edit/project-edit.component';
-import { ProjectShowComponent } from './pages/project-show/project-show.component';
-import { ProjectNewComponent } from './pages/project-new/project-new.component';
-import { ProjectSidebarComponent } from './components/project-sidebar/project-sidebar.component';
-import { ProjectFormComponent } from './components/project-form/project-form.component';
+import { 
+  BrandSelectorComponent,
+  ProjectFiltersComponent,
+  ProjectFormComponent,
+} from './components';
+import { 
+  ProjectIndexComponent,
+  ProjectEditComponent,
+  ProjectShowComponent,
+  ProjectNewComponent,
+} from './pages';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
   imports: [
     ProjectsRoutingModule,
+    ReactiveFormsModule,
     NgxsFormPluginModule,
     MatButtonModule,
     MatCheckboxModule,
@@ -62,13 +68,13 @@ import { ProjectFormComponent } from './components/project-form/project-form.com
     SharedModule,
   ],
   declarations: [
-    ProjectContainerComponent,
+    BrandSelectorComponent,
+    ProjectFiltersComponent,
+    ProjectFormComponent,
     ProjectIndexComponent,
     ProjectEditComponent,
     ProjectShowComponent,
     ProjectNewComponent,
-    ProjectSidebarComponent,
-    ProjectFormComponent,
   ],
   providers: [
     { 
