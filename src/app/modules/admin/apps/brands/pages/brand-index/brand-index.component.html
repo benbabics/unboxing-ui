@@ -8,12 +8,10 @@
       [disableClose]="true">
 
       <router-outlet></router-outlet>
-
     </mat-drawer>
 
     <mat-drawer-content>
-      <ng-container *ngTemplateOutlet="background">
-      </ng-container>
+      <ng-container *ngTemplateOutlet="background"></ng-container>
       
       <ng-container *ngIf="brands$ | async; let brands">
         <div class="main relative">
@@ -40,16 +38,12 @@
   <div class="title">
     <h1>Brands</h1>
     
-    <div class="entity-count">
-      <ng-container *ngIf="brands.length > 0">
-        {{ brands.length }}
-      </ng-container>
-
+    <div class="subtitle">
       {{ brands.length | i18nPlural: {
-        '=0':    'No brands',
-        '=1':    'brand',
-        'other': 'brands'
-      } }}
+          '=0':    "There aren't any brands",
+          '=1':    "There is 1 brand",
+          'other': "There are a total of " + brands.length + " brands"
+        } }}
     </div>
   </div>
 
@@ -61,8 +55,7 @@
       routerLink="./new">
       
       <mat-icon svgIcon="add"></mat-icon>
-      Add
-
+      Add Brand
     </button>
   </div>
 </ng-template>

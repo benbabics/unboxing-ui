@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef, ViewEncapsulation, ChangeDetectionStrategy, OnDestroy, TemplateRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDrawer } from '@angular/material/sidenav';
@@ -13,7 +13,6 @@ import { Brand, BrandState } from './../../../../../../../../projects/lib-common
   selector: 'brand-index',
   templateUrl: './brand-index.component.html',
   styleUrls: ['./brand-index.component.scss'],
-  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BrandIndexComponent implements OnInit, OnDestroy {
