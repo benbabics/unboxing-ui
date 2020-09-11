@@ -1,7 +1,8 @@
-<div [formGroup]="form">
+<mat-form-field [formGroup]="form" class="w-full">
   <mat-select 
     matPrefix
     formControlName="brand"
+    placeholder="Select Brand"
     panelClass="brand-selector-panel">
 
     <mat-select-trigger>
@@ -12,6 +13,12 @@
       </ng-template>
     </mat-select-trigger>
 
+    <ng-container *ngIf="allowNullDefault">
+      <mat-option [value]="null">
+        <ng-container *ngTemplateOutlet="brandNotSelected"></ng-container>
+      </mat-option>
+    </ng-container>
+    
     <ng-container *ngIf="brands$ | async as brands">
       <mat-option *ngFor="let brand of brands" [value]="brand">
         <div class="flex items-center">
@@ -24,4 +31,9 @@
     </ng-container>
 
   </mat-select>
-</div>
+</mat-form-field>
+
+
+<ng-template #brandNotSelected>
+  Select Brand
+</ng-template>

@@ -14,6 +14,8 @@ export class BrandSelectorComponent implements OnInit {
 
   private _destroy$ = new Subject();
 
+  allowNullDefault: boolean = false;
+  
   form = new FormGroup({
     brand: new FormControl( '' ),
   });
@@ -43,7 +45,8 @@ export class BrandSelectorComponent implements OnInit {
     // get default active, update form value
     this.brands$.pipe(
       take( 1 ),
-      filter(() => !this.active ),
+      tap(() => this.allowNullDefault = this.active === null ),
+      filter(() => !this.allowNullDefault && !this.active ),
       delay( 0 ), // breaks "Expression has changed after it was checked"
       tap(brands => this.active = brands[0]),
     )
