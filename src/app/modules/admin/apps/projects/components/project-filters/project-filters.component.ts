@@ -1,13 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, FormArray } from '@angular/forms';
 import { toPairs, set } from 'lodash';
 import { Subject } from 'rxjs';
-import { map, takeUntil, tap } from 'rxjs/operators';
+import { map, takeUntil, tap, flatMap, switchMap, withLatestFrom, skip } from 'rxjs/operators';
 import { Store, Actions, ofActionSuccessful } from '@ngxs/store';
 import { UpdateFormValue } from '@ngxs/form-plugin';
-import { SearchProject } from './../../states';
-import { plainToFlattenObject } from '../../../../../../../../projects/lib-common/src/public-api';
+import { SearchProject, SearchProjectState } from './../../states';
 
 @Component({
   selector: 'project-filters',
@@ -28,11 +27,12 @@ export class ProjectFiltersComponent implements OnInit, OnDestroy {
   ) {
     this._buildForm();
     
-    // on SearchProject.Search, update the URL queryParams
+    // on SearchProject.SetFilters, update the URL queryParams
     actions$.pipe(
       takeUntil( this._destroy$ ),
-      ofActionSuccessful( SearchProject.Search ),
-      map(({ payload }) => plainToFlattenObject( payload )),
+      ofActionSuccessful( SearchProject.SetFilters ),
+      withLatestFrom( _store.select( SearchProjectState.filters )),
+      map(([ payload, filters ]) => filters),
       map(queryParams => ({ queryParams, queryParamsHandling: 'merge' })),
       tap(queryParams => _router.navigate( [], <any>queryParams )),
     )
@@ -40,6 +40,9 @@ export class ProjectFiltersComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    const queryParams = this._activatedRoute.snapshot.queryParams;
+    this._store.dispatch( new SearchProject.SetFilters(queryParams) );
+    
     // on queryParam updates, update ngxs form state
     this._activatedRoute.queryParams.pipe(
       takeUntil( this._destroy$ ),
@@ -73,7 +76,9 @@ export class ProjectFiltersComponent implements OnInit, OnDestroy {
         slug:  new FormControl( '' ),
       }),
 
-      users: new FormGroup({ }),
+      users: new FormGroup({
+        ids: new FormArray([ ]),
+      }),
     });
   }
 }
