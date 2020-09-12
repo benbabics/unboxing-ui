@@ -3,6 +3,7 @@ import { NgxsModule } from '@ngxs/store';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
 import { MAT_DATE_FORMATS, MatRippleModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -39,6 +40,7 @@ import {
   ProjectNewComponent,
 } from './pages';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TagIconPipe } from './pipes/tag-icon/tag-icon.pipe';
 
 
 @NgModule({
@@ -48,6 +50,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     NgxsFormPluginModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatChipsModule,
     MatDatepickerModule,
     MatDialogModule,
     MatDividerModule,
@@ -81,6 +84,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     ProjectEditComponent,
     ProjectShowComponent,
     ProjectNewComponent,
+    TagIconPipe,
   ],
   providers: [
     { 

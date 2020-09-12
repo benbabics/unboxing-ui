@@ -16,6 +16,10 @@
           <ng-container *ngTemplateOutlet="contentHeader"></ng-container>
         </div>
 
+        <div class="entity-tags">
+          <ng-container *ngTemplateOutlet="contentTags"></ng-container>
+        </div>
+        
         <div class="entity-list">
           <ng-container *ngTemplateOutlet="contentList"></ng-container>
         </div>
@@ -71,6 +75,19 @@
   </div>
 </ng-template>
 
+
+<!-- Tags -->
+<ng-template #contentTags>
+  <mat-chip-list aria-label="Fish selection">
+    <ng-container 
+      *ngFor="let filter of filters$ | async"
+      [ngTemplateOutlet]="tag"
+      [ngTemplateOutletContext]="{ $implicit: filter }">
+    </ng-container>
+  </mat-chip-list>
+</ng-template>
+
+
 <!-- List -->
 <ng-template #contentList>
   <ng-container *ngIf="projects$ | async as projects">
@@ -80,83 +97,6 @@
       [ngTemplateOutletContext]="{ $implicit: project }">
     </ng-container>
   </ng-container>
-</ng-template>
-
-
-<ng-template #projects>
-  <div class="flex items-center justify-between w-full">
-    <div class="header mr-6">
-      <h1>Projects</h1>
-      <div class="subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
-    </div>
-
-    <!-- Action buttons -->
-    <div class="flex self-start">
-      <button 
-        class="ml-2"
-        mat-stroked-button
-        (click)="drawer.toggle()">
-        
-        <mat-icon 
-          class="icon-size-20 rotate-90 mirror"
-          svgIcon="tune">
-        </mat-icon>
-        <span class="ml-2">Filters</span>
-      </button>
-
-      <button
-        class="add-entity ml-2"
-        mat-flat-button
-        color="primary"
-        routerLink="./new">
-        
-        <mat-icon svgIcon="add"></mat-icon>
-        Add Project
-      </button>
-    </div>
-  </div>
-
-  <div class="flex mt-10 mb-3">
-    <brand-selector 
-      [active]="activeBrand$ | async"
-      (activeChanged)="handleBrandUpdate( $event )">
-
-      <ng-template let-active>
-        <ng-container *ngTemplateOutlet="brandSelector; context: { $implicit: active }"></ng-container>
-      </ng-template>
-    </brand-selector>
-  </div>
-  
-  <div class="flex flex-wrap w-full">
-    <ng-container
-      *ngFor="let project of activeProjects"
-      [ngTemplateOutlet]="projectCard"
-      [ngTemplateOutletContext]="{ $implicit: project }">
-    </ng-container>
-  </div>
-</ng-template>
-
-
-<ng-template #brandSelector let-active>
-  <div class="flex items-center pr-3">
-    <div class="flex items-start w-20 mr-3">
-      <img 
-        class="h-10 object-contain"
-        [src]="active.logoUrl" 
-        [alt]="active.name">
-    </div>
-
-    <div>
-      <h3 class="m-0">{{ active.name }}</h3>
-      <div class="text-secondary tracking-tight">
-        {{ activeProjects.length }}
-        {{ activeProjects.length | i18nPlural: {
-          '=1':    'Project',
-          'other': 'Projects'
-        } }}
-      </div>
-    </div>
-  </div>
 </ng-template>
 
 
@@ -218,6 +158,21 @@
       </button>
     </div>
   </treo-card>
+</ng-template>
+
+
+<!-- Tag -->
+<ng-template #tag let-tag>
+  <mat-chip class="shadow-xs">
+    <mat-icon 
+      matPrefix
+      class="icon-size-18"
+      [svgIcon]="tag.key | tagIcon">
+    </mat-icon>
+
+    <span class="ml-1">{{ tag.value }}</span>
+    <mat-icon matChipRemove>cancel</mat-icon>
+  </mat-chip>
 </ng-template>
 
 

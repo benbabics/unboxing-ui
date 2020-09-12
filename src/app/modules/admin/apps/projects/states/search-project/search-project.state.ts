@@ -1,3 +1,4 @@
+import { delay, tap } from 'rxjs/operators';
 import { UpdateFormDirty } from '@ngxs/form-plugin';
 import { Injectable } from '@angular/core';
 import { State, Selector, Action, StateContext } from '@ngxs/store';
@@ -59,10 +60,13 @@ export class SearchProjectState {
 
   @Action( SearchProject.Search )
   search(ctx: StateContext<SearchProjectStateModel>, { payload }: SearchProject.Search) {
-    ctx.dispatch([
+    return ctx.dispatch([
       new SearchProject.SetLoading( true ),
       new SearchProject.SetFilters( payload ),
-    ]);
-    setTimeout(() => ctx.dispatch( new SearchProject.SetLoading(false) ), 1500);
+    ])
+    .pipe(
+      delay( 1500 ),
+      tap(() => ctx.dispatch( new SearchProject.SetLoading(false) )),
+    );
   }
 }

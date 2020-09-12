@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDrawer } from '@angular/material/sidenav';
+import { toPairs } from 'lodash';
 import { Subject, Observable } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, map, tap } from 'rxjs/operators';
 import { Select, Store } from '@ngxs/store';
 import { SetActive } from '@ngxs-labs/entity-state';
 import { Brand, BrandState, Project, ProjectState } from '../../../../../../../../projects/lib-common/src/public-api';
@@ -21,6 +22,8 @@ export class ProjectIndexComponent implements OnInit, OnDestroy {
   drawerMode: 'over' | 'side';
   drawerOpened: boolean;
   projectForm: FormGroup;
+
+  filters$: Observable<any>;
   
   @ViewChild('drawer') drawer: MatDrawer;
 
@@ -52,6 +55,12 @@ export class ProjectIndexComponent implements OnInit, OnDestroy {
           this.drawerMode = 'side';
         }
       });
+
+    this.filters$ = this._store.select( SearchProjectState.filters )
+      .pipe(
+        map(filters => toPairs( filters )),
+        map(pairs => pairs.map(([ key, value ]) => ({ key, value }))),
+      );
   }
 
   ngOnDestroy(): void {

@@ -11,6 +11,12 @@
     left:   0;
     height: 2px;
   }
+
+  .mat-drawer-container .mat-drawer-content {
+    .main .header {
+      border-bottom-color: transparent;
+    }
+  }
 }
 
 // -----------------------------------------------------------------------------------------------------

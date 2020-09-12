@@ -3,9 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, FormArray } from '@angular/forms';
 import { toPairs, set } from 'lodash';
 import { Subject } from 'rxjs';
-import { map, takeUntil, tap, flatMap, switchMap, withLatestFrom, skip } from 'rxjs/operators';
+import { delay, map, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { Store, Actions, ofActionSuccessful } from '@ngxs/store';
-import { UpdateFormValue } from '@ngxs/form-plugin';
+import { ResetForm } from '@ngxs/form-plugin';
 import { SearchProject, SearchProjectState } from './../../states';
 
 @Component({
@@ -20,9 +20,9 @@ export class ProjectFiltersComponent implements OnInit, OnDestroy {
   projectFiltersForm: FormGroup;
   
   constructor(
+    router: Router,
     actions$: Actions,
     private _store: Store,
-    private _router: Router,
     private _activatedRoute: ActivatedRoute,
   ) {
     this._buildForm();
@@ -34,23 +34,22 @@ export class ProjectFiltersComponent implements OnInit, OnDestroy {
       withLatestFrom( _store.select( SearchProjectState.filters )),
       map(([ payload, filters ]) => filters),
       map(queryParams => ({ queryParams, queryParamsHandling: 'merge' })),
-      tap(queryParams => _router.navigate( [], <any>queryParams )),
+      tap(queryParams => router.navigate( [], <any>queryParams )),
     )
     .subscribe();
   }
 
   ngOnInit() {
-    const queryParams = this._activatedRoute.snapshot.queryParams;
-    this._store.dispatch( new SearchProject.SetFilters(queryParams) );
-    
+    const path = "searchProject.projectFiltersForm";
+
     // on queryParam updates, update ngxs form state
     this._activatedRoute.queryParams.pipe(
       takeUntil( this._destroy$ ),
       map(params => toPairs( params )),
       map(pairs  => pairs.reduce((model, [k,v]) => set(model,k,v), {})),
-      tap(value  => this._store.dispatch(
-        new UpdateFormValue({ value, path: 'searchProject.projectFiltersForm' })
-      )),
+      map(value  => this._store.dispatch( new ResetForm({ value, path }) )),
+      delay( 1 ),
+      tap(() => this.handleSubmit()),
     )
     .subscribe();
   }
