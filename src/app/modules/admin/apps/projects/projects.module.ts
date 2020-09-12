@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { NgxsModule } from '@ngxs/store';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -24,6 +25,7 @@ import { TreoAutogrowModule } from '@treo/directives/autogrow';
 import { TreoFindByKeyPipeModule } from '@treo/pipes/find-by-key';
 import { SharedModule } from 'app/shared/shared.module';
 import { ProjectsRoutingModule } from './projects-routing.module';
+import { SearchProjectState } from './states';
 
 import { 
   BrandSelectorComponent,
@@ -66,6 +68,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     TreoAutogrowModule,
     TreoFindByKeyPipeModule,
     SharedModule,
+    NgxsModule.forFeature([
+      SearchProjectState,
+    ]),
+    NgxsFormPluginModule,
   ],
   declarations: [
     BrandSelectorComponent,
