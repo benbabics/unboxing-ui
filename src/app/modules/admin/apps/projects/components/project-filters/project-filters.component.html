@@ -1,17 +1,15 @@
 <div class="header">
   <mat-icon class="mr-3 rotate-90" svgIcon="tune"></mat-icon>
   <div class="title">Filters</div>
-
-  <!-- Loading bar -->
-  <mat-progress-bar 
-    class="loading-progress-bar"
-    *ngIf="true"
-    mode="indeterminate">
-  </mat-progress-bar>
 </div>
 
-<div class="filters">
-  <div class="filter">
+<form 
+  class="filters"
+  ngxsForm="searchProject.projectFiltersForm"
+  [formGroup]="projectFiltersForm"
+  (ngSubmit)="handleSubmit()">
+
+  <div class="filter" formGroupName="brand">
     <p class="title">Brand</p>
     <p class="text-secondary mb-6">Filter projects by their brand.</p>
 
@@ -32,16 +30,16 @@
     <p class="text-secondary mb-6">Filter projects by this criteria.</p>
     
     <div class="label text-secondary">Fields</div>
-    <div class="flex">
+    <div class="flex" formGroupName="project">
       <mat-form-field class="flex-auto">
-        <input matInput placeholder="Title">
+        <input matInput formControlName="title" placeholder="Title">
         <mat-icon matPrefix svgIcon="title"></mat-icon>
       </mat-form-field>
     </div>
     
-    <div class="flex">
+    <div class="flex" formGroupName="project">
       <mat-form-field class="flex-auto">
-        <input matInput placeholder="Slug">
+        <input matInput formControlName="slug" placeholder="Slug">
         <mat-icon matPrefix svgIcon="language"></mat-icon>
       </mat-form-field>
     </div>
@@ -70,7 +68,7 @@
   </div>
 
   <div class="actions">
-    <button class="px-6 mr-2" mat-flat-button color="primary">
+    <button type="submit" class="px-6 mr-2" mat-flat-button color="primary">
       Search
     </button>
 
@@ -78,4 +76,4 @@
       Reset
     </button>
   </div>
-</div>
+</form>
