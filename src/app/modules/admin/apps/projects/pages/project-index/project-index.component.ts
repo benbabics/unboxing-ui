@@ -7,6 +7,7 @@ import { Select, Store } from '@ngxs/store';
 import { SetActive } from '@ngxs-labs/entity-state';
 import { Brand, BrandState, Project, ProjectState } from '../../../../../../../../projects/lib-common/src/public-api';
 import { TreoMediaWatcherService } from '@treo/services/media-watcher/media-watcher.service';
+import { SearchProjectState } from '../../states';
 
 @Component({
   selector: 'project-index',
@@ -25,6 +26,7 @@ export class ProjectIndexComponent implements OnInit, OnDestroy {
 
   @Select( BrandState.active ) activeBrand$: Observable<Brand>;
   @Select( ProjectState.entities ) projects$: Observable<Project[]>;
+  @Select( SearchProjectState.loading ) loading$: Observable<boolean>;
 
   get activeProjects(): Project[] {
     return this._store.selectSnapshot( ProjectState.filteredEntities );

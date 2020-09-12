@@ -26,6 +26,14 @@
 </div>
 
 
+<!-- Loading bar -->
+<mat-progress-bar 
+  class="loading-progress-bar"
+  *ngIf="loading$ | async"
+  mode="indeterminate">
+</mat-progress-bar>
+
+
 <!-- Header -->
 <ng-template #contentHeader>
   <div class="title">
