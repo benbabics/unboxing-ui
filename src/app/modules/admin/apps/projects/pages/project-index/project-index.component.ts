@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { MatDrawer } from '@angular/material/sidenav';
 import { toPairs, omit } from 'lodash';
-import { Subject, Observable } from 'rxjs';
-import { map, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
+import { Subject, Observable, BehaviorSubject } from 'rxjs';
+import { filter, map, take, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { Select, Store, Actions, ofActionSuccessful } from '@ngxs/store';
 import { TreoMediaWatcherService } from '@treo/services/media-watcher/media-watcher.service';
 import { SearchProject, SearchProjectState } from '../../states';
@@ -24,6 +24,7 @@ export class ProjectIndexComponent implements OnInit, OnDestroy {
   projectForm: FormGroup;
 
   filters$: Observable<any>;
+  isSmallScreen$: BehaviorSubject<boolean> = new BehaviorSubject( false );
   
   @ViewChild('drawer') drawer: MatDrawer;
 
@@ -57,15 +58,14 @@ export class ProjectIndexComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this._treoMediaWatcherService.onMediaChange$
-      .pipe( takeUntil(this._destroy$) )
-      .subscribe(({ matchingAliases }) => {
-        if ( matchingAliases.includes('lt-lg') ) {
-          this.drawerMode = 'over';
-          this.handleDrawerToggle( false );
-        }
-        else {
-          this.drawerMode = 'side';
-        }
+      .pipe(
+        takeUntil( this._destroy$ ),
+        map(({ matchingAliases }) => matchingAliases.includes( 'lt-lg' )),
+        tap(isSmallScreen => this.isSmallScreen$.next( isSmallScreen )),
+      )
+      .subscribe(isSmallScreen => {
+        this.drawerMode = isSmallScreen ? 'over' : 'side';
+        if ( isSmallScreen ) this.handleDrawerToggle( false );
       });
 
     this.filters$ = this._store.select( SearchProjectState.filters )
@@ -81,7 +81,13 @@ export class ProjectIndexComponent implements OnInit, OnDestroy {
   }
 
   handleFilterUpdate(filters: any): void {
-    this._store.dispatch( new SearchProject.Search(filters) );
+    this._store.dispatch( new SearchProject.Search(filters) )
+    this.isSmallScreen$.pipe(
+      take( 1 ),
+      filter(isSmall => isSmall),
+      tap(() => this.handleDrawerToggle( false )),
+    )
+    .subscribe();
   }
 
   handleRemoveFilter(id: string): void {
