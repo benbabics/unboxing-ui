@@ -1182,38 +1182,38 @@
   dependencies:
     tslib "^1.9.0"
 
-"@ngxs/devtools-plugin@^3.6.2":
-  version "3.6.2"
-  resolved "https://registry.yarnpkg.com/@ngxs/devtools-plugin/-/devtools-plugin-3.6.2.tgz#aa0a4835f90fb905951d7712dc3ce508cbc15a2c"
-  integrity sha512-0UUZlpXgEtrHoWNeVQXEvUyC6pW8nTACpqJgecuBjYJMa5imCCUSXdrpear8ztJuWwpLqMUSGk5cICNhKqK59g==
+"@ngxs/devtools-plugin@^3.7.0":
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/@ngxs/devtools-plugin/-/devtools-plugin-3.7.0.tgz#5b6b3e63411da527fcee1e8280714e1b95a838c7"
+  integrity sha512-jjq91AbnnhzSm4QRUd7M0Y+HnUYnsSTVwUy8c1BsH8rGQ9c77xIveQaF2UBngPaDKQzTyzdVO2rV7twy3W2/fg==
   dependencies:
     tslib "^1.9.0"
 
-"@ngxs/form-plugin@^3.6.2":
-  version "3.6.2"
-  resolved "https://registry.yarnpkg.com/@ngxs/form-plugin/-/form-plugin-3.6.2.tgz#b188485ae43997d9c822edebcd2ba37838de0920"
-  integrity sha512-1ksH4j84HRuCvKLsDrWRLeezmx54qYcGIxZyPRUJqoMRD//Tb07VIHtNHwpCrZBloV1ajP5thaMx3xHWjbkBLw==
+"@ngxs/form-plugin@^3.7.0":
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/@ngxs/form-plugin/-/form-plugin-3.7.0.tgz#04d37119da26602fbe400c7e7de5530b7a75471b"
+  integrity sha512-dl9tqtXD2gnw+zdc1gzlCRSzwJ+Pme0A9qNdwRRH6vaP1zPoY72DnGpTAosXPtXUU31jtcvcVpRxRR5TxLklWg==
   dependencies:
     tslib "^1.9.0"
 
-"@ngxs/logger-plugin@^3.6.2":
-  version "3.6.2"
-  resolved "https://registry.yarnpkg.com/@ngxs/logger-plugin/-/logger-plugin-3.6.2.tgz#1a8132a0b1eb95cad79736120fd50a331fe7347b"
-  integrity sha512-qF4ci9Ua7jL7r5EhZBEb0JB0HuGsTgFShK3OVTYSXU9+XfSb+5vrDLtmTshmBqQy6dWCd+2xq4LzBgc8IKMRuQ==
+"@ngxs/logger-plugin@^3.7.0":
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/@ngxs/logger-plugin/-/logger-plugin-3.7.0.tgz#a27d6bb27360fc2677773c57868740b8cd33cc41"
+  integrity sha512-yr3NXXJEqJnxSuKiHaTbNmoprKKcrIS1PUIlOm9nvKsOmyrGskxu+MYCzUifemXDIyXSP2u0OBNPrVUumcXyhg==
   dependencies:
     tslib "^1.9.0"
 
-"@ngxs/storage-plugin@^3.6.2":
-  version "3.6.2"
-  resolved "https://registry.yarnpkg.com/@ngxs/storage-plugin/-/storage-plugin-3.6.2.tgz#6fe2168891382c635406df02308f67b585efc60a"
-  integrity sha512-x9CATYmXDH9bWmKW4uQxt5xxb51naSAmMkhvv1QHIrE9hG4uYNqiV3ERAM1wZvZbu2MJB9iXEN0cBziTgrwe2Q==
+"@ngxs/storage-plugin@^3.7.0":
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/@ngxs/storage-plugin/-/storage-plugin-3.7.0.tgz#3a0bc75f5dbba17a18e37b69cfde5d470cfceb45"
+  integrity sha512-j5rGYfhi1S+sAky956DIs+6AYP9FMBWL2Uz+omKBS/i42mjhyD26UfApORjwCOyW5PCb4Tq3B14ZPxyAaSi/OA==
   dependencies:
     tslib "^1.9.0"
 
-"@ngxs/store@^3.6.2":
-  version "3.6.2"
-  resolved "https://registry.yarnpkg.com/@ngxs/store/-/store-3.6.2.tgz#cfba63dc1e5bd422e89e54b3332cd69818510624"
-  integrity sha512-al7GU618SAuz2Ul4rFYVDgS1DM0gHReGOGvbnE7LBt4Etz3gsJERNYXPp2bSA7lZGaRPRaFfIHJN+Lm/GikFJw==
+"@ngxs/store@^3.7.0":
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/@ngxs/store/-/store-3.7.0.tgz#e46387219dae610c685accc119ae42e351afcaa4"
+  integrity sha512-w9fG/DhKBgH1VJMKSoeNW9x9ycD9/Dzy+VkpFD8Jv0JBNX0MRgP+5KQQe3ZKwnJ+7S0UV/99JvJaWgxc/WOvPw==
   dependencies:
     tslib "^1.9.0"
 
@@ -1378,9 +1378,9 @@
   integrity sha512-7+2BITlgjgDhH0vvwZU/HZJVyk+2XUlvxXe8dFMedNX/aMkaOq++rMAFXc0tM7ij15QaWlbdQASBR9dihi+bDQ==
 
 "@types/lodash@4.17.3":
-  version "4.14.160"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.160.tgz#2f1bba6500bc3cb9a732c6d66a083378fb0b0b29"
-  integrity sha512-aP03BShJoO+WVndoVj/WNcB/YBPt+CIU1mvaao2GRAHy2yg4pT/XS4XnVHEQBjPJGycWf/9seKEO9vopTJGkvA==
+  version "4.14.161"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.161.tgz#a21ca0777dabc6e4f44f3d07f37b765f54188b18"
+  integrity sha512-EP6O3Jkr7bXvZZSZYlsgt5DIjiGr0dXP1/jVEwVLTFgg0d+3lWVQkRavYVQszV7dYUwvg0B8R0MBDpcmXg7XIA==
 
 "@types/marked@^0.7.4":
   version "0.7.4"

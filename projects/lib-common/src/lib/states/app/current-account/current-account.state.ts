@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { finalize, map } from 'rxjs/operators';
+import { omit } from 'lodash';
+import { finalize, map, tap } from 'rxjs/operators';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { Reset, CreateOrReplace } from '@ngxs-labs/entity-state';
 import { CurrentAccount } from './current-account.action';
@@ -62,23 +63,20 @@ export class CurrentAccountState {
     params = params.append('_embed', 'brands');
     params = params.append('_embed', 'projects');
 
-    return new Promise(resolve => {
-      this.http.get<CurrentAccount>( `/api/accounts/${id}`, { params } )
-        .pipe(
-          map(({ brands, projects, ...account }: any) =>
-            this.store.dispatch([
-              ctx.patchState( account ),
-              new CreateOrReplace( AccountState, account ),
-              new Reset( BrandState ),
-              new CreateOrReplace( BrandState, brands ),
-              new Reset( ProjectState ),
-              new CreateOrReplace( ProjectState, projects ),
-            ])
-          ),
-          finalize(() => resolve()),
-        )
-        .subscribe();
-    });
+    return this.http.get<CurrentAccount>( `/api/accounts/${ id }`, { params } )
+      .pipe(
+        tap((data: any) => {
+          const account = omit( data, 'brands', 'projects' );
+          ctx.patchState( account );
+          this.store.dispatch([
+            new CreateOrReplace( AccountState, account ),
+            new Reset( BrandState ),
+            new CreateOrReplace( BrandState, data.brands ),
+            new Reset( ProjectState ),
+            new CreateOrReplace( ProjectState, data.projects ),
+          ]);
+        }),
+      );
   }
 
   @Action( CurrentAccount.Select )
