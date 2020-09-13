@@ -27,7 +27,7 @@ import { TreoAutogrowModule } from '@treo/directives/autogrow';
 import { TreoFindByKeyPipeModule } from '@treo/pipes/find-by-key';
 import { SharedModule } from 'app/shared/shared.module';
 import { ProjectsRoutingModule } from './projects-routing.module';
-import { SearchProjectState } from './states';
+import { ProjectSearchState } from './states';
 
 import { 
   BrandDetailComponent,
@@ -74,7 +74,7 @@ import { TagIconPipe } from './pipes';
     TreoFindByKeyPipeModule,
     SharedModule,
     NgxsModule.forFeature([
-      SearchProjectState,
+      ProjectSearchState,
     ]),
     NgxsFormPluginModule,
   ],

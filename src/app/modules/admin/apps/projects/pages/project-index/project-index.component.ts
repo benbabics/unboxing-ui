@@ -7,7 +7,7 @@ import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import { filter, map, take, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { Select, Store, Actions, ofActionSuccessful } from '@ngxs/store';
 import { TreoMediaWatcherService } from '@treo/services/media-watcher/media-watcher.service';
-import { SearchProject, SearchProjectState } from '../../states';
+import { ProjectSearch, ProjectSearchState } from '../../states';
 import { Brand, BrandState, Project, ProjectState, UiPreferencesState, UiPreferences } from '../../../../../../../../projects/lib-common/src/public-api';
 
 @Component({
@@ -30,7 +30,7 @@ export class ProjectIndexComponent implements OnInit, OnDestroy {
 
   @Select( BrandState.active ) activeBrand$: Observable<Brand>;
   @Select( ProjectState.entities ) projects$: Observable<Project[]>;
-  @Select( SearchProjectState.loading ) loading$: Observable<boolean>;
+  @Select( ProjectSearchState.loading ) loading$: Observable<boolean>;
   @Select( UiPreferencesState.projectIndexDrawerOpened) drawerOpened$: Observable<boolean>;
 
   get activeProjects(): Project[] {
@@ -45,11 +45,11 @@ export class ProjectIndexComponent implements OnInit, OnDestroy {
   ) {
     this.drawerMode = 'side';
 
-    // on SearchProject.SetFilters, update the URL queryParams
+    // on ProjectSearch.SetFilters, update the URL queryParams
     actions$.pipe(
       takeUntil( this._destroy$ ),
-      ofActionSuccessful( SearchProject.SetFilters ),
-      withLatestFrom( _store.select(SearchProjectState.filters) ),
+      ofActionSuccessful( ProjectSearch.SetFilters ),
+      withLatestFrom( _store.select(ProjectSearchState.filters) ),
       map(([ payload, filters ]) => filters),
       tap(filters => this.updateUrlQueryParams( filters )),
     )
@@ -68,7 +68,7 @@ export class ProjectIndexComponent implements OnInit, OnDestroy {
         if ( isSmallScreen ) this.handleDrawerToggle( false );
       });
 
-    this.filters$ = this._store.select( SearchProjectState.filters )
+    this.filters$ = this._store.select( ProjectSearchState.filters )
       .pipe(
         map(filters => toPairs( filters )),
         map(pairs => pairs.map(([ key, value ]) => ({ key, value }))),
@@ -81,7 +81,7 @@ export class ProjectIndexComponent implements OnInit, OnDestroy {
   }
 
   handleFilterUpdate(filters: any): void {
-    this._store.dispatch( new SearchProject.Search(filters) )
+    this._store.dispatch( new ProjectSearch.Search(filters) )
     this.isSmallScreen$.pipe(
       take( 1 ),
       filter(isSmall => isSmall),
@@ -91,7 +91,7 @@ export class ProjectIndexComponent implements OnInit, OnDestroy {
   }
 
   handleRemoveFilter(id: string): void {
-    this._store.selectOnce( SearchProjectState.filters ) 
+    this._store.selectOnce( ProjectSearchState.filters ) 
       .pipe(
         map(filters => omit( filters, id )),
         tap(filters => this.updateUrlQueryParams( filters )),

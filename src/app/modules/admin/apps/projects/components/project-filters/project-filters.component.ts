@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 import { delay, map, takeUntil, tap } from 'rxjs/operators';
 import { Store } from '@ngxs/store';
 import { ResetForm, UpdateFormValue } from '@ngxs/form-plugin';
-import { SearchProject } from './../../states';
+import { ProjectSearch } from './../../states';
 
 @Component({
   selector: 'project-filters',
@@ -19,7 +19,7 @@ export class ProjectFiltersComponent implements OnInit, OnDestroy {
   private _destroy$ = new Subject();
   
   projectFiltersForm: FormGroup;
-  readonly formPath = "searchProject.projectFiltersForm";
+  readonly formPath = "projectSearch.projectFiltersForm";
 
   @Output() onFilterUpdate = new EventEmitter();
   
