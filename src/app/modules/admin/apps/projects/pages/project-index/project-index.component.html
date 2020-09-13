@@ -168,11 +168,22 @@
   <mat-chip class="shadow-xs">
     <mat-icon 
       matPrefix
-      class="icon-size-18"
+      class="icon-size-18 mr-1"
       [svgIcon]="tag.key | tagIcon">
     </mat-icon>
+    
+    <ng-container [ngSwitch]="tag.key">
+      <ng-template ngSwitchCase="brand.id">
+        <brand-detail [id]="tag.value">
+          <ng-template let-brand>{{ brand.name }}</ng-template>
+        </brand-detail>
+      </ng-template>
+    
+      <ng-template ngSwitchDefault>
+        {{ tag.value }}
+      </ng-template>
+    </ng-container>
 
-    <span class="ml-1">{{ tag.value }}</span>
     <mat-icon matChipRemove>cancel</mat-icon>
   </mat-chip>
 </ng-template>
