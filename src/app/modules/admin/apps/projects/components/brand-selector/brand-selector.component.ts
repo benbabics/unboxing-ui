@@ -1,7 +1,7 @@
-import { Component, Input, OnInit, Output, EventEmitter, ContentChild, TemplateRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ContentChild, TemplateRef } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subject, Observable } from 'rxjs';
-import { delay, filter, take, takeUntil, tap } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 import { Select } from '@ngxs/store';
 import { Brand, BrandState } from '../../../../../../../../projects/lib-common/src/public-api';
 
@@ -10,12 +10,10 @@ import { Brand, BrandState } from '../../../../../../../../projects/lib-common/s
   templateUrl: './brand-selector.component.html',
   styleUrls: ['./brand-selector.component.scss'],
 })
-export class BrandSelectorComponent implements OnInit {
+export class BrandSelectorComponent {
 
   private _destroy$ = new Subject();
 
-  allowNullDefault: boolean = false;
-  
   form = new FormGroup({
     brand: new FormControl( '' ),
   });
@@ -28,27 +26,15 @@ export class BrandSelectorComponent implements OnInit {
     this.form.get( 'brand' ).setValue( brand );
   }
 
-  @Output() activeChanged = new EventEmitter();
+  @Output() activeChange = new EventEmitter();
   @ContentChild( TemplateRef ) templateRef: TemplateRef<any>;
   @Select( BrandState.sortedEntities ) brands$: Observable<Brand[]>;
 
   constructor() {
-    // when form value is updated, notify bindings
+    // notify bindings when form value is updated
     this.form.get( 'brand' ).valueChanges.pipe(
       takeUntil( this._destroy$ ),
-      tap(brand => this.handleUpdateBrand( brand )),
-    )
-    .subscribe();
-  }
-
-  ngOnInit(): void {
-    // get default active, update form value
-    this.brands$.pipe(
-      take( 1 ),
-      tap(() => this.allowNullDefault = this.active === null ),
-      filter(() => !this.allowNullDefault && !this.active ),
-      delay( 0 ), // breaks "Expression has changed after it was checked"
-      tap(brands => this.active = brands[0]),
+      tap(brandId => this.handleUpdateBrand( brandId )),
     )
     .subscribe();
   }
@@ -58,7 +44,7 @@ export class BrandSelectorComponent implements OnInit {
     this._destroy$.complete();
   }
 
-  private handleUpdateBrand(brand: Brand): void {
-    this.activeChanged.emit( brand );
+  private handleUpdateBrand(brandId: string): void {
+    this.activeChange.emit( brandId );
   }
 }

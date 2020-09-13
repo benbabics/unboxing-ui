@@ -13,14 +13,12 @@
       </ng-template>
     </mat-select-trigger>
 
-    <ng-container *ngIf="allowNullDefault">
-      <mat-option [value]="null">
-        <ng-container *ngTemplateOutlet="brandNotSelected"></ng-container>
-      </mat-option>
-    </ng-container>
+    <mat-option value="">
+      <ng-container *ngTemplateOutlet="brandNotSelected"></ng-container>
+    </mat-option>
     
     <ng-container *ngIf="brands$ | async as brands">
-      <mat-option *ngFor="let brand of brands" [value]="brand">
+      <mat-option *ngFor="let brand of brands" [value]="brand.id">
         <div class="flex items-center">
           <div class="w-14 mr-4">
             <img [src]="brand.logoUrl" [alt]="brand.name" class="h-8 object-contain">
