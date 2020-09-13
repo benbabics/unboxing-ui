@@ -158,10 +158,19 @@
           }
         }
       }
-      
+
+      .active-brand {
+        @if ($is-dark) {
+          color: #fff;
+        } 
+        @else {
+          color: #000;
+        }
+      }
+
       .actions {
         @if ($is-dark) {
-          background-color: map-get($background, hover);
+          background-color: rgb(39, 48, 63);
         } 
         @else {
           background-color: treo-color('cool-gray', 50);
