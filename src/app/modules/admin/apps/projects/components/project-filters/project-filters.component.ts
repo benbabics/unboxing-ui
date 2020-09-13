@@ -1,12 +1,12 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, FormArray } from '@angular/forms';
 import { toPairs, set } from 'lodash';
 import { Subject } from 'rxjs';
-import { delay, map, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
-import { Store, Actions, ofActionSuccessful } from '@ngxs/store';
+import { delay, map, takeUntil, tap } from 'rxjs/operators';
+import { Store } from '@ngxs/store';
 import { ResetForm, UpdateFormValue } from '@ngxs/form-plugin';
-import { SearchProject, SearchProjectState } from './../../states';
+import { SearchProject } from './../../states';
 
 @Component({
   selector: 'project-filters',
@@ -18,27 +18,16 @@ export class ProjectFiltersComponent implements OnInit, OnDestroy {
 
   private _destroy$ = new Subject();
   
-  readonly formPath = "searchProject.projectFiltersForm";
   projectFiltersForm: FormGroup;
+  readonly formPath = "searchProject.projectFiltersForm";
+
+  @Output() onFilterUpdate = new EventEmitter();
   
   constructor(
-    router: Router,
-    actions$: Actions,
     private _store: Store,
     private _activatedRoute: ActivatedRoute,
   ) {
     this._buildForm();
-    
-    // on SearchProject.SetFilters, update the URL queryParams
-    actions$.pipe(
-      takeUntil( this._destroy$ ),
-      ofActionSuccessful( SearchProject.SetFilters ),
-      withLatestFrom( _store.select( SearchProjectState.filters )),
-      map(([ payload, filters ]) => filters),
-      map(queryParams => ({ queryParams, queryParamsHandling: '' })),
-      tap(queryParams => router.navigate( [], <any>queryParams )),
-    )
-    .subscribe();
   }
 
   ngOnInit() {
@@ -69,7 +58,7 @@ export class ProjectFiltersComponent implements OnInit, OnDestroy {
 
   handleSubmit(): void {
     const filters = this.projectFiltersForm.getRawValue();
-    this._store.dispatch( new SearchProject.Search(filters) );
+    this.onFilterUpdate.emit( filters );
   }
 
   private _buildForm(): void {

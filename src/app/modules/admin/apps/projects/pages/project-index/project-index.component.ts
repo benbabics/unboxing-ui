@@ -1,13 +1,13 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { MatDrawer } from '@angular/material/sidenav';
-import { toPairs } from 'lodash';
+import { toPairs, omit } from 'lodash';
 import { Subject, Observable } from 'rxjs';
-import { takeUntil, map, tap } from 'rxjs/operators';
-import { Select, Store } from '@ngxs/store';
-import { SetActive } from '@ngxs-labs/entity-state';
+import { map, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
+import { Select, Store, Actions, ofActionSuccessful } from '@ngxs/store';
 import { TreoMediaWatcherService } from '@treo/services/media-watcher/media-watcher.service';
-import { SearchProjectState } from '../../states';
+import { SearchProject, SearchProjectState } from '../../states';
 import { Brand, BrandState, Project, ProjectState, UiPreferencesState, UiPreferences } from '../../../../../../../../projects/lib-common/src/public-api';
 
 @Component({
@@ -37,10 +37,22 @@ export class ProjectIndexComponent implements OnInit, OnDestroy {
   }
   
   constructor(
+    actions$: Actions,
     private _store: Store,
+    private _router: Router,
     private _treoMediaWatcherService: TreoMediaWatcherService,
   ) {
     this.drawerMode = 'side';
+
+    // on SearchProject.SetFilters, update the URL queryParams
+    actions$.pipe(
+      takeUntil( this._destroy$ ),
+      ofActionSuccessful( SearchProject.SetFilters ),
+      withLatestFrom( _store.select(SearchProjectState.filters) ),
+      map(([ payload, filters ]) => filters),
+      tap(filters => this.updateUrlQueryParams( filters )),
+    )
+    .subscribe();
   }
 
   ngOnInit(): void {
@@ -68,13 +80,24 @@ export class ProjectIndexComponent implements OnInit, OnDestroy {
     this._destroy$.complete();
   }
 
+  handleFilterUpdate(filters: any): void {
+    this._store.dispatch( new SearchProject.Search(filters) );
+  }
+
+  handleRemoveFilter(id: string): void {
+    this._store.selectOnce( SearchProjectState.filters ) 
+      .pipe(
+        map(filters => omit( filters, id )),
+        tap(filters => this.updateUrlQueryParams( filters )),
+      )
+      .subscribe();
+  }
+
   handleDrawerToggle(isOpen: boolean): void {
     this._store.dispatch( new UiPreferences.ToggleProjectIndexDrawerOpened(isOpen) );
   }
 
-  handleBrandUpdate(brand: Brand): void {
-    if ( brand ) {
-      this._store.dispatch( new SetActive(BrandState, brand.id) );
-    }
+  private updateUrlQueryParams(queryParams: any): void {
+    this._router.navigate([], { queryParams, queryParamsHandling: '' });
   }
 }

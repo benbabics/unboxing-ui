@@ -7,7 +7,9 @@
       (opened)="handleDrawerToggle( true )"
       (closed)="handleDrawerToggle( false )">
 
-      <project-filters></project-filters>
+      <project-filters
+        (onFilterUpdate)="handleFilterUpdate( $event )">
+      </project-filters>
     </mat-drawer>
 
     <mat-drawer-content>
@@ -165,7 +167,10 @@
 
 <!-- Tag -->
 <ng-template #tag let-tag>
-  <mat-chip class="shadow-xs">
+  <mat-chip
+    class="shadow-xs"
+    (removed)="handleRemoveFilter( tag.key )">
+
     <mat-icon 
       matPrefix
       class="icon-size-18 mr-1"
