@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, FormArray } from '@angular/forms';
 import { toPairs, set } from 'lodash';
@@ -11,7 +11,8 @@ import { SearchProject, SearchProjectState } from './../../states';
 @Component({
   selector: 'project-filters',
   templateUrl: './project-filters.component.html',
-  styleUrls: ['./project-filters.component.scss']
+  styleUrls: ['./project-filters.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProjectFiltersComponent implements OnInit, OnDestroy {
 
@@ -62,7 +63,7 @@ export class ProjectFiltersComponent implements OnInit, OnDestroy {
     this._store.dispatch(new UpdateFormValue({
       propertyPath: 'brand',
       path:  this.formPath,
-      value: { id: id || "" },
+      value: { id },
     }));
   }
 
