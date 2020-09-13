@@ -4,7 +4,7 @@ import { Store, State, Action, Selector, StateContext } from '@ngxs/store';
 import { defaultEntityState, EntityStateModel, EntityState, IdStrategy, Add, Update, SetLoading, Remove } from '@ngxs-labs/entity-state';
 import { UpdateFormDirty } from '@ngxs/form-plugin';
 import { finalize, flatMap } from 'rxjs/operators';
-import { sortBy } from 'lodash';
+import { compact, sortBy } from 'lodash';
 import { Brand } from './brand.action';
 
 export interface BrandStateModel extends EntityStateModel<Brand> {
@@ -25,6 +25,21 @@ export interface BrandStateModel extends EntityStateModel<Brand> {
 })
 @Injectable()
 export class BrandState extends EntityState<Brand> {
+
+  @Selector()
+  static id(id: string) {
+    return ({ brand }) => {
+      return brand.entities[ id ];
+    }
+  }
+  
+  @Selector()
+  static ids(...args: string[]) {
+    return ({ brand }) => {
+      const brands = [ ...args ].map(id => brand.entities[ id ]);
+      return compact( brands );
+    }
+  }
 
   @Selector()
   static sortedEntities(state: BrandStateModel) {
