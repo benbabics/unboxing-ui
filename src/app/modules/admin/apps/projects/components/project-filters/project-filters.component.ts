@@ -5,7 +5,7 @@ import { toPairs, set } from 'lodash';
 import { Subject } from 'rxjs';
 import { delay, map, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { Store, Actions, ofActionSuccessful } from '@ngxs/store';
-import { ResetForm } from '@ngxs/form-plugin';
+import { ResetForm, UpdateFormValue } from '@ngxs/form-plugin';
 import { SearchProject, SearchProjectState } from './../../states';
 
 @Component({
@@ -17,6 +17,7 @@ export class ProjectFiltersComponent implements OnInit, OnDestroy {
 
   private _destroy$ = new Subject();
   
+  readonly formPath = "searchProject.projectFiltersForm";
   projectFiltersForm: FormGroup;
   
   constructor(
@@ -33,21 +34,19 @@ export class ProjectFiltersComponent implements OnInit, OnDestroy {
       ofActionSuccessful( SearchProject.SetFilters ),
       withLatestFrom( _store.select( SearchProjectState.filters )),
       map(([ payload, filters ]) => filters),
-      map(queryParams => ({ queryParams, queryParamsHandling: 'merge' })),
+      map(queryParams => ({ queryParams, queryParamsHandling: '' })),
       tap(queryParams => router.navigate( [], <any>queryParams )),
     )
     .subscribe();
   }
 
   ngOnInit() {
-    const path = "searchProject.projectFiltersForm";
-
     // on queryParam updates, update ngxs form state
     this._activatedRoute.queryParams.pipe(
       takeUntil( this._destroy$ ),
       map(params => toPairs( params )),
       map(pairs  => pairs.reduce((model, [k,v]) => set(model,k,v), {})),
-      map(value  => this._store.dispatch( new ResetForm({ value, path }) )),
+      map(value  => this._store.dispatch( new ResetForm({ value, path: this.formPath }) )),
       delay( 1 ),
       tap(() => this.handleSubmit()),
     )
@@ -57,6 +56,14 @@ export class ProjectFiltersComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this._destroy$.next( true );
     this._destroy$.complete();
+  }
+
+  handleUpdateBrand(id: string): void {
+    this._store.dispatch(new UpdateFormValue({
+      propertyPath: 'brand',
+      path:  this.formPath,
+      value: { id: id || "" },
+    }));
   }
 
   handleSubmit(): void {

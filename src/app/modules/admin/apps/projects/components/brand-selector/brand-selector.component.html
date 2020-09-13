@@ -13,8 +13,8 @@
       </ng-template>
     </mat-select-trigger>
 
-    <mat-option value="">
-      <ng-container *ngTemplateOutlet="brandNotSelected"></ng-container>
+    <mat-option [value]="null">
+      Select Brand
     </mat-option>
     
     <ng-container *ngIf="brands$ | async as brands">
@@ -30,8 +30,3 @@
 
   </mat-select>
 </mat-form-field>
-
-
-<ng-template #brandNotSelected>
-  Select Brand
-</ng-template>

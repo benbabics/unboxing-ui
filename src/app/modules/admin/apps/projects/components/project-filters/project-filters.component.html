@@ -13,14 +13,20 @@
     <p class="title">Brand</p>
     <p class="text-secondary mb-6">Filter projects by their brand.</p>
 
-    <brand-selector [active]="null">
-      <ng-template let-active>
-        <div class="flex items-center text-black">
-          <div class="flex items-start w-14 mr-4">
-            <img class="h-8 object-contain" [src]="active.logoUrl" [alt]="active.name">
-          </div>
-          {{ active.name }}
-        </div>
+    <brand-selector 
+      [active]="projectFiltersForm.controls.brand.value.id"
+      (activeChange)="handleUpdateBrand( $event )">
+      <ng-template let-brandId>
+        <brand-detail [id]="brandId">
+          <ng-template let-brand>
+            <div class="flex items-center text-black">
+              <div class="flex items-start w-14 mr-4">
+                <img class="h-8 object-contain" [src]="brand.logoUrl" [alt]="brand.name">
+              </div>
+              {{ brand.name }}
+            </div>
+          </ng-template>
+        </brand-detail>
       </ng-template>
     </brand-selector>
   </div>
