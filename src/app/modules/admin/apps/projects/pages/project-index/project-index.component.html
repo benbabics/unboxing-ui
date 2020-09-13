@@ -3,7 +3,9 @@
     <mat-drawer 
       #drawer
       [mode]="drawerMode"
-      [opened]="drawerOpened">
+      [opened]="drawerOpened$ | async"
+      (opened)="handleDrawerToggle( true )"
+      (closed)="handleDrawerToggle( false )">
 
       <project-filters></project-filters>
     </mat-drawer>

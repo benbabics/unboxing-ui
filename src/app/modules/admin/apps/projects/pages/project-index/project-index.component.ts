@@ -6,9 +6,9 @@ import { Subject, Observable } from 'rxjs';
 import { takeUntil, map, tap } from 'rxjs/operators';
 import { Select, Store } from '@ngxs/store';
 import { SetActive } from '@ngxs-labs/entity-state';
-import { Brand, BrandState, Project, ProjectState } from '../../../../../../../../projects/lib-common/src/public-api';
 import { TreoMediaWatcherService } from '@treo/services/media-watcher/media-watcher.service';
 import { SearchProjectState } from '../../states';
+import { Brand, BrandState, Project, ProjectState, UiPreferencesState, UiPreferences } from '../../../../../../../../projects/lib-common/src/public-api';
 
 @Component({
   selector: 'project-index',
@@ -30,6 +30,7 @@ export class ProjectIndexComponent implements OnInit, OnDestroy {
   @Select( BrandState.active ) activeBrand$: Observable<Brand>;
   @Select( ProjectState.entities ) projects$: Observable<Project[]>;
   @Select( SearchProjectState.loading ) loading$: Observable<boolean>;
+  @Select( UiPreferencesState.projectIndexDrawerOpened) drawerOpened$: Observable<boolean>;
 
   get activeProjects(): Project[] {
     return this._store.selectSnapshot( ProjectState.filteredEntities );
@@ -39,8 +40,7 @@ export class ProjectIndexComponent implements OnInit, OnDestroy {
     private _store: Store,
     private _treoMediaWatcherService: TreoMediaWatcherService,
   ) {
-    this.drawerMode   = 'side';
-    this.drawerOpened = false;
+    this.drawerMode = 'side';
   }
 
   ngOnInit(): void {
@@ -48,8 +48,8 @@ export class ProjectIndexComponent implements OnInit, OnDestroy {
       .pipe( takeUntil(this._destroy$) )
       .subscribe(({ matchingAliases }) => {
         if ( matchingAliases.includes('lt-lg') ) {
-          this.drawerMode   = 'over';
-          this.drawerOpened = false;
+          this.drawerMode = 'over';
+          this.handleDrawerToggle( false );
         }
         else {
           this.drawerMode = 'side';
@@ -66,6 +66,10 @@ export class ProjectIndexComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this._destroy$.next();
     this._destroy$.complete();
+  }
+
+  handleDrawerToggle(isOpen: boolean): void {
+    this._store.dispatch( new UiPreferences.ToggleProjectIndexDrawerOpened(isOpen) );
   }
 
   handleBrandUpdate(brand: Brand): void {
