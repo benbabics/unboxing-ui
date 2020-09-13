@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Ui, UiState, UiThemeAppearance } from '../../../../../../../../projects/lib-common/src/public-api';
+import { UiPreferences, UiPreferencesState, UiPreferencesThemeAppearance } from '../../../../../../../../projects/lib-common/src/public-api';
 import { SettingsFormComponent } from './../../components';
 
 @Component({
@@ -20,11 +20,11 @@ export class SettingsUiComponent extends SettingsFormComponent {
     super( _store );
   }
 
-  protected _loadState(): Observable<UiThemeAppearance> {
-    return this._store.select( UiState.themeAppearance );
+  protected _loadState(): Observable<UiPreferencesThemeAppearance> {
+    return this._store.select( UiPreferencesState.themeAppearance );
   }
 
-  protected _buildForm(theme?: UiThemeAppearance): void {
+  protected _buildForm(theme?: UiPreferencesThemeAppearance): void {
     this.manageSettingsForm = new FormGroup({
       themeAppearance: new FormControl( theme ),
     });
@@ -32,7 +32,7 @@ export class SettingsUiComponent extends SettingsFormComponent {
 
   handleSubmit(): void {
     const themeAppearance = this.manageSettingsForm.get( 'themeAppearance' ).value;
-    this._store.dispatch( new Ui.SetThemeAppearance(themeAppearance) )
+    this._store.dispatch( new UiPreferences.SetThemeAppearance(themeAppearance) )
       .toPromise()
       .then(() => this._snackBar.open('Settings for the user interface were updated successfully.', 'Ok'));
   }

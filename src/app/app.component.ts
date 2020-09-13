@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { flatMap, tap, map } from 'rxjs/operators';
 import { Store, Actions, ofActionSuccessful } from '@ngxs/store';
 import { TreoConfigService } from '@treo/services/config/config.service';
-import { AppState, Auth, CurrentAccount, CurrentAccountState, CurrentUser, Ui, UiState } from '../../projects/lib-common/src/public-api';
+import { AppState, Auth, CurrentAccount, CurrentAccountState, CurrentUser, Ui, UiPreferencesState } from '../../projects/lib-common/src/public-api';
 
 @Component({
   selector: 'app-root',
@@ -53,7 +53,7 @@ export class AppComponent {
     )
     .subscribe();
 
-    store.select( UiState.themeAppearance ).pipe(
+    store.select( UiPreferencesState.themeAppearance ).pipe(
       tap(theme => treoConfigService.config = { theme }),
     )
     .subscribe();

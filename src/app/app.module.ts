@@ -22,6 +22,7 @@ import {
   LibCommonModule,
   ProjectState,
   UiState,
+  UiPreferencesState,
   UserState,
 } from '../../projects/lib-common/src/public-api';
 import { NgxsModule } from '@ngxs/store';
@@ -64,6 +65,7 @@ const routerConfig: ExtraOptions = {
     NgxsModule.forRoot([
       AppState,
       UiState,
+      UiPreferencesState,
       AuthState,
       CurrentUserState,
       CurrentAccountState,
@@ -79,11 +81,7 @@ const routerConfig: ExtraOptions = {
       developmentMode: !environment.production,
     }),
     NgxsStoragePluginModule.forRoot({
-      key: [
-        "app",
-        "ui.navigationAppearance",
-        "ui.themeAppearance",
-      ]
+      key: [ "app", "ui.preferences" ]
     }),
     NgxsFormPluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot({ disabled: true }),
