@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { MatButtonModule } from '@angular/material/button';
@@ -29,6 +30,8 @@ import { ProjectsRoutingModule } from './projects-routing.module';
 import { SearchProjectState } from './states';
 
 import { 
+  BrandDetailComponent,
+  BrandListComponent,
   BrandSelectorComponent,
   ProjectFiltersComponent,
   ProjectFormComponent,
@@ -39,8 +42,7 @@ import {
   ProjectShowComponent,
   ProjectNewComponent,
 } from './pages';
-import { ReactiveFormsModule } from '@angular/forms';
-import { TagIconPipe } from './pipes/tag-icon/tag-icon.pipe';
+import { TagIconPipe } from './pipes';
 
 
 @NgModule({
@@ -77,6 +79,8 @@ import { TagIconPipe } from './pipes/tag-icon/tag-icon.pipe';
     NgxsFormPluginModule,
   ],
   declarations: [
+    BrandListComponent,
+    BrandDetailComponent,
     BrandSelectorComponent,
     ProjectFiltersComponent,
     ProjectFormComponent,
