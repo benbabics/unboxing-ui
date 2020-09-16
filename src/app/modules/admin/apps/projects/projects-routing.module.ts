@@ -11,22 +11,33 @@ import {
 const routes: Routes = [
   {
     path: "",
-    component: ProjectIndexComponent,
-  },
-  {
-    path: "new",
-    component: ProjectNewComponent,
-    canDeactivate: [],
-  },
-  {
-    path: ":id",
-    component: ProjectShowComponent,
-    canDeactivate: [],
-  },
-  {
-    path: ":id/edit",
-    component: ProjectEditComponent,
-    canDeactivate: [],
+    data: {
+      breadcrumb: "Projects"
+    },
+    children: [
+      {
+        path: "",
+        component: ProjectIndexComponent,
+      },
+      {
+        path: "new",
+        component: ProjectNewComponent,
+        canDeactivate: [],
+        data: {
+          breadcrumb: "New"
+        },
+      },
+      {
+        path: ":id",
+        component: ProjectShowComponent,
+        canDeactivate: [],
+      },
+      {
+        path: ":id/edit",
+        component: ProjectEditComponent,
+        canDeactivate: [],
+      }
+    ]
   }
 ];
 

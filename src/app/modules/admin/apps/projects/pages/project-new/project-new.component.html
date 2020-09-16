@@ -1,1 +1,43 @@
-<p>project-new works!</p>
+<div class="content-layout fullwidth-basic-content-scroll">
+  <div class="main">
+    <div class="page-project-new">
+
+      <div class="header">
+        <lib-breadcrumbs class="mb-4"></lib-breadcrumbs>
+
+        <h1>New Project</h1>
+        <div class="subtitle">Suscipit a congue suscipit, hendrerit nec neque. In non laoreet ex, non lobortis quam.</div>
+      </div>
+
+      <form>
+        <div class="flex flex-col gt-xs:flex-row gt-xs:items-start">
+          <div class="gt-xs:max-w-64 gt-xs:pr-12">
+            <p class="text-lg font-medium">Basic information</p>
+            <p class="text-secondary mb-6">
+              Set your login preferences, help us personalize your experience and make big account changes here
+            </p>
+          </div>
+
+          <div class="flex flex-col flex-auto p-8 pb-6 bg-card shadow rounded overflow-hidden">
+            <mat-form-field class="treo-mat-dense flex-auto">
+              <mat-label>Email Address</mat-label>
+              <input matInput>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-end mt-10">
+          <button 
+            class="px-6 ml-3"
+            mat-flat-button
+            color="primary"
+            [disabled]="false">
+
+            Update
+          </button>
+        </div>
+      </form>
+      
+    </div>
+  </div>
+</div>
