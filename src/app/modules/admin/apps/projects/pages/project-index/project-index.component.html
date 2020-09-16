@@ -101,12 +101,12 @@
   <ng-container *ngIf="projects.length">
     <p class="text-lg text-secondary font-medium mb-2">
       {{ projects.length | i18nPlural: {
-        '=1':    "There is 1 project",
-        'other': "There are " + projects.length + " projects"
+        '=1':    "There is " + (filters.length ? "" : "a total of") + " 1 project",
+        'other': "There are " + (filters.length ? "" : "a total of ") + projects.length + " projects"
       } }}<!-- comment to avoid whitespace when rendered
 
 -----><ng-container *ngIf="filters.length; else noFilters">
-        with the following criteria:
+        that match the criteria:
       </ng-container><!-- comment to avoid whitespace when rendered
 
 -----><ng-template #noFilters>:</ng-template>

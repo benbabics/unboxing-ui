@@ -19,7 +19,7 @@ export class ProjectIndexComponent implements OnInit, OnDestroy {
 
   private _destroy$ = new Subject();
 
-  drawerMode: 'over' | 'side';
+  drawerMode: 'over' | 'push';
   drawerOpened: boolean;
   projectForm: FormGroup;
   isLoading: boolean = true;
@@ -42,7 +42,7 @@ export class ProjectIndexComponent implements OnInit, OnDestroy {
     private _router: Router,
     private _treoMediaWatcherService: TreoMediaWatcherService,
   ) {
-    this.drawerMode = 'side';
+    this.drawerMode = 'push';
 
     // on ProjectSearch.SetFilters, update the URL queryParams
     actions$.pipe(
@@ -63,7 +63,7 @@ export class ProjectIndexComponent implements OnInit, OnDestroy {
         tap(isSmallScreen => this.isSmallScreen$.next( isSmallScreen )),
       )
       .subscribe(isSmallScreen => {
-        this.drawerMode = isSmallScreen ? 'over' : 'side';
+        this.drawerMode = isSmallScreen ? 'over' : 'push';
         if ( isSmallScreen ) this.handleDrawerToggle( false );
       });
 
@@ -90,7 +90,7 @@ export class ProjectIndexComponent implements OnInit, OnDestroy {
     this._store.dispatch( new ProjectSearch.Search(filters) )
     this.isSmallScreen$.pipe(
       take( 1 ),
-      filter(isSmall => isSmall),
+      // filter(isSmall => isSmall),
       tap(() => this.handleDrawerToggle( false )),
     )
     .subscribe();
