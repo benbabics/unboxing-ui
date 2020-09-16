@@ -8,34 +8,59 @@ export const defaultUiNavigation: TreoNavigationItem[] = [
     type: "group",
     children: [
       {
-        id: "apps.brands",
+        id: "app.brand",
         title: "Brands",
-        type: "basic",
+        type: "collapsable",
         icon: "heroicons_outline:speakerphone",
-        link: "/brands"
+        link: "/brands",
+        children: [
+          {
+            id: "app.brand.index",
+            title: "List",
+            type: "basic",
+            link: "/brands",
+            exactMatch: true,
+          },
+          {
+            id: "app.brand.new",
+            title: "New",
+            type: "basic",
+            link: "/brands/new",
+          }
+        ]
       },
       {
-        id: "apps.projects",
+        id: "app.project",
         title: "Projects",
-        type: "basic",
+        type: "collapsable",
         icon: "heroicons_outline:briefcase",
-        link: "/projects"
+        link: "/projects",
+        children: [
+          {
+            id: "app.project.index",
+            title: "List",
+            type: "basic",
+            link: "/projects",
+            exactMatch: true,
+          },
+          {
+            id: "app.project.new",
+            title: "New",
+            type: "basic",
+            link: "/projects/new",
+          }
+        ]
       },
     ]
   },
   {
-    id: "root",
-    title: "Woof",
-    subtitle: "bark bark bark",
-    type: "group",
-    children: [
-      {
-        id: "root.settings",
-        title: "Settings",
-        type: "basic",
-        icon: "heroicons_outline:cog",
-        link: "/settings"
-      }
-    ]
+    type: "spacer"
+  },
+  {
+    id: "root.settings",
+    title: "Settings",
+    type: "basic",
+    icon: "heroicons_outline:cog",
+    link: "/settings"
   }
 ];
