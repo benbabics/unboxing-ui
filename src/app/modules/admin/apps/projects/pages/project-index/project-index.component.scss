@@ -3,6 +3,19 @@
 :host {
   @extend %entity-list-layout-horizontal;
 
+  .animate-spin {
+    animation: spin 1s linear infinite;
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  }
+
   .loading-progress-bar {
     position: absolute;
     z-index: 1;

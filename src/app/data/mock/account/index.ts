@@ -1,11 +1,11 @@
-import { map } from 'rxjs/operators';
-import { AuthService } from './../../../core/auth/auth.service';
-import { HttpClient } from '@angular/common/http';
-import { Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Store } from '@ngxs/store';
+import { map, filter } from 'rxjs/operators';
 import { TreoMockApi } from '@treo/lib/mock-api/mock-api.interfaces';
 import { TreoMockApiService } from '@treo/lib/mock-api/mock-api.service';
-import { CurrentUserState } from '../../../../../projects/lib-common/src/public-api';
+import { AuthService } from './../../../core/auth/auth.service';
+import { CurrentUserState, Project } from '../../../../../projects/lib-common/src/public-api';
 
 @Injectable({
   providedIn: 'root'
@@ -66,5 +66,43 @@ export class AccountMockApi implements TreoMockApi {
         return this.http.post( `/mock-api/accounts/${ accountId }/brands`, request.body)
           .pipe(map(brand => [ 200, brand ]));
       });
+
+    /**
+     * GET /accounts/:accountId/projects
+     */
+    this.treoMockApiService
+      .onGet( "/api/accounts/:accountId/projects", 1500 )
+      .reply(request => {
+        if ( !this.authService.isAuthenticated ) {
+          return [ 403, { error: "Unauthorized" } ];
+        }
+
+        let params = request.params || new HttpParams();
+        params = params.append('_expand', 'brand');
+        params = params.append('_embed',  'assetElements');
+
+        const accountId = request.params.get( 'accountId' );
+        const url = `/mock-api/accounts/${ accountId }/projects`;
+
+        return this.http.get<Project[]>(url, { params } )
+          .pipe(
+            map(projects => projects.map(project => this.deserializeProject( project ))),
+            map(payload  => [ 200, payload ]),
+          );
+      });
+  }
+
+  private deserializeProject({ assetElements, ...project }: any): any {
+    const collection = assetElements
+      .filter(({ format }) => format === "PHOTO")
+      .slice(0, 5);
+
+    return {
+      ...project,
+      assetElements: {
+        collection,
+        count: assetElements.length
+      }
+    };
   }
 }

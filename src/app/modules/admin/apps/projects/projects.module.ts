@@ -35,6 +35,7 @@ import {
   BrandSelectorComponent,
   ProjectFiltersComponent,
   ProjectFormComponent,
+  ProjectResultComponent,
 } from './components';
 import { 
   ProjectIndexComponent,
@@ -89,6 +90,7 @@ import { TagIconPipe } from './pipes';
     ProjectShowComponent,
     ProjectNewComponent,
     TagIconPipe,
+    ProjectResultComponent,
   ],
   providers: [
     { 

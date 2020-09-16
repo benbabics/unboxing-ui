@@ -18,7 +18,7 @@ export const defaultUiNavigation: TreoNavigationItem[] = [
         id: "apps.projects",
         title: "Projects",
         type: "basic",
-        icon: "heroicons_outline:duplicate",
+        icon: "heroicons_outline:briefcase",
         link: "/projects"
       },
     ]

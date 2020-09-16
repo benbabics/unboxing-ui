@@ -22,15 +22,14 @@ export class ProjectIndexComponent implements OnInit, OnDestroy {
   drawerMode: 'over' | 'side';
   drawerOpened: boolean;
   projectForm: FormGroup;
+  isLoading: boolean = true;
 
   filters$: Observable<any>;
   isSmallScreen$: BehaviorSubject<boolean> = new BehaviorSubject( false );
   
   @ViewChild('drawer') drawer: MatDrawer;
 
-  @Select( BrandState.active ) activeBrand$: Observable<Brand>;
-  @Select( ProjectState.entities ) projects$: Observable<Project[]>;
-  @Select( ProjectSearchState.loading ) loading$: Observable<boolean>;
+  @Select( ProjectSearchState.results ) projects$: Observable<Project[]>;
   @Select( UiPreferencesState.projectIndexDrawerOpened) drawerOpened$: Observable<boolean>;
 
   get activeProjects(): Project[] {
@@ -67,6 +66,13 @@ export class ProjectIndexComponent implements OnInit, OnDestroy {
         this.drawerMode = isSmallScreen ? 'over' : 'side';
         if ( isSmallScreen ) this.handleDrawerToggle( false );
       });
+
+    this._store.select( ProjectSearchState.loading )
+      .pipe(
+        takeUntil( this._destroy$ ),
+        tap(isLoading => this.isLoading = isLoading),
+      )
+      .subscribe();
 
     this.filters$ = this._store.select( ProjectSearchState.filters )
       .pipe(

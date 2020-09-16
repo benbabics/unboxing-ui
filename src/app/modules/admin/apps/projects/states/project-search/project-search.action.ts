@@ -1,9 +1,7 @@
-import { Project } from '../../../../../../../../projects/lib-common/src/public-api';
-
 export interface ProjectSearch {
   loading: boolean;
   filters: any;
-  results: Project[];
+  results: any[];
 }
 
 export namespace ProjectSearch {

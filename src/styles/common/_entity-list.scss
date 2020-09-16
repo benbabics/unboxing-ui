@@ -100,8 +100,12 @@
         }
 
         .entity-tags {
-          display: flex;
           padding: 0 40px;
+
+          &.entity-tags-container,
+          > .entity-tags-container {
+            display: flex;
+          }
         }
 
         .entity-list {
