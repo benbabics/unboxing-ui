@@ -26,6 +26,9 @@ export class BrandSelectorComponent {
     this.form.get( 'brand' ).setValue( brand );
   }
 
+  @Input() label: string;
+  @Input() required: boolean = false;
+  
   @Output() activeChange = new EventEmitter();
   @ContentChild( TemplateRef ) templateRef: TemplateRef<any>;
   @Select( BrandState.sortedEntities ) brands$: Observable<Brand[]>;

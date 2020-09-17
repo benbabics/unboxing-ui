@@ -1,32 +1,37 @@
-<mat-form-field [formGroup]="form" class="w-full">
-  <mat-select 
-    matPrefix
-    formControlName="brand"
-    placeholder="Select Brand"
-    panelClass="brand-selector-panel">
+<div class="flex flex-col gt-xs:flex-row">
+  <mat-form-field [formGroup]="form" class="flex-auto w-full">
+    <mat-label *ngIf="label" [innerHTML]="label"></mat-label>
 
-    <mat-select-trigger>
-      <ng-template
-        *ngIf="active"
-        [ngTemplateOutlet]="templateRef"
-        [ngTemplateOutletContext]="{ $implicit: active }">
-      </ng-template>
-    </mat-select-trigger>
+    <mat-select 
+      matPrefix
+      [required]="required"
+      formControlName="brand"
+      placeholder="Select Brand"
+      panelClass="brand-selector-panel">
 
-    <mat-option [value]="null">
-      Select Brand
-    </mat-option>
-    
-    <ng-container *ngIf="brands$ | async as brands">
-      <mat-option *ngFor="let brand of brands" [value]="brand.id">
-        <div class="flex items-center">
-          <div class="w-14 mr-4">
-            <img [src]="brand.logoUrl" [alt]="brand.name" class="h-8 object-contain">
-          </div>
-          <span>{{ brand.name }}</span>
-        </div>
+      <mat-select-trigger>
+        <ng-template
+          *ngIf="active"
+          [ngTemplateOutlet]="templateRef"
+          [ngTemplateOutletContext]="{ $implicit: active }">
+        </ng-template>
+      </mat-select-trigger>
+
+      <mat-option [value]="null">
+        Select Brand
       </mat-option>
-    </ng-container>
+      
+      <ng-container *ngIf="brands$ | async as brands">
+        <mat-option *ngFor="let brand of brands" [value]="brand.id">
+          <div class="flex items-center">
+            <div class="w-14 mr-4">
+              <img [src]="brand.logoUrl" [alt]="brand.name" class="h-8 object-contain">
+            </div>
+            <span>{{ brand.name }}</span>
+          </div>
+        </mat-option>
+      </ng-container>
 
-  </mat-select>
-</mat-form-field>
+    </mat-select>
+  </mat-form-field>
+</div>
