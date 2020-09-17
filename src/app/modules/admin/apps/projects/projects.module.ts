@@ -19,6 +19,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+import { MatStepperModule } from '@angular/material/stepper';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import * as moment from 'moment';
@@ -68,6 +69,7 @@ import { TagIconPipe } from './pipes';
     MatSelectModule,
     MatSidenavModule,
     MatSnackBarModule,
+    MatStepperModule,
     MatTableModule,
     MatTooltipModule,
     TreoCardModule,

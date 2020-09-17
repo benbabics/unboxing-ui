@@ -1,1 +1,146 @@
-<p>project-form works!</p>
+<form
+  [formGroup]="manageProjectForm"
+  ngxsForm="project.manageProjectForm">
+
+  <ng-container [ngSwitch]="activeView">
+    <ng-template [ngSwitchCase]="ProjectFormView.Wizard">
+      <ng-container *ngTemplateOutlet="formWizard"></ng-container>
+    </ng-template>
+
+    <ng-template [ngSwitchCase]="ProjectFormView.Advanced">
+      <ng-container *ngTemplateOutlet="formAdvanced"></ng-container>
+    </ng-template>
+  </ng-container>
+</form>
+
+
+<!-- Wizard Form -->
+<ng-template #formWizard>
+  <div class="p-4 bg-card shadow rounded overflow-hidden">
+    <mat-vertical-stepper 
+      [linear]="true"
+      #verticalStepper
+      [formGroup]="manageProjectForm">
+
+      <mat-step
+        #verticalStepperStep1
+        formGroupName="step1"
+        [stepControl]="manageProjectForm.get( 'step1' )">
+
+        <ng-template matStepLabel>Basic information</ng-template>
+        <p class="my-6 font-medium">Set your login preferences, help us personalize your experience and make big account changes here</p>
+
+        <div class="flex">
+          <ng-container *ngTemplateOutlet="fieldTitle"></ng-container>
+        </div>
+
+        <div class="flex justify-end">
+          <button 
+            matStepperNext
+            class="px-8"
+            type="button"
+            mat-flat-button
+            color="primary"
+            [disabled]="verticalStepperStep1.stepControl.pristine || verticalStepperStep1.stepControl.invalid">
+            Next
+          </button>
+        </div>
+      </mat-step>
+
+      <mat-step 
+        #verticalStepperStep2
+        [stepControl]="manageProjectForm.get( 'step2' )">
+
+        <ng-template matStepLabel>Profile</ng-template>
+        <p class="my-6 font-medium">People here will get to know you with this information</p>
+
+        <div class="flex flex-col gt-xs:flex-row">
+          <ng-container *ngTemplateOutlet="fieldSlug"></ng-container>
+        </div>
+
+        <div class="flex justify-end">
+          <button 
+            class="px-8 mr-2"
+            type="button"
+            mat-flat-button
+            matStepperPrevious
+            color="accent">
+            Back
+          </button>
+          <button 
+            class="px-8"
+            type="button"
+            matStepperNext
+            mat-flat-button
+            color="primary"
+            [disabled]="verticalStepperStep2.stepControl.pristine || verticalStepperStep2.stepControl.invalid">
+            Next
+          </button>
+        </div>
+      </mat-step>
+    </mat-vertical-stepper>
+  </div>
+</ng-template>
+
+
+<!-- Advanced Form -->
+<ng-template #formAdvanced>
+  <div class="flex flex-col mt-8 p-8 pb-5 bg-card rounded shadow overflow-hidden">
+    <p class="text-lg font-medium">Basic information</p>
+    <p class="text-secondary">Set your login preferences, help us personalize your experience and make big account changes here</p>
+    <mat-divider class="mt-8 mb-10"></mat-divider>
+
+    <div class="flex">
+      <ng-container *ngTemplateOutlet="fieldTitle"></ng-container>
+    </div>
+  </div>
+
+  <div class="flex flex-col mt-8 p-8 pb-5 bg-card shadow rounded overflow-hidden">
+    <p class="text-lg font-medium">Profile</p>
+    <p class="text-secondary">People here will get to know you with this information</p>
+    <mat-divider class="mt-8 mb-10"></mat-divider>
+
+    <div class="flex flex-col gt-xs:flex-row">
+      <ng-container *ngTemplateOutlet="fieldSlug"></ng-container>
+    </div>
+  </div>
+
+  <div class="flex items-center justify-end mt-10">
+    <button mat-button>
+      Cancel
+    </button>
+    <button mat-flat-button color="primary" class="px-6 ml-3">
+      Save
+    </button>
+  </div>
+</ng-template>
+
+
+<!-- Fields -->
+<ng-template #fieldBrand></ng-template>
+
+<ng-template #fieldTitle>
+  <ng-container [formGroup]="manageProjectForm">
+    <mat-form-field formGroupName="step1" class="flex-auto gt-xs:pr-3">
+      <input 
+        required
+        matInput
+        placeholder="Title"
+        formControlName="title">
+      <mat-icon matPrefix svgIcon="title"></mat-icon>
+    </mat-form-field>
+  </ng-container>
+</ng-template>
+
+<ng-template #fieldSlug>
+  <ng-container [formGroup]="manageProjectForm">
+    <mat-form-field formGroupName="step2" class="flex-auto gt-xs:pr-3">
+      <input 
+        required
+        matInput
+        placeholder="Slug"
+        formControlName="slug">
+      <mat-icon matPrefix svgIcon="language"></mat-icon>
+    </mat-form-field>
+  </ng-container>
+</ng-template>
