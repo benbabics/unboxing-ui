@@ -12,7 +12,11 @@
         <div class="subtitle">Suscipit a congue suscipit, hendrerit nec neque. In non laoreet ex, non lobortis quam.</div>
       </div>
 
-      <project-form [(activeView)]="activeView"></project-form>
+      <project-form 
+        [(activeView)]="activeView"
+        (onCancel)="handleCancel()"
+        (onSumbit)="handleSubmit( $event )">
+      </project-form>
     </div>
   </div>
 </div>

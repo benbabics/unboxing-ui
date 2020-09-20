@@ -89,15 +89,14 @@ export class ProjectState extends EntityState<Project> {
       );
   }
 
-  @Action(Project.Create)
+  @Action( Project.Create )
   crudCreate(ctx: StateContext<ProjectStateModel>, { payload }: Project.Create) {
-    this.toggleLoading(true);
+    this.toggleLoading( true );
 
-    assign(payload, this.associations);
-    return this.http.post<Project>(`/api/accounts/${payload.accountId}/projects`, payload)
+    return this.http.post<Project>( `/api/accounts/${ payload.accountId }/projects`, payload )
       .pipe(
-        flatMap(proj => this.store.dispatch(new Add(ProjectState, proj))),
-        finalize(() => this.toggleLoading(false)),
+        flatMap(project => ctx.dispatch( new Add(ProjectState, project) )),
+        finalize(() => this.toggleLoading( false )),
       );
   }
 

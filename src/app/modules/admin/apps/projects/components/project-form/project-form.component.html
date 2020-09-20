@@ -1,6 +1,7 @@
 <form
+  (ngSubmit)="handleSubmit()"
   [formGroup]="manageProjectForm"
-  ngxsForm="project.manageProjectForm">
+  [ngxsForm]="formPath">
 
   <ng-container [ngSwitch]="activeView">
     <ng-template [ngSwitchCase]="ProjectFormView.Wizard">
@@ -18,8 +19,8 @@
 <ng-template #formWizard>
   <div class="p-4 bg-card shadow rounded overflow-hidden">
     <mat-vertical-stepper 
+      linear
       #verticalStepper
-      [linear]="true"
       [formGroup]="manageProjectForm">
 
       <ng-container *ngIf="{
@@ -71,11 +72,16 @@
           </button>
           <button 
             class="px-8"
-            type="button"
+            color="primary"
+            type="submit"
             matStepperNext
             mat-flat-button
-            color="primary"
-            [disabled]="verticalStepperStep2.stepControl.pristine || verticalStepperStep2.stepControl.invalid">
+            [disabled]="isLoading">
+            <mat-icon 
+              *ngIf="isLoading"
+              class="icon-size-18 animate-spin mr-3"
+              svgIcon="dripicons:loading">
+            </mat-icon>
             Next
           </button>
         </div>
@@ -109,14 +115,23 @@
     </div>
 
     <div class="flex items-center justify-end mt-10">
-      <button mat-button>
+      <button
+        mat-button
+        (click)="handleCancel()">
         Cancel
       </button>
+
       <button
         class="px-6 ml-3"
-        mat-flat-button
         color="primary"
-        [disabled]="manageProjectForm.pristine || manageProjectForm.invalid || context.isValidatingSlug">
+        type="submit"
+        mat-flat-button
+        [disabled]="isLoading || manageProjectForm.pristine || manageProjectForm.invalid || context.isValidatingSlug">
+        <mat-icon 
+          *ngIf="isLoading"
+          class="icon-size-18 animate-spin mr-3"
+          svgIcon="dripicons:loading">
+        </mat-icon>
         Save
       </button>
     </div>
@@ -152,6 +167,9 @@
             <mat-icon svgIcon="dripicons:checkmark" class="text-green-600 icon-size-20"></mat-icon>
           </ng-container>
 
+          <mat-hint *ngIf="!controlSlug.errors?.duplicateSlug">
+            Slugs must be unique.
+          </mat-hint>
           <mat-hint *ngIf="controlSlug.errors?.duplicateSlug" class="text-red-600">
             This slug already exists.
           </mat-hint>
@@ -188,13 +206,13 @@
           <input 
             matInput
             formControlName="date"
-            [matDatepicker]="projectDatepicker">
-          <mat-datepicker-toggle 
-            matPrefix
-            [for]="projectDatepicker">
-          </mat-datepicker-toggle>
+            #projectDateInput
+            (focus)="projectDatePicker.open()"
+            [matDatepicker]="projectDatePicker">
+          <mat-icon matPrefix svgIcon="event"></mat-icon>
           <mat-datepicker 
-            #projectDatepicker>
+            (closed)="projectDateInput.blur()"
+            #projectDatePicker>
           </mat-datepicker>
         </mat-form-field>
       </div>
