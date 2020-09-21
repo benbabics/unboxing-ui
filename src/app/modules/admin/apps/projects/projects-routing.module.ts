@@ -1,11 +1,14 @@
-import { ProjectIndexComponent } from './pages/project-index/project-index.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { 
   ProjectNewComponent,
+  ProjectIndexComponent,
   ProjectShowComponent,
   ProjectEditComponent,
 } from './pages';
+import {
+  ProjectDetailGuard,
+} from './guards';
 
 
 const routes: Routes = [
@@ -29,14 +32,20 @@ const routes: Routes = [
       },
       {
         path: ":id",
-        component: ProjectShowComponent,
-        canDeactivate: [],
+        canActivate:      [ ProjectDetailGuard, ],
+        canActivateChild: [ ProjectDetailGuard, ],
+        canDeactivate:    [ ProjectDetailGuard, ],
+        children: [
+          {
+            path: "",
+            component: ProjectShowComponent,
+          },
+          {
+            path: "edit",
+            component: ProjectEditComponent,
+          }
+        ]
       },
-      {
-        path: ":id/edit",
-        component: ProjectEditComponent,
-        canDeactivate: [],
-      }
     ]
   }
 ];
