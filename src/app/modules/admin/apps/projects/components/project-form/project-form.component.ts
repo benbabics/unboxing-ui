@@ -1,8 +1,8 @@
 import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
-import { debounce, snakeCase, get } from 'lodash';
-import { Subject, BehaviorSubject, Observable } from 'rxjs';
-import { takeUntil, tap, map, filter } from 'rxjs/operators';
+import { debounce, snakeCase, get, pick } from 'lodash';
+import { Subject, BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
+import { takeUntil, tap, map, filter, flatMap } from 'rxjs/operators';
 import { Select, Store } from '@ngxs/store';
 import { UpdateFormValue } from '@ngxs/form-plugin';
 import { CurrentAccountState, Project, ProjectSlugValidator, ProjectState } from './../../../../../../../../projects/lib-common/src/public-api';
@@ -21,6 +21,7 @@ export enum ProjectFormView {
 export class ProjectFormComponent implements OnChanges, OnDestroy {
 
   private _destroy$ = new Subject();
+  private _currentValueSlug: string;
 
   readonly formPath = "project.manageProjectForm";
   
@@ -56,18 +57,17 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
       .pipe( takeUntil(this._destroy$) )
       .subscribe(isLoading => this.isLoading = isLoading);
 
-    _store.select( ProjectState.active )
-      .pipe( takeUntil(this._destroy$) )
-      .subscribe(project => this._updateProjectForm( project ));
-
-    _store.selectOnce( CurrentAccountState.id )
-      .pipe(
-        map(accountId => ({ accountId })),
-        tap(value => _store.dispatch(
-          new UpdateFormValue({ value, path: this.formPath })
-        )),
-      )
-      .subscribe();
+    combineLatest([
+      _store.select( ProjectState.active ),
+      _store.select( CurrentAccountState.id ),
+    ])
+    .pipe(
+      takeUntil( this._destroy$ ),
+      tap(([ project ]) => this._currentValueSlug = project?.slug),
+      map(([ project, accountId ]) => ({ accountId, ...project })),
+      tap(project => this._updateProjectForm( project )),
+    )
+    .subscribe();
 
     this.activeViewChange
       .pipe( takeUntil(this._destroy$) )
@@ -91,9 +91,12 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
   formatValueSlug = debounce((): void => {
     const slug: AbstractControl = this.controlSlug;
     slug.patchValue( snakeCase(slug.value) );
-    slug.setAsyncValidators(() => this._slugValidator.checkDuplicateControl( slug ));
-    slug.updateValueAndValidity();
-    slug.clearAsyncValidators();
+
+    if ( slug.value !== this._currentValueSlug ) {
+      slug.setAsyncValidators(() => this._slugValidator.checkDuplicateControl( slug ));
+      slug.updateValueAndValidity();
+      slug.clearAsyncValidators();
+    }
   }, 1000);
 
   handleCancel(): void {
@@ -111,8 +114,12 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
       ...section3
     };
 
-    this._slugValidator.checkDuplicateValue( payload.slug )
+    of([ payload.slug, this._currentValueSlug ])
       .pipe(
+        flatMap(([slug, currentValueSlug]) => {
+          if ( slug === currentValueSlug ) return of( true );
+          return this._slugValidator.checkDuplicateValue( payload.slug );
+        }),
         filter(isValid => isValid),
         tap(() => this.onSumbit.emit( payload ))
       )
@@ -136,6 +143,15 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
   }
 
   private _updateProjectForm(project: Project) {
-    console.log('* _updateProjectForm', project);
+    this._store.dispatch(new UpdateFormValue({
+      path: this.formPath,
+      value: {
+        ...pick( project, 'id', 'accountId' ),
+
+        section1: {
+          ...pick( project, 'date', 'brandId', 'slug', 'title' ),
+        },
+      },
+    }));
   }
 }

@@ -4,7 +4,14 @@
 
       <div class="header">
         <div class="flex lt-md:items-center w-full">
-          <lib-breadcrumbs class="mb-4"></lib-breadcrumbs>
+          <a mat-button
+            color="primary"
+            routerLink="/projects">
+
+            <mat-icon svgIcon="arrow_back"></mat-icon>
+            <span>Back to Projects</span>
+          </a>
+
           <ng-container *ngTemplateOutlet="activeViewMenu"></ng-container>
         </div>
 
