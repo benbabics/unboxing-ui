@@ -105,7 +105,9 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
 
   handleSubmit(): void {
     const { section1, section2, section3, ...project } = this.manageProjectForm.getRawValue();
-    section1.date = section1.date.format( "YYYY-MM-DD HH:mm:ss" );
+    if ( section1.date.format ) {
+      section1.date = section1.date.format( "YYYY-MM-DD HH:mm:ss" );
+    }
     
     const payload = {
       ...project,

@@ -23,7 +23,7 @@ export class BrandMockApi implements TreoMockApi {
 
   register(): void {
     /**
-     * PUT /brands/:brandId
+     * PATCH /brands/:brandId
      */
     this.treoMockApiService
       .onPatch( "/api/brands/:brandId" )

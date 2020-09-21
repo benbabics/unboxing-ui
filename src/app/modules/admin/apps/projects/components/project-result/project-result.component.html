@@ -11,13 +11,29 @@
         <div class="text-xl font-semibold leading-tight mt-1">{{ project.title }}</div>
         <div class="text-secondary text-sm">33 minutes ago</div>
       </div>
-      
-      <button aria-haspopup="true" mat-icon-button="" class="mat-focus-indicator mat-menu-trigger ml-auto -mr-4 mat-icon-button mat-button-base">
-        <span class="mat-button-wrapper">
-          <mat-icon role="img" class="mat-icon notranslate icon-size-20 mat-icon-no-color" aria-hidden="true"><svg x="480" y="1200" viewBox="0 0 24 24" fit="" height="100%" width="100%" preserveAspectRatio="xMidYMid meet" focusable="false"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></svg></mat-icon>
-        </span>
-        <div matripple="" class="mat-ripple mat-button-ripple mat-button-ripple-round"></div>
+
+      <button 
+        class="ml-auto -mr-4"
+        mat-icon-button
+        [matMenuTriggerFor]="projectActionsMenu">
+        <mat-icon svgIcon="more_vert"></mat-icon>
       </button>
+      <mat-menu #projectActionsMenu="matMenu">
+        <a
+          mat-menu-item
+          [routerLink]="[ '.', project.id, 'edit' ]">
+          <span class="flex items-center">
+            <span>Edit Project</span>
+          </span>
+        </a>
+        <a
+          mat-menu-item
+          [routerLink]="[ '.', project.id ]">
+          <span class="flex items-center">
+            <span>View Project</span>
+          </span>
+        </a>
+      </mat-menu>
     </div>
   </ng-container>
 
