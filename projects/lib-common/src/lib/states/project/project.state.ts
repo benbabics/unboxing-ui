@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { State, Action, Selector } from '@ngxs/store';
 import { StateContext, Store } from '@ngxs/store';
 import { defaultEntityState, EntityStateModel, EntityState, IdStrategy, Add, Update, SetLoading, SetActive, CreateOrReplace } from '@ngxs-labs/entity-state';
-import { UpdateFormValue, UpdateFormErrors, UpdateFormStatus } from '@ngxs/form-plugin';
+import { UpdateFormValue, UpdateFormErrors, UpdateFormStatus, UpdateFormDirty } from '@ngxs/form-plugin';
 import { filter as rxFilter, finalize, flatMap, map, tap, delay } from 'rxjs/operators';
 import { assign, filter, first, get, pick, sortBy } from 'lodash';
 import { AccountState } from '../account/account.state';
@@ -29,31 +29,21 @@ export interface ProjectStateModel extends EntityStateModel<Project> {
 @Injectable()
 export class ProjectState extends EntityState<Project> {
 
-  get associations(): { accountId: string, brandId: string } {
-    const getId = selector =>
-      get(this.store.selectSnapshot(selector), 'id');
-
-    return {
-      accountId: getId(AccountState.active),
-      brandId:   getId(BrandState.active),
-    };
-  }
-  
   @Selector()
   static sortedEntities(state: ProjectStateModel) {
-    return sortBy(state.entities, ['title']);
+    return sortBy( state.entities, [ 'title' ] );
   }
 
   @Selector([ProjectState.sortedEntities, BrandState.activeId])
   static filteredEntities(entities: Project[], brandId: string) {
-    return filter(entities, { brandId });
+    return filter( entities, { brandId } );
   }
   
   constructor(
     private store: Store,
     private http: HttpClient,
   ) {
-    super(ProjectState, 'id', IdStrategy.EntityIdGenerator);
+    super( ProjectState, 'id', IdStrategy.EntityIdGenerator );
   }
 
   @Action(Project.Manage)
@@ -100,21 +90,21 @@ export class ProjectState extends EntityState<Project> {
       );
   }
 
-  @Action(Project.Update)
+  @Action( Project.Update )
   crudUpdate(ctx: StateContext<ProjectStateModel>, { payload }: Project.Update) {
-    this.toggleLoading(true);
+    this.toggleLoading( true );
 
-    let model = pick(payload, 'id', 'slug', 'title', 'accountId', 'brandId', 'themeId');
-    assign(model, this.associations);
-
-    return this.http.put<Project>(`/api/projects/${payload.id}`, model)
+    return this.http.patch<Project>( `/api/projects/${ payload.id }`, payload )
       .pipe(
-        flatMap(proj => this.store.dispatch(new Update(ProjectState, proj.id, proj))),
-        finalize(() => this.toggleLoading(false)),
+        flatMap(project => this.store.dispatch([
+          new UpdateFormDirty({ path: "project.manageProjectForm", dirty: false }),
+          new Update( ProjectState, project.id, project ),
+        ])),
+        finalize(() => this.toggleLoading( false )),
       );
   }
 
   private toggleLoading(isLoading: boolean): void {
-    this.store.dispatch(new SetLoading(ProjectState, isLoading));
+    this.store.dispatch( new SetLoading(ProjectState, isLoading) );
   }
 }

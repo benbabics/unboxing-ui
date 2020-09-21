@@ -1,11 +1,11 @@
-import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Store } from '@ngxs/store';
+import { map } from 'rxjs/operators';
 import { AuthService } from './../../../core/auth/auth.service';
 import { TreoMockApi } from '@treo/lib/mock-api/mock-api.interfaces';
 import { TreoMockApiService } from '@treo/lib/mock-api/mock-api.service';
-import { Project } from '../../../../../projects/lib-common/src/lib/states';
+import { CurrentAccountState, Project } from '../../../../../projects/lib-common/src/public-api';
 
 @Injectable({
   providedIn: 'root'
@@ -38,13 +38,28 @@ export class ProjectMockApi implements TreoMockApi {
 
         return this._http.get<Project[]>( `/mock-api/projects`, { params } )
           .pipe(
-            map(projects => this.respondUniqueProject( projects )),
+            map(projects => projects.length === 0),
             map(payload  => [ 200, payload ]),
           );
       });
-  }
 
-  private respondUniqueProject(projects: Project[]): boolean {
-    return projects.length === 0;
+    /**
+     * PATCH /projects/:projectId
+     */
+    this._treoMockApiService
+      .onPatch( "/api/projects/:projectId" )
+      .reply(request => {
+        if ( !this._authService.isAuthenticated ) {
+          return [ 403, { error: "Unauthorized" } ];
+        }
+
+        const accountId = this._store.selectSnapshot( CurrentAccountState.id );
+        Object.assign(request.body, { accountId });
+        
+        const projectId = request.params.get( 'projectId' );
+        request.body.id = projectId;
+        return this._http.patch( `/mock-api/projects/${ projectId }`, request.body )
+          .pipe(map(project => [ 200, project ]));
+      });
   }
 }
