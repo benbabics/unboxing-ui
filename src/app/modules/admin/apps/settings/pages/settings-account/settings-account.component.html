@@ -1,9 +1,9 @@
-<div class="rich-text">
-  <h2>Personal Account</h2>
-  <p>Sed vitae tincidunt justo. Quisque sed vestibulum ligula. Etiam rutrum varius velit ut condimentum. Vivamus vitae imperdiet augue. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer.</p>
+<div class="header">
+  <h1>Personal Account</h1>
+  <div class="subtitle">Sed vitae tincidunt justo. Quisque sed vestibulum ligula. Etiam rutrum varius velit ut condimentum.</div>
 </div>
 
-<form class="mt-8" [formGroup]="manageSettingsForm" ngxsForm="settings.manageSettingsForm" (ngSubmit)="handleSubmit()">
+<form [formGroup]="manageSettingsForm" ngxsForm="settings.manageSettingsForm" (ngSubmit)="handleSubmit()">
   <div class="flex flex-col gt-xs:flex-row gt-xs:items-start">
     <div class="gt-xs:max-w-64 gt-xs:pr-12">
       <p class="text-lg font-medium">Basic information</p>

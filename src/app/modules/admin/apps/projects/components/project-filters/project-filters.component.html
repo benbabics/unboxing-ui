@@ -1,0 +1,85 @@
+<div class="header">
+  <mat-icon class="mr-3 rotate-90" svgIcon="tune"></mat-icon>
+  <div class="title">Filters</div>
+</div>
+
+<form 
+  class="filters"
+  ngxsForm="projectSearch.projectFiltersForm"
+  [formGroup]="projectFiltersForm"
+  (ngSubmit)="handleSubmit()">
+
+  <div class="filter" formGroupName="brand">
+    <p class="title">Brand</p>
+    <p class="text-secondary mb-6">Filter projects by their brand.</p>
+
+    <brand-selector 
+      [active]="projectFiltersForm.controls.brand.value.id"
+      (activeChange)="handleUpdateBrand( $event )">
+      <ng-template let-brandId>
+        <brand-detail [id]="brandId">
+          <ng-template let-brand>
+            <div class="flex items-center active-brand">
+              <div class="flex items-start w-14 mr-4">
+                <img class="h-8 object-contain" [src]="brand.logoUrl" [alt]="brand.name">
+              </div>
+              {{ brand.name }}
+            </div>
+          </ng-template>
+        </brand-detail>
+      </ng-template>
+    </brand-selector>
+  </div>
+    
+  <div class="filter">
+    <p class="title">Projects</p>
+    <p class="text-secondary mb-6">Filter projects by their criteria.</p>
+    
+    <div class="label text-secondary">Fields</div>
+    <div class="flex" formGroupName="project">
+      <mat-form-field class="flex-auto">
+        <input matInput formControlName="title" placeholder="Title">
+        <mat-icon matPrefix svgIcon="title"></mat-icon>
+      </mat-form-field>
+    </div>
+    
+    <div class="flex" formGroupName="project">
+      <mat-form-field class="flex-auto">
+        <input matInput formControlName="slug" placeholder="Slug">
+        <mat-icon matPrefix svgIcon="language"></mat-icon>
+      </mat-form-field>
+    </div>
+    
+    <div class="label text-secondary">People</div>
+    
+    <div class="queries">
+      <div class="queries-header">
+        <div class="new-query">
+          <mat-icon svgIcon="search"></mat-icon>
+          <input 
+            type="text"
+            placeholder="Enter person name"
+            [maxLength]="50">
+        </div>
+      </div>
+
+      <div class="available-queries">
+        <mat-checkbox 
+          color="primary"
+          *ngFor="let person of [ 'Ben Babics', 'Glenn Beck', 'Alex Jones', 'Jared Kushner', 'Ben Shapiro', 'Donald Trump' ]">
+          {{ person }}
+        </mat-checkbox>
+      </div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button type="submit" class="px-6 mr-2" mat-flat-button color="primary">
+      Search
+    </button>
+
+    <button mat-button>
+      Reset
+    </button>
+  </div>
+</form>

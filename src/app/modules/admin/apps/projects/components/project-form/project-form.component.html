@@ -1,0 +1,230 @@
+<form
+  (ngSubmit)="handleSubmit()"
+  [formGroup]="manageProjectForm"
+  [ngxsForm]="formPath">
+
+  <ng-container [ngSwitch]="activeView">
+    <ng-template [ngSwitchCase]="ProjectFormView.Wizard">
+      <ng-container *ngTemplateOutlet="formWizard"></ng-container>
+    </ng-template>
+
+    <ng-template [ngSwitchCase]="ProjectFormView.Advanced">
+      <ng-container *ngTemplateOutlet="formAdvanced"></ng-container>
+    </ng-template>
+  </ng-container>
+</form>
+
+
+<!-- Wizard Form -->
+<ng-template #formWizard>
+  <div class="p-4 bg-card shadow rounded overflow-hidden">
+    <mat-vertical-stepper 
+      linear
+      #verticalStepper
+      [formGroup]="manageProjectForm">
+
+      <ng-container *ngIf="{
+        isValidatingSlug: isValidatingSlug$ | async
+      } as context">
+        <mat-step
+          #verticalStepperStep1
+          formGroupName="section1"
+          [stepControl]="manageProjectForm.get( 'section1' )">
+
+          <ng-template matStepLabel>Basic information</ng-template>
+          <p class="my-6 font-medium">Set your login preferences, help us personalize your experience and make big account changes here</p>
+
+          <ng-container *ngTemplateOutlet="section1; context: context"></ng-container>
+
+          <div class="flex justify-end">
+            <button 
+              matStepperNext
+              class="px-8"
+              type="button"
+              mat-flat-button
+              color="primary"
+              [disabled]="verticalStepperStep1.stepControl.pristine || verticalStepperStep1.stepControl.invalid || context.isValidatingSlug">
+              Next
+            </button>
+          </div>
+        </mat-step>
+      </ng-container>
+
+      <mat-step 
+        #verticalStepperStep2
+        [stepControl]="manageProjectForm.get( 'section2' )">
+
+        <ng-template matStepLabel>Profile</ng-template>
+        <p class="my-6 font-medium">People here will get to know you with this information</p>
+
+        <div class="flex flex-col gt-xs:flex-row">
+          <ng-container *ngTemplateOutlet="section2"></ng-container>
+        </div>
+
+        <div class="flex justify-end">
+          <button 
+            class="px-8 mr-2"
+            type="button"
+            mat-flat-button
+            matStepperPrevious
+            color="accent">
+            Back
+          </button>
+          <button 
+            class="px-8"
+            color="primary"
+            type="submit"
+            matStepperNext
+            mat-flat-button
+            [disabled]="isLoading">
+            <mat-icon 
+              *ngIf="isLoading"
+              class="icon-size-18 animate-spin mr-3"
+              svgIcon="dripicons:loading">
+            </mat-icon>
+            Next
+          </button>
+        </div>
+      </mat-step>
+    </mat-vertical-stepper>
+  </div>
+</ng-template>
+
+
+<!-- Advanced Form -->
+<ng-template #formAdvanced>
+  <ng-container *ngIf="{
+    isValidatingSlug: isValidatingSlug$ | async
+  } as context">
+    <div class="flex flex-col mt-8 p-8 pb-5 bg-card rounded shadow overflow-hidden">
+      <p class="text-lg font-medium">Basic information</p>
+      <p class="text-secondary">Set your login preferences, help us personalize your experience and make big account changes here</p>
+
+      <div class="mt-8">
+        <ng-container *ngTemplateOutlet="section1; context: context"></ng-container>
+      </div>
+    </div>
+
+    <div class="flex flex-col mt-8 p-8 pb-5 bg-card shadow rounded overflow-hidden">
+      <p class="text-lg font-medium">Profile</p>
+      <p class="text-secondary">People here will get to know you with this information</p>
+
+      <div class="mt-8">
+        <ng-container *ngTemplateOutlet="section2"></ng-container>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-end mt-10">
+      <button
+        mat-button
+        (click)="handleCancel()">
+        Cancel
+      </button>
+
+      <button
+        class="px-6 ml-3"
+        color="primary"
+        type="submit"
+        mat-flat-button
+        [disabled]="isLoading || manageProjectForm.pristine || manageProjectForm.invalid || context.isValidatingSlug">
+        <mat-icon 
+          *ngIf="isLoading"
+          class="icon-size-18 animate-spin mr-3"
+          svgIcon="dripicons:loading">
+        </mat-icon>
+        Save
+      </button>
+    </div>
+  </ng-container>
+</ng-template>
+
+
+<!-- Section 1 -->
+<ng-template #section1 let-isValidatingSlug="isValidatingSlug">
+  <ng-container [formGroup]="manageProjectForm">
+    <div formGroupName="section1">
+      <div class="flex flex-col gt-xs:flex-row">
+        <!-- Title -->
+        <mat-form-field class="flex-auto gt-xs:pr-3">
+          <mat-label>Title</mat-label>
+          <input formControlName="title" matInput required>
+          <mat-icon matPrefix svgIcon="title"></mat-icon>
+        </mat-form-field>
+        
+        <!-- Slug -->
+        <mat-form-field class="flex-auto relative gt-xs:pl-3">
+          <mat-label>Slug</mat-label>
+          <input formControlName="slug" (keyup)="formatValueSlug()" matInput required>
+          <mat-icon matPrefix svgIcon="language"></mat-icon>
+
+          <ng-container *ngIf="controlSlug.dirty && isValidatingSlug">
+            <mat-icon svgIcon="dripicons:loading" class="text-primary animate-spin icon-size-20"></mat-icon>
+          </ng-container>
+          <ng-container *ngIf="controlSlug.dirty && controlSlug.invalid && !isValidatingSlug">
+            <mat-icon svgIcon="dripicons:wrong" matTooltip="This slug already exists." class="text-red-600 icon-size-20"></mat-icon>
+          </ng-container>
+          <ng-container *ngIf="controlSlug.dirty && controlSlug.valid && !isValidatingSlug">
+            <mat-icon svgIcon="dripicons:checkmark" class="text-green-600 icon-size-20"></mat-icon>
+          </ng-container>
+
+          <mat-hint *ngIf="!controlSlug.errors?.duplicateSlug">
+            Slugs must be unique.
+          </mat-hint>
+          <mat-hint *ngIf="controlSlug.errors?.duplicateSlug" class="text-red-600">
+            This slug already exists.
+          </mat-hint>
+        </mat-form-field>
+      </div>
+
+      <div class="flex flex-col gt-xs:flex-row">
+        <!-- BrandId -->
+        <div class="gt-xs:w-1/2 gt-xs:pr-3">
+          <brand-selector 
+            label="Brand"
+            [required]="true"
+            [active]="controlBrandId.value"
+            (activeChange)="controlBrandId.setValue( $event )">
+            
+            <ng-template let-brandId>
+              <brand-detail [id]="brandId">
+                <ng-template let-brand>
+                  <div class="flex items-center active-brand text-black">
+                    <div class="flex items-start w-14 mr-4">
+                      <img class="h-8 object-contain" [src]="brand.logoUrl" [alt]="brand.name">
+                    </div>
+                    {{ brand.name }}
+                  </div>
+                </ng-template>
+              </brand-detail>
+            </ng-template>
+          </brand-selector>
+        </div>
+
+        <!-- Date -->
+        <mat-form-field class="gt-xs:w-1/2 gt-xs:pl-3">
+          <mat-label>Date</mat-label>
+          <input 
+            matInput
+            formControlName="date"
+            #projectDateInput
+            (focus)="projectDatePicker.open()"
+            [matDatepicker]="projectDatePicker">
+          <mat-icon matPrefix svgIcon="event"></mat-icon>
+          <mat-datepicker 
+            (closed)="projectDateInput.blur()"
+            #projectDatePicker>
+          </mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>
+
+
+<!-- Section 2 -->
+<ng-template #section2>
+  <ng-container [formGroup]="manageProjectForm">
+    <div formGroupName="section2" class="flex flex-col gt-xs:flex-row">
+    </div>
+  </ng-container>
+</ng-template>

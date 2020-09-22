@@ -1,0 +1,194 @@
+<div class="content-layout left-sidebar-fullheight-basic-inner-scroll">
+  <mat-drawer-container>
+    <mat-drawer 
+      #drawer
+      [mode]="drawerMode"
+      [opened]="drawerOpened$ | async"
+      (opened)="handleDrawerToggle( true )"
+      (closed)="handleDrawerToggle( false )">
+
+      <project-filters
+        (onFilterUpdate)="handleFilterUpdate( $event )">
+      </project-filters>
+    </mat-drawer>
+
+    <mat-drawer-content>
+      <ng-container *ngTemplateOutlet="background"></ng-container>
+
+      <ng-container *ngIf="
+        {
+          filters:  filters$ | async,
+          projects: projects$ | async
+        } as context">
+
+        <div class="main relative">
+          <div class="header">
+            <ng-container
+              *ngTemplateOutlet="contentHeader">
+            </ng-container>
+          </div>
+
+          <div class="entity-tags">
+            <ng-container 
+              *ngIf="!isLoading"
+              [ngTemplateOutlet]="contentTags"
+              [ngTemplateOutletContext]="context">
+            </ng-container>
+          </div>
+          
+          <div class="entity-list" [class.pt-5]="!context.filters.length">
+            <ng-container 
+              *ngIf="!isLoading; else projectListLoading"
+              [ngTemplateOutlet]="contentList"
+              [ngTemplateOutletContext]="context">
+            </ng-container>
+          </div>
+        </div>
+      </ng-container>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</div>
+
+
+<!-- Loading bar -->
+<mat-progress-bar 
+  class="loading-progress-bar"
+  *ngIf="isLoading"
+  mode="indeterminate">
+</mat-progress-bar>
+
+
+<!-- Loading Projects List -->
+<ng-template #projectListLoading>
+  <ng-container *ngTemplateOutlet="projectCard; context: { $implicit: null }"></ng-container>
+  <ng-container *ngTemplateOutlet="projectCard; context: { $implicit: null }"></ng-container>
+  <ng-container *ngTemplateOutlet="projectCard; context: { $implicit: null }"></ng-container>
+</ng-template>
+
+
+<!-- Header -->
+<ng-template #contentHeader>
+  <div class="title">
+    <h1>Projects</h1>
+
+    <div class="subtitle"></div>
+  </div>
+
+  <div class="main-actions">
+    <button 
+      mat-stroked-button
+      (click)="drawer.toggle()">
+      
+      <mat-icon class="icon-size-20 rotate-90" svgIcon="tune"></mat-icon>
+      <span class="ml-2">Filters</span>
+    </button>
+    
+    <button
+      class="add-entity ml-2"
+      mat-flat-button
+      color="primary"
+      routerLink="./new">
+      
+      <mat-icon svgIcon="add"></mat-icon>
+      New Project
+    </button>
+  </div>
+</ng-template>
+
+
+<!-- Tags -->
+<ng-template #contentTags let-filters="filters" let-projects="projects">
+  <ng-container *ngIf="projects.length">
+    <p class="text-lg text-secondary font-medium mb-2">
+      {{ projects.length | i18nPlural: {
+        '=1':    "There is " + (filters.length ? "" : "a total of") + " 1 project",
+        'other': "There are " + (filters.length ? "" : "a total of ") + projects.length + " projects"
+      } }}<!-- comment to avoid whitespace when rendered
+
+-----><ng-container *ngIf="filters.length; else noFilters">
+        that match the criteria:
+      </ng-container><!-- comment to avoid whitespace when rendered
+
+-----><ng-template #noFilters>:</ng-template>
+    </p>
+  </ng-container>
+  
+  <mat-chip-list aria-label="Project Filters" class="entity-tags-container -mb-2">
+    <ng-container 
+      *ngFor="let filter of filters"
+      [ngTemplateOutlet]="tag"
+      [ngTemplateOutletContext]="{ $implicit: filter }">
+    </ng-container>
+  </mat-chip-list>
+</ng-template>
+
+
+<!-- List -->
+<ng-template #contentList let-projects="projects">
+  <ng-container *ngIf="projects.length else noProjects">
+    <ng-container 
+      *ngFor="let project of projects" 
+      [ngTemplateOutlet]="projectCard" 
+      [ngTemplateOutletContext]="{ $implicit: project }">
+    </ng-container>
+  </ng-container>
+
+  <ng-template #noProjects>
+    <div class="flex flex-col flex-auto items-center justify-center mt-10">
+      <mat-icon svgIcon="iconsmind:empty_box" class="icon-size-96"></mat-icon>
+      <h4>No projects found!</h4>
+    </div>
+  </ng-template>
+</ng-template>
+
+
+<!-- Card -->
+<ng-template #projectCard let-project>
+  <project-result
+    class="flex w-1/5 min-w-100 mr-4 mb-4"
+    [project]="project"
+    [isLoading]="isLoading">
+  </project-result>
+</ng-template>
+
+
+<!-- Tag -->
+<ng-template #tag let-tag>
+  <mat-chip
+    class="shadow-xs"
+    (removed)="handleRemoveFilter( tag.key )">
+
+    <mat-icon 
+      matPrefix
+      class="icon-size-18 mr-1"
+      [svgIcon]="tag.key | tagIcon">
+    </mat-icon>
+    
+    <ng-container [ngSwitch]="tag.key">
+      <ng-template ngSwitchCase="brand.id">
+        <brand-detail [id]="tag.value">
+          <ng-template let-brand>{{ brand.name }}</ng-template>
+        </brand-detail>
+      </ng-template>
+    
+      <ng-template ngSwitchDefault>
+        {{ tag.value }}
+      </ng-template>
+    </ng-container>
+
+    <mat-icon matChipRemove>cancel</mat-icon>
+  </mat-chip>
+</ng-template>
+
+
+<!-- Background -->
+<ng-template #background>
+  <!-- Background - Inline SVG for easy customizations -->
+  <svg class="background" viewBox="0 0 1531 891" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 182c144.327 47.973 534.462 219.712 440.509 369.87C346.555 702.028 79.877 662.846 0 638V182z"></path>
+    <path d="M1405 848c-424.366 158.009-437-164-437-272s102-425 563-576v769c-21.333 29.333-63.333 55.667-126 79z"></path>
+    <path
+      d="M1531 162c-122.914-17.284-377.96 33.191-543.433 206.414C822.095 541.636 797.342 648.75 835.842 731.622c38.5 82.871 198.243 134.841 400.555 92.053C1438.71 780.886 1492.752 775.894 1531 768V162z">
+    </path>
+  </svg>
+</ng-template>

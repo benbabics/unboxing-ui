@@ -5,7 +5,7 @@ import { Subject, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TreoMediaWatcherService } from '@treo/services/media-watcher';
 import { TreoNavigationService } from '@treo/components/navigation';
-import { CurrentAccount, CurrentAccountState, Ui, UiNavigationAppearance, UiNavigationItem, UiState } from '../../../../../projects/lib-common/src/public-api';
+import { CurrentAccount, CurrentAccountState, Ui, UiPreferences, UiPreferencesState, UiPreferencesNavigationAppearance, UiNavigationItem, UiState } from '../../../../../projects/lib-common/src/public-api';
 
 @Component({
   selector     : 'dense-layout',
@@ -21,7 +21,7 @@ export class DenseLayoutComponent implements OnInit, OnDestroy {
   
   @Select( CurrentAccountState.details ) currentAccount$: Observable<CurrentAccount>;
   @Select( UiState.navigationItems ) navigationItems$: Observable<UiNavigationItem[]>;
-  @Select( UiState.navigationAppearance ) navigationAppearance$: Observable<UiNavigationAppearance>;
+  @Select( UiPreferencesState.navigationAppearance ) navigationAppearance$: Observable<UiPreferencesNavigationAppearance>;
 
   @HostBinding( 'class.fixed-header' ) fixedHeader: boolean;
   @HostBinding( 'class.fixed-footer' ) fixedFooter: boolean;
@@ -42,6 +42,10 @@ export class DenseLayoutComponent implements OnInit, OnDestroy {
   
   get currentYear(): number {
     return new Date().getFullYear();
+  }
+
+  get currentUrl(): string {
+    return this._router.url;
   }
   
   ngOnInit(): void {
@@ -67,6 +71,6 @@ export class DenseLayoutComponent implements OnInit, OnDestroy {
 
   toggleNavigationAppearance(): void {
     this.hasToggledNavigation = true;
-    this._store.dispatch( new Ui.ToggleNavigationAppearance() );
+    this._store.dispatch(new UiPreferences.ToggleNavigationAppearance() );
   }
 }

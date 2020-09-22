@@ -30,7 +30,7 @@ export class AppState {
     private store: Store,
   ) { }
 
-  @Action(App.Start)
+  @Action( App.Start )
   start(ctx: StateContext<AppStateModel>) {
     return this.store.dispatch([
       new CurrentUser.Refresh(),
@@ -38,7 +38,7 @@ export class AppState {
     ]);
   }
 
-  @Action(App.SetLoading)
+  @Action( App.SetLoading )
   setLoading(ctx: StateContext<AppStateModel>, { isLoading }: App.SetLoading) {
     ctx.patchState({ isLoading });
   }

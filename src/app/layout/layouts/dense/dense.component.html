@@ -9,7 +9,7 @@
     [opened]="!isScreenSmall">
 
     <div treoVerticalNavigationContentHeader>
-      <a routerLink="/context" class="logo">
+      <a [routerLink]="[ '/context' ]" [queryParams]="{ redirectURL: currentUrl }" class="logo">
         <img 
           [src]="currentAccount.logo" 
           [alt]="currentAccount.title"
@@ -56,7 +56,9 @@
     <router-outlet *ngIf="true"></router-outlet>
   </div>
 
+  <!--
   <div class="footer">
     Unboxing &copy; {{ currentYear }}
   </div>
+  -->
 </div>

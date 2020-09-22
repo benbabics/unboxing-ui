@@ -1,0 +1,29 @@
+<div class="content-layout fullwidth-basic-content-scroll">
+  <div class="main">
+
+    <ng-container *ngIf="project$ | async as project">
+      <div class="page-project-edit">
+
+        <div class="header">
+          <a 
+            mat-button
+            color="primary"
+            [routerLink]="[ '/projects', project.id ]">
+
+            <mat-icon svgIcon="arrow_back"></mat-icon>
+            <span>Back to the project</span>
+          </a>
+
+          <h1>Edit {{ project.title }}</h1>
+          <div class="subtitle">Suscipit a congue suscipit, hendrerit nec neque. In non laoreet ex, non lobortis quam.</div>
+        </div>
+
+        <project-form
+          (onCancel)="handleCancel()"
+          (onSumbit)="handleSubmit( $event )">
+        </project-form>
+      </div>
+    </ng-container>
+
+  </div>
+</div>

@@ -9,6 +9,7 @@ export interface Project {
   id: string;
   slug: string;
   title: string;
+  date: Date;
 
   // relationships
   accountId: string;
@@ -27,21 +28,21 @@ export interface Project {
 export namespace Project {
   export class Manage {
     static readonly type = '[Project Form] Manage';
-    constructor(public payload?: Project) { }
+    constructor( public payload?: Project ) { }
   }
 
   export class Show {
     static readonly type = '[Project API] Show';
-    constructor(public slug: string) { }
+    constructor( public slug: string ) { }
   }
   
   export class Create {
     static readonly type = '[Project API] Create';
-    constructor(public payload: Project) { }
+    constructor( public payload: Project ) { }
   }
 
   export class Update {
     static readonly type = '[Project API] Update';
-    constructor(public payload: Project) { }
+    constructor( public payload: Project ) { }
   }
 }

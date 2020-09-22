@@ -1,0 +1,181 @@
+@import 'treo';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  height: 100%;
+
+  .header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    border-bottom-width: 1px;
+
+    .title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      letter-spacing: 0.025em;
+    }
+  }
+
+  .filters {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 1.5rem 1.5rem 0;
+
+    .filter {
+      padding-bottom: 1.5rem;
+
+      &:not(:nth-last-child(2)) {
+        margin-bottom:  2rem;
+        border-bottom-width: 1px;
+      }
+      &:nth-last-child(2) {
+        flex-grow: 1;
+      }
+
+      .title {
+        font-size: 1rem;
+        font-weight: 500; 
+      }
+
+      .label {
+        margin-top:    .75rem;
+        margin-bottom: .75rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+      }
+    }
+
+    .queries {
+      margin-top: 3px;
+      border-radius: 6px;
+      border-width: 1px;
+      @include treo-elevation('sm');
+
+      .queries-header {
+        display: flex;
+        align-items: center;
+        margin: 9px 12px;
+
+        .new-query {
+          display: flex;
+          align-items: center;
+          flex: 1 1 auto;
+          min-width: 0;
+
+          .mat-icon {
+            @include treo-icon-size(16);
+          }
+
+          input {
+            min-width: 0;
+            margin: 0 0 0 8px;
+            border: none;
+            padding: 4px 0;
+          }
+        }
+      }
+
+      .available-queries {
+        max-height: 175px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        line-height: 1;
+
+        &:not(:empty) {
+          padding: 8px 0;
+        }
+
+        .mat-checkbox {
+          display: flex;
+          align-items: center;
+          height: 40px;
+          min-height: 40px;
+
+          ::ng-deep .mat-checkbox-layout {
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            padding: 8px 16px;
+
+            .mat-checkbox-inner-container {
+              margin: 0 12px 0 0
+            }
+          }
+        }
+      }
+    }
+
+    .actions {
+      position: sticky;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      margin-left:  -1.5rem;
+      margin-right: -1.5rem;
+      padding: 1.25rem 1.5rem;
+      border-top-width: 1px;
+    }
+  }
+}
+
+
+// -----------------------------------------------------------------------------------------------------
+// @ Theming
+// -----------------------------------------------------------------------------------------------------
+@include treo-theme {
+
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+  $primary:    map-get($theme, primary);
+  $is-dark:    map-get($theme, is-dark);
+
+  :host {
+    .filters {
+      .queries {
+        @if ($is-dark) {
+          background-color: rgba(0, 0, 0, 0.05);
+          border-color: treo-color('cool-gray', 500);
+        } 
+        @else {
+          background-color: white;
+          border-color: treo-color('cool-gray', 300);
+        }
+
+        .available-queries {
+          box-shadow: 0 -1px 0 0 map-get($foreground, divider);
+
+          .mat-checkbox {
+            &:hover {
+              background: map-get($background, hover);
+            }
+          }
+        }
+      }
+
+      .active-brand {
+        @if ($is-dark) {
+          color: #fff;
+        } 
+        @else {
+          color: #000;
+        }
+      }
+
+      .actions {
+        @if ($is-dark) {
+          background-color: rgb(39, 48, 63);
+        } 
+        @else {
+          background-color: treo-color('cool-gray', 50);
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+@import 'common';
+
+:host {
+  .page-project-new {
+    @extend %entity-detail;
+  }
+}
+
+
+@include treo-theme {
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+  $is-dark: map-get($theme, is-dark);
+
+  :host {
+    .header {
+      .subtitle {
+        color: map-get($foreground, secondary-text);
+      }
+    }
+  }
+}

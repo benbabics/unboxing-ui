@@ -1,0 +1,60 @@
+@import 'common';
+
+:host {
+  @extend %entity-list-layout-horizontal;
+
+  .animate-spin {
+    animation: spin 1s linear infinite;
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  }
+
+  .loading-progress-bar {
+    position: absolute;
+    z-index: 1;
+    top:    0;
+    right:  0;
+    left:   0;
+    height: 2px;
+  }
+
+  .mat-drawer-container .mat-drawer-content {
+    .main .header {
+      border-bottom-color: transparent;
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------------------------------
+// @ Theming
+// -----------------------------------------------------------------------------------------------------
+@include treo-theme {
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+  $is-dark: map-get($theme, is-dark);
+
+  :host {
+    .header {
+      .subtitle {
+        color: map-get($foreground, secondary-text);
+      }
+    }
+
+    .background {
+      path {
+        @if ($is-dark) {
+          fill: treo-color('cool-gray', 800);
+        } @else {
+          fill: treo-color('blue', 300);
+        }
+      }
+    }
+  }
+}
