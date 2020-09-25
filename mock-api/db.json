@@ -1,0 +1,252 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "bbabics@gmail.com",
+      "password": "$2a$10$9yVSz9kaoTN.0KClrxOgY.720nxg1yKUe2aZTolTPYvHD5.Vl/7.m",
+      "firstname": "Ben",
+      "lastname": "Babics",
+      "avatar": "/assets/images/avatars/bbabics.jpg"
+    },
+    {
+      "id": 2,
+      "email": "contributor@example.com",
+      "password": "$2a$10$uh2hdk0ehbD8Kdu2K3F5bOm31..t7BiW99cw.pj4vY1rrbjZvZKrW",
+      "firstname": "Carl",
+      "lastname": "Contributor",
+      "avatar": "/assets/images/avatars/male-14.jpg"
+    },
+    {
+      "id": 3,
+      "email": "groom@example.com",
+      "firstname": "John",
+      "lastname": "Doe",
+      "password": "$2a$10$DDMEe9/SkGxAy8O1S/mEiuCkSALYcsb/PyrJ77/GNqQXAZW6dY8dy",
+      "avatar": "/assets/images/avatars/male-03.jpg"
+    }
+  ],
+  "invitations": [
+    {
+      "token": "abc123",
+      "email": "bride@example.com",
+      "recipientId": null,
+      "sendId": 1,
+      "projectId": 3
+    }
+  ],
+  "memberships": [
+    {
+      "id": 1,
+      "userId": 1,
+      "accountId": 1,
+      "role": "ADMIN"
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "brandId": 1,
+      "role": "ADMIN"
+    },
+    {
+      "id": 3,
+      "userId": 1,
+      "projectId": 1,
+      "role": "ADMIN"
+    },
+    {
+      "id": 4,
+      "userId": 1,
+      "projectId": 2,
+      "role": "ADMIN"
+    },
+    {
+      "id": 5,
+      "userId": 1,
+      "projectId": 3,
+      "role": "ADMIN"
+    },
+    {
+      "id": 6,
+      "userId": 2,
+      "brandId": 3,
+      "role": "CONTRIBUTOR"
+    }
+  ],
+  "accounts": [
+    {
+      "id": "doubleclick-detroit",
+      "title": "DoubleClick Detroit",
+      "logo": "/assets/images/accounts/doubleclick-detroit.jpg",
+      "userId": 1
+    }
+  ],
+  "brands": [
+    {
+      "id": 1,
+      "accountId": "doubleclick-detroit",
+      "name": "Riddle Works",
+      "website": "http://riddle.works",
+      "logoUrl": "/assets/images/brands/riddleworks/logo.jpg",
+      "emails": [
+        {
+          "email": "admin@riddle.works",
+          "label": "Admin"
+        }
+      ],
+      "networks": [
+        {
+          "network": "facebook",
+          "label": "riddle.works",
+          "url": "http://facebook.com/riddle.works"
+        },
+        {
+          "network": "twitter",
+          "label": "@riddleworks",
+          "url": "http://twitter.com/riddle.works"
+        }
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "id": 1,
+      "accountId": "doubleclick-detroit",
+      "title": "Halloween Wedding",
+      "slug": "spooky_wedding",
+      "brandId": 1,
+      "date": "2020-10-31 00:00:00",
+      "themeId": "theme-default"
+    },
+    {
+      "id": 2,
+      "accountId": "doubleclick-detroit",
+      "title": "Info Wars",
+      "slug": "info_wars",
+      "brandId": 1,
+      "date": "2021-01-20 00:00:00",
+      "themeId": "theme-default"
+    },
+    {
+      "id": 3,
+      "accountId": "doubleclick-detroit",
+      "title": "Sandy Beach Wedding",
+      "slug": "sandy_beach_wedding",
+      "brandId": 1,
+      "date": "2021-07-23 00:00:00",
+      "themeId": "theme-default"
+    }
+  ],
+  "assetDirectories": [
+    {
+      "id": 1,
+      "name": "Photos",
+      "path": "photos",
+      "projectId": 1,
+      "parentId": null
+    },
+    {
+      "id": 2,
+      "name": "Infowars Photos",
+      "path": "photos",
+      "projectId": 2,
+      "parentId": null
+    },
+    {
+      "id": 3,
+      "name": "Sandy Beach Photos",
+      "path": "photos",
+      "projectId": 3,
+      "parentId": null
+    }
+  ],
+  "assetElements": [
+    {
+      "id": 1,
+      "url": "https://1z30b13mfvdj2ixk6z3i8rfx-wpengine.netdna-ssl.com/wp-content/uploads/hauntingly-beautiful-halloween-wedding-beatrice-the-quirky.png",
+      "name": "",
+      "format": "PHOTO",
+      "projectId": 1,
+      "assetDirectoryId": 1
+    },
+    {
+      "id": 2,
+      "url": "https://i0.wp.com/artmyideas.com/wp-content/uploads/2019/04/40-Awesome-Halloween-Wedding-Decoration-Ideas-9.jpg?fit=1200%2C1798&ssl=1",
+      "name": "",
+      "format": "PHOTO",
+      "projectId": 1,
+      "assetDirectoryId": 1
+    },
+    {
+      "id": 3,
+      "url": "https://static.onecms.io/wp-content/uploads/sites/13/2017/10/09/Halloween-wedding.jpg",
+      "name": "",
+      "format": "PHOTO",
+      "projectId": 1,
+      "assetDirectoryId": 1
+    },
+    {
+      "id": 4,
+      "url": "https://static.infowars.com/2013/06/AJShowBackground_5.jpg",
+      "name": "",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": 2
+    },
+    {
+      "id": 5,
+      "url": "https://media2.fdncms.com/inlander/imager/u/original/19607617/cult2-1-af825e35336c5f0a.jpg",
+      "name": "",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": 2
+    },
+    {
+      "id": 6,
+      "url": "https://www.beaches.com/blog/content/images/2019/11/Beaches-Turks-Caicos-Beach-Wedding6.jpg",
+      "name": "",
+      "format": "PHOTO",
+      "projectId": 3,
+      "assetDirectoryId": 3
+    },
+    {
+      "id": 6,
+      "url": "https://www.beaches.com/blog/content/images/2019/11/Beaches-Turks-Caicos-Beach-Wedding2.jpg",
+      "name": "",
+      "format": "PHOTO",
+      "projectId": 3,
+      "assetDirectoryId": 3
+    },
+    {
+      "id": 6,
+      "url": "https://tidetheknotbeachweddings.com/wp-content/uploads/2019/02/Tide-the-knot-blue-42-580x300.jpg",
+      "name": "",
+      "format": "PHOTO",
+      "projectId": 3,
+      "assetDirectoryId": 3
+    },
+    {
+      "id": 6,
+      "url": "https://i.pinimg.com/originals/f4/68/71/f46871496a3ad095b154251128480d44.jpg",
+      "name": "",
+      "format": "PHOTO",
+      "projectId": 3,
+      "assetDirectoryId": 3
+    },
+    {
+      "id": 6,
+      "url": "https://www.seafireresortandspa.com/images/1700-960/seafire-beach-activation-1-c6749e43.jpg",
+      "name": "",
+      "format": "PHOTO",
+      "projectId": 3,
+      "assetDirectoryId": 3
+    },
+    {
+      "id": 6,
+      "url": "https://i.pinimg.com/originals/43/f8/a2/43f8a2b58e845d7be6705e08c41d4f97.jpg",
+      "name": "",
+      "format": "PHOTO",
+      "projectId": 3,
+      "assetDirectoryId": 3
+    }
+  ]
+}
