@@ -11,7 +11,7 @@
     "build:prod:mem": "node --max_old_space_size=6144 ./node_modules/@angular/cli/bin/ng build --prod",
     "start:common": "ng build libCommon --watch",
     "build:common": "ng build libCommon",
-    "start:mock-api": "json-server-auth mock-api/db.json",
+    "start:mocks": "json-server-auth mock-api/db.json --routes mock-api/routes.json",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",

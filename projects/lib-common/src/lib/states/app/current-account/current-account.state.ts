@@ -18,7 +18,6 @@ export interface CurrentAccountStateModel extends CurrentAccount {
     id:     '',
     title:  '',
     logo:   '',
-    userId: '',
   }
 })
 @Injectable()
@@ -37,11 +36,6 @@ export class CurrentAccountState {
   @Selector()
   static details(state: CurrentAccountStateModel): CurrentAccount {
     return state;
-  }
-  
-  @Selector()
-  static userId({ userId }: CurrentAccountStateModel): string {
-    return userId;
   }
 
   @Selector()
@@ -91,7 +85,6 @@ export class CurrentAccountState {
       id:     null,
       title:  null,
       logo:   null,
-      userId: null,
     });
   }
 }

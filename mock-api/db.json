@@ -39,51 +39,35 @@
       "id": 1,
       "userId": 1,
       "accountId": 1,
+      "projectIds": [ 1, 2, 3 ],
       "role": "ADMIN"
     },
     {
       "id": 2,
-      "userId": 1,
-      "brandId": 1,
-      "role": "ADMIN"
+      "userId": 2,
+      "accountId": 1,
+      "projectIds": [ 1, 2 ],
+      "role": "CONTRIBUTOR"
     },
     {
       "id": 3,
-      "userId": 1,
-      "projectId": 1,
-      "role": "ADMIN"
-    },
-    {
-      "id": 4,
-      "userId": 1,
-      "projectId": 2,
-      "role": "ADMIN"
-    },
-    {
-      "id": 5,
-      "userId": 1,
-      "projectId": 3,
-      "role": "ADMIN"
-    },
-    {
-      "id": 6,
-      "userId": 2,
-      "brandId": 3,
-      "role": "CONTRIBUTOR"
+      "userId": 3,
+      "accountId": 1,
+      "projectIds": [ 3 ],
+      "role": "USER"
     }
   ],
   "accounts": [
     {
-      "id": "doubleclick-detroit",
+      "id": 1,
       "title": "DoubleClick Detroit",
-      "logo": "/assets/images/accounts/doubleclick-detroit.jpg",
-      "userId": 1
+      "logo": "/assets/images/accounts/doubleclick-detroit.jpg"
     }
   ],
   "brands": [
     {
       "id": 1,
-      "accountId": "doubleclick-detroit",
+      "accountId": 1,
       "name": "Riddle Works",
       "website": "http://riddle.works",
       "logoUrl": "/assets/images/brands/riddleworks/logo.jpg",
@@ -110,7 +94,7 @@
   "projects": [
     {
       "id": 1,
-      "accountId": "doubleclick-detroit",
+      "accountId": 1,
       "title": "Halloween Wedding",
       "slug": "spooky_wedding",
       "brandId": 1,
@@ -119,7 +103,7 @@
     },
     {
       "id": 2,
-      "accountId": "doubleclick-detroit",
+      "accountId": 1,
       "title": "Info Wars",
       "slug": "info_wars",
       "brandId": 1,
@@ -128,7 +112,7 @@
     },
     {
       "id": 3,
-      "accountId": "doubleclick-detroit",
+      "accountId": 1,
       "title": "Sandy Beach Wedding",
       "slug": "sandy_beach_wedding",
       "brandId": 1,

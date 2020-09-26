@@ -1,0 +1,4 @@
+{
+  "/*": "/$1",
+  "/users/:userId/memberships": "/users/:userId/memberships?_expand=account"
+}
