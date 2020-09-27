@@ -44,7 +44,6 @@ export class CurrentAccountState {
   }
 
   constructor(
-    private store: Store,
     private http: HttpClient,
   ) { }
 
@@ -62,7 +61,7 @@ export class CurrentAccountState {
         tap((data: any) => {
           const account = omit( data, 'brands', 'projects' );
           ctx.patchState( account );
-          this.store.dispatch([
+          ctx.dispatch([
             new CreateOrReplace( AccountState, account ),
             new Reset( BrandState ),
             new CreateOrReplace( BrandState, data.brands ),
@@ -76,7 +75,7 @@ export class CurrentAccountState {
   @Action( CurrentAccount.Select )
   select(ctx: StateContext<CurrentAccountStateModel>, { payload }: CurrentAccount.Select) {
     ctx.patchState( payload );
-    return this.store.dispatch( new CurrentAccount.Refresh() );
+    return ctx.dispatch( new CurrentAccount.Refresh() );
   }
 
   @Action( CurrentAccount.Clear )

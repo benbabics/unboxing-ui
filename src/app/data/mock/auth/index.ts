@@ -57,7 +57,7 @@ export class AuthMockApi implements TreoMockApi {
 
   private getCurrentUser(): Observable<CurrentUser> {
     const email = this.store.selectSnapshot( AuthState.email );
-    return this.http.get( `/mock-api/640/users?email=${email}` )
+    return this.http.get( `/mock-api/640/users?email=${ email }` )
       .pipe(
         map((users: any[]) => first( users )),
         map(user => this.deserialize( user )),

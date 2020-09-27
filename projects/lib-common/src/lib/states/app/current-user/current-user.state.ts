@@ -32,7 +32,6 @@ export class CurrentUserState {
   }
 
   constructor(
-    private store: Store,
     private http: HttpClient,
     private authService: AuthService,
   ) { }
@@ -44,7 +43,7 @@ export class CurrentUserState {
     return this.http.get( `/api/sessions/me` )
       .pipe(
         tap(user => ctx.patchState( user )),
-        catchError(() => this.store.dispatch( new Auth.Logout() )),
+        catchError(() => ctx.dispatch( new Auth.Logout() )),
       );
   }
 
