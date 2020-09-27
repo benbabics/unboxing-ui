@@ -39,22 +39,68 @@
       "id": 1,
       "userId": 1,
       "accountId": 1,
-      "projectIds": [ 1, 2, 3 ],
       "role": "ADMIN"
     },
     {
       "id": 2,
       "userId": 2,
       "accountId": 1,
-      "projectIds": [ 1, 2 ],
       "role": "CONTRIBUTOR"
     },
     {
       "id": 3,
       "userId": 3,
       "accountId": 1,
-      "projectIds": [ 3 ],
       "role": "USER"
+    }
+  ],
+  "brandIds": [
+    {
+      "id": 1,
+      "membershipId": 1,
+      "brandId": 1
+    },
+    {
+      "id": 2,
+      "membershipId": 2,
+      "brandId": 1
+    },
+    {
+      "id": 3,
+      "membershipId": 3,
+      "brandId": 1
+    }
+  ],
+  "projectIds": [
+    {
+      "id": 1,
+      "membershipId": 1,
+      "projectId": 1
+    },
+    {
+      "id": 2,
+      "membershipId": 1,
+      "projectId": 2
+    },
+    {
+      "id": 3,
+      "membershipId": 1,
+      "projectId": 3
+    },
+    {
+      "id": 4,
+      "membershipId": 2,
+      "projectId": 1
+    },
+    {
+      "id": 5,
+      "membershipId": 2,
+      "projectId": 2
+    },
+    {
+      "id": 6,
+      "membershipId": 3,
+      "projectId": 3
     }
   ],
   "accounts": [
