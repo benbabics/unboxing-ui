@@ -18,12 +18,13 @@ import {
   AuthState,
   BrandState,
   CurrentAccountState,
+  CurrentMembershipState,
   CurrentUserState,
   LibCommonModule,
   ProjectState,
   UiState,
   UiPreferencesState,
-  UserState,
+  UserState, 
 } from '../../projects/lib-common/src/public-api';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
@@ -68,6 +69,7 @@ const routerConfig: ExtraOptions = {
       UiPreferencesState,
       AuthState,
       CurrentUserState,
+      CurrentMembershipState,
       CurrentAccountState,
       AccountState,
       BrandState,

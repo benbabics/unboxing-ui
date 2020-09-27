@@ -1,6 +1,7 @@
 {
   "/*": "/$1",
-  "/users/:id/memberships":    "/users/:id/memberships?_expand=account",
-  "/memberships/:id/brands":   "/memberships/:id/brandIds?_expand=brand",
-  "/memberships/:id/projects": "/memberships/:id/projectIds?_expand=project"
+  "/users/:id/memberships":    "/users/:id/memberships/?_expand=account",
+  "/memberships/:id":          "/memberships/:id/?_expand=account",
+  "/memberships/:id/brands":   "/memberships/:id/brandIds/?_expand=brand",
+  "/memberships/:id/projects": "/memberships/:id/projectIds/?_expand=project"
 }

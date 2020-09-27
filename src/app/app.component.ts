@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { flatMap, tap, map } from 'rxjs/operators';
 import { Store, Actions, ofActionSuccessful } from '@ngxs/store';
 import { TreoConfigService } from '@treo/services/config/config.service';
-import { AppState, Auth, CurrentAccount, CurrentAccountState, CurrentUser, Ui, UiPreferencesState } from '../../projects/lib-common/src/public-api';
+import { AppState, Auth, CurrentAccount, CurrentAccountState, CurrentMembership, CurrentUser, Ui, UiPreferencesState } from '../../projects/lib-common/src/public-api';
 
 @Component({
   selector: 'app-root',
@@ -34,6 +34,7 @@ export class AppComponent {
       tap(() => store.dispatch([
         new Ui.ClearNavigationItems(),
         new CurrentUser.Clear(),
+        new CurrentMembership.Clear(),
         new CurrentAccount.Clear(),
       ])),
     )

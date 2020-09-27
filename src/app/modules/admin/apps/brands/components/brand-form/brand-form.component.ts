@@ -1,5 +1,4 @@
 import { CurrentAccountState } from './../../../../../../../../projects/lib-common/src/lib/states/app/current-account/current-account.state';
-import { CurrentAccount } from './../../../../../../../../projects/lib-common/src/lib/states/app/current-account/current-account.action';
 import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Subject, Observable } from 'rxjs';
