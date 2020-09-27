@@ -27,9 +27,9 @@
 
             <div class="accounts">
 
-              <ng-container *ngIf="accounts$ | async; let accounts">
-                <ng-container *ngFor="let account of accounts">
-                  <ng-container *ngTemplateOutlet="cardAccount; context: { $implicit: account }"></ng-container>
+              <ng-container *ngIf="memberships$ | async; let memberships">
+                <ng-container *ngFor="let membership of memberships">
+                  <ng-container *ngTemplateOutlet="cardAccount; context: { $implicit: membership }"></ng-container>
                 </ng-container>
               </ng-container>
 
@@ -43,7 +43,7 @@
 
 
 
-<ng-template #cardAccount let-account>
+<ng-template #cardAccount let-membership>
   <treo-card class="flex flex-col items-center max-w-80 w-full p-8 filter-info">
     <div class="absolute flex flex-col top-0 right-0 p-4">
       <button mat-icon-button>
@@ -51,10 +51,10 @@
       </button>
     </div>
 
-    <img [src]="account.logo" [alt]="account.title" class="object-contain h-32 w-full">
+    <img [src]="membership.account.logo" [alt]="membership.account.title" class="object-contain h-32 w-full">
     
     <div class="text-2xl font-semibold leading-tight text-center mt-4 w-full">
-      {{ account.title }}
+      {{ membership.account.title }}
     </div>
     
     <div class="text-center text-secondary mt-1 mb-4">
@@ -76,7 +76,12 @@
     </div>
     <div class="text-sm text-secondary mt-1">+13 more</div>
     
-    <a routerLink="/example" (click)="handleSelectAccount(account); $event.preventDefault()" mat-flat-button color="primary" class="px-6 mt-6">
+    <a 
+      color="primary"
+      class="px-6 mt-6"
+      routerLink="/example"
+      mat-flat-button 
+      (click)="handleSelectMembership( membership ); $event.preventDefault()">
       <span>Select Account</span>
     </a>
   </treo-card>

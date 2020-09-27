@@ -34,8 +34,11 @@ export class MembershipMockApi implements TreoMockApi {
         }
 
         const userIdId = this.store.selectSnapshot( CurrentUserState.userId );
-        return this.http.get( `/mock-api/users/${ userIdId }/memberships` )
-          .pipe(map(memberships => [ 200, memberships ]));
+        return this.http.get<CurrentMembership[]>( `/mock-api/users/${ userIdId }/memberships` )
+          .pipe(
+            map(memberships => memberships.map(membership => this._deserialize( membership))),
+            map(memberships => [ 200, memberships ]),
+          );
       });
 
     /**

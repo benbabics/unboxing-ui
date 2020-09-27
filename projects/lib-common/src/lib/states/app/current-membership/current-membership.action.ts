@@ -1,10 +1,6 @@
-import { Account } from '../../account';
-import { MembershipRole } from './current-membership.interfaces';
+import { Membership } from './current-membership.interfaces';
 
-export interface CurrentMembership {
-  id: string;
-  role: MembershipRole;
-  account: Account;
+export interface CurrentMembership extends Membership {
 }
 
 export namespace CurrentMembership {

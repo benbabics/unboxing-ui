@@ -52,6 +52,12 @@
       "userId": 3,
       "accountId": 1,
       "role": "USER"
+    },
+    {
+      "id": 4,
+      "userId": 1,
+      "accountId": 2,
+      "role": "ADMIN"
     }
   ],
   "brandIds": [
@@ -108,6 +114,11 @@
       "id": 1,
       "title": "DoubleClick Detroit",
       "logo": "/assets/images/accounts/doubleclick-detroit.jpg"
+    },
+    {
+      "id": 2,
+      "title": "Wicked 3am",
+      "logo": "/assets/images/accounts/wicked-3am.jpg"
     }
   ],
   "brands": [

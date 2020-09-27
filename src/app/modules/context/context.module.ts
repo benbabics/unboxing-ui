@@ -9,9 +9,11 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { NgxsModule } from '@ngxs/store';
 import { TreoMessageModule } from '@treo/components/message';
 import { SharedModule } from 'app/shared/shared.module';
 import { TreoCardModule } from '@treo/components/card';
+import { MembershipState } from './states';
 
 @NgModule({
   imports: [
@@ -25,6 +27,9 @@ import { TreoCardModule } from '@treo/components/card';
     TreoCardModule,
     TreoMessageModule,
     SharedModule,
+    NgxsModule.forFeature([
+      MembershipState,
+    ]),
   ],
   providers: [
     ContextGuard,
