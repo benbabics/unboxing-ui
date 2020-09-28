@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Store, State, Action, Selector, StateContext } from '@ngxs/store';
-import { defaultEntityState, EntityStateModel, EntityState, IdStrategy, Add, Update, SetLoading, Remove } from '@ngxs-labs/entity-state';
+import { defaultEntityState, EntityStateModel, EntityState, IdStrategy, Add, Update, SetLoading, Remove, CreateOrReplace } from '@ngxs-labs/entity-state';
 import { UpdateFormDirty } from '@ngxs/form-plugin';
-import { finalize, flatMap } from 'rxjs/operators';
+import { finalize, flatMap, tap } from 'rxjs/operators';
 import { compact, sortBy } from 'lodash';
 import { Brand } from './brand.action';
 
@@ -47,55 +47,66 @@ export class BrandState extends EntityState<Brand> {
   }
 
   constructor(
-    private store: Store,
-    private http: HttpClient,
+    private _store: Store,
+    private _http: HttpClient,
   ) {
     super( BrandState, 'id', IdStrategy.EntityIdGenerator );
   }
 
+  @Action( Brand.Index )
+  crudIndex(ctx: StateContext<BrandStateModel>) {
+    this._toggleLoading( true );
+
+    return this._http.get<Brand[]>( `/api/brands` )
+      .pipe(
+        tap(memberships => ctx.dispatch( new CreateOrReplace(BrandState, memberships) )),
+        tap(() => this._toggleLoading( false )),
+      );
+  }
+
   @Action( Brand.Create )
   crudCreate(ctx: StateContext<BrandStateModel>, { payload }: Brand.Create) {
-    this.toggleLoading( true );
+    this._toggleLoading( true );
     
-    return this.http.post<Brand>( `/api/accounts/${ payload.accountId }/brands`, payload )
+    return this._http.post<Brand>( `/api/accounts/${ payload.accountId }/brands`, payload )
       .pipe(
-        flatMap(brand => this.store.dispatch([
+        flatMap(brand => ctx.dispatch([
           new UpdateFormDirty({ path: "brand.manageBrandForm", dirty: false }),
           new Add( BrandState, brand ),
         ])),
-        finalize(() => this.toggleLoading( false )),
+        finalize(() => this._toggleLoading( false )),
       );
   }
 
   @Action( Brand.Update )
   crudUpdate(ctx: StateContext<BrandStateModel>, { payload }: Brand.Update) {
-    this.toggleLoading( true );
+    this._toggleLoading( true );
 
-    return this.http.patch<Brand>( `/api/brands/${ payload.id }`, payload )
+    return this._http.patch<Brand>( `/api/brands/${ payload.id }`, payload )
       .pipe(
-        flatMap(brand => this.store.dispatch([
+        flatMap(brand => ctx.dispatch([
           new UpdateFormDirty({ path: "brand.manageBrandForm", dirty: false }),
           new Update( BrandState, brand.id, brand ),
         ])),
-        finalize(() => this.toggleLoading( false )),
+        finalize(() => this._toggleLoading( false )),
       );
   }
 
   @Action( Brand.Destroy )
   crudDestroy(ctx: StateContext<BrandStateModel>, { id }: Brand.Destroy) {
-    this.toggleLoading( true );
+    this._toggleLoading( true );
 
-    return this.http.delete( `/api/brands/${ id }` )
+    return this._http.delete( `/api/brands/${ id }` )
       .pipe(
-        flatMap(()  => this.store.dispatch([
+        flatMap(()  => ctx.dispatch([
           new UpdateFormDirty({ path: "brand.manageBrandForm", dirty: false }),
           new Remove( BrandState, id ),
         ])),
-        finalize(() => this.toggleLoading( false )),
+        finalize(() => this._toggleLoading( false )),
       );
   }
 
-  private toggleLoading(isLoading: boolean): void {
-    this.store.dispatch( new SetLoading(BrandState, isLoading) );
+  private _toggleLoading(isLoading: boolean): void {
+    this._store.dispatch( new SetLoading(BrandState, isLoading) );
   }
 }

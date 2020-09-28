@@ -13,46 +13,64 @@ import { CurrentMembershipState } from './../../../../../projects/lib-common/src
 export class BrandMockApi implements TreoMockApi {
   
   constructor(
-    private store: Store,
-    private http: HttpClient,
-    private authService: AuthService,
-    private treoMockApiService: TreoMockApiService
+    private _store: Store,
+    private _http: HttpClient,
+    private _authService: AuthService,
+    private _treoMockApiService: TreoMockApiService
   ) {
     this.register();
   }
 
   register(): void {
     /**
-     * PATCH /brands/:brandId
+     * GET /brands
      */
-    this.treoMockApiService
-      .onPatch( "/api/brands/:brandId" )
+    this._treoMockApiService
+      .onGet( "/api/brands" )
       .reply(request => {
-        if ( !this.authService.isAuthenticated ) {
+        if ( !this._authService.isAuthenticated ) {
           return [ 403, { error: "Unauthorized" } ];
         }
 
-        const accountId = this.store.selectSnapshot( CurrentMembershipState.accountId );
+        const membershipId = this._store.selectSnapshot( CurrentMembershipState.id );
+        return this._http.get<any[]>( `/mock-api/memberships/${ membershipId }/brands` )
+          .pipe(
+            map(brands => brands.map(({ brand }) => brand)),
+            map(brands => [ 200, brands ]),
+          );
+      });
+    
+    /**
+     * PATCH /brands/:brandId
+     */
+    this._treoMockApiService
+      .onPatch( "/api/brands/:brandId" )
+      .reply(request => {
+        if ( !this._authService.isAuthenticated ) {
+          return [ 403, { error: "Unauthorized" } ];
+        }
+
+        const accountId = this._store.selectSnapshot( CurrentMembershipState.accountId );
         Object.assign(request.body, { accountId });
         
         const brandId = request.params.get( 'brandId' );
         request.body.id = brandId;
-        return this.http.patch( `/mock-api/brands/${ brandId }`, request.body )
+        return this._http.patch( `/mock-api/brands/${ brandId }`, request.body )
           .pipe(map(brand => [ 200, brand ]));
       });
 
     /**
      * DELETE /brands/:brandId
      */
-    this.treoMockApiService
+    this._treoMockApiService
       .onDelete( "/api/brands/:brandId" )
       .reply(request => {
-        if ( !this.authService.isAuthenticated ) {
+        if ( !this._authService.isAuthenticated ) {
           return [ 403, { error: "Unauthorized" } ];
         }
 
         const brandId = request.params.get( 'brandId' );
-        return this.http.delete( `/mock-api/brands/${ brandId }` )
+        return this._http.delete( `/mock-api/brands/${ brandId }` )
           .pipe(map(() => [ 200 ]));
       });
   }

@@ -21,11 +21,15 @@ export interface Brand {
 
 export namespace Brand {
   
+  export class Index {
+    static readonly type = '[Brand API] Index';
+  }
+  
   export class Create {
     static readonly type = '[Brand API] Create';
     constructor( public payload: Brand ) { }
   }
-  
+
   export class Update {
     static readonly type = '[Brand API] Update';
     constructor( public payload: Brand ) { }

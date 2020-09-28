@@ -1,13 +1,22 @@
 import { NgModule } from '@angular/core';
 import { Route, RouterModule } from '@angular/router';
 import { CanDeactivateBrandsGuard } from './brands.guard';
-import { BrandIndexComponent, BrandNewComponent, BrandEditComponent, BrandShowComponent } from './pages';
+import { BrandResolver } from './resolvers';
+import { 
+  BrandIndexComponent,
+  BrandNewComponent,
+  BrandEditComponent,
+  BrandShowComponent
+} from './pages';
 
 
 export const routes: Route[] = [
   {
     path: "",
     component: BrandIndexComponent,
+    resolve: {
+      brands: BrandResolver
+    },
     children: [
       {
         path: "new",
