@@ -145,7 +145,7 @@
             });
 
             const appState = JSON.parse( localStorage.getItem('app') );
-            if ( appState ) updateAccountLogo( appState.currentAccount.logo );
+            if ( appState ) updateAccountLogo( appState.currentMembership.account.logo );
             else            updateAccountLogo( "assets/images/logo/logo.svg" );
 
             function updateAccountLogo(logo) {

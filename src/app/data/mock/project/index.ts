@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { AuthService } from './../../../core/auth/auth.service';
 import { TreoMockApi } from '@treo/lib/mock-api/mock-api.interfaces';
 import { TreoMockApiService } from '@treo/lib/mock-api/mock-api.service';
-import { CurrentAccountState, Project } from '../../../../../projects/lib-common/src/public-api';
+import { CurrentMembershipState, Project } from '../../../../../projects/lib-common/src/public-api';
 
 @Injectable({
   providedIn: 'root'
@@ -53,7 +53,7 @@ export class ProjectMockApi implements TreoMockApi {
           return [ 403, { error: "Unauthorized" } ];
         }
 
-        const accountId = this._store.selectSnapshot( CurrentAccountState.id );
+        const accountId = this._store.selectSnapshot( CurrentMembershipState.accountId );
         Object.assign(request.body, { accountId });
         
         const projectId = request.params.get( 'projectId' );

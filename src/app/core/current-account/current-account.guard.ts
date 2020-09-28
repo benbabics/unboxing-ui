@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { CurrentAccountState } from './../../../../projects/lib-common/src/public-api';
+import { CurrentMembershipState } from './../../../../projects/lib-common/src/public-api';
 
 @Injectable()
 export class CurrentAccountGuard implements CanActivate {
@@ -22,7 +22,7 @@ export class CurrentAccountGuard implements CanActivate {
 
   private checkCurrentAccount(redirectURL: string): boolean | UrlTree {
     const queryParams = { redirectURL };
-    const exists = this.store.selectSnapshot( CurrentAccountState.exists );
+    const exists = this.store.selectSnapshot( CurrentMembershipState.exists );
     return exists ? true : this.router.createUrlTree([ "/context" ], { queryParams });
   }
 }

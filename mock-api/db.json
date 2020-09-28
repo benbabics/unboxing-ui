@@ -64,16 +64,19 @@
     {
       "id": 1,
       "membershipId": 1,
+      "userId": 1,
       "brandId": 1
     },
     {
       "id": 2,
       "membershipId": 2,
+      "userId": 2,
       "brandId": 1
     },
     {
       "id": 3,
       "membershipId": 3,
+      "userId": 3,
       "brandId": 1
     }
   ],
@@ -81,31 +84,37 @@
     {
       "id": 1,
       "membershipId": 1,
+      "userId": 1,
       "projectId": 1
     },
     {
       "id": 2,
       "membershipId": 1,
+      "userId": 1,
       "projectId": 2
     },
     {
       "id": 3,
       "membershipId": 1,
+      "userId": 1,
       "projectId": 3
     },
     {
       "id": 4,
       "membershipId": 2,
+      "userId": 2,
       "projectId": 1
     },
     {
       "id": 5,
       "membershipId": 2,
+      "userId": 2,
       "projectId": 2
     },
     {
       "id": 6,
       "membershipId": 3,
+      "userId": 3,
       "projectId": 3
     }
   ],

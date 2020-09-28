@@ -5,7 +5,7 @@ import { Subject, BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { takeUntil, tap, map, filter, flatMap } from 'rxjs/operators';
 import { Select, Store } from '@ngxs/store';
 import { UpdateFormValue } from '@ngxs/form-plugin';
-import { CurrentAccountState, Project, ProjectSlugValidator, ProjectState } from './../../../../../../../../projects/lib-common/src/public-api';
+import { CurrentMembershipState, Project, ProjectSlugValidator, ProjectState } from './../../../../../../../../projects/lib-common/src/public-api';
 
 export enum ProjectFormView {
   Wizard   = "PROJECT_VIEW_WIZARD",
@@ -59,7 +59,7 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
 
     combineLatest([
       _store.select( ProjectState.active ),
-      _store.select( CurrentAccountState.id ),
+      _store.select( CurrentMembershipState.accountId ),
     ])
     .pipe(
       takeUntil( this._destroy$ ),

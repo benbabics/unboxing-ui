@@ -5,7 +5,7 @@ import { Subject, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TreoMediaWatcherService } from '@treo/services/media-watcher';
 import { TreoNavigationService } from '@treo/components/navigation';
-import { CurrentAccount, CurrentAccountState, Ui, UiPreferences, UiPreferencesState, UiPreferencesNavigationAppearance, UiNavigationItem, UiState } from '../../../../../projects/lib-common/src/public-api';
+import { Account, CurrentMembershipState, UiPreferences, UiPreferencesState, UiPreferencesNavigationAppearance, UiNavigationItem, UiState } from '../../../../../projects/lib-common/src/public-api';
 
 @Component({
   selector     : 'dense-layout',
@@ -19,7 +19,7 @@ export class DenseLayoutComponent implements OnInit, OnDestroy {
   isScreenSmall: boolean;
   hasToggledNavigation: boolean;
   
-  @Select( CurrentAccountState.details ) currentAccount$: Observable<CurrentAccount>;
+  @Select( CurrentMembershipState.account ) currentAccount$: Observable<Account>;
   @Select( UiState.navigationItems ) navigationItems$: Observable<UiNavigationItem[]>;
   @Select( UiPreferencesState.navigationAppearance ) navigationAppearance$: Observable<UiPreferencesNavigationAppearance>;
 

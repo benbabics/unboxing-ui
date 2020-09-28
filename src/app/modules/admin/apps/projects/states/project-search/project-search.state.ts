@@ -5,7 +5,7 @@ import { finalize, flatMap, tap, map } from 'rxjs/operators';
 import { State, Selector, Action, StateContext, Store } from '@ngxs/store';
 import { UpdateFormDirty } from '@ngxs/form-plugin';
 import { ProjectSearch } from './project-search.action';
-import { CurrentAccountState, plainToFlattenObject } from '../../../../../../../../projects/lib-common/src/public-api';
+import { CurrentMembershipState, plainToFlattenObject } from '../../../../../../../../projects/lib-common/src/public-api';
 
 export interface ProjectSearchStateModel extends ProjectSearch {
   projectFiltersForm,
@@ -87,7 +87,7 @@ export class ProjectSearchState {
       new ProjectSearch.SetFilters( payload ),
     ])
     .pipe(
-      flatMap(() => this._store.selectOnce( CurrentAccountState.id )),
+      flatMap(() => this._store.selectOnce( CurrentMembershipState.accountId )),
       flatMap(id => this._http.get(`/api/accounts/${ id }/projects`, { params })),
       map(results => sortBy(results, 'title')),
       tap(results => ctx.patchState({ results })),

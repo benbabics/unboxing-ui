@@ -4,7 +4,6 @@ import { App } from './app.action';
 import { AuthState } from './auth';
 import { CurrentMembership, CurrentMembershipState } from './current-membership';
 import { CurrentUser, CurrentUserState } from './current-user';
-import { CurrentAccount, CurrentAccountState } from './current-account';
 
 export interface AppStateModel extends App {}
 
@@ -17,7 +16,6 @@ export interface AppStateModel extends App {}
     AuthState,
     CurrentUserState,
     CurrentMembershipState,
-    CurrentAccountState,
   ]
 })
 @Injectable()
@@ -37,7 +35,6 @@ export class AppState {
     return this.store.dispatch([
       new CurrentUser.Refresh(),
       new CurrentMembership.Refresh(),
-      new CurrentAccount.Refresh(),
     ]);
   }
 
