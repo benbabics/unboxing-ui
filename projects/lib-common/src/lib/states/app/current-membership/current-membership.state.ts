@@ -58,10 +58,7 @@ export class CurrentMembershipState {
     if ( !id ) return Promise.resolve();
 
     return this._http.get<CurrentMembership>( `/api/memberships/${ id }` )
-      .pipe(
-        tap(data => console.log('* CurrentMembership', data)),
-        tap(data => ctx.patchState( data )),
-      );
+      .pipe( tap(data => ctx.patchState( data )) );
   }
 
   @Action( CurrentMembership.Select )

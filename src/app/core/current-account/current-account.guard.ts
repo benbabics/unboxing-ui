@@ -16,7 +16,6 @@ export class CurrentAccountGuard implements CanActivate {
   }
 
   canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree {
-    console.log('* CurrentAccountGuard.canActivateChild', state.url);
     return this.checkCurrentAccount( state.url );
   }
 
