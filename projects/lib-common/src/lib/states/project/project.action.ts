@@ -33,7 +33,7 @@ export namespace Project {
 
   export class Show {
     static readonly type = '[Project API] Show';
-    constructor( public slug: string ) { }
+    constructor( public id: string ) { }
   }
   
   export class Create {

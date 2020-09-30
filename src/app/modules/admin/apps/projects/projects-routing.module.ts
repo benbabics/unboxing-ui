@@ -3,12 +3,12 @@ import { Routes, RouterModule } from '@angular/router';
 import { 
   ProjectNewComponent,
   ProjectIndexComponent,
+  ProjectDetailComponent,
   ProjectShowComponent,
   ProjectEditComponent,
 } from './pages';
-import {
-  ProjectDetailGuard,
-} from './guards';
+import { ProjectResolver } from './resolvers';
+import { ProjectFormGuard } from './guards';
 
 
 const routes: Routes = [
@@ -25,23 +25,25 @@ const routes: Routes = [
       {
         path: "new",
         component: ProjectNewComponent,
-        canDeactivate: [],
-        data: {
-          breadcrumb: "New"
-        },
+        data: { breadcrumb: "New" },
+        canDeactivate: [ ProjectFormGuard ],
       },
       {
         path: ":id",
-        canActivate:      [ ProjectDetailGuard, ],
-        canActivateChild: [ ProjectDetailGuard, ],
-        canDeactivate:    [ ProjectDetailGuard, ],
+        component: ProjectDetailComponent,
+        resolve: {
+          project: ProjectResolver,
+        },
         children: [
           {
             path: "",
+            data: { breadcrumb: "View" },
             component: ProjectShowComponent,
           },
           {
             path: "edit",
+            data: { breadcrumb: "Edit" },
+            canDeactivate: [ ProjectFormGuard, ],
             component: ProjectEditComponent,
           }
         ]

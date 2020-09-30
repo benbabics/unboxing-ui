@@ -44,6 +44,21 @@ export class ProjectMockApi implements TreoMockApi {
       });
 
     /**
+     * GET /projects/:projectId
+     */
+    this._treoMockApiService
+      .onGet( "/api/projects/:projectId" )
+      .reply(request => {
+        if ( !this._authService.isAuthenticated ) {
+          return [ 403, { error: "Unauthorized" } ];
+        }
+
+        const projectId = request.params.get( 'projectId' );
+        return this._http.get<Project>( `/mock-api/projects/${ projectId }` )
+          .pipe(map(payload  => [ 200, payload ]));
+      });
+
+    /**
      * PATCH /projects/:projectId
      */
     this._treoMockApiService

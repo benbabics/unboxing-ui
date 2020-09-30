@@ -28,9 +28,16 @@
   "invitations": [
     {
       "token": "abc123",
+      "email": "groom@example.com",
+      "senderId": 1,
+      "recipientId": 3,
+      "projectId": 3
+    },
+    {
+      "token": "xyz123",
       "email": "bride@example.com",
+      "senderId": 1,
       "recipientId": null,
-      "sendId": 1,
       "projectId": 3
     }
   ],

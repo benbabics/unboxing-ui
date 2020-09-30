@@ -40,9 +40,10 @@ import {
 } from './components';
 import { 
   ProjectIndexComponent,
+  ProjectNewComponent,
+  ProjectDetailComponent,
   ProjectEditComponent,
   ProjectShowComponent,
-  ProjectNewComponent,
 } from './pages';
 import { TagIconPipe } from './pipes';
 
@@ -93,6 +94,7 @@ import { TagIconPipe } from './pipes';
     ProjectNewComponent,
     TagIconPipe,
     ProjectResultComponent,
+    ProjectDetailComponent,
   ],
   providers: [
     { 
