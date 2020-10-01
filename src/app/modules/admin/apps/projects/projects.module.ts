@@ -28,8 +28,12 @@ import { TreoAutogrowModule } from '@treo/directives/autogrow';
 import { TreoFindByKeyPipeModule } from '@treo/pipes/find-by-key';
 import { SharedModule } from 'app/shared/shared.module';
 import { ProjectsRoutingModule } from './projects-routing.module';
-import { ProjectSearchState } from './states';
 
+import { 
+  ActiveProjectState,
+  ActiveProjectSearchState,
+  ActiveProjectInviteState,
+} from './states';
 import { 
   BrandDetailComponent,
   BrandListComponent,
@@ -78,7 +82,9 @@ import { TagIconPipe } from './pipes';
     TreoFindByKeyPipeModule,
     SharedModule,
     NgxsModule.forFeature([
-      ProjectSearchState,
+      ActiveProjectState,
+      ActiveProjectInviteState,
+      ActiveProjectSearchState,
     ]),
     NgxsFormPluginModule,
   ],

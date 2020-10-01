@@ -4,15 +4,15 @@ import { get, sortBy } from 'lodash';
 import { finalize, flatMap, tap, map } from 'rxjs/operators';
 import { State, Selector, Action, StateContext, Store } from '@ngxs/store';
 import { UpdateFormDirty } from '@ngxs/form-plugin';
-import { ProjectSearch } from './project-search.action';
-import { CurrentMembershipState, plainToFlattenObject } from '../../../../../../../../projects/lib-common/src/public-api';
+import { ActiveProjectSearch } from './search.action';
+import { CurrentMembershipState, plainToFlattenObject } from '../../../../../../../../../projects/lib-common/src/public-api';
 
-export interface ProjectSearchStateModel extends ProjectSearch {
+export interface ActiveProjectSearchStateModel extends ActiveProjectSearch {
   projectFiltersForm,
 }
 
-@State<ProjectSearchStateModel>({
-  name: 'projectSearch',
+@State<ActiveProjectSearchStateModel>({
+  name: 'search',
   defaults: {
     loading: false,
     filters: {},
@@ -27,20 +27,20 @@ export interface ProjectSearchStateModel extends ProjectSearch {
   }
 })
 @Injectable()
-export class ProjectSearchState {
+export class ActiveProjectSearchState {
 
   @Selector()
-  static loading({ loading }: ProjectSearchStateModel) {
+  static loading({ loading }: ActiveProjectSearchStateModel) {
     return loading;
   }
 
   @Selector()
-  static filters({ filters }: ProjectSearchStateModel) {
+  static filters({ filters }: ActiveProjectSearchStateModel) {
     return filters;
   }
 
   @Selector()
-  static results({ results }: ProjectSearchStateModel) {
+  static results({ results }: ActiveProjectSearchStateModel) {
     return results;
   }
 
@@ -49,8 +49,8 @@ export class ProjectSearchState {
     private _http: HttpClient,
   ) { }
 
-  @Action( ProjectSearch.ResetFilters )
-  resetFilters(ctx: StateContext<ProjectSearchStateModel>) {
+  @Action( ActiveProjectSearch.ResetFilters )
+  resetFilters(ctx: StateContext<ActiveProjectSearchStateModel>) {
     const action = new UpdateFormDirty({
       path:  "projectSearch.projectFiltersForm",
       dirty: false,
@@ -59,19 +59,19 @@ export class ProjectSearchState {
     ctx.dispatch( action );
   }
   
-  @Action( ProjectSearch.SetLoading )
-  setLoading(ctx: StateContext<ProjectSearchStateModel>, { loading }: ProjectSearch.SetLoading) {
+  @Action( ActiveProjectSearch.SetLoading )
+  setLoading(ctx: StateContext<ActiveProjectSearchStateModel>, { loading }: ActiveProjectSearch.SetLoading) {
     ctx.patchState({ loading });
   }
 
-  @Action( ProjectSearch.SetFilters )
-  setFilters(ctx: StateContext<ProjectSearchStateModel>, { payload }: ProjectSearch.SetFilters) {
+  @Action( ActiveProjectSearch.SetFilters )
+  setFilters(ctx: StateContext<ActiveProjectSearchStateModel>, { payload }: ActiveProjectSearch.SetFilters) {
     const filters = plainToFlattenObject( payload ) || {};
     ctx.patchState({ filters });
   }
 
-  @Action( ProjectSearch.Search )
-  search(ctx: StateContext<ProjectSearchStateModel>, { payload }: ProjectSearch.Search) {
+  @Action( ActiveProjectSearch.Search )
+  search(ctx: StateContext<ActiveProjectSearchStateModel>, { payload }: ActiveProjectSearch.Search) {
     let params = new HttpParams();
     [
       [ 'brandId',    get( payload, 'brand.id' ) ],
@@ -83,15 +83,15 @@ export class ProjectSearchState {
     });
 
     return ctx.dispatch([
-      new ProjectSearch.SetLoading( true ),
-      new ProjectSearch.SetFilters( payload ),
+      new ActiveProjectSearch.SetLoading( true ),
+      new ActiveProjectSearch.SetFilters( payload ),
     ])
     .pipe(
       flatMap(() => this._store.selectOnce( CurrentMembershipState.accountId )),
-      flatMap(id => this._http.get(`/api/accounts/${ id }/projects`, { params })),
-      map(results => sortBy(results, 'title')),
+      flatMap(id => this._http.get( `/api/accounts/${ id }/projects`, { params } )),
+      map(results => sortBy( results, 'title' )),
       tap(results => ctx.patchState({ results })),
-      finalize(() => ctx.dispatch( new ProjectSearch.SetLoading(false) )),
+      finalize(() => ctx.dispatch( new ActiveProjectSearch.SetLoading(false) )),
     );
   }
 }
