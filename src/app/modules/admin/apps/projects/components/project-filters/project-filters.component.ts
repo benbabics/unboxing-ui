@@ -19,7 +19,7 @@ export class ProjectFiltersComponent implements OnInit, OnDestroy {
   private _destroy$ = new Subject();
   
   projectFiltersForm: FormGroup;
-  readonly formPath = "projectSearch.projectFiltersForm";
+  readonly formPath = "activeProject.search.projectFiltersForm";
 
   @Output() onFilterUpdate = new EventEmitter();
   

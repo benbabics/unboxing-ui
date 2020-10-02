@@ -5,7 +5,7 @@
 
 <form 
   class="filters"
-  ngxsForm="projectSearch.projectFiltersForm"
+  [ngxsForm]="formPath"
   [formGroup]="projectFiltersForm"
   (ngSubmit)="handleSubmit()">
 

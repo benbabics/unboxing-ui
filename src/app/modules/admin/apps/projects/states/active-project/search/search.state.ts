@@ -52,7 +52,7 @@ export class ActiveProjectSearchState {
   @Action( ActiveProjectSearch.ResetFilters )
   resetFilters(ctx: StateContext<ActiveProjectSearchStateModel>) {
     const action = new UpdateFormDirty({
-      path:  "projectSearch.projectFiltersForm",
+      path:  "activeProject.search.projectFiltersForm",
       dirty: false,
     });
 
