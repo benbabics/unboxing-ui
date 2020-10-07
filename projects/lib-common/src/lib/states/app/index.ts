@@ -3,5 +3,4 @@ export * from './app.state';
 
 export * from './auth';
 export * from './current-user';
-export * from './current-account';
 export * from './current-membership';
