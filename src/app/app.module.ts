@@ -21,6 +21,8 @@ import {
   CurrentUserState,
   LibCommonModule,
   ProjectState,
+  ProjectInvitationState,
+  ProjectSearchState,
   UiState,
   UiPreferencesState,
   UserState, 
@@ -72,6 +74,8 @@ const routerConfig: ExtraOptions = {
       AccountState,
       BrandState,
       ProjectState,
+      ProjectInvitationState,
+      ProjectSearchState,
       UserState,
     ], {
       selectorOptions: {

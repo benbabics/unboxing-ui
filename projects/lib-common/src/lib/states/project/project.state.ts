@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { State, Action, Selector, StateContext, Store } from '@ngxs/store';
-import { defaultEntityState, EntityStateModel, EntityState, IdStrategy, Add, Update, SetLoading, SetActive, CreateOrReplace } from '@ngxs-labs/entity-state';
-import { UpdateFormValue, UpdateFormDirty } from '@ngxs/form-plugin';
+import { defaultEntityState, EntityStateModel, EntityState, IdStrategy, Add, Update, SetLoading, CreateOrReplace } from '@ngxs-labs/entity-state';
+import { UpdateFormDirty } from '@ngxs/form-plugin';
 import { filter, finalize, flatMap, map, tap } from 'rxjs/operators';
 import { sortBy } from 'lodash';
 import { BrandState } from '../brand/brand.state';
 import { Project } from './project.action';
+import { ProjectInvitationState } from './invitation';
+import { ProjectSearchState } from './search';
 
 export interface ProjectStateModel extends EntityStateModel<Project> {
   manageProjectForm,
@@ -22,7 +24,11 @@ export interface ProjectStateModel extends EntityStateModel<Project> {
       status: '',
       errors: {},
     }
-  }
+  },
+  children: [
+    ProjectInvitationState,
+    ProjectSearchState,
+  ]
 })
 @Injectable()
 export class ProjectState extends EntityState<Project> {
@@ -42,14 +48,6 @@ export class ProjectState extends EntityState<Project> {
     private _http: HttpClient,
   ) {
     super( ProjectState, "id", IdStrategy.EntityIdGenerator );
-  }
-
-  @Action( Project.Manage )
-  open(ctx: StateContext<ProjectStateModel>, action: Project.Manage) {
-    ctx.dispatch(new UpdateFormValue({
-      path:  "project.manageProjectForm",
-      value: action.payload,
-    }));
   }
 
   @Action( Project.Create )

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NgxsModule } from '@ngxs/store';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -29,11 +28,6 @@ import { TreoFindByKeyPipeModule } from '@treo/pipes/find-by-key';
 import { SharedModule } from 'app/shared/shared.module';
 import { ProjectsRoutingModule } from './projects-routing.module';
 
-import { 
-  ActiveProjectState,
-  ActiveProjectSearchState,
-  ActiveProjectInviteState,
-} from './states';
 import { 
   BrandDetailComponent,
   BrandListComponent,
@@ -81,12 +75,6 @@ import { TagIconPipe } from './pipes';
     TreoAutogrowModule,
     TreoFindByKeyPipeModule,
     SharedModule,
-    NgxsModule.forFeature([
-      ActiveProjectState,
-      ActiveProjectInviteState,
-      ActiveProjectSearchState,
-    ]),
-    NgxsFormPluginModule,
   ],
   declarations: [
     BrandListComponent,

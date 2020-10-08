@@ -4,11 +4,10 @@ import { FormGroup } from '@angular/forms';
 import { MatDrawer } from '@angular/material/sidenav';
 import { toPairs, omit } from 'lodash';
 import { Subject, Observable, BehaviorSubject } from 'rxjs';
-import { filter, map, take, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
+import { map, take, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { Select, Store, Actions, ofActionSuccessful } from '@ngxs/store';
 import { TreoMediaWatcherService } from '@treo/services/media-watcher/media-watcher.service';
-import { ActiveProjectSearch, ActiveProjectSearchState } from '../../states';
-import { Brand, BrandState, Project, ProjectState, UiPreferencesState, UiPreferences } from '../../../../../../../../projects/lib-common/src/public-api';
+import { Project, ProjectState, ProjectSearch, ProjectSearchState, UiPreferencesState, UiPreferences } from '../../../../../../../../projects/lib-common/src/public-api';
 
 @Component({
   selector: 'project-index',
@@ -27,9 +26,9 @@ export class ProjectIndexComponent implements OnInit, OnDestroy {
   filters$: Observable<any>;
   isSmallScreen$: BehaviorSubject<boolean> = new BehaviorSubject( false );
   
-  @ViewChild('drawer') drawer: MatDrawer;
+  @ViewChild( 'drawer' ) drawer: MatDrawer;
 
-  @Select( ActiveProjectSearchState.results ) projects$: Observable<Project[]>;
+  @Select( ProjectSearchState.results ) projects$: Observable<Project[]>;
   @Select( UiPreferencesState.projectIndexDrawerOpened) drawerOpened$: Observable<boolean>;
 
   get activeProjects(): Project[] {
@@ -44,11 +43,11 @@ export class ProjectIndexComponent implements OnInit, OnDestroy {
   ) {
     this.drawerMode = 'push';
 
-    // on ActiveProjectSearch.SetFilters, update the URL queryParams
+    // on ProjectSearch.SetFilters, update the URL queryParams
     actions$.pipe(
       takeUntil( this._destroy$ ),
-      ofActionSuccessful( ActiveProjectSearch.SetFilters ),
-      withLatestFrom( _store.select(ActiveProjectSearchState.filters) ),
+      ofActionSuccessful( ProjectSearch.SetFilters ),
+      withLatestFrom( _store.select(ProjectSearchState.filters) ),
       map(([ payload, filters ]) => filters),
       tap(filters => this.updateUrlQueryParams( filters )),
     )
@@ -67,14 +66,14 @@ export class ProjectIndexComponent implements OnInit, OnDestroy {
         if ( isSmallScreen ) this.handleDrawerToggle( false );
       });
 
-    this._store.select( ActiveProjectSearchState.loading )
+    this._store.select( ProjectSearchState.loading )
       .pipe(
         takeUntil( this._destroy$ ),
         tap(isLoading => this.isLoading = isLoading),
       )
       .subscribe();
 
-    this.filters$ = this._store.select( ActiveProjectSearchState.filters )
+    this.filters$ = this._store.select( ProjectSearchState.filters )
       .pipe(
         map(filters => toPairs( filters )),
         map(pairs => pairs.map(([ key, value ]) => ({ key, value }))),
@@ -87,7 +86,7 @@ export class ProjectIndexComponent implements OnInit, OnDestroy {
   }
 
   handleFilterUpdate(filters: any): void {
-    this._store.dispatch( new ActiveProjectSearch.Search(filters) )
+    this._store.dispatch( new ProjectSearch.Search(filters) )
     this.isSmallScreen$.pipe(
       take( 1 ),
       // filter(isSmall => isSmall),
@@ -97,7 +96,7 @@ export class ProjectIndexComponent implements OnInit, OnDestroy {
   }
 
   handleRemoveFilter(id: string): void {
-    this._store.selectOnce( ActiveProjectSearchState.filters ) 
+    this._store.selectOnce( ProjectSearchState.filters ) 
       .pipe(
         map(filters => omit( filters, id )),
         tap(filters => this.updateUrlQueryParams( filters )),

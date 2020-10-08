@@ -4,14 +4,15 @@ import { get, sortBy } from 'lodash';
 import { finalize, flatMap, tap, map } from 'rxjs/operators';
 import { State, Selector, Action, StateContext, Store } from '@ngxs/store';
 import { UpdateFormDirty } from '@ngxs/form-plugin';
-import { ActiveProjectSearch } from './search.action';
-import { CurrentMembershipState, plainToFlattenObject } from '../../../../../../../../../projects/lib-common/src/public-api';
+import { ProjectSearch } from './search.action';
+import { CurrentMembershipState } from '../../app';
+import { plainToFlattenObject } from '../../../helpers';
 
-export interface ActiveProjectSearchStateModel extends ActiveProjectSearch {
+export interface ProjectSearchStateModel extends ProjectSearch {
   projectFiltersForm,
 }
 
-@State<ActiveProjectSearchStateModel>({
+@State<ProjectSearchStateModel>({
   name: 'search',
   defaults: {
     loading: false,
@@ -27,20 +28,20 @@ export interface ActiveProjectSearchStateModel extends ActiveProjectSearch {
   }
 })
 @Injectable()
-export class ActiveProjectSearchState {
+export class ProjectSearchState {
 
   @Selector()
-  static loading({ loading }: ActiveProjectSearchStateModel) {
+  static loading({ loading }: ProjectSearchStateModel) {
     return loading;
   }
 
   @Selector()
-  static filters({ filters }: ActiveProjectSearchStateModel) {
+  static filters({ filters }: ProjectSearchStateModel) {
     return filters;
   }
 
   @Selector()
-  static results({ results }: ActiveProjectSearchStateModel) {
+  static results({ results }: ProjectSearchStateModel) {
     return results;
   }
 
@@ -49,29 +50,29 @@ export class ActiveProjectSearchState {
     private _http: HttpClient,
   ) { }
 
-  @Action( ActiveProjectSearch.ResetFilters )
-  resetFilters(ctx: StateContext<ActiveProjectSearchStateModel>) {
+  @Action( ProjectSearch.ResetFilters )
+  resetFilters(ctx: StateContext<ProjectSearchStateModel>) {
     const action = new UpdateFormDirty({
-      path:  "activeProject.search.projectFiltersForm",
+      path:  "project.search.projectFiltersForm",
       dirty: false,
     });
 
     ctx.dispatch( action );
   }
   
-  @Action( ActiveProjectSearch.SetLoading )
-  setLoading(ctx: StateContext<ActiveProjectSearchStateModel>, { loading }: ActiveProjectSearch.SetLoading) {
+  @Action( ProjectSearch.SetLoading )
+  setLoading(ctx: StateContext<ProjectSearchStateModel>, { loading }: ProjectSearch.SetLoading) {
     ctx.patchState({ loading });
   }
 
-  @Action( ActiveProjectSearch.SetFilters )
-  setFilters(ctx: StateContext<ActiveProjectSearchStateModel>, { payload }: ActiveProjectSearch.SetFilters) {
+  @Action( ProjectSearch.SetFilters )
+  setFilters(ctx: StateContext<ProjectSearchStateModel>, { payload }: ProjectSearch.SetFilters) {
     const filters = plainToFlattenObject( payload ) || {};
     ctx.patchState({ filters });
   }
 
-  @Action( ActiveProjectSearch.Search )
-  search(ctx: StateContext<ActiveProjectSearchStateModel>, { payload }: ActiveProjectSearch.Search) {
+  @Action( ProjectSearch.Search )
+  search(ctx: StateContext<ProjectSearchStateModel>, { payload }: ProjectSearch.Search) {
     let params = new HttpParams();
     [
       [ 'brandId',    get( payload, 'brand.id' ) ],
@@ -83,15 +84,15 @@ export class ActiveProjectSearchState {
     });
 
     return ctx.dispatch([
-      new ActiveProjectSearch.SetLoading( true ),
-      new ActiveProjectSearch.SetFilters( payload ),
+      new ProjectSearch.SetLoading( true ),
+      new ProjectSearch.SetFilters( payload ),
     ])
     .pipe(
       flatMap(() => this._store.selectOnce( CurrentMembershipState.accountId )),
       flatMap(id => this._http.get( `/api/accounts/${ id }/projects`, { params } )),
       map(results => sortBy( results, 'title' )),
       tap(results => ctx.patchState({ results })),
-      finalize(() => ctx.dispatch( new ActiveProjectSearch.SetLoading(false) )),
+      finalize(() => ctx.dispatch( new ProjectSearch.SetLoading(false) )),
     );
   }
 }
