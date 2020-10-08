@@ -9,6 +9,7 @@ import { BrandState } from '../brand/brand.state';
 import { Project } from './project.action';
 import { ProjectInvitationState } from './invitation';
 import { ProjectSearchState } from './search';
+import { ProjectMemberState } from './member';
 
 export interface ProjectStateModel extends EntityStateModel<Project> {
   manageProjectForm,
@@ -28,6 +29,7 @@ export interface ProjectStateModel extends EntityStateModel<Project> {
   children: [
     ProjectInvitationState,
     ProjectSearchState,
+    ProjectMemberState,
   ]
 })
 @Injectable()

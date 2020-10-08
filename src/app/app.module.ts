@@ -22,10 +22,11 @@ import {
   LibCommonModule,
   ProjectState,
   ProjectInvitationState,
+  ProjectMemberState,
   ProjectSearchState,
   UiState,
   UiPreferencesState,
-  UserState, 
+  UserState,
 } from '../../projects/lib-common/src/public-api';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
@@ -75,6 +76,7 @@ const routerConfig: ExtraOptions = {
       BrandState,
       ProjectState,
       ProjectInvitationState,
+      ProjectMemberState,
       ProjectSearchState,
       UserState,
     ], {
