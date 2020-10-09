@@ -229,22 +229,27 @@
         <!-- Email -->
         <mat-form-field class="flex-auto gt-xs:pr-3">
           <mat-label>Email</mat-label>
-          <input formControlName="email" matInput class="mb-0">
+          <input formControlName="email" matInput [disabled]="invitationIsLoading" class="mb-0">
           <mat-icon matPrefix svgIcon="email"></mat-icon>
         </mat-form-field>
 
         <!-- Role -->
         <mat-form-field class="flex-auto gt-xs:pl-3">
           <mat-label>Role</mat-label>
-          <input formControlName="role" matInput class="mb-0">
+          <input formControlName="role" matInput [disabled]="invitationIsLoading" class="mb-0">
           <mat-icon matPrefix svgIcon="security"></mat-icon>
         </mat-form-field>
 
         <!-- Invite Button -->
         <div class="gt-xs:pl-3 self-end mb-1">
-          <button mat-button color="primary">
-            <mat-icon color="primary" svgIcon="forward"></mat-icon>
-            <span>Invite</span>
+          <button mat-button
+                  color="primary"
+                  [disabled]="invitationIsLoading"
+                  (click)="handleInviteUser()">
+
+            <mat-icon *ngIf="!invitationIsLoading" color="primary" svgIcon="reply" class="pr-2"></mat-icon>
+            <mat-icon *ngIf="invitationIsLoading"  svgIcon="dripicons:loading" class="icon-size-18 animate-spin mr-3"></mat-icon>
+            <span>Invite User</span>
           </button>
         </div>
       </div>

@@ -1,11 +1,12 @@
 import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
-import { debounce, snakeCase, get, pick } from 'lodash';
+import { debounce, snakeCase, get, pick, values, chain } from 'lodash';
 import { Subject, BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { takeUntil, tap, map, filter, flatMap } from 'rxjs/operators';
 import { Select, Store } from '@ngxs/store';
 import { UpdateFormValue } from '@ngxs/form-plugin';
-import { CurrentMembershipState, Project, ProjectMember, ProjectMemberState, ProjectSlugValidator, ProjectState } from './../../../../../../../../projects/lib-common/src/public-api';
+import { CurrentMembershipState, Project, ProjectInvitationState, ProjectMember, ProjectMemberState, ProjectSlugValidator, ProjectState } from './../../../../../../../../projects/lib-common/src/public-api';
+import { SetLoading } from '@ngxs-labs/entity-state';
 
 export enum ProjectFormView {
   Wizard   = "PROJECT_VIEW_WIZARD",
@@ -26,6 +27,7 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
   readonly formPath = "project.manageProjectForm";
   
   isLoading: boolean = false;
+  invitationIsLoading: boolean = false;
 
   ProjectFormView = ProjectFormView;
   manageProjectForm: FormGroup;
@@ -71,6 +73,13 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
     )
     .subscribe();
 
+    _store.select( ProjectInvitationState.loading )
+      .pipe(
+        takeUntil( this._destroy$ ),
+        tap(isLoading => this._toggleDisableInvitationControls( isLoading ))
+      )
+      .subscribe(isLoading => this.invitationIsLoading = isLoading);
+
     this.activeViewChange
       .pipe( takeUntil(this._destroy$) )
       .subscribe(() => this.formatValueSlug());
@@ -100,6 +109,10 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
       slug.clearAsyncValidators();
     }
   }, 1000);
+
+  handleInviteUser(): void {
+    this._store.dispatch( new SetLoading(ProjectInvitationState, true) );
+  }
 
   handleCancel(): void {
     this.onCancel.emit();
@@ -160,5 +173,11 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
         },
       },
     }));
+  }
+
+  private _toggleDisableInvitationControls(willDisable: boolean) {
+    const toggle   = ctrl => willDisable ? ctrl.disable() : ctrl.enable();
+    const controls = get( this.manageProjectForm, 'controls.section2.controls' );
+    Object.values( controls ).forEach(control => toggle( control ));
   }
 }
