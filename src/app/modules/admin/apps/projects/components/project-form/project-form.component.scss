@@ -1,3 +1,5 @@
+@import 'treo';
+
 .animate-spin	{
   animation: spin 2s linear infinite;
 
@@ -10,3 +12,16 @@
     }
   }
 }
+
+:host {
+  .section-users {
+    @include treo-breakpoint('gt-xs') {
+      ::ng-deep .mat-form-field.mat-form-field-appearance-fill .mat-form-field-wrapper {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+
+

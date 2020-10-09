@@ -21,8 +21,7 @@
       "email": "groom@example.com",
       "firstname": "John",
       "lastname": "Doe",
-      "password": "$2a$10$DDMEe9/SkGxAy8O1S/mEiuCkSALYcsb/PyrJ77/GNqQXAZW6dY8dy",
-      "avatar": "/assets/images/avatars/male-03.jpg"
+      "password": "$2a$10$DDMEe9/SkGxAy8O1S/mEiuCkSALYcsb/PyrJ77/GNqQXAZW6dY8dy"
     }
   ],
   "invitations": [

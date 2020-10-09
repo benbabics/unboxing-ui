@@ -54,7 +54,7 @@
         #verticalStepperStep2
         [stepControl]="manageProjectForm.get( 'section2' )">
 
-        <ng-template matStepLabel>Profile</ng-template>
+        <ng-template matStepLabel>Users</ng-template>
         <p class="my-6 font-medium">People here will get to know you with this information</p>
 
         <div class="flex flex-col gt-xs:flex-row">
@@ -106,7 +106,7 @@
     </div>
 
     <div class="flex flex-col mt-8 p-8 pb-5 bg-card shadow rounded overflow-hidden">
-      <p class="text-lg font-medium">Profile</p>
+      <p class="text-lg font-medium">Users</p>
       <p class="text-secondary">People here will get to know you with this information</p>
 
       <div class="mt-8">
@@ -224,7 +224,36 @@
 <!-- Section 2 -->
 <ng-template #section2>
   <ng-container [formGroup]="manageProjectForm">
-    <div formGroupName="section2" class="flex flex-col gt-xs:flex-row">
+    <div formGroupName="section2" class="section-users">
+      <div class="flex flex-col gt-xs:flex-row">
+        <!-- Email -->
+        <mat-form-field class="flex-auto gt-xs:pr-3">
+          <mat-label>Email</mat-label>
+          <input formControlName="email" matInput class="mb-0">
+          <mat-icon matPrefix svgIcon="email"></mat-icon>
+        </mat-form-field>
+
+        <!-- Role -->
+        <mat-form-field class="flex-auto gt-xs:pl-3">
+          <mat-label>Role</mat-label>
+          <input formControlName="role" matInput class="mb-0">
+          <mat-icon matPrefix svgIcon="security"></mat-icon>
+        </mat-form-field>
+
+        <!-- Invite Button -->
+        <div class="gt-xs:pl-3 self-end mb-1">
+          <button mat-button color="primary">
+            <mat-icon color="primary" svgIcon="forward"></mat-icon>
+            <span>Invite</span>
+          </button>
+        </div>
+      </div>
+
+      <mat-divider class="mt-6 mb-10"></mat-divider>
+
+      <ng-container *ngIf="members$ | async as members">
+        <member-table [members]="members"></member-table>
+      </ng-container>
     </div>
   </ng-container>
 </ng-template>

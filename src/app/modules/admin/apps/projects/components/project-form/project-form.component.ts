@@ -5,7 +5,7 @@ import { Subject, BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { takeUntil, tap, map, filter, flatMap } from 'rxjs/operators';
 import { Select, Store } from '@ngxs/store';
 import { UpdateFormValue } from '@ngxs/form-plugin';
-import { CurrentMembershipState, Project, ProjectSlugValidator, ProjectState } from './../../../../../../../../projects/lib-common/src/public-api';
+import { CurrentMembershipState, Project, ProjectMember, ProjectMemberState, ProjectSlugValidator, ProjectState } from './../../../../../../../../projects/lib-common/src/public-api';
 
 export enum ProjectFormView {
   Wizard   = "PROJECT_VIEW_WIZARD",
@@ -35,6 +35,8 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
 
   @Output() onCancel = new EventEmitter<void>();
   @Output() onSumbit = new EventEmitter<Project>();
+
+  @Select( ProjectMemberState.entities ) members$: Observable<ProjectMember[]>;
 
   get controlBrandId(): AbstractControl {
     return get(this.manageProjectForm, 'controls.section1.controls.brandId');
@@ -139,7 +141,10 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
         brandId: new FormControl('', [ Validators.required ]),
         date:    new FormControl('', [ ]),
       }),
-      section2: new FormGroup({ }),
+      section2: new FormGroup({
+        email: new FormControl('', [ ]),
+        role:  new FormControl('', [ ]),
+      }),
       section3: new FormGroup({ }),
     });
   }

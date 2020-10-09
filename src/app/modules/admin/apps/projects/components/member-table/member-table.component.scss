@@ -1,0 +1,70 @@
+@import 'treo';
+
+:host {
+  .mat-column-avatar {
+    width: 5rem;
+  }
+  
+  .member-content {
+    display: flex;
+    align-items: center;
+
+    .avatar {
+      position: relative;
+      width: 32px;
+      min-width: 32px;
+      max-width: 32px;
+      height: 32px;
+      min-height: 32px;
+      max-height: 32px;
+      margin-right: 24px;
+      overflow: hidden;
+      border-radius: 50%;
+
+      > span {
+        border-radius: 50%;
+      }
+
+      > img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+      }
+
+      > span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        text-transform: uppercase;
+        font-size: 16px;
+      }
+    }
+
+    .name {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      line-height: normal;
+    }
+  }
+}
+
+
+@include treo-theme {
+
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+  $primary: map-get($theme, primary);
+  $is-dark: map-get($theme, is-dark);
+
+  :host {
+    .avatar {
+      > span {
+        background: treo-color('cool-gray', 200);
+        color: treo-color('cool-gray', 600);
+      }
+    }
+  }
+}
