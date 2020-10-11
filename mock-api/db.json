@@ -29,6 +29,7 @@
       "id": 1,
       "token": "abc123",
       "email": "groom@example.com",
+      "role": "USER",
       "senderId": 1,
       "recipientId": 3,
       "projectId": 3
@@ -37,6 +38,7 @@
       "id": 2,
       "token": "xyz123",
       "email": "bride@example.com",
+      "role": "USER",
       "senderId": 1,
       "recipientId": null,
       "projectId": 3
@@ -113,6 +115,11 @@
     },
     {
       "id": 6,
+      "membershipId": 2,
+      "projectId": 3
+    },
+    {
+      "id": 7,
       "membershipId": 3,
       "projectId": 3
     }

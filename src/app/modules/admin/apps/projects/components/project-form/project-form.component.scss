@@ -13,15 +13,24 @@
   }
 }
 
+
 :host {
-  .section-users {
-    @include treo-breakpoint('gt-xs') {
-      ::ng-deep .mat-form-field.mat-form-field-appearance-fill .mat-form-field-wrapper {
-        margin-bottom: 0;
+  .add-invitation,
+  .invitations {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .invitation {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      max-width: 320px;
+      width: 100%;
+
+      .mat-form-field {
+        width: 100%;
       }
     }
   }
 }
-
-
-

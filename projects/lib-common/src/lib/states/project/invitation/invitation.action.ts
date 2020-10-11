@@ -1,3 +1,5 @@
+import { MembershipRole } from '../../app';
+
 export interface ProjectInvitation {
   id: string;
   token: string;
@@ -5,6 +7,7 @@ export interface ProjectInvitation {
   senderId: string;
   recipientId: string;
   projectId: string;
+  role: MembershipRole;
 }
 
 export namespace ProjectInvitation {
