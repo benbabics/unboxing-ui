@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NgxsModule } from '@ngxs/store';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -19,6 +18,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+import { MatSortModule } from '@angular/material/sort';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -28,23 +28,27 @@ import { TreoAutogrowModule } from '@treo/directives/autogrow';
 import { TreoFindByKeyPipeModule } from '@treo/pipes/find-by-key';
 import { SharedModule } from 'app/shared/shared.module';
 import { ProjectsRoutingModule } from './projects-routing.module';
-import { ProjectSearchState } from './states';
 
 import { 
   BrandDetailComponent,
   BrandListComponent,
   BrandSelectorComponent,
+  MemberTableComponent,
   ProjectFiltersComponent,
   ProjectFormComponent,
   ProjectResultComponent,
 } from './components';
 import { 
   ProjectIndexComponent,
+  ProjectNewComponent,
+  ProjectDetailComponent,
   ProjectEditComponent,
   ProjectShowComponent,
-  ProjectNewComponent,
 } from './pages';
 import { TagIconPipe } from './pipes';
+import { UserAvatarComponent } from './components/user-avatar/user-avatar.component';
+import { RoleBadgeComponent } from './components/role-badge/role-badge.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 @NgModule({
@@ -52,6 +56,7 @@ import { TagIconPipe } from './pipes';
     ProjectsRoutingModule,
     ReactiveFormsModule,
     NgxsFormPluginModule,
+    MatAutocompleteModule,
     MatButtonModule,
     MatCheckboxModule,
     MatChipsModule,
@@ -69,6 +74,7 @@ import { TagIconPipe } from './pipes';
     MatSelectModule,
     MatSidenavModule,
     MatSnackBarModule,
+    MatSortModule,
     MatStepperModule,
     MatTableModule,
     MatTooltipModule,
@@ -76,23 +82,23 @@ import { TagIconPipe } from './pipes';
     TreoAutogrowModule,
     TreoFindByKeyPipeModule,
     SharedModule,
-    NgxsModule.forFeature([
-      ProjectSearchState,
-    ]),
-    NgxsFormPluginModule,
   ],
   declarations: [
     BrandListComponent,
     BrandDetailComponent,
     BrandSelectorComponent,
+    MemberTableComponent,
     ProjectFiltersComponent,
     ProjectFormComponent,
     ProjectIndexComponent,
     ProjectEditComponent,
     ProjectShowComponent,
     ProjectNewComponent,
-    TagIconPipe,
     ProjectResultComponent,
+    ProjectDetailComponent,
+    TagIconPipe,
+    UserAvatarComponent,
+    RoleBadgeComponent,
   ],
   providers: [
     { 

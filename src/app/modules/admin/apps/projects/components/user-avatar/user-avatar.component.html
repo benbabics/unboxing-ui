@@ -1,0 +1,4 @@
+<div class="avatar">
+  <img *ngIf="user?.avatar" [src]="user?.avatar">
+  <div *ngIf="!user?.avatar" class="initial">{{ userInitial }}</div>
+</div>

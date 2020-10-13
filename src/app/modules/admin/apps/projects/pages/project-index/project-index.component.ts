@@ -4,11 +4,10 @@ import { FormGroup } from '@angular/forms';
 import { MatDrawer } from '@angular/material/sidenav';
 import { toPairs, omit } from 'lodash';
 import { Subject, Observable, BehaviorSubject } from 'rxjs';
-import { filter, map, take, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
+import { map, take, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { Select, Store, Actions, ofActionSuccessful } from '@ngxs/store';
 import { TreoMediaWatcherService } from '@treo/services/media-watcher/media-watcher.service';
-import { ProjectSearch, ProjectSearchState } from '../../states';
-import { Brand, BrandState, Project, ProjectState, UiPreferencesState, UiPreferences } from '../../../../../../../../projects/lib-common/src/public-api';
+import { Project, ProjectState, ProjectSearch, ProjectSearchState, UiPreferencesState, UiPreferences } from '../../../../../../../../projects/lib-common/src/public-api';
 
 @Component({
   selector: 'project-index',
@@ -27,7 +26,7 @@ export class ProjectIndexComponent implements OnInit, OnDestroy {
   filters$: Observable<any>;
   isSmallScreen$: BehaviorSubject<boolean> = new BehaviorSubject( false );
   
-  @ViewChild('drawer') drawer: MatDrawer;
+  @ViewChild( 'drawer' ) drawer: MatDrawer;
 
   @Select( ProjectSearchState.results ) projects$: Observable<Project[]>;
   @Select( UiPreferencesState.projectIndexDrawerOpened) drawerOpened$: Observable<boolean>;

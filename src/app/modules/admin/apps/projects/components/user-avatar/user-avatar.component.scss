@@ -1,0 +1,56 @@
+@import 'treo';
+
+:host {
+  display: flex;
+  align-items: center;
+
+  .avatar {
+    position: relative;
+    width:      32px;
+    min-width:  32px;
+    max-width:  32px;
+    height:     32px;
+    min-height: 32px;
+    max-height: 32px;
+    overflow: hidden;
+    border-radius: 50%;
+
+    > .initial {
+      border-radius: 50%;
+    }
+
+    > img {
+      object-fit: cover;
+      width:  100%;
+      height: 100%;
+    }
+
+    > .initial {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width:  100%;
+      height: 100%;
+      font-size: 16px;
+      text-transform: uppercase;
+    }
+  }
+}
+
+
+@include treo-theme {
+
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+  $primary: map-get($theme, primary);
+  $is-dark: map-get($theme, is-dark);
+
+  :host {
+    .avatar {
+      > .initial {
+        background: treo-color('cool-gray', 200);
+        color: treo-color('cool-gray', 600);
+      }
+    }
+  }
+}

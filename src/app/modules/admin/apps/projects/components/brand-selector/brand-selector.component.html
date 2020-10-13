@@ -6,7 +6,7 @@
       matPrefix
       [required]="required"
       formControlName="brand"
-      placeholder="Select Brand"
+      [placeholder]="isLoading ? 'Loading...' : 'Select Brand'"
       panelClass="brand-selector-panel">
 
       <mat-select-trigger>
@@ -18,7 +18,11 @@
       </mat-select-trigger>
 
       <mat-option [value]="null">
-        Select Brand
+        <ng-container *ngIf="isLoading; else defaultMessage">
+          <mat-icon class="icon-size-18 animate-spin mr-3" svgIcon="dripicons:loading"></mat-icon>
+          Loading Brands
+        </ng-container>
+        <ng-template #defaultMessage>Select Brand</ng-template>
       </mat-option>
       
       <ng-container *ngIf="brands$ | async as brands">

@@ -3,13 +3,14 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTr
 import { Store, Select } from "@ngxs/store";
 import { Observable } from "rxjs";
 import { finalize, map, tap, withLatestFrom } from "rxjs/operators";
-import { App, Account, AccountState, CurrentAccount, CurrentAccountState } from './../../../../../projects/lib-common/src/public-api';
+import { Membership, MembershipState } from '../states';
+import { App, CurrentMembership, CurrentMembershipState } from './../../../../../projects/lib-common/src/public-api';
 
 @Injectable()
 export class ContextGuard implements CanActivate {
 
-  @Select(AccountState.entities) accounts$: Observable<Account[]>;
-  @Select(CurrentAccountState.exists) hasCurrentAccount$: Observable<boolean>;
+  @Select( MembershipState.entities ) memberships$: Observable<Membership[]>;
+  @Select( CurrentMembershipState.exists ) hasCurrentMembership$: Observable<boolean>;
 
   constructor(
     private store: Store,
@@ -19,13 +20,13 @@ export class ContextGuard implements CanActivate {
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean| UrlTree> {
     this.toggleLoading( true );
     
-    return this.store.dispatch( new Account.Index() )
+    return this.store.dispatch( new Membership.Index() )
       .pipe(
         finalize(() => this.toggleLoading( false )),
-        withLatestFrom( this.accounts$, this.hasCurrentAccount$ ),
-        map(([_, accounts, hasCurrentAccount]: any) => {
-          if ( !hasCurrentAccount && accounts.length === 1 ) {
-            this.store.dispatch( new CurrentAccount.Select(accounts[0]) );
+        withLatestFrom( this.memberships$, this.hasCurrentMembership$ ),
+        map(([ _, memberships, hasCurrentMembership ]: any) => {
+          if ( !hasCurrentMembership && memberships.length === 1 ) {
+            this.store.dispatch( new CurrentMembership.Select(memberships[ 0 ]) );
             const redirectURL = next.queryParamMap.get( 'redirectURL' );
             return this.router.createUrlTree([ redirectURL || '/example' ]);
           }

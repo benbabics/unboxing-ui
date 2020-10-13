@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext, Store } from "@ngxs/store";
 import { App } from './app.action';
 import { AuthState } from './auth';
-import { CurrentUserState, CurrentUser } from './current-user';
-import { CurrentAccount, CurrentAccountState } from './current-account';
+import { CurrentMembership, CurrentMembershipState } from './current-membership';
+import { CurrentUser, CurrentUserState } from './current-user';
 
 export interface AppStateModel extends App {}
 
@@ -15,7 +15,7 @@ export interface AppStateModel extends App {}
   children: [
     AuthState,
     CurrentUserState,
-    CurrentAccountState,
+    CurrentMembershipState,
   ]
 })
 @Injectable()
@@ -34,7 +34,7 @@ export class AppState {
   start(ctx: StateContext<AppStateModel>) {
     return this.store.dispatch([
       new CurrentUser.Refresh(),
-      new CurrentAccount.Refresh(),
+      new CurrentMembership.Refresh(),
     ]);
   }
 

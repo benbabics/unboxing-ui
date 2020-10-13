@@ -1,1 +1,1 @@
-export * from "./project-detail/project-detail.guard";
+export * from "./project-form/project-form.guard";

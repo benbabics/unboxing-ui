@@ -5,7 +5,7 @@
 
 <form 
   class="filters"
-  ngxsForm="projectSearch.projectFiltersForm"
+  [ngxsForm]="formPath"
   [formGroup]="projectFiltersForm"
   (ngSubmit)="handleSubmit()">
 
@@ -13,9 +13,11 @@
     <p class="title">Brand</p>
     <p class="text-secondary mb-6">Filter projects by their brand.</p>
 
-    <brand-selector 
+    <brand-selector
+      [allowDefaultValue]="false"
       [active]="projectFiltersForm.controls.brand.value.id"
       (activeChange)="handleUpdateBrand( $event )">
+      
       <ng-template let-brandId>
         <brand-detail [id]="brandId">
           <ng-template let-brand>

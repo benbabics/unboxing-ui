@@ -4,15 +4,16 @@ import { get, sortBy } from 'lodash';
 import { finalize, flatMap, tap, map } from 'rxjs/operators';
 import { State, Selector, Action, StateContext, Store } from '@ngxs/store';
 import { UpdateFormDirty } from '@ngxs/form-plugin';
-import { ProjectSearch } from './project-search.action';
-import { CurrentAccountState, plainToFlattenObject } from '../../../../../../../../projects/lib-common/src/public-api';
+import { ProjectSearch } from './search.action';
+import { CurrentMembershipState } from '../../app';
+import { plainToFlattenObject } from '../../../helpers';
 
 export interface ProjectSearchStateModel extends ProjectSearch {
   projectFiltersForm,
 }
 
 @State<ProjectSearchStateModel>({
-  name: 'projectSearch',
+  name: 'search',
   defaults: {
     loading: false,
     filters: {},
@@ -52,7 +53,7 @@ export class ProjectSearchState {
   @Action( ProjectSearch.ResetFilters )
   resetFilters(ctx: StateContext<ProjectSearchStateModel>) {
     const action = new UpdateFormDirty({
-      path:  "projectSearch.projectFiltersForm",
+      path:  "project.search.projectFiltersForm",
       dirty: false,
     });
 
@@ -87,9 +88,9 @@ export class ProjectSearchState {
       new ProjectSearch.SetFilters( payload ),
     ])
     .pipe(
-      flatMap(() => this._store.selectOnce( CurrentAccountState.id )),
-      flatMap(id => this._http.get(`/api/accounts/${ id }/projects`, { params })),
-      map(results => sortBy(results, 'title')),
+      flatMap(() => this._store.selectOnce( CurrentMembershipState.accountId )),
+      flatMap(id => this._http.get( `/api/accounts/${ id }/projects`, { params } )),
+      map(results => sortBy( results, 'title' )),
       tap(results => ctx.patchState({ results })),
       finalize(() => ctx.dispatch( new ProjectSearch.SetLoading(false) )),
     );

@@ -1,5 +1,3 @@
-import { CurrentAccountState } from './../../../../../../../../projects/lib-common/src/lib/states/app/current-account/current-account.state';
-import { CurrentAccount } from './../../../../../../../../projects/lib-common/src/lib/states/app/current-account/current-account.action';
 import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy, OnDestroy, ChangeDetectorRef, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Subject, Observable } from 'rxjs';
@@ -7,7 +5,7 @@ import { tap, takeUntil, map } from 'rxjs/operators';
 import { find, fromPairs } from 'lodash';
 import { Store } from '@ngxs/store';
 import { UpdateFormDirty, UpdateFormValue } from '@ngxs/form-plugin';
-import { Brand, BrandState, BrandEmail, BrandNetwork } from '../../../../../../../../projects/lib-common/src/public-api';
+import { Brand, BrandState, BrandEmail, BrandNetwork, CurrentMembershipState } from '../../../../../../../../projects/lib-common/src/public-api';
 import { BrandIndexComponent } from './../../pages';
 
 @Component({
@@ -153,7 +151,7 @@ export class BrandFormComponent implements OnInit, OnDestroy {
   }
 
   private _buildForm(brand?: Brand): void {
-    const accountId = this._store.selectSnapshot( CurrentAccountState.id );
+    const accountId = this._store.selectSnapshot( CurrentMembershipState.accountId );
     
     this.manageBrandForm = this._formBuilder.group({
       // static
