@@ -1,12 +1,31 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { get, sortBy } from 'lodash';
+import { forEach, get, isObject, sortBy } from 'lodash';
 import { finalize, flatMap, tap, map } from 'rxjs/operators';
 import { State, Selector, Action, StateContext, Store } from '@ngxs/store';
 import { UpdateFormDirty } from '@ngxs/form-plugin';
 import { ProjectSearch } from './search.action';
 import { CurrentMembershipState } from '../../app';
-import { plainToFlattenObject } from '../../../helpers';
+
+function plainToFlattenObject(object) {
+  const result = {};
+
+  function flatten(obj, prefix = "") {
+    forEach(obj, (value, key) => {
+      if ( !value ) return;
+
+      if ( isObject(value) ) {
+        flatten( value, `${ prefix }${ key }.` );
+      } 
+      else {
+        result[ `${ prefix }${ key }` ] = value;
+      }
+    })
+  }
+
+  flatten( object );
+  return result;
+}
 
 export interface ProjectSearchStateModel extends ProjectSearch {
   projectFiltersForm,

@@ -5,7 +5,7 @@ import { EntityActionType, ofEntityActionSuccessful } from '@ngxs-labs/entity-st
 import { Component, OnDestroy } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Select, Actions, Store } from '@ngxs/store';
-import { Project, ProjectState } from '../../../../../../../../projects/lib-common/src/public-api';
+import { Project, ProjectState } from 'app/data';
 
 @Component({
   selector: 'project-edit',

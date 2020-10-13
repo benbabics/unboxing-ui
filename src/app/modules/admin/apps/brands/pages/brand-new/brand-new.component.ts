@@ -5,7 +5,7 @@ import { Observable, of, Subject } from 'rxjs';
 import { tap, takeUntil } from 'rxjs/operators';
 import { Store, Actions } from '@ngxs/store';
 import { ClearActive, EntityActionType, ofEntityActionSuccessful } from '@ngxs-labs/entity-state';
-import { Brand, BrandState } from '../../../../../../../../projects/lib-common/src/public-api';
+import { Brand, BrandState } from 'app/data';
 import { BrandIndexComponent } from './../brand-index/brand-index.component';
 import { ComponentCanDeactivateAndCloseDrawer } from '../../brands.guard';
 import { BrandFormComponent } from './../../components';

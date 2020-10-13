@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { Settings } from './settings.action';
-import { settingsNavigation } from './../../../../../../../projects/lib-common/src/public-api';
+import { settingsNavigation } from 'app/data';
 
 export interface SettingsStateModel extends Settings {
   manageSettingsForm,

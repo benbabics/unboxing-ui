@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
-import { CurrentUser, CurrentUserState } from '../../../../../projects/lib-common/src/lib/states';
+import { CurrentUser, CurrentUserState } from 'app/data';
 
 @Component({
   selector: 'user',

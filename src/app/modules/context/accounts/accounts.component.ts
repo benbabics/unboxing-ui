@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
 import { Membership, MembershipState } from '../states';
-import { CurrentMembership } from '../../../../../projects/lib-common/src/public-api';
+import { CurrentMembership } from 'app/data';
 
 @Component({
   selector: 'app-accounts',

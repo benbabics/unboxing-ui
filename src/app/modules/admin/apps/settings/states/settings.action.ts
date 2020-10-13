@@ -1,4 +1,4 @@
-import { UiNavigationItem } from './../../../../../../../projects/lib-common/src/public-api';
+import { UiNavigationItem } from 'app/data';
 
 export interface Settings {
   navigationItems: UiNavigationItem[],

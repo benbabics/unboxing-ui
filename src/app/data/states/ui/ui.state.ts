@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { State, Store, Action, StateContext, Selector } from '@ngxs/store';
 import { Ui } from './ui.action';
 import { UiPreferencesState } from './ui-preferences';
-import { defaultUiNavigation } from './../../manifests';
+import { defaultUiNavigation } from '../../manifests';
 
 export interface UiStateModel extends Ui { }
 

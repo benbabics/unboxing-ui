@@ -6,7 +6,7 @@ import { chain, isString, omit } from 'lodash';
 import { TreoMockApi } from '@treo/lib/mock-api/mock-api.interfaces';
 import { TreoMockApiService } from '@treo/lib/mock-api/mock-api.service';
 import { AuthService } from './../../../core/auth/auth.service';
-import { CurrentUserState, Project, User } from '../../../../../projects/lib-common/src/public-api';
+import { CurrentUserState, Project, User } from 'app/data';
 
 @Injectable({
   providedIn: 'root'
