@@ -22,6 +22,20 @@
       "firstname": "John",
       "lastname": "Doe",
       "password": "$2a$10$DDMEe9/SkGxAy8O1S/mEiuCkSALYcsb/PyrJ77/GNqQXAZW6dY8dy"
+    },
+    {
+      "id": 4,
+      "email": "ken@example.com",
+      "firstname": "Ken",
+      "lastname": "Doll",
+      "password": "$2a$10$DDMEe9/SkGxAy8O1S/mEiuCkSALYcsb/PyrJ77/GNqQXAZW6dY8dy"
+    },
+    {
+      "id": 5,
+      "email": "barbie@example.com",
+      "firstname": "Barbie",
+      "lastname": "Doll",
+      "password": "$2a$10$DDMEe9/SkGxAy8O1S/mEiuCkSALYcsb/PyrJ77/GNqQXAZW6dY8dy"
     }
   ],
   "invitations": [
@@ -35,13 +49,12 @@
       "projectId": 3
     },
     {
-      "id": 2,
-      "token": "xyz123",
-      "email": "bride@example.com",
       "role": "USER",
+      "token": "47620ce0-dad7-4181-80b0-db68e77c1d36",
+      "email": "bride@example.com",
+      "projectId": "3",
       "senderId": 1,
-      "recipientId": null,
-      "projectId": 3
+      "id": 2
     }
   ],
   "memberships": [
@@ -68,6 +81,18 @@
       "userId": 1,
       "accountId": 2,
       "role": "ADMIN"
+    },
+    {
+      "id": 5,
+      "userId": 4,
+      "accountId": 1,
+      "role": "USER"
+    },
+    {
+      "id": 6,
+      "userId": 5,
+      "accountId": 1,
+      "role": "USER"
     }
   ],
   "brandIds": [

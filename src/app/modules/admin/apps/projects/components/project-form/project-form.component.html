@@ -105,7 +105,7 @@
       </div>
     </div>
 
-    <div class="flex flex-col mt-8 p-8 pb-5 bg-card shadow rounded overflow-hidden">
+    <div class="flex flex-col mt-8 p-8 pb-10 bg-card shadow rounded overflow-hidden">
       <p class="text-lg font-medium">People</p>
       <p class="text-secondary">People here will get to know you with this information</p>
 
@@ -225,38 +225,71 @@
 <ng-template #section2>
   <ng-container [formGroup]="manageProjectForm">
     <div formGroupName="section2" class="section-users">
-      <div formGroupName="invitation" class="add-invitation">
-        <div class="invitation">
-          <mat-form-field>
-            <mat-label>Send Invitation</mat-label>
-            <input matInput formControlName="email" placeholder="email address">
-            <button 
-              mat-icon-button
-              matSuffix 
-              [disabled]="!controlInvitation.dirty">
-              <mat-icon svgIcon="add"></mat-icon>
-            </button>
-          </mat-form-field>
+
+      <div class="flex flex-col flex-wrap gt-xs:flex-row">
+        <!-- Invitations -->
+        <div class="flex-auto">
+          <ng-container *ngIf="invitations$ | async as invitations">
+            <div formGroupName="invitation" class="add-user mb-2">
+              <div class="user">
+                <mat-form-field>
+                  <mat-label>Invitations</mat-label>
+                  <input matInput formControlName="email" placeholder="Email">
+                  <button mat-icon-button matSuffix [disabled]="!controlInvitation.dirty" (click)="handleSubmitInvitation()" type="button">
+                    <mat-icon [svgIcon]="isLoadingInvitation ? 'dripicons:loading' : 'add'" [class.animate-spin]="isLoadingInvitation"></mat-icon>
+                  </button>
+                </mat-form-field>
+              </div>
+            </div>
+          
+            <div class="w-80">
+              <ng-container *ngIf="invitations.length; else emptyInvitations">
+                <div class="rounded-md border-solid border border-gray-300 divide-y divide-gray-300 shadow-md">
+                  <div *ngFor="let invitation of invitations" class="pl-4 pr-2 py-2 flex items-center">
+                    <mat-icon svgIcon="mail" class="mr-3"></mat-icon>
+                    <span class="truncate">{{ invitation.email }}</span>
+                    <button mat-icon-button (click)="handleRemoveInvitation( invitation.id )" type="button" class="ml-auto">
+                      <mat-icon svgIcon="delete"></mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-template #emptyInvitations>
+                <div class="text-center">There aren&#39;t any pending invitations.</div>
+              </ng-template>
+            </div>
+          </ng-container>
+        </div>
+        
+        <!-- Memberships -->
+        <div class="flex-auto">
+          <ng-container *ngIf="members$ | async as memberships">
+            <div formGroupName="member" class="add-user mb-2">
+              <div class="user">
+                <mat-form-field>
+                  <mat-label>Members</mat-label>
+                  <input matInput formControlName="query" placeholder="Search by name, email">
+                  <button mat-icon-button matSuffix [disabled]="!controlMember.dirty" (click)="handleSubmitMember()" type="button">
+                    <mat-icon [svgIcon]="isLoadingMember ? 'dripicons:loading' : 'add'" [class.animate-spin]="isLoadingMember"></mat-icon>
+                  </button>
+                </mat-form-field>
+              </div>
+            </div>
+            
+            <div class="rounded-md border-solid border border-gray-300 divide-y divide-gray-300 shadow-md w-80">
+              <div *ngFor="let member of memberships" class="pl-4 pr-2 py-2 flex items-center">
+                <user-avatar [user]="member" class="mr-3"></user-avatar>
+                <span class="truncate">{{ member.firstname }} {{ member.lastname }}</span>
+                <button mat-icon-button (click)="handleRemoveMember( member.id )" type="button" class="ml-auto">
+                  <mat-icon svgIcon="delete"></mat-icon>
+                </button>
+              </div>
+            </div>
+          </ng-container>
         </div>
       </div>
-      
-      <div formArrayName="invitations" class="invitations">
-        <ng-container *ngIf="controlInvitations.length; else noInvitations">
-          <div class="invitation" *ngFor="let invitation of controlInvitations.controls; let first = first">
-            <mat-form-field>
-              <mat-label *ngIf="first">Invitations</mat-label>
-              <input matInput [formControl]="invitation.get( 'email' )">
-              <button mat-icon-button matSuffix>
-                <mat-icon svgIcon="delete"></mat-icon>
-              </button>
-            </mat-form-field>
-          </div>
-        </ng-container>
 
-        <ng-template #noInvitations>
-          There aren&#39;t any pending invitations.
-        </ng-template>
-      </div>
     </div>
   </ng-container>
 </ng-template>

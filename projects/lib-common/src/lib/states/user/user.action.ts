@@ -7,4 +7,9 @@ export interface User {
 }
 
 export namespace User {
+
+  export class Query {
+    static readonly type = '[User API] Query';
+    constructor( public query: string ) { }
+  }
 }

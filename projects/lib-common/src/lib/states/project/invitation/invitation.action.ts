@@ -19,7 +19,7 @@ export namespace ProjectInvitation {
 
   export class Create {
     static readonly type = '[ProjectInvitation API] Create';
-    constructor( public payload: ProjectInvitation ) { }
+    constructor( public projectId: string, public email: string ) { }
   }
 
   export class Update {

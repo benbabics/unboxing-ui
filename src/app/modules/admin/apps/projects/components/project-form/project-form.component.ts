@@ -3,9 +3,11 @@ import { FormGroup, FormControl, Validators, AbstractControl, FormArray } from '
 import { debounce, snakeCase, get, pick, values, chain } from 'lodash';
 import { Subject, BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { takeUntil, tap, map, filter, flatMap, take } from 'rxjs/operators';
-import { Select, Store } from '@ngxs/store';
+import { Actions, Select, Store } from '@ngxs/store';
 import { UpdateFormValue } from '@ngxs/form-plugin';
-import { CurrentMembershipState, Project, ProjectInvitation, ProjectInvitationState, ProjectMember, ProjectMemberState, ProjectSlugValidator, ProjectState } from './../../../../../../../../projects/lib-common/src/public-api';
+import { CurrentMembershipState, Project, ProjectInvitation, ProjectInvitationState, ProjectMember, ProjectMemberState, ProjectSlugValidator, ProjectState, User } from './../../../../../../../../projects/lib-common/src/public-api';
+import { EntityActionType, ofEntityActionSuccessful, SetLoading } from '@ngxs-labs/entity-state';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export enum ProjectFormView {
   Wizard   = "PROJECT_VIEW_WIZARD",
@@ -26,7 +28,8 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
   readonly formPath = "project.manageProjectForm";
   
   isLoading: boolean = false;
-  invitationIsLoading: boolean = false;
+  isLoadingInvitation: boolean = false;
+  isLoadingMember: boolean = false;
 
   ProjectFormView = ProjectFormView;
   manageProjectForm: FormGroup;
@@ -39,6 +42,9 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
 
   @Output() onCancel = new EventEmitter<void>();
   @Output() onSumbit = new EventEmitter<Project>();
+
+  @Select( ProjectMemberState.entities ) members$: Observable<ProjectMember[]>;
+  @Select( ProjectInvitationState.entities ) invitations$: Observable<ProjectInvitation[]>;
 
   get controlBrandId(): AbstractControl {
     return get(this.manageProjectForm, 'controls.section1.controls.brandId');
@@ -54,11 +60,14 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
   get controlInvitation(): FormGroup {
     return get( this.manageProjectForm, 'controls.section2.controls.invitation' );
   }
-  get controlInvitations(): FormArray {
-    return get( this.manageProjectForm, 'controls.section2.controls.invitations' );
+
+  get controlMember(): FormArray {
+    return get(this.manageProjectForm, 'controls.section2.controls.member');
   }
 
   constructor(
+    actions$: Actions,
+    snackBar: MatSnackBar,
     private _store: Store,
     private _slugValidator: ProjectSlugValidator,
   ) {
@@ -70,7 +79,11 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
 
     _store.select( ProjectInvitationState.loading )
       .pipe( takeUntil(this._destroy$) )
-      .subscribe(isLoading => this.invitationIsLoading = isLoading);
+      .subscribe(isLoading => this.isLoadingInvitation = isLoading);
+
+    _store.select( ProjectMemberState.loading )
+      .pipe( takeUntil(this._destroy$) )
+      .subscribe(isLoading => this.isLoadingMember = isLoading);
 
     combineLatest([
       _store.select( ProjectState.active ),
@@ -84,13 +97,20 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
     )
     .subscribe();
 
-    _store.select( ProjectMemberState.entities )
-      .pipe( takeUntil(this._destroy$) )
-      .subscribe(members => this._buildMemberForm( members ));
+    actions$.pipe(
+      ofEntityActionSuccessful( ProjectInvitationState, EntityActionType.Add ),
+      takeUntil( this._destroy$ ),
+      tap(({ payload }) => snackBar.open( `Invited ${ payload.email } to the project!`, `Ok` )),
+    )
+    .subscribe();
 
-    _store.select( ProjectInvitationState.entities )
-      .pipe( takeUntil(this._destroy$) )
-      .subscribe(invitations => this._buildInvitationForm( invitations ));
+    actions$.pipe(
+      ofEntityActionSuccessful( ProjectMemberState, EntityActionType.Add ),
+      takeUntil( this._destroy$ ),
+      map(payload => `${ payload.firstname } ${ payload.lastname }`),
+      tap(fullname => snackBar.open( `Added ${ fullname } to the project!`, `Ok` )),
+    )
+    .subscribe();
       
     this.activeViewChange
       .pipe( takeUntil(this._destroy$) )
@@ -121,6 +141,38 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
       slug.clearAsyncValidators();
     }
   }, 1000);
+
+  handleSubmitMember(): void {
+    const query = get( this.manageProjectForm, 'value.section2.member.query' );
+    this._store.dispatch( new User.Query( query ));
+  }
+
+  handleRemoveMember(id: string): void {
+    console.log('* handleRemoveMember', id);
+  }
+
+  handleSubmitInvitation(): void {
+    const projectId = this._store.selectSnapshot( ProjectState.activeId );
+    const email = get( this.manageProjectForm, 'value.section2.invitation.email' );
+
+    if ( email ) {
+      this._store.dispatch( new ProjectInvitation.Create(projectId, email) )
+        .pipe(
+          tap(() => this._store.dispatch([
+            new UpdateFormValue({
+              path: this.formPath,
+              propertyPath: "section2.invitation",
+              value: { email: "" },
+            }),
+          ])),
+        )
+        .subscribe();
+    }
+  }
+
+  handleRemoveInvitation(id: string): void {
+    this._store.dispatch( new ProjectInvitation.Destroy(id) );
+  }
 
   handleCancel(): void {
     this.onCancel.emit();
@@ -162,39 +214,18 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
         brandId: new FormControl('', [ Validators.required ]),
         date:    new FormControl('', []),
       }),
+
       section2: new FormGroup({
         invitation: new FormGroup({
           email: new FormControl(''),
-          role:  new FormControl(''),
         }),
-        invitations: new FormArray([]),
-        members:     new FormArray([]),
+        member: new FormGroup({
+          query: new FormControl(''),
+        }),
       }),
+
       section3: new FormGroup({ }),
     });
-  }
-
-  private _buildInvitationForm(invitations: ProjectInvitation[]) {
-    const control = this.manageProjectForm.get('section2.invitations') as FormArray;
-    control.clear();
-    invitations.forEach(invitation => control.push(new FormGroup({
-      id:    new FormControl({ value: invitation.id, disabled: true }),
-      role:  new FormControl({ value: "USER", disabled: true }),
-      email: new FormControl( invitation.email ),
-    })));
-  }
-
-  private _buildMemberForm(members: ProjectMember[]) {
-    const control = this.manageProjectForm.get( 'section2.members' ) as FormArray;
-    control.clear();
-    members.forEach(member => control.push(new FormGroup({
-      id:        new FormControl({ value: member.id,        disabled: true }),
-      email:     new FormControl({ value: member.email,     disabled: true }),
-      firstname: new FormControl({ value: member.firstname, disabled: true }),
-      lastname:  new FormControl({ value: member.lastname,  disabled: true }),
-      avatar:    new FormControl({ value: member.avatar,    disabled: true }),
-      role:      new FormControl({ value: member.role,      disabled: true }),
-    })));
   }
 
   private _updateProjectForm(project: Project) {

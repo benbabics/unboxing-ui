@@ -5,7 +5,7 @@ import { map, tap } from 'rxjs/operators';
 import { AuthService } from './../../../core/auth/auth.service';
 import { TreoMockApi } from '@treo/lib/mock-api/mock-api.interfaces';
 import { TreoMockApiService } from '@treo/lib/mock-api/mock-api.service';
-import { ProjectInvitation } from '../../../../../projects/lib-common/src/public-api';
+import { CurrentUserState, MembershipRole, ProjectInvitation } from '../../../../../projects/lib-common/src/public-api';
 import { omit } from 'lodash';
 
 @Injectable({
@@ -41,5 +41,51 @@ export class ProjectInvitationMockApi implements TreoMockApi {
             map(payload => [ 200, payload ]),
           );
       });
+
+    /**
+     * POST /projects/:projectId/invitations
+     */
+    this._treoMockApiService
+      .onPost( "/api/projects/:projectId/invitations" )
+      .reply(request => {
+        if ( !this._authService.isAuthenticated ) {
+          return [ 403, { error: "Unauthorized" } ];
+        }
+
+        const payload = {
+          role:      MembershipRole.User,
+          token:     this._generateUuidv4(),
+          email:     request.body.email,
+          projectId: request.params.get( 'projectId' ),
+          senderId:  this._store.selectSnapshot( CurrentUserState.userId ),
+        };
+
+        return this._http.post<ProjectInvitation>( `/mock-api/projects/${ payload.projectId }/invitations`, payload )
+          .pipe(map(invitation => [ 200, invitation ]));
+      });
+
+    /**
+     * DELETE /invitations/:invitationId
+     */
+    this._treoMockApiService
+      .onDelete( "/api/invitations/:invitationId" )
+      .reply(request => {
+        if ( !this._authService.isAuthenticated ) {
+          return [ 403, { error: "Unauthorized" } ];
+        }
+
+        const invitationId = request.params.get( 'invitationId' );
+        return this._http.delete( `/mock-api/invitations/${ invitationId }` )
+          .pipe(
+            map(payload => [ 200 ]),
+          );
+      });
+  }
+
+  private _generateUuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
   }
 }

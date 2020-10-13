@@ -46,6 +46,8 @@ import {
   ProjectShowComponent,
 } from './pages';
 import { TagIconPipe } from './pipes';
+import { UserAvatarComponent } from './components/user-avatar/user-avatar.component';
+import { RoleBadgeComponent } from './components/role-badge/role-badge.component';
 
 
 @NgModule({
@@ -93,6 +95,8 @@ import { TagIconPipe } from './pipes';
     ProjectResultComponent,
     ProjectDetailComponent,
     TagIconPipe,
+    UserAvatarComponent,
+    RoleBadgeComponent,
   ],
   providers: [
     { 

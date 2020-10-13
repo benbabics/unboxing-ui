@@ -36,7 +36,7 @@ export class ProjectInvitationState extends EntityState<ProjectInvitation> {
   }
 
   @Action( ProjectInvitation.Create )
-  crudCreate(ctx: StateContext<ProjectInvitationStateModel>, { payload }: ProjectInvitation.Create) {
+  crudCreate(ctx: StateContext<ProjectInvitationStateModel>, payload: ProjectInvitation.Create) {
     this.toggleLoading( true );
 
     return this._http.post<ProjectInvitation>( `/api/projects/${ payload.projectId }/invitations`, payload )

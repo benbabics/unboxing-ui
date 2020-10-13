@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Action, State, StateContext, Store } from '@ngxs/store';
 import { CreateOrReplace, defaultEntityState, EntityState, EntityStateModel, IdStrategy, SetLoading } from '@ngxs-labs/entity-state';
 import { ProjectMember } from './member.action';
-import { finalize, tap } from 'rxjs/operators';
+import { finalize, flatMap, map, tap } from 'rxjs/operators';
+import { CurrentMembershipState } from '../../app';
 
 export interface ProjectMemberStateModel extends EntityStateModel<ProjectMember> {
 }
