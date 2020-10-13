@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable, of, throwError } from 'rxjs';
 import { AuthUtils } from 'app/core/auth/auth.utils';
-import { Auth, AuthState, CurrentUser } from '../../../../projects/lib-common/src/public-api';
+import { Auth, AuthState, CurrentUser } from 'app/data';
 
 @Injectable()
 export class AuthService {

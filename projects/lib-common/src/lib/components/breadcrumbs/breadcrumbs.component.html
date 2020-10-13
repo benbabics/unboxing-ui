@@ -1,6 +1,0 @@
-<div class="breadcrumb">
-  <ng-container *ngFor="let item of menuItems; let last = last;">
-    <a [routerLink]="item.url" class="path">{{ item.label }}</a>
-    <span *ngIf="!last" class="separator">/</span>
-  </ng-container>
-</div>

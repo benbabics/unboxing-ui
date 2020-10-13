@@ -19,7 +19,6 @@ import {
   BrandState,
   CurrentMembershipState,
   CurrentUserState,
-  LibCommonModule,
   ProjectState,
   ProjectInvitationState,
   ProjectMemberState,
@@ -27,7 +26,7 @@ import {
   UiState,
   UiPreferencesState,
   UserState,
-} from '../../projects/lib-common/src/public-api';
+} from './data/states';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
@@ -56,7 +55,6 @@ const routerConfig: ExtraOptions = {
 
     // Core
     CoreModule,
-    LibCommonModule,
 
     // Layout
     LayoutModule,

@@ -7,7 +7,7 @@ import { Store } from '@ngxs/store';
 import { TreoMockApi } from '@treo/lib/mock-api/mock-api.interfaces';
 import { TreoMockApiService } from '@treo/lib/mock-api/mock-api.service';
 import { AuthService } from 'app/core/auth/auth.service';
-import { AuthState, CurrentUser, CurrentUserState } from '../../../../../projects/lib-common/src/public-api';
+import { AuthState, CurrentUser, CurrentUserState } from 'app/data';
 
 @Injectable({
   providedIn: 'root'

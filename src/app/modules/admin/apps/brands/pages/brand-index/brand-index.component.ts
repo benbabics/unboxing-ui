@@ -7,7 +7,7 @@ import { takeUntil, tap, map } from 'rxjs/operators';
 import { Select, Store } from '@ngxs/store';
 import { ClearActive } from '@ngxs-labs/entity-state';
 import { TreoMediaWatcherService } from '@treo/services/media-watcher/media-watcher.service';
-import { Brand, BrandState } from './../../../../../../../../projects/lib-common/src/public-api';
+import { Brand, BrandState } from 'app/data';
 
 @Component({
   selector: 'brand-index',

@@ -5,7 +5,7 @@ import { tap, takeUntil, map } from 'rxjs/operators';
 import { find, fromPairs } from 'lodash';
 import { Store } from '@ngxs/store';
 import { UpdateFormDirty, UpdateFormValue } from '@ngxs/form-plugin';
-import { Brand, BrandState, BrandEmail, BrandNetwork, CurrentMembershipState } from '../../../../../../../../projects/lib-common/src/public-api';
+import { Brand, BrandState, BrandEmail, BrandNetwork, CurrentMembershipState } from 'app/data';
 import { BrandIndexComponent } from './../../pages';
 
 @Component({

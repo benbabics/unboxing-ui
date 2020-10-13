@@ -5,7 +5,7 @@ import { Subject, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TreoMediaWatcherService } from '@treo/services/media-watcher';
 import { TreoNavigationService } from '@treo/components/navigation';
-import { Account, CurrentMembershipState, UiPreferences, UiPreferencesState, UiPreferencesNavigationAppearance, UiNavigationItem, UiState } from '../../../../../projects/lib-common/src/public-api';
+import { Account, CurrentMembershipState, UiPreferences, UiPreferencesState, UiPreferencesNavigationAppearance, UiNavigationItem, UiState } from 'app/data';
 
 @Component({
   selector     : 'dense-layout',

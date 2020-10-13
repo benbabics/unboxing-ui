@@ -5,7 +5,7 @@ import { map, tap } from 'rxjs/operators';
 import { AuthService } from './../../../core/auth/auth.service';
 import { TreoMockApi } from '@treo/lib/mock-api/mock-api.interfaces';
 import { TreoMockApiService } from '@treo/lib/mock-api/mock-api.service';
-import { CurrentUserState, MembershipRole, ProjectInvitation } from '../../../../../projects/lib-common/src/public-api';
+import { CurrentUserState, MembershipRole, ProjectInvitation } from 'app/data';
 import { omit } from 'lodash';
 
 @Injectable({

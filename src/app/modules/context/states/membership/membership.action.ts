@@ -1,4 +1,4 @@
-import { Membership as MembershipBase } from './../../../../../../projects/lib-common/src/public-api';
+import { Membership as MembershipBase } from 'app/data';
 
 export interface Membership extends MembershipBase {}
 

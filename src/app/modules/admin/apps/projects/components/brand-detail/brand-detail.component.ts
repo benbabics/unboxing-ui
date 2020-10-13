@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, SimpleChanges, ChangeDetectionStrategy, Co
 import { Store } from '@ngxs/store';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { Brand, BrandState } from '../../../../../../../../projects/lib-common/src/public-api';
+import { Brand, BrandState } from 'app/data';
 
 @Component({
   selector: 'brand-detail',
