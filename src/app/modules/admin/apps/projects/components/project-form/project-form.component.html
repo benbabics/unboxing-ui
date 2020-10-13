@@ -281,10 +281,10 @@
                   <mat-autocomplete
                     #auto="matAutocomplete"
                     [displayWith]="displayWithMember">
-                    <mat-option *ngFor="let user of userSuggestions" [value]="user">
+                    <mat-option *ngFor="let member of memberSuggestions" [value]="member">
                       <div class="flex">
-                        <user-avatar [user]="user" class="mr-3"></user-avatar>
-                        <span class="truncate">{{ user.firstname }} {{ user.lastname }}</span>
+                        <user-avatar [user]="member.user" class="mr-3"></user-avatar>
+                        <span class="truncate">{{ member.user.firstname }} {{ member.user.lastname }}</span>
                       </div>
                     </mat-option>
                   </mat-autocomplete>

@@ -34,10 +34,9 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
   ProjectFormView = ProjectFormView;
   manageProjectForm: FormGroup;
   
+  memberSuggestions = [];
   members: ProjectMember[];
   invitations: ProjectInvitation[];
-
-  userSuggestions: User[] = [];
 
   @Input()  activeView: ProjectFormView = ProjectFormView.Advanced;
   @Output() activeViewChange = new EventEmitter<ProjectFormView>();
@@ -117,15 +116,15 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
       ofActionSuccessful( User.SearchResults ),
       takeUntil( this._destroy$ ),
       withLatestFrom( this.members$ ),
-      map(([{ payload }, members]) => payload.filter(({ id }) => !members.map(({ id }) => id).includes( id ))),
-      tap(users => this.userSuggestions = users),
+      map(([{ payload }, members]) => payload.filter(({ userId }) => !members.map(({ id }) => id).includes( userId ))),
+      tap(users => this.memberSuggestions = users),
     )
     .subscribe();
       
     this.controlMember.get( 'query' ).valueChanges.pipe(
       takeUntil( this._destroy$ ),
       debounceTime( 300 ),
-      filter(query => !!query),
+      filter(query => !!query && query.length > 1),
       switchMap(query => this._store.dispatch( new User.SearchQuery(query) )),
     )
     .subscribe();
@@ -160,16 +159,17 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
     }
   }, 1000);
 
-  displayWithMember({ firstname, lastname }: User): string {
-    if ( firstname && lastname ) {
-      return `${ firstname } ${ lastname }`;
+  displayWithMember({ user }): string {
+    if ( user?.firstname && user?.lastname ) {
+      return `${ user.firstname } ${ user.lastname }`;
     }
 
     return '';
   }
 
   handleSubmitMember(): void {
-    console.log('* handleSubmitMember');
+    const member = this.manageProjectForm.get( 'section2.member.query' ).value;
+    console.log('* handleSubmitMember', member);
   }
 
   handleRemoveMember(id: string): void {
