@@ -8,8 +8,13 @@ export interface User {
 
 export namespace User {
 
-  export class Query {
-    static readonly type = '[User API] Query';
+  export class SearchQuery {
+    static readonly type = '[User API] SearchQuery';
     constructor( public query: string ) { }
+  }
+
+  export class SearchResults {
+    static readonly type = '[User API] SearchResults';
+    constructor( public payload: User[] ) { }
   }
 }

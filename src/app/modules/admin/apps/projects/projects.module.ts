@@ -48,6 +48,7 @@ import {
 import { TagIconPipe } from './pipes';
 import { UserAvatarComponent } from './components/user-avatar/user-avatar.component';
 import { RoleBadgeComponent } from './components/role-badge/role-badge.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import { RoleBadgeComponent } from './components/role-badge/role-badge.component
     ProjectsRoutingModule,
     ReactiveFormsModule,
     NgxsFormPluginModule,
+    MatAutocompleteModule,
     MatButtonModule,
     MatCheckboxModule,
     MatChipsModule,

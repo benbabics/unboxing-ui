@@ -34,8 +34,8 @@ export class UserState extends EntityState<User> implements NgxsOnInit {
     super( UserState, 'id', IdStrategy.EntityIdGenerator );
   }
 
-  @Action( User.Query )
-  search(ctx: StateContext<UserStateModel>, { query }: User.Query) {
+  @Action( User.SearchQuery )
+  search(ctx: StateContext<UserStateModel>, { query }: User.SearchQuery) {
     this.toggleLoading( true );
 
     let params = new HttpParams();
@@ -44,7 +44,7 @@ export class UserState extends EntityState<User> implements NgxsOnInit {
     return this._store.selectOnce( CurrentMembershipState.accountId )
       .pipe(
         flatMap(id => this._http.get<User[]>( `/api/accounts/${ id }/users`, { params } )),
-        tap(users => ctx.dispatch( new CreateOrReplace(UserState, users) )),
+        tap(users => ctx.dispatch( new User.SearchResults(users) )),
         finalize(() => this.toggleLoading( false )),
       );
   }

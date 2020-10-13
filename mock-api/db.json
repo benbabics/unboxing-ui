@@ -28,14 +28,16 @@
       "email": "ken@example.com",
       "firstname": "Ken",
       "lastname": "Doll",
-      "password": "$2a$10$DDMEe9/SkGxAy8O1S/mEiuCkSALYcsb/PyrJ77/GNqQXAZW6dY8dy"
+      "password": "$2a$10$DDMEe9/SkGxAy8O1S/mEiuCkSALYcsb/PyrJ77/GNqQXAZW6dY8dy",
+      "avatar": "/assets/images/avatars/male-10.jpg"
     },
     {
       "id": 5,
       "email": "barbie@example.com",
       "firstname": "Barbie",
       "lastname": "Doll",
-      "password": "$2a$10$DDMEe9/SkGxAy8O1S/mEiuCkSALYcsb/PyrJ77/GNqQXAZW6dY8dy"
+      "password": "$2a$10$DDMEe9/SkGxAy8O1S/mEiuCkSALYcsb/PyrJ77/GNqQXAZW6dY8dy",
+      "avatar": "/assets/images/avatars/female-11.jpg"
     }
   ],
   "invitations": [

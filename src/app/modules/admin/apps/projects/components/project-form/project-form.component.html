@@ -269,7 +269,24 @@
               <div class="user">
                 <mat-form-field>
                   <mat-label>Members</mat-label>
-                  <input matInput formControlName="query" placeholder="Search by name, email">
+
+                  <input 
+                    type="text" 
+                    placeholder="Search by name, email" 
+                    matInput
+                    formControlName="query"
+                    [matAutocomplete]="auto">
+                  <mat-autocomplete
+                    #auto="matAutocomplete"
+                    [displayWith]="displayWithMember">
+                    <mat-option *ngFor="let user of userSuggestions" [value]="user">
+                      <div class="flex">
+                        <user-avatar [user]="user" class="mr-3"></user-avatar>
+                        <span class="truncate">{{ user.firstname }} {{ user.lastname }}</span>
+                      </div>
+                    </mat-option>
+                  </mat-autocomplete>
+                  
                   <button mat-icon-button matSuffix [disabled]="!controlMember.dirty" (click)="handleSubmitMember()" type="button">
                     <mat-icon [svgIcon]="isLoadingMember ? 'dripicons:loading' : 'add'" [class.animate-spin]="isLoadingMember"></mat-icon>
                   </button>

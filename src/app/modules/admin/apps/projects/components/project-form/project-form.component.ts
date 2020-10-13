@@ -1,11 +1,11 @@
 import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl, FormArray } from '@angular/forms';
-import { debounce, snakeCase, get, pick, values, chain } from 'lodash';
+import { debounce, snakeCase, get, pick, values, chain, last } from 'lodash';
 import { Subject, BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
-import { takeUntil, tap, map, filter, flatMap, take } from 'rxjs/operators';
-import { Actions, Select, Store } from '@ngxs/store';
+import { takeUntil, tap, map, filter, flatMap, take, debounceTime, switchMap, withLatestFrom } from 'rxjs/operators';
+import { Actions, ofActionSuccessful, Select, Store } from '@ngxs/store';
 import { UpdateFormValue } from '@ngxs/form-plugin';
-import { CurrentMembershipState, Project, ProjectInvitation, ProjectInvitationState, ProjectMember, ProjectMemberState, ProjectSlugValidator, ProjectState, User } from './../../../../../../../../projects/lib-common/src/public-api';
+import { CurrentMembershipState, Project, ProjectInvitation, ProjectInvitationState, ProjectMember, ProjectMemberState, ProjectSlugValidator, ProjectState, User, UserState } from './../../../../../../../../projects/lib-common/src/public-api';
 import { EntityActionType, ofEntityActionSuccessful, SetLoading } from '@ngxs-labs/entity-state';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -37,6 +37,8 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
   members: ProjectMember[];
   invitations: ProjectInvitation[];
 
+  userSuggestions: User[] = [];
+
   @Input()  activeView: ProjectFormView = ProjectFormView.Advanced;
   @Output() activeViewChange = new EventEmitter<ProjectFormView>();
 
@@ -60,9 +62,8 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
   get controlInvitation(): FormGroup {
     return get( this.manageProjectForm, 'controls.section2.controls.invitation' );
   }
-
-  get controlMember(): FormArray {
-    return get(this.manageProjectForm, 'controls.section2.controls.member');
+  get controlMember(): FormGroup {
+    return get( this.manageProjectForm, 'controls.section2.controls.member' );
   }
 
   constructor(
@@ -109,6 +110,23 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
       takeUntil( this._destroy$ ),
       map(payload => `${ payload.firstname } ${ payload.lastname }`),
       tap(fullname => snackBar.open( `Added ${ fullname } to the project!`, `Ok` )),
+      )
+      .subscribe();
+
+    actions$.pipe(
+      ofActionSuccessful( User.SearchResults ),
+      takeUntil( this._destroy$ ),
+      withLatestFrom( this.members$ ),
+      map(([{ payload }, members]) => payload.filter(({ id }) => !members.map(({ id }) => id).includes( id ))),
+      tap(users => this.userSuggestions = users),
+    )
+    .subscribe();
+      
+    this.controlMember.get( 'query' ).valueChanges.pipe(
+      takeUntil( this._destroy$ ),
+      debounceTime( 300 ),
+      filter(query => !!query),
+      switchMap(query => this._store.dispatch( new User.SearchQuery(query) )),
     )
     .subscribe();
       
@@ -142,9 +160,16 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
     }
   }, 1000);
 
+  displayWithMember({ firstname, lastname }: User): string {
+    if ( firstname && lastname ) {
+      return `${ firstname } ${ lastname }`;
+    }
+
+    return '';
+  }
+
   handleSubmitMember(): void {
-    const query = get( this.manageProjectForm, 'value.section2.member.query' );
-    this._store.dispatch( new User.Query( query ));
+    console.log('* handleSubmitMember');
   }
 
   handleRemoveMember(id: string): void {

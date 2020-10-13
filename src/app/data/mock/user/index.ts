@@ -33,22 +33,23 @@ export class ProjectUserMockApi implements TreoMockApi {
           return [ 403, { error: "Unauthorized" } ];
         }
 
+        const query     = request.params.get( 'q' );
         const accountId = request.params.get( 'accountId' );
-        const query = request.params.get( 'q' );
 
-        const isMatch = user => chain( user )
-          .values()
-          .filter(val => isString( val ))
-          .some(item => item.includes( query ))
-          .value();
-        
         let params = new HttpParams();
         params = params.append( '_expand', 'user' );
         
         return this._http.get<User[]>( `/mock-api/accounts/${ accountId }/memberships`, { params } )
           .pipe(
-            map(members => members.map(({ role, user }: any) => ({ role, ...omit(user, ['password']) }))),
-            map(users => users.filter(user => isMatch( user ))),
+            map(members => members.map(({ role, user }: any) => ({ role, ...omit(user, [ 'password' ]) }))),
+            map(users => users.filter(user => 
+              chain(user)
+                .values()
+                .filter(val => isString(val) && isString(query))
+                .map(val => val.toLowerCase())
+                .some(item => item.includes(query.toLowerCase()))
+                .value()
+            )),
             map(users => [ 200, users ]),
           );
       });
