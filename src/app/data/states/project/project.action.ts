@@ -1,9 +1,5 @@
-import { AssetElement } from './../asset-element/asset-element.action';
-import { AssetDirectory } from './../asset-directory/asset-directory.action';
-import { Asset } from './../asset/asset.action';
-import { Account } from '../account/account.action';
+import { AssetElement, AssetDirectory, Slide } from './active';
 import { Brand } from '../brand/brand.action';
-import { Slide } from '../slide/slide.action';
 
 export interface Project {
   id: string;
@@ -17,10 +13,8 @@ export interface Project {
   themeId: string;
 
   // side loaded data
-  assets: Asset[];
   assetDirectories: AssetDirectory[];
   assetElements: AssetElement[];
-  account: Account;
   brand: Brand;
   slides: Slide[];
 }

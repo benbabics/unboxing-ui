@@ -4,7 +4,7 @@ import { ClearActive, Reset, SetActive } from '@ngxs-labs/entity-state';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
-import { ProjectInvitation, ProjectInvitationState, ProjectMember, ProjectMemberState, ProjectState } from 'app/data';
+import { ProjectInvitation, ProjectInvitationState, ProjectMembership, ProjectMembershipState, ProjectState } from 'app/data';
 
 @Component({
   selector: 'project-detail',
@@ -26,7 +26,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         tap(params => this._store.dispatch([
           new SetActive( ProjectState, params.id ),
           new ProjectInvitation.Index( params.id ),
-          new ProjectMember.Index( params.id ),
+          new ProjectMembership.Index( params.id ),
         ])),
       )
       .subscribe();
@@ -39,7 +39,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     this._store.dispatch([
       new ClearActive( ProjectState ),
       new Reset( ProjectInvitationState ),
-      new Reset( ProjectMemberState ),
+      new Reset( ProjectMembershipState ),
     ]);
   }
 }

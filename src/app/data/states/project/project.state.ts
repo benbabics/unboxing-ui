@@ -2,34 +2,26 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { State, Action, Selector, StateContext, Store } from '@ngxs/store';
 import { defaultEntityState, EntityStateModel, EntityState, IdStrategy, Add, Update, SetLoading, CreateOrReplace } from '@ngxs-labs/entity-state';
-import { UpdateFormDirty } from '@ngxs/form-plugin';
-import { filter, finalize, flatMap, map, tap } from 'rxjs/operators';
 import { sortBy } from 'lodash';
+import { filter, finalize, flatMap, tap } from 'rxjs/operators';
 import { BrandState } from '../brand/brand.state';
 import { Project } from './project.action';
-import { ProjectInvitationState } from './invitation';
+import { ProjectActiveState } from './active';
 import { ProjectSearchState } from './search';
 import { ProjectMemberState } from './member';
 
 export interface ProjectStateModel extends EntityStateModel<Project> {
-  manageProjectForm,
 }
 
 @State({
   name: 'project',
   defaults: {
     ...defaultEntityState(),
-    manageProjectForm: {
-      model: undefined,
-      dirty: false,
-      status: '',
-      errors: {},
-    }
   },
   children: [
-    ProjectInvitationState,
-    ProjectSearchState,
+    ProjectActiveState,
     ProjectMemberState,
+    ProjectSearchState,
   ]
 })
 @Injectable()
@@ -82,7 +74,6 @@ export class ProjectState extends EntityState<Project> {
     return this._http.patch<Project>( `/api/projects/${ payload.id }`, payload )
       .pipe(
         flatMap(project => ctx.dispatch([
-          new UpdateFormDirty({ path: "project.manageProjectForm", dirty: false }),
           new Update( ProjectState, project.id, project ),
         ])),
         finalize(() => this.toggleLoading( false )),

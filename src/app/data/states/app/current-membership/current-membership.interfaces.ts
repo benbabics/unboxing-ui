@@ -1,5 +1,3 @@
-import { Account } from '../../account';
-
 export type MembershipRole = keyof {
   "SUPER_ADMIN", "ADMIN", "CONTRIBUTOR", "USER", "GUEST",
 }
@@ -9,6 +7,12 @@ export namespace MembershipRole {
   export const Contributor: MembershipRole = "CONTRIBUTOR";
   export const User: MembershipRole        = "USER";
   export const Guest: MembershipRole       = "GUEST";
+}
+
+export interface Account {
+  id: string;
+  title: string;
+  logo: string;
 }
 
 export interface Membership {

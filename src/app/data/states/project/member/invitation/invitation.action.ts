@@ -1,4 +1,4 @@
-import { MembershipRole } from '../../app';
+import { MembershipRole } from '../../../';
 
 export interface ProjectInvitation {
   id: string;

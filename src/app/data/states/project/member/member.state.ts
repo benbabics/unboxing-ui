@@ -1,42 +1,26 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Action, State, StateContext, Store } from '@ngxs/store';
-import { CreateOrReplace, defaultEntityState, EntityState, EntityStateModel, IdStrategy, SetLoading } from '@ngxs-labs/entity-state';
-import { ProjectMember } from './member.action';
-import { finalize, flatMap, map, tap } from 'rxjs/operators';
-import { CurrentMembershipState } from '../../app';
+import { State, Store } from '@ngxs/store';
+import { ProjectMembershipState } from './membership';
+import { ProjectInvitationState } from './invitation';
+import { ProjectUserState } from './user';
 
-export interface ProjectMemberStateModel extends EntityStateModel<ProjectMember> {
+export interface ProjectMemberStateModel {
 }
 
 @State<ProjectMemberStateModel>({
-  name: 'member',
-  defaults: {
-    ...defaultEntityState()
-  }
+  name: 'projectMember',
+  defaults: {},
+  children: [
+    ProjectInvitationState,
+    ProjectMembershipState,
+    ProjectUserState,
+  ]
 })
 @Injectable()
-export class ProjectMemberState extends EntityState<ProjectMember> {
+export class ProjectMemberState {
 
   constructor(
     private _store: Store,
-    private _http: HttpClient,
   ) {
-    super( ProjectMemberState, 'id', IdStrategy.EntityIdGenerator );
-  }
-
-  @Action( ProjectMember.Index )
-  crudIndex(ctx: StateContext<ProjectMemberStateModel>, { projectId }: ProjectMember.Index) {
-    this.toggleLoading( true );
-
-    return this._http.get<ProjectMember[]>( `/api/projects/${ projectId }/members` )
-      .pipe(
-        tap(members => ctx.dispatch(new CreateOrReplace(ProjectMemberState, members) )),
-        finalize(() => this.toggleLoading( false )),
-      );
-  }
-
-  private toggleLoading(isLoading: boolean): void {
-    this._store.dispatch( new SetLoading(ProjectMemberState, isLoading) );
   }
 }

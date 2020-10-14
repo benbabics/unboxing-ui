@@ -9,7 +9,7 @@ export interface ProjectInvitationStateModel extends EntityStateModel<ProjectInv
 }
 
 @State<ProjectInvitationStateModel>({
-  name: 'invitation',
+  name: 'projectInvitation',
   defaults: {
     ...defaultEntityState()
   }

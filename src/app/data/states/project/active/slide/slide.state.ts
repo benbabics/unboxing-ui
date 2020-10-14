@@ -6,7 +6,7 @@ import { defaultEntityState, EntityStateModel, EntityState, IdStrategy, Add, Upd
 import { find, get } from 'lodash';
 import { tap } from 'rxjs/operators';
 import { Slide } from './slide.action';
-import { ProjectState } from '../project/project.state';
+import { ProjectState } from '../../project.state';
 
 export interface SlideStateModel extends EntityStateModel<Slide> {
 }

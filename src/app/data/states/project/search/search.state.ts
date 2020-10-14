@@ -32,7 +32,7 @@ export interface ProjectSearchStateModel extends ProjectSearch {
 }
 
 @State<ProjectSearchStateModel>({
-  name: 'search',
+  name: 'projectSearch',
   defaults: {
     loading: false,
     filters: {},
@@ -72,7 +72,7 @@ export class ProjectSearchState {
   @Action( ProjectSearch.ResetFilters )
   resetFilters(ctx: StateContext<ProjectSearchStateModel>) {
     const action = new UpdateFormDirty({
-      path:  "project.search.projectFiltersForm",
+      path:  "project.projectSearch.projectFiltersForm",
       dirty: false,
     });
 

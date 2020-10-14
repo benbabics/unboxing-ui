@@ -1,4 +1,4 @@
-import { AssetFormat } from './../asset/asset.action';
+import { AssetElementFormat } from '../asset-element';
 
 export interface ThemeTemplateField {
   id: string;
@@ -7,7 +7,7 @@ export interface ThemeTemplateField {
   placeholder: string;
   templateId?: string;
   bindingId?: string;
-  entityType?: AssetFormat;
+  entityType?: AssetElementFormat;
   fields?: ThemeTemplateField[];
 }
 

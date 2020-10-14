@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ProjectMember } from 'app/data';
+import { ProjectMembership } from 'app/data';
 
 @Component({
   selector: 'member-table',
@@ -9,7 +9,7 @@ import { ProjectMember } from 'app/data';
 })
 export class MemberTableComponent {
 
-  @Input() members: ProjectMember[];
+  @Input() members: ProjectMembership[];
   
   columnsToDisplay = [ 'avatar', 'lastname', 'firstname', 'email', 'role' ];
   

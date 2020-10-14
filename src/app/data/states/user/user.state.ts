@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Store, State, NgxsOnInit, StateContext, Actions, Action } from '@ngxs/store';
+import { Store, State, StateContext, Actions, Action } from '@ngxs/store';
 import { defaultEntityState, EntityStateModel, EntityState, IdStrategy, ofEntityActionSuccessful, EntityActionType, CreateOrReplace, SetLoading } from '@ngxs-labs/entity-state';
 import { User } from './user.action';
-import { ProjectMemberState } from '../project';
-import { finalize, flatMap, map, tap } from 'rxjs/operators';
+import { finalize, flatMap, tap } from 'rxjs/operators';
 import { CurrentMembershipState } from '../app';
 
 export interface UserStateModel extends EntityStateModel<User> {
@@ -24,7 +23,7 @@ export interface UserStateModel extends EntityStateModel<User> {
   }
 })
 @Injectable()
-export class UserState extends EntityState<User> implements NgxsOnInit {
+export class UserState extends EntityState<User> {
 
   constructor(
     private _store: Store,
@@ -47,15 +46,6 @@ export class UserState extends EntityState<User> implements NgxsOnInit {
         tap(users => ctx.dispatch( new User.SearchResults(users) )),
         finalize(() => this.toggleLoading( false )),
       );
-  }
-
-  ngxsOnInit(ctx: StateContext<UserStateModel>) {
-    this._actions$.pipe(
-      ofEntityActionSuccessful( ProjectMemberState, EntityActionType.CreateOrReplace ),
-      map(({ payload }) => payload),
-      tap(users => ctx.dispatch( new CreateOrReplace(UserState, users) )),
-    )
-    .subscribe();
   }
 
   private toggleLoading(isLoading: boolean): void {
