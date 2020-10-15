@@ -4,6 +4,7 @@ import { State, Selector, Action, StateContext, Store } from '@ngxs/store';
 import { Add, CreateOrReplace, defaultEntityState, EntityState, EntityStateModel, IdStrategy, Remove, SetLoading, Update } from '@ngxs-labs/entity-state';
 import { finalize, flatMap, tap } from 'rxjs/operators';
 import { ProjectInvitation } from './invitation.action';
+import { ProjectActiveState } from '../../active';
 
 export interface ProjectInvitationStateModel extends EntityStateModel<ProjectInvitation> {
 }
@@ -25,11 +26,12 @@ export class ProjectInvitationState extends EntityState<ProjectInvitation> {
   }
 
   @Action( ProjectInvitation.Index )
-  crudIndex(ctx: StateContext<ProjectInvitationStateModel>, { projectId }: ProjectInvitation.Index) {
+  crudIndex(ctx: StateContext<ProjectInvitationStateModel>) {
     this.toggleLoading( true );
 
-    return this._http.get<ProjectInvitation[]>( `/api/projects/${ projectId }/invitations` )
+    return this._store.selectOnce( ProjectActiveState.projectId )
       .pipe(
+        flatMap(projectId => this._http.get<ProjectInvitation[]>( `/api/projects/${ projectId }/invitations` )),
         tap(invites => ctx.dispatch( new CreateOrReplace(ProjectInvitationState, invites) )),
         finalize(() => this.toggleLoading( false )),
       );

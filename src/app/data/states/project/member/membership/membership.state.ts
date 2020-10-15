@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { finalize, tap } from 'rxjs/operators';
+import { finalize, map, tap } from 'rxjs/operators';
 import { Action, State, StateContext, Store } from '@ngxs/store';
 import { CreateOrReplace, defaultEntityState, EntityState, EntityStateModel, IdStrategy, SetLoading } from '@ngxs-labs/entity-state';
 import { ProjectMembership } from './membership.action';
@@ -22,17 +22,6 @@ export class ProjectMembershipState extends EntityState<ProjectMembership> {
     private _http: HttpClient,
   ) {
     super( ProjectMembershipState, "id", IdStrategy.EntityIdGenerator );
-  }
-
-  @Action( ProjectMembership.Index )
-  crudIndex(ctx: StateContext<ProjectMembershipStateModel>, { projectId }: ProjectMembership.Index) {
-    this.toggleLoading( true );
-
-    return this._http.get<ProjectMembership[]>( `/api/projects/${ projectId }/members` )
-      .pipe(
-        tap(members => ctx.dispatch(new CreateOrReplace(ProjectMembershipState, members) )),
-        finalize(() => this.toggleLoading( false )),
-      );
   }
 
   private toggleLoading(isLoading: boolean): void {

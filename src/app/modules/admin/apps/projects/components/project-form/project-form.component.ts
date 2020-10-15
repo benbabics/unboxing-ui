@@ -5,7 +5,7 @@ import { Subject, BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { takeUntil, tap, map, filter, flatMap, take, debounceTime, switchMap, withLatestFrom } from 'rxjs/operators';
 import { Actions, ofActionSuccessful, Select, Store } from '@ngxs/store';
 import { UpdateFormDirty, UpdateFormValue } from '@ngxs/form-plugin';
-import { CurrentMembershipState, Project, ProjectInvitation, ProjectInvitationState, ProjectMembership, ProjectMembershipState, ProjectState, User, UserState } from 'app/data';
+import { CurrentMembershipState, Project, ProjectInvitation, ProjectInvitationState, ProjectMember, ProjectMembership, ProjectMembershipState, ProjectMemberState, ProjectState, User, UserState } from 'app/data';
 import { EntityActionType, ofEntityActionSuccessful, SetLoading } from '@ngxs-labs/entity-state';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProjectSlugValidator } from '../../validators';
@@ -45,7 +45,7 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
   @Output() onCancel = new EventEmitter<void>();
   @Output() onSumbit = new EventEmitter<Project>();
 
-  @Select( ProjectMembershipState.entities ) members$: Observable<ProjectMembership[]>;
+  @Select(ProjectMemberState.entities) members$: Observable<ProjectMember[]>;
   @Select( ProjectInvitationState.entities ) invitations$: Observable<ProjectInvitation[]>;
 
   get controlBrandId(): AbstractControl {

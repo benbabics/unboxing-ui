@@ -14,7 +14,6 @@ export namespace ProjectInvitation {
 
   export class Index {
     static readonly type = '[ProjectInvitation API] Index';
-    constructor( public projectId: string ) { }
   }
 
   export class Create {
