@@ -1,0 +1,102 @@
+@import 'common';
+
+:host {
+  .mat-drawer-container {
+    .mat-drawer-content {
+      flex-direction: row;
+      
+      .navigator-wrapper {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      
+        .header {
+          padding: 0;
+          background: none;
+          border: none;
+
+          ::ng-deep editor-navigator {
+            width: 100%;
+          }
+        }
+      }
+
+      .inspector-hitbox {
+        display: flex;
+        align-items: center;
+        padding-top: 13px;
+        width:  40px;
+        height: 100%;
+        cursor: pointer;
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        border-left: 1px solid #d1d1d1;
+        background: #f0f0f0;
+      }
+    }
+    
+    .mat-drawer {
+      border-left-color: #d1d1d1;
+      
+      width:     400px !important;
+      min-width: 400px !important;
+      max-width: 400px !important;
+
+      @include treo-breakpoint('lt-lg') {
+        width:     512px !important;
+        min-width: 512px !important;
+        max-width: 512px !important;
+      }
+
+      @include treo-breakpoint('xs') {
+        width:     100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+      }
+    }
+
+    ::ng-deep .mat-drawer-inner-container {
+      position: relative;
+      display: flex;
+      flex: 1 1 auto;
+      flex-direction: column;
+      padding-top: 50px;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      
+      .actions {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        top:   10px;
+        right: 10px;
+      }
+    }
+  }
+}
+
+
+
+@include treo-theme {
+
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+  $primary: map-get($theme, primary);
+  $is-dark: map-get($theme, is-dark);
+
+  :host {
+    .mat-drawer-container {
+      .mat-drawer-content {
+        .inspector-hitbox {
+        }
+      }
+    }
+    
+    .avatar {
+      > span {
+        background: treo-color('cool-gray', 200);
+        color: treo-color('cool-gray', 600);
+      }
+    }
+  }
+}

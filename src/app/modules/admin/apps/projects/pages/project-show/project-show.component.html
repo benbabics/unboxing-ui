@@ -1,1 +1,64 @@
-<p>project-show works!</p>
+<div class="content-layout" [ngClass]="'right-sidebar-fullheight-standard-' + scrollMode + '-scroll'">
+  <mat-drawer-container>
+
+    <mat-drawer 
+      #matDrawer
+      position="end"
+      [mode]="drawerMode"
+      [opened]="drawerOpened"
+      [disableClose]="true">
+
+      <ng-container [ngTemplateOutlet]="drawer"></ng-container>
+    </mat-drawer>
+
+    <mat-drawer-content>
+      <div class="navigator-wrapper">
+        <div class="header">
+          <editor-navigator>
+            <button [matMenuTriggerFor]="actionsMenu" class="ml-2 flex items-center" type="button">
+              <mat-icon class="icon-size-18" svgIcon="more_vert"></mat-icon>
+            </button>
+            
+            <mat-menu #actionsMenu="matMenu">
+              <button mat-menu-item routerLink="/projects">
+                <mat-icon svgIcon="dripicons:exit"></mat-icon>
+                <span>Exit</span>
+              </button>
+            </mat-menu>
+          </editor-navigator>
+        </div>
+        
+        <div class="main">
+          <p>main content</p>
+          <div style="height: 3000px;"></div>
+        </div>
+      </div>
+
+      <div class="inspector-hitbox" (click)="matDrawer.toggle()">
+        <mat-icon class="icon-size-18 transform rotate-90 mb-2" svgIcon="tune"></mat-icon>
+        Inspector
+      </div>
+    </mat-drawer-content>
+    
+  </mat-drawer-container>
+</div>
+
+
+<!-- Drawer -->
+<ng-template #drawer>
+  <div class="actions">
+    <ng-container *ngTemplateOutlet="actions"></ng-container>
+  </div>
+</ng-template>
+
+
+<!-- Actions: Show -->
+<ng-template #actions>
+  <button 
+    mat-icon-button
+    matTooltip="Close"
+    (click)="matDrawer.close()">
+
+    <mat-icon svgIcon="close"></mat-icon>
+  </button>
+</ng-template>

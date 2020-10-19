@@ -49,6 +49,7 @@ import { TagIconPipe } from './pipes';
 import { UserAvatarComponent } from './components/user-avatar/user-avatar.component';
 import { RoleBadgeComponent } from './components/role-badge/role-badge.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { EditorNavigatorComponent } from './components/editor/editor-navigator/editor-navigator.component';
 
 
 @NgModule({
@@ -99,6 +100,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     TagIconPipe,
     UserAvatarComponent,
     RoleBadgeComponent,
+    EditorNavigatorComponent,
   ],
   providers: [
     { 
