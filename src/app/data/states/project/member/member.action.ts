@@ -8,6 +8,6 @@ export interface ProjectMember extends ProjectMembership {
 export namespace ProjectMember {
 
   export class Index {
-    static readonly type = '[ProjectMember] API';
+    static readonly type = '[ProjectMember API] Index';
   }
 }
