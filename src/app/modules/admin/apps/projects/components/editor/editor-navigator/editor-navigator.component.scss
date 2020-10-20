@@ -71,8 +71,6 @@ $color-green: #177f45;
     font-size: 14px;
     font-weight: 400;
     border-radius: 15px;
-    border-width: 1px;
-    border-style: solid;
     
     .url-button {
       text-align: left;
@@ -106,15 +104,14 @@ $color-green: #177f45;
     .preview-header {
       @if ($is-dark) {
         border-bottom-color: map-get($foreground, divider);
-        // background-color:    rgba(0, 0, 0, 0.30);
       } @else {
-        border-bottom-color: #d1d1d1;
-        background-color:    #f0f0f0;
+        border-bottom-color: darken(map-get($foreground, divider), 5%);
+        background-color: darken(treo-color('cool-gray', 100), 1%);
       }
 
       .secure-icon {
         path {
-          fill: treo-color('green', 600);
+          fill: treo-color('green', 500);
         }
       }
 
@@ -132,13 +129,13 @@ $color-green: #177f45;
       }
 
       .url-bar {
+        
         @if ($is-dark) {
           color: treo-color('cool-gray', 400);
-          border-color: transparent;
           background-color: rgba(0, 0, 0, 0.30);
         } @else {
           color: #000;
-          border-color: #ccc;
+          box-shadow: 0 -1px map-get($foreground, divider);
           background: #fff;
         }
       }

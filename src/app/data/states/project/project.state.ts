@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { State, Action, Selector, StateContext, Store } from '@ngxs/store';
-import { defaultEntityState, EntityStateModel, EntityState, IdStrategy, Add, Update, SetLoading, CreateOrReplace } from '@ngxs-labs/entity-state';
+import { defaultEntityState, EntityStateModel, EntityState, IdStrategy, Add, Update, SetLoading, CreateOrReplace, Reset } from '@ngxs-labs/entity-state';
 import { sortBy } from 'lodash';
 import { filter, finalize, flatMap, tap } from 'rxjs/operators';
 import { BrandState } from '../brand/brand.state';
 import { Project } from './project.action';
-import { ProjectActiveState } from './active';
+import { AssetDirectoryState, AssetElementState, ProjectActive, ProjectActiveState, SlideState } from './active';
 import { ProjectSearchState } from './search';
 import { ProjectMemberState } from './member';
 
@@ -62,7 +62,16 @@ export class ProjectState extends EntityState<Project> {
     return this._http.get<Project>( `/api/projects/${ id }` )
       .pipe(
         filter(project => !!project),
-        tap(project => ctx.dispatch( new CreateOrReplace(ProjectState, project) )),
+        tap(({ brand, assetDirectories, assetElements, slides, ...project }: any ) => {
+          return ctx.dispatch([
+            new CreateOrReplace( ProjectState, project ),
+            new ProjectActive.SetAssociations({
+              assetDirectories,
+              assetElements,
+              slides,
+            }),
+          ])
+        }),
         tap(() => this.toggleLoading( false )),
       );
   }

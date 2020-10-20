@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { EntityActionType, ofEntityActionSuccessful } from '@ngxs-labs/entity-state';
-import { Actions, Selector, State, StateContext, Store } from '@ngxs/store';
+import { CreateOrReplace, EntityActionType, ofEntityActionSuccessful, Reset } from '@ngxs-labs/entity-state';
+import { Action, Actions, Selector, State, StateContext, Store } from '@ngxs/store';
 import { flatMap, tap } from 'rxjs/operators';
 import { ProjectState } from '../project.state';
 import { ProjectActive } from './active.action';
@@ -51,6 +51,24 @@ export class ProjectActiveState {
     private _store: Store,
     private _actions$: Actions,
   ) { }
+
+  @Action( ProjectActive.SetAssociations )
+  setAssociations(ctx: StateContext<ProjectActiveStateModel>, { payload }: ProjectActive.SetAssociations) {
+    ctx.dispatch([
+      new CreateOrReplace( AssetDirectoryState, payload.assetDirectories ),
+      new CreateOrReplace( AssetElementState,   payload.assetElements ),
+      new CreateOrReplace( SlideState,          payload.slides ),
+    ]);
+  }
+
+  @Action( ProjectActive.ClearAssociations )
+  clearAssociations(ctx: StateContext<ProjectActiveStateModel>) {
+    ctx.dispatch([
+      new Reset( AssetDirectoryState ),
+      new Reset( AssetElementState ),
+      new Reset( SlideState ),
+    ]);
+  }
 
   ngxsOnInit(ctx: StateContext<ProjectActiveStateModel>) {
     this._actions$.pipe(

@@ -4,7 +4,7 @@ import { ClearActive, Reset, SetActive } from '@ngxs-labs/entity-state';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
-import { ProjectState } from 'app/data';
+import { ProjectActive, ProjectState } from 'app/data';
 
 @Component({
   selector: 'project-detail',
@@ -28,6 +28,10 @@ export class ProjectDetailComponent implements OnDestroy {
   ngOnDestroy() {
     this._destroy$.next( true );
     this._destroy$.complete();
-    this._store.dispatch( new ClearActive(ProjectState) );
+
+    this._store.dispatch([
+      new ClearActive( ProjectState ),
+      new ProjectActive.ClearAssociations(),
+    ]);
   }
 }
