@@ -140,6 +140,127 @@
                     }
                 }
             }
+        },
+        "runner-preview": {
+            "projectType": "application",
+            "schematics": {
+                "@schematics/angular:component": {
+                    "style": "scss"
+                }
+            },
+            "root": "projects/runner-preview",
+            "sourceRoot": "projects/runner-preview/src",
+            "prefix": "app",
+            "architect": {
+                "build": {
+                    "builder": "@angular-devkit/build-angular:browser",
+                    "options": {
+                        "outputPath": "dist/runner-preview",
+                        "index": "projects/runner-preview/src/index.html",
+                        "main": "projects/runner-preview/src/main.ts",
+                        "polyfills": "projects/runner-preview/src/polyfills.ts",
+                        "tsConfig": "projects/runner-preview/tsconfig.app.json",
+                        "aot": true,
+                        "assets": [
+                            "projects/runner-preview/src/favicon.ico",
+                            "projects/runner-preview/src/assets"
+                        ],
+                        "styles": [
+                            "projects/runner-preview/src/styles.scss"
+                        ],
+                        "scripts": []
+                    },
+                    "configurations": {
+                        "production": {
+                            "fileReplacements": [
+                                {
+                                    "replace": "projects/runner-preview/src/environments/environment.ts",
+                                    "with": "projects/runner-preview/src/environments/environment.prod.ts"
+                                }
+                            ],
+                            "optimization": true,
+                            "outputHashing": "all",
+                            "sourceMap": false,
+                            "extractCss": true,
+                            "namedChunks": false,
+                            "extractLicenses": true,
+                            "vendorChunk": false,
+                            "buildOptimizer": true,
+                            "budgets": [
+                                {
+                                    "type": "initial",
+                                    "maximumWarning": "2mb",
+                                    "maximumError": "5mb"
+                                },
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "6kb",
+                                    "maximumError": "10kb"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "serve": {
+                    "builder": "@angular-devkit/build-angular:dev-server",
+                    "options": {
+                        "browserTarget": "runner-preview:build"
+                    },
+                    "configurations": {
+                        "production": {
+                            "browserTarget": "runner-preview:build:production"
+                        }
+                    }
+                },
+                "extract-i18n": {
+                    "builder": "@angular-devkit/build-angular:extract-i18n",
+                    "options": {
+                        "browserTarget": "runner-preview:build"
+                    }
+                },
+                "test": {
+                    "builder": "@angular-devkit/build-angular:karma",
+                    "options": {
+                        "main": "projects/runner-preview/src/test.ts",
+                        "polyfills": "projects/runner-preview/src/polyfills.ts",
+                        "tsConfig": "projects/runner-preview/tsconfig.spec.json",
+                        "karmaConfig": "projects/runner-preview/karma.conf.js",
+                        "assets": [
+                            "projects/runner-preview/src/favicon.ico",
+                            "projects/runner-preview/src/assets"
+                        ],
+                        "styles": [
+                            "projects/runner-preview/src/styles.scss"
+                        ],
+                        "scripts": []
+                    }
+                },
+                "lint": {
+                    "builder": "@angular-devkit/build-angular:tslint",
+                    "options": {
+                        "tsConfig": [
+                            "projects/runner-preview/tsconfig.app.json",
+                            "projects/runner-preview/tsconfig.spec.json",
+                            "projects/runner-preview/e2e/tsconfig.json"
+                        ],
+                        "exclude": [
+                            "**/node_modules/**"
+                        ]
+                    }
+                },
+                "e2e": {
+                    "builder": "@angular-devkit/build-angular:protractor",
+                    "options": {
+                        "protractorConfig": "projects/runner-preview/e2e/protractor.conf.js",
+                        "devServerTarget": "runner-preview:serve"
+                    },
+                    "configurations": {
+                        "production": {
+                            "devServerTarget": "runner-preview:serve:production"
+                        }
+                    }
+                }
+            }
         }
     },
     "defaultProject": "treo"

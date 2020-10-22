@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
@@ -45,11 +46,13 @@ import {
   ProjectEditComponent,
   ProjectShowComponent,
 } from './pages';
+import { 
+  UserAvatarComponent,
+  RoleBadgeComponent,
+  EditorNavigatorComponent,
+  EditorContentComponent
+} from './components';
 import { TagIconPipe } from './pipes';
-import { UserAvatarComponent } from './components/user-avatar/user-avatar.component';
-import { RoleBadgeComponent } from './components/role-badge/role-badge.component';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { EditorNavigatorComponent } from './components/editor/editor-navigator/editor-navigator.component';
 
 
 @NgModule({
@@ -101,6 +104,7 @@ import { EditorNavigatorComponent } from './components/editor/editor-navigator/e
     UserAvatarComponent,
     RoleBadgeComponent,
     EditorNavigatorComponent,
+    EditorContentComponent,
   ],
   providers: [
     { 

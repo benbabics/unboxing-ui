@@ -33,6 +33,7 @@ import {
   UiPreferencesState,
   UserState,
 } from './data/states';
+import { PostMessageModule } from '@tekool/ngx-post-message-angular-9';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
@@ -66,6 +67,7 @@ const routerConfig: ExtraOptions = {
     LayoutModule,
 
     // 3rd party modules
+    PostMessageModule,
     MarkdownModule.forRoot({}),
 
     // NGXS (last)
