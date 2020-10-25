@@ -14,12 +14,6 @@
       "path": "./tsconfig.spec.json"
     },
     {
-      "path": "./projects/lib-common/tsconfig.lib.json"
-    },
-    {
-      "path": "./projects/lib-common/tsconfig.spec.json"
-    },
-    {
       "path": "./projects/runner-preview/tsconfig.app.json"
     },
     {
