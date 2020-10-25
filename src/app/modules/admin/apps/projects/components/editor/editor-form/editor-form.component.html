@@ -1,0 +1,41 @@
+<form
+  class="flex flex-col"
+  [formGroup]="form">
+  
+  <ng-template ngFor let-field [ngForOf]="templateFields">
+    <ng-container [ngSwitch]="field.type">
+      <ng-template ngSwitchCase="options-font">
+      </ng-template>
+
+      <ng-template ngSwitchCase="iterable">
+        <label [for]="field.id">{{ field.label }}</label>
+
+        <asset-lists
+          [entityType]="field.entityType"
+          [iterationIds]="form.value[ field.id ]"
+          (onSelectIterationIds)="handleSelectedIterationAssetIds( $event, field.id )">
+        </asset-lists>
+      </ng-template>
+
+      <ng-template ngSwitchCase="file">
+      </ng-template>
+
+      <ng-template ngSwitchDefault>
+        <div class="flex">
+          <mat-form-field class="flex-auto">
+            <mat-label>{{ field.label }}</mat-label>
+            <input 
+              matInput
+              [type]="field.type" 
+              [name]="field.id" 
+              [formControlName]="field.id"
+              [required]="field.validators?.required" 
+              [minlength]="field.validators?.minlength"
+              [maxlength]="field.validators?.maxlength">
+          </mat-form-field>
+        </div>
+      </ng-template>
+    </ng-container>
+  </ng-template>
+  
+</form>

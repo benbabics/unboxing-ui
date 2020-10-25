@@ -1,0 +1,15 @@
+<ng-container [ngSwitch]="assetFormat">
+  <ng-template [ngSwitchCase]="Format.Photo">
+    <img [src]="assetUrl" [title]="assetName">
+  </ng-template>
+
+  <ng-template [ngSwitchCase]="Format.Video">
+    <mat-icon svgIcon="iconsmind:film_video"></mat-icon>
+  </ng-template>
+
+  <ng-template ngSwitchDefault>
+    <mat-icon svgIcon="iconsmind:folder_open"></mat-icon>
+  </ng-template>
+
+  <ng-content></ng-content>
+</ng-container>

@@ -53,6 +53,11 @@ import {
   EditorContentComponent
 } from './components';
 import { TagIconPipe } from './pipes';
+import { EditorInspectorComponent } from './components/editor/editor-inspector/editor-inspector.component';
+import { EditorFormComponent } from './components/editor/editor-form/editor-form.component';
+import { AssetListsComponent } from './components/assets/asset-lists/asset-lists.component';
+import { AssetListComponent } from './components/assets/asset-list/asset-list.component';
+import { AssetIconComponent } from './components/assets/asset-icon/asset-icon.component';
 
 
 @NgModule({
@@ -105,6 +110,11 @@ import { TagIconPipe } from './pipes';
     RoleBadgeComponent,
     EditorNavigatorComponent,
     EditorContentComponent,
+    EditorInspectorComponent,
+    EditorFormComponent,
+    AssetListsComponent,
+    AssetListComponent,
+    AssetIconComponent,
   ],
   providers: [
     { 

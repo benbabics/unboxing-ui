@@ -65,13 +65,9 @@
       flex-direction: column;
       overflow: auto;
       -webkit-overflow-scrolling: touch;
-      
-      .actions {
-        position: absolute;
-        display: flex;
-        align-items: center;
-        top:   10px;
-        right: 10px;
+
+      editor-inspector {
+        flex: 1;
       }
     }
   }
@@ -100,7 +96,7 @@
             border-left-color: map-get($foreground, divider);
           } @else {
             border-bottom-color: darken(map-get($foreground, divider), 5%);
-            background-color: darken(treo-color('gray', 100), 2%);
+            background-color: darken(treo-color('cool-gray', 100), 2%);
           }
         }
       }
@@ -110,7 +106,17 @@
           border-left-color: map-get($foreground, divider);
         } @else {
           border-left-color: darken(map-get($foreground, divider), 5%);
-          background-color: darken(treo-color('gray', 100), 2%);
+          background-color: treo-color('cool-gray', 200);
+        }
+
+        ::ng-deep .mat-drawer-inner-container {
+          .actions {
+            @if ($is-dark) {
+              background-color: treo-color('cool-gray', 900);
+            } @else {
+              background-color: treo-color('cool-gray', 200);
+            }
+          }
         }
       }
     }

@@ -240,6 +240,54 @@
       "path": "photos",
       "projectId": 3,
       "parentId": null
+    },
+    {
+      "id": "dir-01",
+      "name": "Videos",
+      "parentId": null,
+      "projectId": 2
+    },
+    {
+      "id": "dir-02",
+      "name": "Photos",
+      "parentId": null,
+      "projectId": 2
+    },
+    {
+      "id": "dir-04",
+      "name": "Ceremony",
+      "parentId": "dir-01",
+      "projectId": 2
+    },
+    {
+      "id": "dir-05",
+      "name": "First Dance",
+      "parentId": "dir-01",
+      "projectId": 2
+    },
+    {
+      "id": "dir-06",
+      "name": "Speeches",
+      "parentId": "dir-01",
+      "projectId": 2
+    },
+    {
+      "id": "dir-07",
+      "name": "Getting Ready",
+      "parentId": "dir-02",
+      "projectId": 2
+    },
+    {
+      "id": "dir-08",
+      "name": "Ceremony",
+      "parentId": "dir-02",
+      "projectId": 2
+    },
+    {
+      "id": "dir-09",
+      "name": "Reception",
+      "parentId": "dir-02",
+      "projectId": 2
     }
   ],
   "assetElements": [
@@ -330,6 +378,806 @@
       "format": "PHOTO",
       "projectId": 3,
       "assetDirectoryId": 3
+    },
+    {
+      "id": "asset-01",
+      "format": "VIDEO",
+      "url": "/assets/s3/project-woof/ceremony-01.mov",
+      "name": "ceremony-01.mov",
+      "projectId": 2,
+      "assetDirectoryId": "dir-04"
+    },
+    {
+      "id": "asset-02",
+      "format": "VIDEO",
+      "url": "/assets/s3/project-woof/first-dance-01.mov",
+      "name": "first-dance-01.mov",
+      "projectId": 2,
+      "assetDirectoryId": "dir-05"
+    },
+    {
+      "id": "asset-03",
+      "format": "VIDEO",
+      "url": "/assets/s3/project-woof/speech-01.mov",
+      "name": "speech-01.mov",
+      "projectId": 2,
+      "assetDirectoryId": "dir-06"
+    },
+    {
+      "id": "asset-04",
+      "format": "VIDEO",
+      "url": "/assets/s3/project-woof/speech-02.mov",
+      "name": "speech-02.mov",
+      "projectId": 2,
+      "assetDirectoryId": "dir-06"
+    },
+    {
+      "id": "asset-05",
+      "format": "PHOTO",
+      "url": "https://picsum.photos/id/200/300/300.jpg",
+      "name": "Bull",
+      "projectId": 2,
+      "assetDirectoryId": "dir-07"
+    },
+    {
+      "id": "asset-09",
+      "url": "https://picsum.photos/id/182/300/300.jpg",
+      "name": "photo-09.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-07"
+    },
+    {
+      "id": "asset-10",
+      "url": "https://picsum.photos/id/68/300/300.jpg",
+      "name": "photo-10.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-07"
+    },
+    {
+      "id": "asset-11",
+      "url": "https://picsum.photos/id/141/300/300.jpg",
+      "name": "photo-11.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-07"
+    },
+    {
+      "id": "asset-12",
+      "url": "https://picsum.photos/id/311/300/300.jpg",
+      "name": "photo-12.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-07"
+    },
+    {
+      "id": "asset-13",
+      "url": "https://picsum.photos/id/36/300/300.jpg",
+      "name": "photo-13.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-07"
+    },
+    {
+      "id": "asset-14",
+      "url": "https://picsum.photos/id/54/300/300.jpg",
+      "name": "photo-14.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-07"
+    },
+    {
+      "id": "asset-15",
+      "url": "https://picsum.photos/id/101/300/300.jpg",
+      "name": "photo-15.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-07"
+    },
+    {
+      "id": "asset-16",
+      "url": "https://picsum.photos/id/98/300/300.jpg",
+      "name": "photo-16.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-07"
+    },
+    {
+      "id": "asset-17",
+      "url": "https://picsum.photos/id/398/300/300.jpg",
+      "name": "photo-17.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-07"
+    },
+    {
+      "id": "asset-18",
+      "url": "https://picsum.photos/id/85/300/300.jpg",
+      "name": "photo-18.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-07"
+    },
+    {
+      "id": "asset-19",
+      "url": "https://picsum.photos/id/353/300/300.jpg",
+      "name": "photo-19.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-07"
+    },
+    {
+      "id": "asset-20",
+      "url": "https://picsum.photos/id/62/300/300.jpg",
+      "name": "photo-20.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-07"
+    },
+    {
+      "id": "asset-21",
+      "url": "https://picsum.photos/id/144/300/300.jpg",
+      "name": "photo-21.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-07"
+    },
+    {
+      "id": "asset-22",
+      "url": "https://picsum.photos/id/162/300/300.jpg",
+      "name": "photo-22.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-07"
+    },
+    {
+      "id": "asset-06",
+      "format": "PHOTO",
+      "url": "https://picsum.photos/id/201/300/300.jpg",
+      "name": "Desk",
+      "projectId": 2,
+      "assetDirectoryId": "dir-07"
+    },
+    {
+      "id": "asset-07",
+      "format": "PHOTO",
+      "url": "https://picsum.photos/id/202/300/300.jpg",
+      "name": "Winding Road",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-08",
+      "format": "PHOTO",
+      "url": "https://picsum.photos/id/203/300/300.jpg",
+      "name": "Ocean",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-23",
+      "url": "https://picsum.photos/id/89/300/300.jpg",
+      "name": "photo-23.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-24",
+      "url": "https://picsum.photos/id/381/300/300.jpg",
+      "name": "photo-24.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-25",
+      "url": "https://picsum.photos/id/66/300/300.jpg",
+      "name": "photo-25.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-26",
+      "url": "https://picsum.photos/id/495/300/300.jpg",
+      "name": "photo-26.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-27",
+      "url": "https://picsum.photos/id/423/300/300.jpg",
+      "name": "photo-27.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-28",
+      "url": "https://picsum.photos/id/91/300/300.jpg",
+      "name": "photo-28.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-29",
+      "url": "https://picsum.photos/id/258/300/300.jpg",
+      "name": "photo-29.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-30",
+      "url": "https://picsum.photos/id/164/300/300.jpg",
+      "name": "photo-30.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-31",
+      "url": "https://picsum.photos/id/478/300/300.jpg",
+      "name": "photo-31.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-32",
+      "url": "https://picsum.photos/id/337/300/300.jpg",
+      "name": "photo-32.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-33",
+      "url": "https://picsum.photos/id/264/300/300.jpg",
+      "name": "photo-33.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-34",
+      "url": "https://picsum.photos/id/8/300/300.jpg",
+      "name": "photo-34.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-35",
+      "url": "https://picsum.photos/id/410/300/300.jpg",
+      "name": "photo-35.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-36",
+      "url": "https://picsum.photos/id/276/300/300.jpg",
+      "name": "photo-36.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-37",
+      "url": "https://picsum.photos/id/412/300/300.jpg",
+      "name": "photo-37.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-38",
+      "url": "https://picsum.photos/id/404/300/300.jpg",
+      "name": "photo-38.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-39",
+      "url": "https://picsum.photos/id/386/300/300.jpg",
+      "name": "photo-39.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-40",
+      "url": "https://picsum.photos/id/272/300/300.jpg",
+      "name": "photo-40.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-41",
+      "url": "https://picsum.photos/id/363/300/300.jpg",
+      "name": "photo-41.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-42",
+      "url": "https://picsum.photos/id/328/300/300.jpg",
+      "name": "photo-42.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-43",
+      "url": "https://picsum.photos/id/78/300/300.jpg",
+      "name": "photo-43.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-44",
+      "url": "https://picsum.photos/id/63/300/300.jpg",
+      "name": "photo-44.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-45",
+      "url": "https://picsum.photos/id/317/300/300.jpg",
+      "name": "photo-45.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-46",
+      "url": "https://picsum.photos/id/318/300/300.jpg",
+      "name": "photo-46.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-47",
+      "url": "https://picsum.photos/id/425/300/300.jpg",
+      "name": "photo-47.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-48",
+      "url": "https://picsum.photos/id/379/300/300.jpg",
+      "name": "photo-48.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-49",
+      "url": "https://picsum.photos/id/27/300/300.jpg",
+      "name": "photo-49.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-50",
+      "url": "https://picsum.photos/id/250/300/300.jpg",
+      "name": "photo-50.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-51",
+      "url": "https://picsum.photos/id/215/300/300.jpg",
+      "name": "photo-51.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-52",
+      "url": "https://picsum.photos/id/5/300/300.jpg",
+      "name": "photo-52.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-53",
+      "url": "https://picsum.photos/id/147/300/300.jpg",
+      "name": "photo-53.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-54",
+      "url": "https://picsum.photos/id/260/300/300.jpg",
+      "name": "photo-54.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-55",
+      "url": "https://picsum.photos/id/360/300/300.jpg",
+      "name": "photo-55.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-08"
+    },
+    {
+      "id": "asset-56",
+      "url": "https://picsum.photos/id/471/300/300.jpg",
+      "name": "photo-56.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-57",
+      "url": "https://picsum.photos/id/53/300/300.jpg",
+      "name": "photo-57.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-58",
+      "url": "https://picsum.photos/id/248/300/300.jpg",
+      "name": "photo-58.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-59",
+      "url": "https://picsum.photos/id/348/300/300.jpg",
+      "name": "photo-59.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-60",
+      "url": "https://picsum.photos/id/159/300/300.jpg",
+      "name": "photo-60.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-61",
+      "url": "https://picsum.photos/id/161/300/300.jpg",
+      "name": "photo-61.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-62",
+      "url": "https://picsum.photos/id/153/300/300.jpg",
+      "name": "photo-62.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-63",
+      "url": "https://picsum.photos/id/256/300/300.jpg",
+      "name": "photo-63.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-64",
+      "url": "https://picsum.photos/id/161/300/300.jpg",
+      "name": "photo-64.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-65",
+      "url": "https://picsum.photos/id/434/300/300.jpg",
+      "name": "photo-65.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-66",
+      "url": "https://picsum.photos/id/323/300/300.jpg",
+      "name": "photo-66.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-67",
+      "url": "https://picsum.photos/id/62/300/300.jpg",
+      "name": "photo-67.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-68",
+      "url": "https://picsum.photos/id/302/300/300.jpg",
+      "name": "photo-68.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-69",
+      "url": "https://picsum.photos/id/213/300/300.jpg",
+      "name": "photo-69.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-70",
+      "url": "https://picsum.photos/id/90/300/300.jpg",
+      "name": "photo-70.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-71",
+      "url": "https://picsum.photos/id/297/300/300.jpg",
+      "name": "photo-71.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-72",
+      "url": "https://picsum.photos/id/299/300/300.jpg",
+      "name": "photo-72.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-73",
+      "url": "https://picsum.photos/id/54/300/300.jpg",
+      "name": "photo-73.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-74",
+      "url": "https://picsum.photos/id/272/300/300.jpg",
+      "name": "photo-74.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-75",
+      "url": "https://picsum.photos/id/237/300/300.jpg",
+      "name": "photo-75.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-76",
+      "url": "https://picsum.photos/id/365/300/300.jpg",
+      "name": "photo-76.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-77",
+      "url": "https://picsum.photos/id/210/300/300.jpg",
+      "name": "photo-77.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-78",
+      "url": "https://picsum.photos/id/464/300/300.jpg",
+      "name": "photo-78.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-79",
+      "url": "https://picsum.photos/id/233/300/300.jpg",
+      "name": "photo-79.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-80",
+      "url": "https://picsum.photos/id/256/300/300.jpg",
+      "name": "photo-80.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-81",
+      "url": "https://picsum.photos/id/370/300/300.jpg",
+      "name": "photo-81.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-82",
+      "url": "https://picsum.photos/id/160/300/300.jpg",
+      "name": "photo-82.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-83",
+      "url": "https://picsum.photos/id/354/300/300.jpg",
+      "name": "photo-83.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-84",
+      "url": "https://picsum.photos/id/3/300/300.jpg",
+      "name": "photo-84.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-85",
+      "url": "https://picsum.photos/id/376/300/300.jpg",
+      "name": "photo-85.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-86",
+      "url": "https://picsum.photos/id/140/300/300.jpg",
+      "name": "photo-86.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-87",
+      "url": "https://picsum.photos/id/271/300/300.jpg",
+      "name": "photo-87.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-88",
+      "url": "https://picsum.photos/id/410/300/300.jpg",
+      "name": "photo-88.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-89",
+      "url": "https://picsum.photos/id/93/300/300.jpg",
+      "name": "photo-89.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-90",
+      "url": "https://picsum.photos/id/343/300/300.jpg",
+      "name": "photo-90.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-91",
+      "url": "https://picsum.photos/id/177/300/300.jpg",
+      "name": "photo-91.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-92",
+      "url": "https://picsum.photos/id/268/300/300.jpg",
+      "name": "photo-92.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-93",
+      "url": "https://picsum.photos/id/154/300/300.jpg",
+      "name": "photo-93.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-94",
+      "url": "https://picsum.photos/id/250/300/300.jpg",
+      "name": "photo-94.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-95",
+      "url": "https://picsum.photos/id/255/300/300.jpg",
+      "name": "photo-95.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-96",
+      "url": "https://picsum.photos/id/154/300/300.jpg",
+      "name": "photo-96.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-97",
+      "url": "https://picsum.photos/id/309/300/300.jpg",
+      "name": "photo-97.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-98",
+      "url": "https://picsum.photos/id/208/300/300.jpg",
+      "name": "photo-98.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-99",
+      "url": "https://picsum.photos/id/373/300/300.jpg",
+      "name": "photo-99.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
+    },
+    {
+      "id": "asset-100",
+      "url": "https://picsum.photos/id/283/300/300.jpg",
+      "name": "photo-100.jpg",
+      "format": "PHOTO",
+      "projectId": 2,
+      "assetDirectoryId": "dir-09"
     }
   ],
   "themes": [

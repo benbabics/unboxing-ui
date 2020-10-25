@@ -26,13 +26,14 @@ export class AssetElementState extends EntityState<AssetElement> {
 
   @Selector()
   static descendants(assetDirectoryId: string, format: AssetElementFormat = AssetElementFormat.All) {
-    return ({ assetElement }) => {
-      const formats  = [AssetElementFormat.Photo, AssetElementFormat.Video];
-      const entities: AssetElement[] = Object.values(assetElement.entities);
+    return state => {
+      const formats  = [ AssetElementFormat.Photo, AssetElementFormat.Video ];
+      const assetElement = state.project.projectActive.assetElement;
+      const entities: AssetElement[] = Object.values( assetElement.entities );
       const elements = filter(entities, { assetDirectoryId });
       
-      if (formats.includes(format)) {
-        return filter(elements, { format });
+      if ( formats.includes(format) ) {
+        return filter( elements, { format } );
       }
 
       return elements;

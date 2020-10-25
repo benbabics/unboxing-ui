@@ -44,20 +44,18 @@
 
 <!-- Drawer -->
 <ng-template #drawer>
-  <div class="actions">
-    <ng-container *ngTemplateOutlet="actions"></ng-container>
+  <div class="actions relative z-10 sticky top-0 p-2 flex">
+    <button 
+      class="ml-auto w-6 h-6 min-h-0 leading-6"
+      mat-icon-button
+      matTooltip="Hide"
+      (click)="matDrawer.close()">
+
+      <mat-icon svgIcon="close" class="icon-size-14"></mat-icon>
+    </button>
   </div>
-</ng-template>
 
-
-<!-- Actions: Show -->
-<ng-template #actions>
-  <button 
-    class="w-6 h-6 leading-6 min-h-0"
-    mat-icon-button
-    matTooltip="Hide"
-    (click)="matDrawer.close()">
-
-    <mat-icon svgIcon="close" class="icon-size-14"></mat-icon>
-  </button>
+  <div class="mt-4 px-6">
+    <editor-inspector></editor-inspector>
+  </div>
 </ng-template>

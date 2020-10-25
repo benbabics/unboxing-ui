@@ -20,8 +20,9 @@ export class ThemeState extends EntityState<Theme> {
   @Selector()
   static findTemplate(templateId: string) {
     return state => {
-      const theme = state.project.projectActive.theme.entitiesMap[ state.theme.active ];
-      return find( theme.templates, [ 'id', templateId ] );
+      const theme = state.project.projectActive.theme;
+      const { templates } = find( theme.entities, [ 'slug', theme.active ] );
+      return find( templates, [ 'id', templateId ] );
     }
   }
 

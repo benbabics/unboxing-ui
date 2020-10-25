@@ -1,0 +1,51 @@
+<header libSticky>
+  <div class="header-details">
+    <div class="font-bold">{{ directory.name }}</div>
+    <div class="text-md truncate text-secondary">{{ directory.path }}</div>
+  </div>
+
+  <div class="header-actions">
+    <ng-container *ngIf="isLoading; else checkbox">
+      <i class="fal fa-spinner-third fa-spin fa-fw"></i>
+      <span class="sr-only">Loading...</span>
+    </ng-container>
+  
+    <ng-template #checkbox>
+      <button 
+        [title]="(areAllVisible ? 'Hide' : 'Show') + ' All'" 
+        class="btn btn-link" 
+        (click)="handleSelectAssets()"
+        [class.is-active]="areAllVisible">
+        Select All
+      </button>
+    </ng-template>
+  </div>
+</header>
+
+<div 
+  class="asset-list flex flex-wrap"
+  [ngClass]="{
+    'is-loading': isLoading,
+    'is-photo': isPhoto,
+    'is-video': isVideo
+  }">
+
+  <ng-container *ngFor="let element of elements">
+    
+    <div class="flex flex-col items-center justify-center min-w-36 max-w-36 min-h-30 max-h-30">
+      <div 
+        class="flex items-center justify-center"
+        (click)="handleSelectAsset( element.id )">
+
+        <asset-icon [asset]="element" #assetIcon>
+          <ng-container *ngIf="isVideo">
+            <div class="text-sm text-center break-all text-secondary">
+              {{ element.name }}
+            </div>
+          </ng-container>
+        </asset-icon>
+      </div>
+    </div>
+    
+  </ng-container>
+</div>
