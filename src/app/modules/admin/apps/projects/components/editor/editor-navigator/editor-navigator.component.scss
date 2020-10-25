@@ -106,7 +106,7 @@ $color-green: #177f45;
         border-bottom-color: map-get($foreground, divider);
       } @else {
         border-bottom-color: darken(map-get($foreground, divider), 5%);
-        background-color: darken(treo-color('cool-gray', 100), 1%);
+        background-color: darken(treo-color('gray', 100), 2%);
       }
 
       .secure-icon {

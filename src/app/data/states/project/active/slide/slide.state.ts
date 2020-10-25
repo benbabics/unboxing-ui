@@ -20,8 +20,9 @@ export class SlideState extends EntityState<Slide> {
 
   @Selector()
   static getByTemplateId(templateId: string) {
-    return ({ slide }) => {
-      const slides: Slide[] = Object.values(slide.entities);
+    return state => {
+      const entities = state.project.projectActive.slide.entities;
+      const slides: Slide[] = Object.values( entities );
       return find(slides, { templateId });
     }
   }

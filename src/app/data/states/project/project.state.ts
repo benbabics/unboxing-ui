@@ -66,6 +66,7 @@ export class ProjectState extends EntityState<Project> {
           return ctx.dispatch([
             new CreateOrReplace( ProjectState, project ),
             new ProjectActive.SetAssociations({
+              themeId: project.themeId,
               assetDirectories,
               assetElements,
               slides,

@@ -4,6 +4,7 @@ import { AssetElement } from './asset-element';
 import { Slide } from './slide';
 
 export interface ProjectAssociations {
+  themeId: string;
   assetElements: AssetElement[];
   assetDirectories: AssetDirectory[];
   slides: Slide[];

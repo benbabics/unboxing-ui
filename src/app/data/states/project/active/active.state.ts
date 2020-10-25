@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CreateOrReplace, EntityActionType, ofEntityActionSuccessful, Reset } from '@ngxs-labs/entity-state';
+import { ClearActive, CreateOrReplace, EntityActionType, ofEntityActionSuccessful, Reset, SetActive } from '@ngxs-labs/entity-state';
 import { Action, Actions, Selector, State, StateContext, Store } from '@ngxs/store';
 import { flatMap, tap } from 'rxjs/operators';
 import { ProjectState } from '../project.state';
@@ -55,6 +55,7 @@ export class ProjectActiveState {
   @Action( ProjectActive.SetAssociations )
   setAssociations(ctx: StateContext<ProjectActiveStateModel>, { payload }: ProjectActive.SetAssociations) {
     ctx.dispatch([
+      new SetActive( ThemeState, payload.themeId ),
       new CreateOrReplace( AssetDirectoryState, payload.assetDirectories ),
       new CreateOrReplace( AssetElementState,   payload.assetElements ),
       new CreateOrReplace( SlideState,          payload.slides ),
@@ -64,6 +65,7 @@ export class ProjectActiveState {
   @Action( ProjectActive.ClearAssociations )
   clearAssociations(ctx: StateContext<ProjectActiveStateModel>) {
     ctx.dispatch([
+      new ClearActive( ThemeState ),
       new Reset( AssetDirectoryState ),
       new Reset( AssetElementState ),
       new Reset( SlideState ),

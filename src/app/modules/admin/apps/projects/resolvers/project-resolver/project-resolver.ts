@@ -4,7 +4,7 @@ import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { of } from 'rxjs';
 import { catchError, map, withLatestFrom }  from 'rxjs/operators';
-import { Project, ProjectState } from 'app/data';
+import { Project, ProjectState, Theme } from 'app/data';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,10 @@ export class ProjectResolver implements Resolve<any> {
   ) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    return this._store.dispatch( new Project.Show(route.params.id) )
+    return this._store.dispatch([
+      new Theme.Index(),
+      new Project.Show( route.params.id ),
+    ])
       .pipe(
         withLatestFrom( this._store.select(ProjectState.entitiesMap) ),
         map(([ _, entities ]) => entities[ route.params.id ]),

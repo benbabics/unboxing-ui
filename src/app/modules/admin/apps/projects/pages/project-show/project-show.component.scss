@@ -100,16 +100,17 @@
             border-left-color: map-get($foreground, divider);
           } @else {
             border-bottom-color: darken(map-get($foreground, divider), 5%);
-            background-color: darken(treo-color('cool-gray', 100), 1%);
+            background-color: darken(treo-color('gray', 100), 2%);
           }
         }
       }
 
       .mat-drawer {
-        border-left: none;
-
-        @if ($is-dark == false) {
-          background-color: darken(treo-color('cool-gray', 100), 1%);
+        @if ($is-dark) {
+          border-left-color: map-get($foreground, divider);
+        } @else {
+          border-left-color: darken(map-get($foreground, divider), 5%);
+          background-color: darken(treo-color('gray', 100), 2%);
         }
       }
     }

@@ -19,6 +19,7 @@ export interface ThemeTemplate {
 
 export interface Theme {
   id: string;
+  slug: string;
   name: string;
   templates: ThemeTemplate[];
 }
@@ -26,10 +27,5 @@ export interface Theme {
 export namespace Theme {
   export class Index {
     static readonly type = '[Theme API] Index';
-  }
-
-  export class Show {
-    static readonly type = '[Theme API] Show';
-    constructor(public id: string) { }
   }
 }

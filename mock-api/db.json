@@ -331,5 +331,227 @@
       "projectId": 3,
       "assetDirectoryId": 3
     }
+  ],
+  "themes": [
+    {
+      "id": 1,
+      "slug": "theme-default",
+      "name": "Default Theme",
+      "configuration": {
+        "general": {
+          "options": {},
+          "fields": []
+        },
+        "bindings": [
+          {
+            "id": "section-title",
+            "templateId": "landing",
+            "fields": [
+              "title",
+              "titleFont"
+            ]
+          },
+          {
+            "id": "section-photos",
+            "templateId": "photos",
+            "fields": [
+              "galleries"
+            ]
+          },
+          {
+            "id": "section-vidoes",
+            "templateId": "videos",
+            "fields": [
+              "trailers"
+            ]
+          }
+        ]
+      },
+      "templates": [
+        {
+          "id": "landing",
+          "title": "Landing Page",
+          "fields": [
+            {
+              "id": "title",
+              "label": "Title",
+              "type": "text",
+              "placeholder": ""
+            },
+            {
+              "id": "titleFont",
+              "label": "Title Font Family",
+              "type": "options-font",
+              "placeholder": ""
+            }
+          ]
+        },
+        {
+          "id": "photos",
+          "title": "Photo Gallery",
+          "fields": [
+            {
+              "id": "title",
+              "label": "Title",
+              "type": "text",
+              "placeholder": ""
+            },
+            {
+              "id": "subtitle",
+              "label": "Subtitle",
+              "type": "text",
+              "placeholder": ""
+            },
+            {
+              "id": "galleries",
+              "label": "Photo Gallery Selection",
+              "type": "iterable",
+              "placeholder": "",
+              "entityType": "PHOTO",
+              "fields": [
+                {
+                  "id": "photo",
+                  "label": "Photo",
+                  "type": "image",
+                  "placeholder": ""
+                }
+              ]
+            },
+            {
+              "id": "galleries-order",
+              "label": "Photo Gallery Order",
+              "type": "sortable",
+              "placeholder": "",
+              "bindingId": "galleries",
+              "entityType": "PHOTO"
+            }
+          ]
+        },
+        {
+          "id": "videos",
+          "title": "Video Trailers",
+          "fields": [
+            {
+              "id": "title",
+              "label": "Title",
+              "type": "text",
+              "placeholder": ""
+            },
+            {
+              "id": "trailers",
+              "label": "Video Trailers",
+              "type": "iterable",
+              "placeholder": "",
+              "entityType": "VIDEO",
+              "fields": [
+                {
+                  "id": "video",
+                  "label": "Video",
+                  "type": "video",
+                  "placeholder": ""
+                },
+                {
+                  "id": "caption",
+                  "label": "Video Caption",
+                  "type": "text",
+                  "placeholder": ""
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "slides": [
+    {
+      "id": 1,
+      "attributes": {
+        "title": "My Landing Title",
+        "titleFont": "bangers"
+      },
+      "projectId": 1,
+      "themeId": "theme-default",
+      "templateId": "landing"
+    },
+    {
+      "id": 2,
+      "attributes": {
+        "galleries": []
+      },
+      "projectId": 1,
+      "themeId": "theme-default",
+      "templateId": "photos"
+    },
+    {
+      "id": 3,
+      "attributes": {
+        "title": "My Video Trailers Title",
+        "trailers": []
+      },
+      "projectId": 1,
+      "themeId": "theme-default",
+      "templateId": "videos"
+    },
+    {
+      "id": 1,
+      "attributes": {
+        "title": "My Landing Title",
+        "titleFont": "bangers"
+      },
+      "projectId": 2,
+      "themeId": "theme-default",
+      "templateId": "landing"
+    },
+    {
+      "id": 2,
+      "attributes": {
+        "galleries": [
+        ]
+      },
+      "projectId": 2,
+      "themeId": "theme-default",
+      "templateId": "photos"
+    },
+    {
+      "id": 3,
+      "attributes": {
+        "title": "My Video Trailers Title",
+        "trailers": [
+        ]
+      },
+      "projectId": 2,
+      "themeId": "theme-default",
+      "templateId": "videos"
+    },
+    {
+      "id": 1,
+      "attributes": {
+        "title": "My Landing Title",
+        "titleFont": "bangers"
+      },
+      "projectId": 3,
+      "themeId": "theme-default",
+      "templateId": "landing"
+    },
+    {
+      "id": 2,
+      "attributes": {
+        "galleries": []
+      },
+      "projectId": 3,
+      "themeId": "theme-default",
+      "templateId": "photos"
+    },
+    {
+      "id": 3,
+      "attributes": {
+        "title": "My Video Trailers Title",
+        "trailers": []
+      },
+      "projectId": 3,
+      "themeId": "theme-default",
+      "templateId": "videos"
+    }
   ]
 }
