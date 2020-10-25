@@ -80,9 +80,9 @@ export class PreviewContainerComponent implements OnInit, OnDestroy {
     const loadChildren = () => {
       switch(themeId) {
         case "theme-default":
-          return import(`../../../../../theme-default/src/app/app.module`).then(m => m.AppModule);
-        }
-      };
+          return import("@projects/theme-default/src/app/app.module").then(m => m.AppModule);
+      }
+    };
     
     this._route.routeConfig.children = [{
       path: "",
