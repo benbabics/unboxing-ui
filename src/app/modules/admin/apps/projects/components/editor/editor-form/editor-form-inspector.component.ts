@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, TemplateRef, SimpleChanges } from '@angular/core';
 import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { Subject, Subscription, zip } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
@@ -25,9 +25,6 @@ export class FormEditorInspectorComponent {
 
   protected _valueChanges$: Subscription;
 
-  protected _templateFields$ = new Subject();
-  protected _attributes$ = new Subject();
-
   formFields: FormField;
   form: FormGroup = new FormGroup({});
 
@@ -37,7 +34,6 @@ export class FormEditorInspectorComponent {
   @Input()
   set templateFields(fields: TemplateField[]) {
     this._templateFields = fields;
-    this._templateFields$.next( fields );
   }
   get templateFields(): TemplateField[] {
     return this._templateFields;
@@ -46,7 +42,6 @@ export class FormEditorInspectorComponent {
   @Input()
   set attributes(attributes: Attributes) {
     this._attributes = attributes;
-    this._attributes$.next( attributes );
   }
   get attributes(): Attributes {
     return this._attributes;
@@ -55,15 +50,13 @@ export class FormEditorInspectorComponent {
   @Output() 
   onAttributesUpdate = new EventEmitter<any>();
 
-  constructor() {
-    zip( this._attributes$, this._templateFields$ )
-    .pipe( takeUntil(this._destroy$) )
-    .subscribe(() => this.buildForm());
-  }
-
   ngOnDestroy() {
     this._destroy$.next( true );
     this._destroy$.complete();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.buildForm();
   }
 
   protected buildForm(): void {

@@ -107,8 +107,6 @@ export class PreviewContainerComponent implements OnInit, OnDestroy {
     const reducer = (factory, state) => state.name === resource ? state : factory;
     const entity  = states.reduce( reducer, null );
 
-    console.log('* _handleActionUpdateEditor', { action, data, resource });
-
     const factoryInstance = action => {
       switch(action) {
         case "add":               return new Add( entity, data );

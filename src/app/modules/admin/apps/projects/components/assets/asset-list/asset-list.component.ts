@@ -58,7 +58,7 @@ export class AssetListComponent implements AfterViewInit {
   handleSelectAssets(): void {
     const iterationIds = xor( this.iterationIds, this.eligibleIterationIds );
 
-    if (this.areAllVisible) {
+    if ( this.areAllVisible ) {
       this.onSelectIterationIds.emit( iterationIds );
     }
     else {
