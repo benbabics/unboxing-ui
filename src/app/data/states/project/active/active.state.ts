@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ClearActive, CreateOrReplace, EntityActionType, ofEntityActionSuccessful, Reset, SetActive } from '@ngxs-labs/entity-state';
 import { Action, Actions, Selector, State, StateContext, Store } from '@ngxs/store';
-import { get } from 'lodash';
+import { chain, get, values } from 'lodash';
 import { flatMap, tap } from 'rxjs/operators';
 import { ProjectState } from '../project.state';
 import { ProjectActive } from './active.action';
@@ -46,6 +46,16 @@ export class ProjectActiveState {
   @Selector()
   static projectId(state: ProjectActiveStateModel) {
     return state.projectId;
+  }
+
+  @Selector([
+    AssetDirectoryState.entities,
+    AssetElementState.entities,
+    SlideState.entities,
+    ThemeState.activeId,
+  ])
+  static associations(assetDirectories, assetElements, slides, themeId) {
+    return { assetDirectories, assetElements, slides, themeId };
   }
   
   constructor(

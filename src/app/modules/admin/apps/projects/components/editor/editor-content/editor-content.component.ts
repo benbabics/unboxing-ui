@@ -3,7 +3,7 @@ import { merge, Subject } from 'rxjs';
 import { Actions, Store } from '@ngxs/store';
 import { EntityActionType, ofEntityActionSuccessful, SetActive } from '@ngxs-labs/entity-state';
 import { IPostMessageBridge, IPostMessageEventTarget, PostMessageBridgeFactory } from '@tekool/ngx-post-message-angular-9';
-import { ProjectActiveState, SlideState } from 'app/data';
+import { ProjectActiveState, ProjectState, SlideState, ThemeState } from 'app/data';
 import { map, takeUntil, tap } from 'rxjs/operators';
 
 @Component({
@@ -61,23 +61,30 @@ export class EditorContentComponent implements OnInit, OnDestroy {
     
     // create project
     this._sendAction({
-      resource: ProjectActiveState.name,
+      resource: ProjectState.name,
       action:   EntityActionType.CreateOrReplace,
       data:     project,
     });
 
     // init active project
     this._sendAction({
-      resource: ProjectActiveState.name,
+      resource: ProjectState.name,
       action:   EntityActionType.SetActive,
       data:     project.id,
     });
 
-    // init active slide
+    // init theme
     this._sendAction({
-      resource: SlideState.name,
-      action:   EntityActionType.SetActive,
-      data:     this._store.selectSnapshot( SlideState.activeId ),
+      resource: ThemeState.name,
+      action:   EntityActionType.CreateOrReplace,
+      data:     this._store.selectSnapshot( ThemeState.active ),
+    });
+
+    // init associations
+    this._sendAction({
+      resource: ProjectActiveState.name,
+      action:   "setAssociations",
+      data:     this._store.selectSnapshot( ProjectActiveState.associations ),
     });
 
     // notify listener editor is ready
@@ -94,7 +101,7 @@ export class EditorContentComponent implements OnInit, OnDestroy {
     }
   }
 
-  private _sendAction(params: { resource: string, action: EntityActionType, data: any }): void {
+  private _sendAction(params: { resource: string, action: EntityActionType | string, data: any }): void {
     this._bridge?.sendMessage( 'ActionUpdateEditor', params );
   }
 }

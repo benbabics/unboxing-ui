@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import { Store } from '@ngxs/store';
 import { filter, map, take, takeUntil } from 'rxjs/operators';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { ProjectActiveState, Slide, SlideState } from 'app/data';
+import { AssetDirectoryState, AssetElementState, ProjectActive, ProjectActiveState, ProjectState, Slide, SlideState, ThemeState } from 'app/data';
 
 @Component({
   selector: 'app-preview-container',
@@ -96,21 +96,32 @@ export class PreviewContainerComponent implements OnInit, OnDestroy {
   }
 
   private _handleActionUpdateEditor({ resource, action, data }: { resource: string, action: EntityActionType, data: any }): void {
+    const states = [
+      ProjectState,
+      ProjectActiveState,
+      AssetDirectoryState,
+      AssetElementState,
+      SlideState,
+      ThemeState,
+    ];
     const reducer = (factory, state) => state.name === resource ? state : factory;
-    const entity  = [ ProjectActiveState, SlideState ].reduce( reducer, null );
+    const entity  = states.reduce( reducer, null );
 
     console.log('* _handleActionUpdateEditor', { action, data, resource });
 
     const factoryInstance = action => {
       switch(action) {
-        case "add":             return new Add( entity, data );
-        case "remove":          return new Remove( entity, data );
-        case "setActive":       return new SetActive( entity, data );
-        case "updateActive":    return new UpdateActive( entity, data );
-        case "update":          return new Update( entity, data.id, data.data );
-        case "createOrReplace": return new CreateOrReplace( entity, data );
+        case "add":               return new Add( entity, data );
+        case "remove":            return new Remove( entity, data );
+        case "setActive":         return new SetActive( entity, data );
+        case "updateActive":      return new UpdateActive( entity, data );
+        case "update":            return new Update( entity, data.id, data.data );
+        case "createOrReplace":   return new CreateOrReplace( entity, data );
+        case "setAssociations":   return new ProjectActive.SetAssociations(data);
+        case "clearAssociations": return new ProjectActive.ClearAssociations();
       }
     }
+
     this._store.dispatch( factoryInstance(action) );
   }
 
