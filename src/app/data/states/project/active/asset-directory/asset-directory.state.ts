@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { State, Action, StateContext, Store, Selector } from '@ngxs/store';
 import { EntityStateModel, EntityState, defaultEntityState, IdStrategy, SetLoading, CreateOrReplace, Add, Update, Remove } from '@ngxs-labs/entity-state';
 import { tap, finalize, flatMap } from 'rxjs/operators';
-import { get, filter, find } from 'lodash';
+import { get, filter, find, snakeCase } from 'lodash';
 import { AssetDirectory } from './asset-directory.action';
 
 export interface AssetDirectoryStateModel extends EntityStateModel<AssetDirectory> { }
@@ -42,7 +42,7 @@ export class AssetDirectoryState extends EntityState<AssetDirectory> {
   @Selector([ AssetDirectoryState.entities ])
   static allPaths(dirs: AssetDirectory[]) {
     const getPath = (id: string) => {
-      const ancestors = this.getAncestors( dirs, id ).map(dir => dir.name);
+      const ancestors = this.getAncestors( dirs, id ).map(dir => snakeCase(dir.name));
       return `/${ ancestors.join('/') }`;
     }
 

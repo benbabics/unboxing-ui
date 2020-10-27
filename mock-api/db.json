@@ -223,21 +223,18 @@
     {
       "id": 1,
       "name": "Photos",
-      "path": "photos",
       "projectId": 1,
       "parentId": null
     },
     {
       "id": 2,
       "name": "Infowars Photos",
-      "path": "photos",
       "projectId": 2,
       "parentId": null
     },
     {
       "id": 3,
       "name": "Sandy Beach Photos",
-      "path": "photos",
       "projectId": 3,
       "parentId": null
     },
@@ -1239,6 +1236,13 @@
           "title": "Photo Gallery",
           "fields": [
             {
+              "id": "fields",
+              "type": "header",
+              "label": "Page Text",
+              "subtext": "Add text for the photos page.",
+              "icon": "text_fields"
+            },
+            {
               "id": "title",
               "label": "Title",
               "type": "text",
@@ -1251,10 +1255,16 @@
               "placeholder": ""
             },
             {
+              "id": "galleries-title",
+              "type": "header",
+              "label": "Photo Gallery",
+              "subtext": "Select photos to display in the gallery.",
+              "icon": "photo_size_select_actual",
+              "divider": true
+            },
+            {
               "id": "galleries",
-              "label": "Photo Gallery Selection",
               "type": "iterable",
-              "placeholder": "",
               "entityType": "PHOTO",
               "fields": [
                 {

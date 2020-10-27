@@ -5,9 +5,12 @@ import { takeUntil, tap } from 'rxjs/operators';
 
 export type TemplateField = {
   id: string;
-  label: string;
   type: string;
-  placeholder: string;
+  label?: string;
+  placeholder?: string;
+  divider?: boolean;
+  subtext?: string;
+  icon?: string;
 };
 export type Attributes = { [key: string]: any };
 export type FormField = { [key: string]: AbstractControl };

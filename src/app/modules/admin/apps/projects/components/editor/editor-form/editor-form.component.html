@@ -1,15 +1,31 @@
-<form
-  class="flex flex-col"
-  [formGroup]="form">
+<form [formGroup]="form" class="flex flex-col">
   
   <ng-template ngFor let-field [ngForOf]="templateFields">
+    <ng-container *ngIf="field.divider">
+      <mat-divider class="mt-6 mb-8 border-cool-gray-300"></mat-divider>
+    </ng-container>
+    
     <ng-container [ngSwitch]="field.type">
+      <ng-template ngSwitchCase="header">
+        <div class="mb-5">
+          <div class="flex">
+            <ng-container *ngIf="field.icon">
+              <mat-icon class="mr-2" [svgIcon]="field.icon"></mat-icon>
+            </ng-container>
+          
+            <label class="text-lg font-medium">{{ field.label }}</label>
+          </div>
+          
+          <ng-container *ngIf="field.subtext">
+            <span class="text-secondary">{{ field.subtext }}</span>
+          </ng-container>
+        </div>
+      </ng-template>
+        
       <ng-template ngSwitchCase="options-font">
       </ng-template>
 
       <ng-template ngSwitchCase="iterable">
-        <label [for]="field.id">{{ field.label }}</label>
-
         <asset-lists
           [entityType]="field.entityType"
           [iterationIds]="form.value[ field.id ]"
