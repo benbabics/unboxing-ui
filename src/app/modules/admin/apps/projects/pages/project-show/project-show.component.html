@@ -46,7 +46,7 @@
 <ng-template #drawer>
   <div class="actions relative">
     <button 
-      class="absolute right-0 mt-6 mr-4"
+      class="absolute right-0 mt-1 mr-1"
       mat-icon-button
       matTooltip="Hide Inspector"
       (click)="matDrawer.close()">
@@ -55,10 +55,10 @@
     </button>
   </div>
   
-  <div class="p-6">
+  <div>
     <div class="flex flex-col flex-auto flex-shrink-0 bg-transparent">
       <mat-button-toggle-group 
-        class="inspector-button-toggle flex-0 w-full mb-8"
+        class="inspector-button-toggle flex-0 w-full light:border-cool-gray-300"
         [value]="'format'"
         #inspectorViewToggleGroup="matButtonToggleGroup">
 
@@ -73,13 +73,18 @@
 
     <ng-container [ngSwitch]="inspectorViewToggleGroup.value">
       <ng-template ngSwitchCase="format">
-        <editor-navigation></editor-navigation>
-        <mat-divider class="mt-6 mb-8 light:border-cool-gray-300"></mat-divider>
-        <editor-inspector></editor-inspector>
+        <div class="mb-8 p-6 editor-navigation">
+          <editor-navigation></editor-navigation>
+        </div>
+        <div class="px-6">
+          <editor-inspector></editor-inspector>
+        </div>
       </ng-template>
     
       <ng-template ngSwitchCase="settings">
-        <p>Settings content here.</p>
+        <div class="p-6">
+          <p>Settings content here.</p>
+        </div>
       </ng-template>
     </ng-container>
   </div>

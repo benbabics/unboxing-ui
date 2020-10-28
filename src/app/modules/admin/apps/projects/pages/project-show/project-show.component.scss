@@ -136,5 +136,13 @@
         }
       }
     }
+
+    ::ng-deep .editor-navigation {
+      @if ($is-dark) {
+        background-color: rgba(39, 48, 63, .5);
+      } @else {
+        background-color: rgba(207, 216, 227, .5);
+      }
+    }
   }
 }
