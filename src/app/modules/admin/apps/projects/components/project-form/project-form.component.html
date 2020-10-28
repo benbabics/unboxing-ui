@@ -298,8 +298,8 @@
             
             <div class="rounded-md border-solid border border-gray-300 divide-y divide-gray-300 shadow-md w-80">
               <div *ngFor="let member of memberships" class="pl-4 pr-2 py-2 flex items-center">
-                <user-avatar [user]="member" class="mr-3"></user-avatar>
-                <span class="truncate">{{ member.firstname }} {{ member.lastname }}</span>
+                <user-avatar [user]="member.user" class="mr-3"></user-avatar>
+                <span class="truncate">{{ member.user.firstname }} {{ member.user.lastname }}</span>
                 <button mat-icon-button (click)="handleRemoveMember( member.id )" type="button" class="ml-auto">
                   <mat-icon svgIcon="delete"></mat-icon>
                 </button>

@@ -6,6 +6,7 @@ import { ProjectMockApi } from 'app/data/mock/project';
 import { ProjectInvitationMockApi } from 'app/data/mock/project-invitation';
 import { ProjectMemberMockApi } from 'app/data/mock/project-member';
 import { ProjectUserMockApi } from 'app/data/mock/user';
+import { ThemeMockApi } from 'app/data/mock/theme';
 
 import { CalendarMockApi } from 'app/data/mock/apps/calendar';
 import { ContactsMockApi } from 'app/data/mock/apps/contacts';
@@ -33,6 +34,7 @@ export const mockDataServices = [
   ProjectInvitationMockApi,
   ProjectMemberMockApi,
   ProjectUserMockApi,
+  ThemeMockApi,
   
   AnalyticsMockApi,
   CalendarMockApi,

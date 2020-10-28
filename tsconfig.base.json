@@ -20,13 +20,7 @@
       "dom"
     ],
     "paths": {
-      "lib-common": [
-        "dist/lib-common/lib-common",
-        "dist/lib-common"
-      ],
-      "lib-common/*": [
-        "dist/lib-common/*"
-      ]
+      "@projects/*": [ "../projects/*" ]
     }
   },
   "angularCompilerOptions": {

@@ -14,10 +14,22 @@
       "path": "./tsconfig.spec.json"
     },
     {
-      "path": "./projects/lib-common/tsconfig.lib.json"
+      "path": "./projects/runner-preview/tsconfig.app.json"
     },
     {
-      "path": "./projects/lib-common/tsconfig.spec.json"
+      "path": "./projects/runner-preview/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/runner-preview/e2e/tsconfig.json"
+    },
+    {
+      "path": "./projects/theme-default/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/theme-default/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/theme-default/e2e/tsconfig.json"
     }
   ]
 }

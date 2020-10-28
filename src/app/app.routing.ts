@@ -57,6 +57,12 @@ export const appRoutes: Route[] = [
     redirectTo: 'example'
   },
 
+  // Runner
+  {
+    path: 'preview',
+    loadChildren: () => import('../../projects/runner-preview/src/app/app.module').then(m => m.AppModule)
+  },
+
   // Public
   {
     path: '',
@@ -104,5 +110,5 @@ export const appRoutes: Route[] = [
       initialData: InitialDataResolver,
     },
     children: Routes.Admin,
-  }
+  },
 ];

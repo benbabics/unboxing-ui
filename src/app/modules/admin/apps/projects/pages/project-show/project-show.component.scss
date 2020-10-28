@@ -1,0 +1,148 @@
+@import 'common';
+
+:host {
+  .mat-drawer-container {
+    .mat-drawer-content {
+      flex-direction: row;
+      
+      .navigator-wrapper {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      
+        .header {
+          padding: 0;
+          background: none;
+          border: none;
+
+          ::ng-deep editor-navigator {
+            width: 100%;
+          }
+        }
+
+        .main {
+          flex: 1;
+          overflow: scroll;
+        }
+      }
+
+      .inspector-hitbox {
+        display: flex;
+        align-items: center;
+        padding-top: 13px;
+        width:  40px;
+        height: 100%;
+        cursor: pointer;
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        border-left-width: 1px;
+        border-left-style: solid;
+      }
+    }
+    
+    .mat-drawer {
+      width:     400px !important;
+      min-width: 400px !important;
+      max-width: 400px !important;
+
+      @include treo-breakpoint('lt-lg') {
+        width:     512px !important;
+        min-width: 512px !important;
+        max-width: 512px !important;
+      }
+
+      @include treo-breakpoint('xs') {
+        width:     100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+      }
+    }
+
+    ::ng-deep .mat-drawer-inner-container {
+      position: relative;
+      display: flex;
+      flex: 1 1 auto;
+      flex-direction: column;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+
+      editor-inspector {
+        flex: 1;
+      }
+    }
+  }
+
+  .inspector-button-toggle {
+    @extend %button-toggle-group;
+  }
+}
+
+
+
+@include treo-theme {
+
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+  $primary: map-get($theme, primary);
+  $is-dark: map-get($theme, is-dark);
+
+  :host {
+    .mat-drawer-container {
+      .mat-drawer-content {
+        .navigator-wrapper .main {
+          @if ($is-dark == false) {
+            background-color: #fff;
+          }
+        }
+        
+        .inspector-hitbox {
+          @if ($is-dark) {
+            border-left-color: map-get($foreground, divider);
+          } @else {
+            border-bottom-color: darken(map-get($foreground, divider), 5%);
+            background-color: darken(treo-color('cool-gray', 100), 2%);
+          }
+        }
+      }
+
+      .mat-drawer {
+        @if ($is-dark) {
+          border-left-color: map-get($foreground, divider);
+        } @else {
+          border-left-color: darken(map-get($foreground, divider), 5%);
+          background-color: treo-color('cool-gray', 200);
+        }
+
+        ::ng-deep .mat-drawer-inner-container {
+          .actions {
+            @if ($is-dark) {
+              background-color: treo-color('cool-gray', 900);
+            } @else {
+              background-color: treo-color('cool-gray', 200);
+            }
+          }
+        }
+      }
+    }
+
+    .inspector-button-toggle {
+      .mat-button-toggle {
+        color: map-get($foreground, secondary-text);
+        background: transparent;
+
+        &.mat-button-toggle-checked {
+          color: map-get($primary, default);
+          box-shadow: inset 0 -2px 0 map-get($primary, default);
+        }
+      }
+    }
+
+    ::ng-deep .editor-navigation {
+      @if ($is-dark) {
+        background-color: rgba(39, 48, 63, .5);
+      } @else {
+        background-color: rgba(207, 216, 227, .5);
+      }
+    }
+  }
+}

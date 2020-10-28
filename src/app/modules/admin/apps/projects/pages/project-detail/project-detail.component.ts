@@ -1,35 +1,28 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ClearActive, Reset, SetActive } from '@ngxs-labs/entity-state';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
-import { ProjectInvitation, ProjectInvitationState, ProjectMember, ProjectMemberState, ProjectState } from 'app/data';
+import { ProjectActive, ProjectState } from 'app/data';
 
 @Component({
   selector: 'project-detail',
   template: `<router-outlet></router-outlet>`
 })
-export class ProjectDetailComponent implements OnInit, OnDestroy {
+export class ProjectDetailComponent implements OnDestroy {
 
   private _destroy$ = new Subject();
   
   constructor(
     private _store: Store,
-    private _activatedRoute: ActivatedRoute,
-  ) { }
-  
-  ngOnInit() {
-    this._activatedRoute.params
-      .pipe(
-        takeUntil( this._destroy$ ),
-        tap(params => this._store.dispatch([
-          new SetActive( ProjectState, params.id ),
-          new ProjectInvitation.Index( params.id ),
-          new ProjectMember.Index( params.id ),
-        ])),
-      )
-      .subscribe();
+    activatedRoute: ActivatedRoute,
+  ) {
+    activatedRoute.params.pipe(
+      takeUntil( this._destroy$ ),
+      tap(({ id }) => _store.dispatch( new SetActive(ProjectState, id) )),
+    )
+    .subscribe();
   }
 
   ngOnDestroy() {
@@ -38,8 +31,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
 
     this._store.dispatch([
       new ClearActive( ProjectState ),
-      new Reset( ProjectInvitationState ),
-      new Reset( ProjectMemberState ),
+      new ProjectActive.ClearAssociations(),
     ]);
   }
 }

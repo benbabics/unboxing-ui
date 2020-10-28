@@ -1319,6 +1319,11 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
+"@tekool/ngx-post-message-angular-9@^1.5.9":
+  version "1.5.9"
+  resolved "https://registry.yarnpkg.com/@tekool/ngx-post-message-angular-9/-/ngx-post-message-angular-9-1.5.9.tgz#605cbd0ee4f40c083aa856a8ebdb7abe3f61a885"
+  integrity sha512-ZsX6PqyEkPbFQTeyjaj6/alBeTZygsYFZgAuyD0pMA8AxL7xgjEC3Y+ZR0+j7KAUEOlZH/FwMoXytAACopr0sA==
+
 "@types/color-name@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@types/color-name/-/color-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
@@ -6685,6 +6690,13 @@ ngx-quill@11.1.0:
   integrity sha512-A1qV6JfyNwSioRHgu7ZzjhV2yNRI9Yrv89Ip4WPhniD8mGZylXVnqcdTZqacRnal21hGoRQDX4QHULeO4XTqug==
   dependencies:
     tslib "^1.10.0"
+
+ngx-spinner@^10.0.1:
+  version "10.0.1"
+  resolved "https://registry.yarnpkg.com/ngx-spinner/-/ngx-spinner-10.0.1.tgz#f08932a34bf98b302488a9c475584970ed386d23"
+  integrity sha512-3fkzS4t+oKg1jobUmWxeGD3zLymdIOMijib517tgrDnW4Q2fKKwZPVCfTR5ztm9G0/l9G/DRoOoBcHPPupUBdg==
+  dependencies:
+    tslib "^2.0.0"
 
 nice-try@^1.0.4:
   version "1.0.5"

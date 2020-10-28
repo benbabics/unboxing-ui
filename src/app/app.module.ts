@@ -13,20 +13,27 @@ import { LayoutModule } from 'app/layout/layout.module';
 import { AppComponent } from 'app/app.component';
 import { appRoutes } from 'app/app.routing';
 import {
-  AccountState,
   AppState,
+  AssetDirectoryState,
+  AssetElementState,
   AuthState,
   BrandState,
   CurrentMembershipState,
   CurrentUserState,
   ProjectState,
+  ProjectActiveState,
   ProjectInvitationState,
-  ProjectMemberState,
   ProjectSearchState,
+  ProjectMemberState,
+  ProjectMembershipState,
+  ProjectUserState,
+  SlideState,
+  ThemeState,
   UiState,
   UiPreferencesState,
   UserState,
 } from './data/states';
+import { PostMessageModule } from '@tekool/ngx-post-message-angular-9';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
@@ -60,22 +67,29 @@ const routerConfig: ExtraOptions = {
     LayoutModule,
 
     // 3rd party modules
+    PostMessageModule,
     MarkdownModule.forRoot({}),
 
     // NGXS (last)
     NgxsModule.forRoot([
       AppState,
+      AssetDirectoryState,
+      AssetElementState,
       UiState,
       UiPreferencesState,
       AuthState,
       CurrentUserState,
       CurrentMembershipState,
-      AccountState,
       BrandState,
       ProjectState,
+      ProjectActiveState,
       ProjectInvitationState,
-      ProjectMemberState,
       ProjectSearchState,
+      ProjectMemberState,
+      ProjectMembershipState,
+      ProjectUserState,
+      SlideState,
+      ThemeState,
       UserState,
     ], {
       selectorOptions: {

@@ -4,8 +4,8 @@ import { debounce, snakeCase, get, pick, values, chain, last } from 'lodash';
 import { Subject, BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { takeUntil, tap, map, filter, flatMap, take, debounceTime, switchMap, withLatestFrom } from 'rxjs/operators';
 import { Actions, ofActionSuccessful, Select, Store } from '@ngxs/store';
-import { UpdateFormValue } from '@ngxs/form-plugin';
-import { CurrentMembershipState, Project, ProjectInvitation, ProjectInvitationState, ProjectMember, ProjectMemberState, ProjectState, User, UserState } from 'app/data';
+import { UpdateFormDirty, UpdateFormValue } from '@ngxs/form-plugin';
+import { CurrentMembershipState, Project, ProjectInvitation, ProjectInvitationState, ProjectMember, ProjectMembership, ProjectMembershipState, ProjectMemberState, ProjectState, User, UserState } from 'app/data';
 import { EntityActionType, ofEntityActionSuccessful, SetLoading } from '@ngxs-labs/entity-state';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProjectSlugValidator } from '../../validators';
@@ -26,7 +26,7 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
   private _destroy$ = new Subject();
   private _currentValueSlug: string;
 
-  readonly formPath = "project.manageProjectForm";
+  readonly formPath = "project.projectActive.manageProjectForm";
   
   isLoading: boolean = false;
   isLoadingInvitation: boolean = false;
@@ -36,7 +36,7 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
   manageProjectForm: FormGroup;
   
   memberSuggestions = [];
-  members: ProjectMember[];
+  members: ProjectMembership[];
   invitations: ProjectInvitation[];
 
   @Input()  activeView: ProjectFormView = ProjectFormView.Advanced;
@@ -45,7 +45,7 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
   @Output() onCancel = new EventEmitter<void>();
   @Output() onSumbit = new EventEmitter<Project>();
 
-  @Select( ProjectMemberState.entities ) members$: Observable<ProjectMember[]>;
+  @Select(ProjectMemberState.entities) members$: Observable<ProjectMember[]>;
   @Select( ProjectInvitationState.entities ) invitations$: Observable<ProjectInvitation[]>;
 
   get controlBrandId(): AbstractControl {
@@ -72,6 +72,10 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
     private _store: Store,
     private _slugValidator: ProjectSlugValidator,
   ) {
+    this._store.dispatch(
+      new UpdateFormDirty({ path: this.formPath, dirty: false })
+    );
+
     this._buildForm();
 
     _store.select( ProjectState.loading )
@@ -82,7 +86,7 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
       .pipe( takeUntil(this._destroy$) )
       .subscribe(isLoading => this.isLoadingInvitation = isLoading);
 
-    _store.select( ProjectMemberState.loading )
+    _store.select( ProjectMembershipState.loading )
       .pipe( takeUntil(this._destroy$) )
       .subscribe(isLoading => this.isLoadingMember = isLoading);
 
@@ -106,7 +110,7 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
     .subscribe();
 
     actions$.pipe(
-      ofEntityActionSuccessful( ProjectMemberState, EntityActionType.Add ),
+      ofEntityActionSuccessful( ProjectMembershipState, EntityActionType.Add ),
       takeUntil( this._destroy$ ),
       map(payload => `${ payload.firstname } ${ payload.lastname }`),
       tap(fullname => snackBar.open( `Added ${ fullname } to the project!`, `Ok` )),

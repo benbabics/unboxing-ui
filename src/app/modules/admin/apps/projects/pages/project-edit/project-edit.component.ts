@@ -1,11 +1,11 @@
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { takeUntil, tap, map } from 'rxjs/operators';
-import { EntityActionType, ofEntityActionSuccessful } from '@ngxs-labs/entity-state';
+import { EntityActionType, ofEntityActionSuccessful, Reset } from '@ngxs-labs/entity-state';
 import { Component, OnDestroy } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Select, Actions, Store } from '@ngxs/store';
-import { Project, ProjectState } from 'app/data';
+import { Project, ProjectInvitation, ProjectInvitationState, ProjectMember, ProjectMembershipState, ProjectState, ProjectUserState } from 'app/data';
 
 @Component({
   selector: 'project-edit',
@@ -24,6 +24,11 @@ export class ProjectEditComponent implements OnDestroy {
     private _store: Store,
     private _router: Router,
   ) {
+    this._store.dispatch([
+      new ProjectMember.Index(),
+      new ProjectInvitation.Index(),
+    ]);
+    
     actions$.pipe(
       ofEntityActionSuccessful( ProjectState, EntityActionType.Update ),
       takeUntil( this._destroy$ ),
@@ -45,5 +50,11 @@ export class ProjectEditComponent implements OnDestroy {
   ngOnDestroy() {
     this._destroy$.next( true );
     this._destroy$.complete();
+
+    this._store.dispatch([
+      new Reset( ProjectUserState ),
+      new Reset( ProjectInvitationState ),
+      new Reset( ProjectMembershipState ),
+    ]);
   }
 }

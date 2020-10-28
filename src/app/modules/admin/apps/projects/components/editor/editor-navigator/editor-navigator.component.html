@@ -1,0 +1,44 @@
+<header class="preview-header">
+  <div class="header-controls">
+    <ng-container *ngTemplateOutlet="controls"></ng-container>
+  </div>
+  <div class="header-url">
+    <ng-container *ngTemplateOutlet="urlbar"></ng-container>
+  </div>
+  <div class="header-plugins">
+    <ng-content></ng-content>
+  </div>
+</header>
+
+
+<ng-template #controls>
+  <button class="control-btn">
+    <svg viewBox="0 0 512 512">
+      <path d="M427 234.625H167.296l119.702-119.702L256 85 85 256l171 171 29.922-29.924-118.626-119.701H427v-42.75z"></path>
+    </svg>
+  </button>
+
+  <button class="control-btn">
+    <svg viewBox="0 0 512 512">
+      <path d="M85 277.375h259.704L225.002 397.077 256 427l171-171L256 85l-29.922 29.924 118.626 119.701H85v42.75z"></path>
+    </svg>
+  </button>
+
+  <button class="control-btn">
+    <svg viewBox="0 0 512 512">
+      <path d="M256 388c-72.597 0-132-59.405-132-132 0-72.601 59.403-132 132-132 36.3 0 69.299 15.4 92.406 39.601L278 234h154V80l-51.698 51.702C348.406 99.798 304.406 80 256 80c-96.797 0-176 79.203-176 176s78.094 176 176 176c81.045 0 148.287-54.134 169.401-128H378.85c-18.745 49.561-67.138 84-122.85 84z"></path>
+    </svg>
+  </button>
+</ng-template>
+
+
+<ng-template #urlbar>
+  <svg viewBox="0 0 512 512" class="secure-icon">
+    <path d="M376 186h-20v-40c0-55-45-100-100-100S156 91 156 146v40h-20c-22.002 0-40 17.998-40 40v200c0 22.002 17.998 40 40 40h240c22.002 0 40-17.998 40-40V226c0-22.002-17.998-40-40-40zM256 368c-22.002 0-40-17.998-40-40s17.998-40 40-40 40 17.998 40 40-17.998 40-40 40zm62.002-182H193.998v-40c0-34.004 28.003-62.002 62.002-62.002 34.004 0 62.002 27.998 62.002 62.002v40z"></path>
+  </svg>
+
+  <div class="url-bar">
+    <span class="text-green-500">preview:</span>
+    {{ url }}/<ng-container *ngIf="slide$ | async as slide">{{ slide.templateId }}</ng-container>
+  </div>
+</ng-template>

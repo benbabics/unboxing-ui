@@ -1,0 +1,12 @@
+<ng-container *ngIf="groupings$ | async; let groupings">
+  <ng-container *ngFor="let grouping of groupings">
+    <asset-list
+      class="mb-4"
+      [directory]="grouping.directory"
+      [elements]="grouping.elements"
+      [entityType]="entityType"
+      [iterationIds]="iterationIds"
+      (onSelectIterationIds)="handleSelectAssetIds( $event )">
+    </asset-list>
+  </ng-container>
+</ng-container>

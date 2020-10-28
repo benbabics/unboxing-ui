@@ -47,7 +47,7 @@ export class ProjectMemberMockApi implements TreoMockApi {
           .pipe(
             tap(projects => appendMembershipIds( projects )),
             flatMap(() => this._http.get<any[]>( `/mock-api/projects/${ projectId }/memberships`, { params } )),
-            map(members => members.map(({ id, role, user }) => ({ id, role, ...omit(user, [ 'password' ]) }))),
+            map(members => members.map(member => omit( member, [ 'user.password' ] ))),
             map(payload => [ 200, payload ]),
           );
       });

@@ -1,0 +1,143 @@
+@import 'common';
+
+$color-green: #177f45;
+
+.preview-header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  padding: 2px 0;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+
+  .header-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px;
+  }
+  .header-url {
+    display: flex;
+    position: relative;
+    flex-grow: 1;
+    padding-right: 1rem;
+    align-items: center;
+  }
+  .header-plugins {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 1rem;
+  }
+
+  .control-btn {
+    display: flex;
+    font-size: 21px;
+    border-radius: 2px;
+    border: 2px solid transparent;
+
+    &:not(:first-of-type) {
+      margin-left: 5px;
+    }
+
+    &[disabled] {
+      opacity: .3;
+    }
+
+    svg {
+      width:  20px;
+      height: 20px;
+    }
+  }
+
+  .secure-icon {
+    position: absolute;
+    z-index: 1;
+    left: 10px;
+    top:  10px;
+    width: 15px;
+    height: 15px;
+  }
+
+  .url-bar {
+    display: flex;
+    align-items: center;
+    margin: 4px 0;
+    padding-left: 28px;
+    width: 100%;
+    height: 27px;
+    min-width: 50px;
+    font-family: system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Droid Sans,Helvetica Neue,Arial,Helvetica,sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    border-radius: 15px;
+    
+    .url-button {
+      text-align: left;
+      
+      &:hover {
+        text-decoration: none;
+      }
+
+      &::after {
+        display: inline-block;
+        vertical-align: middle;
+        border-bottom: 0;
+        border-top:   0.3em solid;
+        border-right: 0.3em solid transparent;
+        border-left:  0.3em solid transparent;
+        content: "";
+      }
+    }
+  }
+}
+
+
+@include treo-theme {
+
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+  $primary: map-get($theme, primary);
+  $is-dark: map-get($theme, is-dark);
+
+  :host {
+    .preview-header {
+      @if ($is-dark) {
+        border-bottom-color: map-get($foreground, divider);
+      } @else {
+        border-bottom-color: darken(map-get($foreground, divider), 5%);
+        background-color: darken(treo-color('cool-gray', 100), 2%);
+      }
+
+      .secure-icon {
+        path {
+          fill: treo-color('green', 500);
+        }
+      }
+
+      .control-btn {
+        svg {
+          @if ($is-dark == false) {
+            fill: #626262;
+          }
+        }
+        &:not([disabled]) svg {
+          @if ($is-dark) {
+            fill: #fff;
+          }
+        }
+      }
+
+      .url-bar {
+        @if ($is-dark) {
+          color: treo-color('cool-gray', 400);
+          background-color: rgba(0, 0, 0, 0.30);
+        } @else {
+          color: #000;
+          box-shadow: 0 -1px map-get($foreground, divider);
+          background: #fff;
+        }
+      }
+    }
+  }
+}

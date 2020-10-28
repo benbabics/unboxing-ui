@@ -19,7 +19,7 @@ export class ProjectResultComponent {
     const n = Math.floor( Math.random() * 4 ) + 2;
     const assets = get( project, 'currentValue.assetElements.collection' );
 
-    this.assets = assets || Array( n ).fill( '' );
+    this.assets = assets || Array( 3 ).fill( '' );
     this.assetsCount = get( project, 'currentValue.assetElements.count' );
   }
 }

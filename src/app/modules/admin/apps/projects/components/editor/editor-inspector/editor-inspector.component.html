@@ -1,0 +1,7 @@
+<ng-container *ngIf="slide">
+  <editor-form
+    [templateFields]="fields"
+    [attributes]="attributes"
+    (onAttributesUpdate)="handleSlideAttributesUpdate( $event )">
+  </editor-form>
+</ng-container>

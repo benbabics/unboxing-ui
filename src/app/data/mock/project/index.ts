@@ -53,8 +53,12 @@ export class ProjectMockApi implements TreoMockApi {
           return [ 403, { error: "Unauthorized" } ];
         }
 
+        let params = new HttpParams();
+        [ 'brand' ].forEach(key => params = params.append( '_expand', key ));
+        [ 'slides', 'assetDirectories', 'assetElements' ].forEach(key => params = params.append( '_embed', key ));
+
         const projectId = request.params.get( 'projectId' );
-        return this._http.get<Project>( `/mock-api/projects/${ projectId }` )
+        return this._http.get<Project>( `/mock-api/projects/${ projectId }`, { params } )
           .pipe(map(payload  => [ 200, payload ]));
       });
 

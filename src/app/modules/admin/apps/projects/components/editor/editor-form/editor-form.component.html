@@ -1,0 +1,57 @@
+<form [formGroup]="form" class="flex flex-col">
+  
+  <ng-template ngFor let-field [ngForOf]="templateFields">
+    <ng-container *ngIf="field.divider">
+      <mat-divider class="mt-6 mb-8 light:border-cool-gray-300"></mat-divider>
+    </ng-container>
+    
+    <ng-container [ngSwitch]="field.type">
+      <ng-template ngSwitchCase="header">
+        <div class="mb-5">
+          <div class="flex">
+            <ng-container *ngIf="field.icon">
+              <mat-icon class="mr-2" [svgIcon]="field.icon"></mat-icon>
+            </ng-container>
+          
+            <label class="text-lg font-medium">{{ field.label }}</label>
+          </div>
+          
+          <ng-container *ngIf="field.subtext">
+            <span class="text-secondary">{{ field.subtext }}</span>
+          </ng-container>
+        </div>
+      </ng-template>
+        
+      <ng-template ngSwitchCase="options-font">
+      </ng-template>
+
+      <ng-template ngSwitchCase="iterable">
+        <asset-lists
+          [entityType]="field.entityType"
+          [iterationIds]="form.value[ field.id ]"
+          (onSelectIterationIds)="handleSelectedIterationAssetIds( $event, field.id )">
+        </asset-lists>
+      </ng-template>
+
+      <ng-template ngSwitchCase="file">
+      </ng-template>
+
+      <ng-template ngSwitchDefault>
+        <div class="flex">
+          <mat-form-field class="flex-auto">
+            <mat-label>{{ field.label }}</mat-label>
+            <input 
+              matInput
+              [type]="field.type" 
+              [name]="field.id" 
+              [formControlName]="field.id"
+              [required]="field.validators?.required" 
+              [minlength]="field.validators?.minlength"
+              [maxlength]="field.validators?.maxlength">
+          </mat-form-field>
+        </div>
+      </ng-template>
+    </ng-container>
+  </ng-template>
+  
+</form>

@@ -1,42 +1,68 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Action, State, StateContext, Store } from '@ngxs/store';
-import { CreateOrReplace, defaultEntityState, EntityState, EntityStateModel, IdStrategy, SetLoading } from '@ngxs-labs/entity-state';
+import { State, StateContext, Store, Action, Selector } from '@ngxs/store';
 import { ProjectMember } from './member.action';
+import { ProjectMembership, ProjectMembershipState } from './membership';
+import { ProjectInvitationState } from './invitation';
+import { ProjectUser, ProjectUserState } from './user';
 import { finalize, flatMap, map, tap } from 'rxjs/operators';
-import { CurrentMembershipState } from '../../app';
+import { HttpClient } from '@angular/common/http';
+import { omit, values } from 'lodash';
+import { CreateOrReplace } from '@ngxs-labs/entity-state';
+import { ProjectState } from '../project.state';
+import { ProjectActiveState } from '../active';
 
-export interface ProjectMemberStateModel extends EntityStateModel<ProjectMember> {
+export interface ProjectMemberStateModel {
 }
 
 @State<ProjectMemberStateModel>({
-  name: 'member',
-  defaults: {
-    ...defaultEntityState()
-  }
+  name: 'projectMember',
+  defaults: {},
+  children: [
+    ProjectInvitationState,
+    ProjectMembershipState,
+    ProjectUserState,
+  ]
 })
 @Injectable()
-export class ProjectMemberState extends EntityState<ProjectMember> {
+export class ProjectMemberState {
 
+  @Selector([ ProjectMembershipState.entitiesMap, ProjectUserState.entitiesMap ])
+  static entities(memberships: ProjectMembership[], users: ProjectUser[]) {
+    return values( memberships ).map(membership => ({
+      ...membership,
+      user: users[ membership.userId ],
+    }));
+  }
+  
   constructor(
     private _store: Store,
     private _http: HttpClient,
-  ) {
-    super( ProjectMemberState, 'id', IdStrategy.EntityIdGenerator );
-  }
+  ) { }
 
   @Action( ProjectMember.Index )
-  crudIndex(ctx: StateContext<ProjectMemberStateModel>, { projectId }: ProjectMember.Index) {
-    this.toggleLoading( true );
+  crudIndex(ctx: StateContext<ProjectMemberStateModel>) {
+    this._toggleLoading( true );
 
-    return this._http.get<ProjectMember[]>( `/api/projects/${ projectId }/members` )
+    const transformMembers = members => {
+      return members.reduce((model, member) => ({
+        users: [ ...model.users, member.user ],
+        memberships: [ ...model.memberships, omit(member, ['user']) ],
+      }), { users: [], memberships: [] });
+    }
+
+    return this._store.selectOnce( ProjectActiveState.projectId )
       .pipe(
-        tap(members => ctx.dispatch(new CreateOrReplace(ProjectMemberState, members) )),
-        finalize(() => this.toggleLoading( false )),
+        flatMap(projectId => this._http.get( `/api/projects/${ projectId }/members` )),
+        map(members => transformMembers( members )),
+        tap(({ memberships, users }) => ctx.dispatch([
+          new CreateOrReplace( ProjectMembershipState, memberships ),
+          new CreateOrReplace( ProjectUserState, users ),
+        ])),
+        finalize(() => this._toggleLoading( false )),
       );
   }
 
-  private toggleLoading(isLoading: boolean): void {
-    this._store.dispatch( new SetLoading(ProjectMemberState, isLoading) );
+  private _toggleLoading(isLoading: boolean): void {
+    // this._store.dispatch( new SetLoading(ProjectMembershipState, isLoading) );
   }
 }

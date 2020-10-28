@@ -1,14 +1,13 @@
-import { MembershipRole } from '../../app';
-import { User } from '../../user';
+import { ProjectMembership } from './membership';
+import { ProjectUser } from './user';
 
-export interface ProjectMember extends User {
-  role: MembershipRole;
+export interface ProjectMember extends ProjectMembership {
+  user: ProjectUser;
 }
 
 export namespace ProjectMember {
 
   export class Index {
     static readonly type = '[ProjectMember API] Index';
-    constructor( public projectId: string ) { }
   }
 }
