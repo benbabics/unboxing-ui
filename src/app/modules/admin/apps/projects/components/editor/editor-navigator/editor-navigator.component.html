@@ -39,6 +39,6 @@
 
   <div class="url-bar">
     <span class="text-green-500">preview:</span>
-    {{ url }}/<!-- slide attrs here -->
+    {{ url }}/<ng-container *ngIf="slide$ | async as slide">{{ slide.templateId }}</ng-container>
   </div>
 </ng-template>

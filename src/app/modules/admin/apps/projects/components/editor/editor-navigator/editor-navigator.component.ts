@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngxs/store';
-import { ProjectActiveState } from 'app/data';
+import { Select, Store } from '@ngxs/store';
+import { ProjectActiveState, Slide, SlideState } from 'app/data';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'editor-navigator',
@@ -10,6 +11,8 @@ import { ProjectActiveState } from 'app/data';
 export class EditorNavigatorComponent implements OnInit {
 
   url: string;
+
+  @Select( SlideState.active ) slide$: Observable<Slide>;
 
   constructor(
     private _store: Store,
