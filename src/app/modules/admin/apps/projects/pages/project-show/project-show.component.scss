@@ -71,6 +71,10 @@
       }
     }
   }
+
+  .inspector-button-toggle {
+    @extend %button-toggle-group;
+  }
 }
 
 
@@ -117,6 +121,18 @@
               background-color: treo-color('cool-gray', 200);
             }
           }
+        }
+      }
+    }
+
+    .inspector-button-toggle {
+      .mat-button-toggle {
+        color: map-get($foreground, secondary-text);
+        background: transparent;
+
+        &.mat-button-toggle-checked {
+          color: map-get($primary, default);
+          box-shadow: inset 0 -2px 0 map-get($primary, default);
         }
       }
     }

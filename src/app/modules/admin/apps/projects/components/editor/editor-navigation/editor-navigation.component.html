@@ -1,0 +1,31 @@
+<div class="flex">
+  <mat-icon class="mr-2" svgIcon="navigation"></mat-icon>
+  <label class="text-lg font-medium">Navigation</label>
+</div>
+
+<ng-container *ngIf="{
+  active: active$ | async,
+  theme:  theme$ | async
+} as context">
+
+  <div class="flex mt-3">
+    <mat-form-field class="flex-auto">
+      <mat-select 
+        [value]="context.active.templateId"
+        (selectionChange)="handleSelectPage( $event.value )">
+        
+        <mat-option 
+          *ngFor="let tmpl of context.theme.templates"
+          [value]="tmpl.id">
+          <div class="flex items-center">
+            <mat-icon matPrefix [svgIcon]="slideIcons[ tmpl.id ]"></mat-icon>
+            {{ tmpl.title }}
+          </div>
+        </mat-option>
+      </mat-select>
+
+      <mat-icon matPrefix [svgIcon]="slideIcons[ context.active.templateId ]"></mat-icon>
+    </mat-form-field>
+  </div>
+
+</ng-container>

@@ -1290,14 +1290,28 @@
           "title": "Video Trailers",
           "fields": [
             {
+              "id": "fields",
+              "type": "header",
+              "label": "Page Text",
+              "subtext": "Add text for the videos page.",
+              "icon": "text_fields"
+            },
+            {
               "id": "title",
               "label": "Title",
               "type": "text",
               "placeholder": ""
             },
             {
-              "id": "trailers",
+              "id": "trailers-title",
+              "type": "header",
               "label": "Video Trailers",
+              "subtext": "Select photos to display in the gallery.",
+              "icon": "ondemand_video",
+              "divider": true
+            },
+            {
+              "id": "trailers",
               "type": "iterable",
               "placeholder": "",
               "entityType": "VIDEO",

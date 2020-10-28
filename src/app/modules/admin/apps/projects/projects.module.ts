@@ -3,6 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { MAT_DATE_FORMATS, MatRippleModule } from '@angular/material/core';
@@ -58,6 +59,7 @@ import { EditorFormComponent } from './components/editor/editor-form/editor-form
 import { AssetListsComponent } from './components/assets/asset-lists/asset-lists.component';
 import { AssetListComponent } from './components/assets/asset-list/asset-list.component';
 import { AssetIconComponent } from './components/assets/asset-icon/asset-icon.component';
+import { EditorNavigationComponent } from './components/editor/editor-navigation/editor-navigation.component';
 
 
 @NgModule({
@@ -67,6 +69,7 @@ import { AssetIconComponent } from './components/assets/asset-icon/asset-icon.co
     NgxsFormPluginModule,
     MatAutocompleteModule,
     MatButtonModule,
+    MatButtonToggleModule,
     MatCheckboxModule,
     MatChipsModule,
     MatDatepickerModule,
@@ -115,6 +118,7 @@ import { AssetIconComponent } from './components/assets/asset-icon/asset-icon.co
     AssetListsComponent,
     AssetListComponent,
     AssetIconComponent,
+    EditorNavigationComponent,
   ],
   providers: [
     { 

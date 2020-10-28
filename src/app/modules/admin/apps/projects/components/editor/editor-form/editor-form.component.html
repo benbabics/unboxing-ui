@@ -2,7 +2,7 @@
   
   <ng-template ngFor let-field [ngForOf]="templateFields">
     <ng-container *ngIf="field.divider">
-      <mat-divider class="mt-6 mb-8 border-cool-gray-300"></mat-divider>
+      <mat-divider class="mt-6 mb-8 light:border-cool-gray-300"></mat-divider>
     </ng-container>
     
     <ng-container [ngSwitch]="field.type">
