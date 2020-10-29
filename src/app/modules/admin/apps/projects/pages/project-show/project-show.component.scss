@@ -141,6 +141,7 @@
       @if ($is-dark) {
         background-color: rgba(39, 48, 63, .5);
       } @else {
+        border-bottom: 1px solid rgba(207, 216, 227, 1);
         background-color: rgba(207, 216, 227, .5);
       }
     }
