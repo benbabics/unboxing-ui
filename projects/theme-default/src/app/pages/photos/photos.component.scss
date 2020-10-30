@@ -1,0 +1,32 @@
+:host {
+  display: block;
+}
+
+.gallery {
+  &.is-loading {
+    overflow: hidden;
+    width:  0;
+    height: 0;
+  }
+
+  .photos {
+    ::ng-deep image-loader {
+      min-width:  300px;
+      min-height: 300px;
+      vertical-align: top;
+    }
+  }
+}
+
+
+.fade-in {
+  animation:         fadeIn ease .75s;
+  -webkit-animation: fadeIn ease .75s;
+  -moz-animation:    fadeIn ease .75s;
+  -o-animation:      fadeIn ease .75s;
+  -ms-animation:     fadeIn ease .75s;
+}
+@keyframes fadeIn {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}

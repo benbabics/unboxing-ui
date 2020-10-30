@@ -1,0 +1,8 @@
+https://assets.prod.mediazilla.com/fonts/titilliumweb/v6/NaPFcZTIAOhVxoMyOr9n_E7fdMbepI5Db5yciWM.woff2
+https://assets.prod.mediazilla.com/fonts/titilliumweb/v6/NaPFcZTIAOhVxoMyOr9n_E7fdMbepI5DYZyc.woff2
+https://assets.prod.mediazilla.com/fonts/titilliumweb/v6/NaPFcZTIAOhVxoMyOr9n_E7fdMbetIlDb5yciWM.woff2
+https://assets.prod.mediazilla.com/fonts/titilliumweb/v6/NaPFcZTIAOhVxoMyOr9n_E7fdMbetIlDYZyc.woff2
+https://assets.prod.mediazilla.com/fonts/titilliumweb/v6/NaPDcZTIAOhVxoMyOr9n_E7ffGjEGIVzY4SY.woff2
+https://assets.prod.mediazilla.com/fonts/titilliumweb/v6/NaPDcZTIAOhVxoMyOr9n_E7ffGjEGItzYw.woff2
+https://assets.prod.mediazilla.com/fonts/titilliumweb/v6/NaPDcZTIAOhVxoMyOr9n_E7ffHjDGIVzY4SY.woff2
+https://assets.prod.mediazilla.com/fonts/titilliumweb/v6/NaPDcZTIAOhVxoMyOr9n_E7ffHjDGItzYw.woff2

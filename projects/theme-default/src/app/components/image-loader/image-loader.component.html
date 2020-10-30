@@ -1,0 +1,7 @@
+<ng-container *ngIf="hasLoaded; else loading">
+  <img class="fade-in" [src]="src" [alt]="alt">
+</ng-container>
+
+<ng-template #loading>
+  <lib-spinner size="30"></lib-spinner>
+</ng-template>

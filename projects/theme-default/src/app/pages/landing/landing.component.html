@@ -1,1 +1,5 @@
-<p>landing works!</p>
+<ng-container *ngIf="slide$ | async as slide">
+  <h1 [fontFamily]="slide.attributes.titleFont">
+    {{ slide.attributes.title }}
+  </h1>
+</ng-container>

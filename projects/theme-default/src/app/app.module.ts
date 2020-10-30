@@ -1,8 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { LibCommonModule } from '@libCommon';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import {
+  FontFamilyDirective,
+} from './directives';
+import {
+  AssetService,
+  CarouselPhotosService,
+  CarouselVideosService,
+} from './services';
+import {
+  ImageLoaderComponent,
+  VideoPlayerComponent,
+} from './components';
 import { 
   LandingComponent,
   PhotosComponent,
@@ -13,6 +26,7 @@ import {
 @NgModule({
   imports: [
     CommonModule,
+    LibCommonModule,
     AppRoutingModule,
   ],
   declarations: [
@@ -21,8 +35,14 @@ import {
     PhotosComponent,
     VideosComponent,
     LandingComponent,
+    FontFamilyDirective,
+    ImageLoaderComponent,
+    VideoPlayerComponent,
   ],
   providers: [
+    AssetService,
+    CarouselPhotosService,
+    CarouselVideosService,
   ],
   bootstrap: [AppComponent]
 })
