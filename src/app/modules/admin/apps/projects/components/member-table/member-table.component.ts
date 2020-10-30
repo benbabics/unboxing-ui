@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ProjectMembership } from 'app/data';
+import { ProjectMembership } from '@libCommon';
 
 @Component({
   selector: 'member-table',

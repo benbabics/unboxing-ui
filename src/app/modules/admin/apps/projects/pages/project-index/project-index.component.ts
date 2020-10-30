@@ -7,7 +7,7 @@ import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import { map, take, takeUntil, tap, withLatestFrom } from 'rxjs/operators';
 import { Select, Store, Actions, ofActionSuccessful } from '@ngxs/store';
 import { TreoMediaWatcherService } from '@treo/services/media-watcher/media-watcher.service';
-import { Project, ProjectState, ProjectSearch, ProjectSearchState, UiPreferencesState, UiPreferences } from 'app/data';
+import { Project, ProjectState, ProjectSearch, ProjectSearchState, UiPreferencesState, UiPreferences } from '@libCommon';
 
 @Component({
   selector: 'project-index',

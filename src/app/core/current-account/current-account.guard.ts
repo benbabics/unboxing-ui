@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { CurrentMembershipState } from 'app/data';
+import { CurrentMembershipState } from '@libCommon';
 
 @Injectable()
 export class CurrentAccountGuard implements CanActivate {

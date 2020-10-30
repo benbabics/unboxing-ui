@@ -4,7 +4,7 @@ import { Store } from '@ngxs/store';
 import { UpdateActive } from '@ngxs-labs/entity-state';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil, tap } from 'rxjs/operators';
-import { Slide, SlideState, ThemeState, ThemeTemplate } from 'app/data';
+import { Slide, SlideState, ThemeState, ThemeTemplate } from '@libCommon';
 
 @Component({
   selector: 'editor-inspector',

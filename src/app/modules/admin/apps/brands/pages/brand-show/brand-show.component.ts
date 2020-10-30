@@ -4,7 +4,7 @@ import { Observable, of, Subject } from 'rxjs';
 import { tap, takeUntil } from 'rxjs/operators';
 import { Store } from '@ngxs/store';
 import { SetActive } from '@ngxs-labs/entity-state';
-import { BrandState } from 'app/data';
+import { BrandState } from '@libCommon';
 import { BrandIndexComponent } from './../brand-index/brand-index.component';
 import { ComponentCanDeactivateAndCloseDrawer } from '../../brands.guard';
 

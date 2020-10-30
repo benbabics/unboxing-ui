@@ -1,4 +1,4 @@
-import { UiNavigationItem } from 'app/data';
+import { UiNavigationItem } from '@libCommon';
 
 export interface Settings {
   navigationItems: UiNavigationItem[],

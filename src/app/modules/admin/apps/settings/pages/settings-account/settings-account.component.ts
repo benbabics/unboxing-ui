@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Store } from '@ngxs/store';
-import { CurrentUser, CurrentUserState } from 'app/data';
+import { CurrentUser, CurrentUserState } from '@libCommon';
 import { SettingsFormComponent } from './../../components';
 import { MatSnackBar } from '@angular/material/snack-bar';
 

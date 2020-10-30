@@ -20,7 +20,16 @@
       "dom"
     ],
     "paths": {
-      "@projects/*": [ "../projects/*" ]
+      "@projects/*": [
+        "../projects/*"
+      ],
+      "@libCommon": [
+        "../projects/lib-common/src/public-api"
+      ],
+      "lib-common": [
+        "dist/lib-common/lib-common",
+        "dist/lib-common"
+      ]
     }
   },
   "angularCompilerOptions": {

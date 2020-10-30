@@ -3,7 +3,7 @@ import { merge, Subject } from 'rxjs';
 import { Actions, Store } from '@ngxs/store';
 import { EntityActionType, ofEntityActionSuccessful, SetActive } from '@ngxs-labs/entity-state';
 import { IPostMessageBridge, IPostMessageEventTarget, PostMessageBridgeFactory } from '@tekool/ngx-post-message-angular-9';
-import { ProjectActiveState, ProjectState, SlideState, ThemeState } from 'app/data';
+import { ProjectActiveState, ProjectState, SlideState, ThemeState } from '@libCommon';
 import { map, takeUntil, tap } from 'rxjs/operators';
 
 @Component({

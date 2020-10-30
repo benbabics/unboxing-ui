@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Subject, Observable } from 'rxjs';
 import { filter, takeUntil, tap } from 'rxjs/operators';
 import { Store } from '@ngxs/store';
-import { Brand, BrandState } from 'app/data';
+import { Brand, BrandState } from '@libCommon';
 
 @Component({
   selector: 'brand-selector',

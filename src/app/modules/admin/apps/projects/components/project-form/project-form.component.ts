@@ -5,7 +5,7 @@ import { Subject, BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { takeUntil, tap, map, filter, flatMap, take, debounceTime, switchMap, withLatestFrom } from 'rxjs/operators';
 import { Actions, ofActionSuccessful, Select, Store } from '@ngxs/store';
 import { UpdateFormDirty, UpdateFormValue } from '@ngxs/form-plugin';
-import { CurrentMembershipState, Project, ProjectInvitation, ProjectInvitationState, ProjectMember, ProjectMembership, ProjectMembershipState, ProjectMemberState, ProjectState, User, UserState } from 'app/data';
+import { CurrentMembershipState, Project, ProjectInvitation, ProjectInvitationState, ProjectMember, ProjectMembership, ProjectMembershipState, ProjectMemberState, ProjectState, User, UserState } from '@libCommon';
 import { EntityActionType, ofEntityActionSuccessful, SetLoading } from '@ngxs-labs/entity-state';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProjectSlugValidator } from '../../validators';

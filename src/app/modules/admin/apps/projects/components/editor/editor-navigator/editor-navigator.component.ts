@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { ProjectActiveState, Slide, SlideState } from 'app/data';
+import { ProjectActiveState, Slide, SlideState } from '@libCommon';
 import { Observable } from 'rxjs';
 
 @Component({

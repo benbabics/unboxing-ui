@@ -3,7 +3,7 @@ import { ActivatedRoute, Data, Router } from '@angular/router';
 import { Subject, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Select } from '@ngxs/store';
-import { Account, CurrentMembershipState, UiNavigationItem, UiState } from 'app/data';
+import { Account, CurrentMembershipState, UiNavigationItem, UiState } from '@libCommon';
 import { TreoMediaWatcherService } from '@treo/services/media-watcher';
 import { TreoNavigationService } from '@treo/components/navigation';
 

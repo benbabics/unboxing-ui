@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { UiPreferences, UiPreferencesState, UiPreferencesThemeAppearance } from 'app/data';
+import { UiPreferences, UiPreferencesState, UiPreferencesThemeAppearance } from '@libCommon';
 import { SettingsFormComponent } from './../../components';
 
 @Component({

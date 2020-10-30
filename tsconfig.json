@@ -30,6 +30,12 @@
     },
     {
       "path": "./projects/theme-default/e2e/tsconfig.json"
+    },
+    {
+      "path": "./projects/lib-common/tsconfig.lib.json"
+    },
+    {
+      "path": "./projects/lib-common/tsconfig.spec.json"
     }
   ]
 }

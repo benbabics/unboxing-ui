@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import { Store } from '@ngxs/store';
 import { filter, map, take, takeUntil } from 'rxjs/operators';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { AssetDirectoryState, AssetElementState, ProjectActive, ProjectActiveState, ProjectState, Slide, SlideState, ThemeState } from 'app/data';
+import { AssetDirectoryState, AssetElementState, ProjectActive, ProjectActiveState, ProjectState, Slide, SlideState, ThemeState } from '@libCommon';
 
 @Component({
   selector: 'app-preview-container',

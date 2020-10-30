@@ -4,7 +4,7 @@ import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { of } from 'rxjs';
 import { catchError, map, withLatestFrom }  from 'rxjs/operators';
-import { Project, ProjectState, Theme } from 'app/data';
+import { Project, ProjectState, Theme } from '@libCommon';
 
 @Injectable({
   providedIn: 'root'

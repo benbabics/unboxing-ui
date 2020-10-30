@@ -1,4 +1,4 @@
-import { Membership as MembershipBase } from 'app/data';
+import { Membership as MembershipBase } from '@libCommon';
 
 export interface Membership extends MembershipBase {}
 

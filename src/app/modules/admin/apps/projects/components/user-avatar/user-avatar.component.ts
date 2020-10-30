@@ -3,7 +3,7 @@ import { Store } from '@ngxs/store';
 import { get } from 'lodash';
 import { Subject } from 'rxjs';
 import { filter, map, takeUntil, tap } from 'rxjs/operators';
-import { User, UserState } from 'app/data';
+import { User, UserState } from '@libCommon';
 
 @Component({
   selector: 'user-avatar',

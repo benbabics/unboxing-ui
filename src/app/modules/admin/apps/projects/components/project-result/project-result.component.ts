@@ -1,6 +1,6 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { get } from 'lodash';
-import { AssetElement } from 'app/data';
+import { AssetElement } from '@libCommon';
 
 @Component({
   selector: 'project-result',
