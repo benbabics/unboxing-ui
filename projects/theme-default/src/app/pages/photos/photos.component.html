@@ -1,1 +1,26 @@
-<p>photos works!</p>
+<ng-container *ngIf="slide$ | async as slide">
+  <h1>{{ slide.attributes.title }}</h1>
+  <h2>{{ slide.attributes.subtitle }}</h2>
+</ng-container>
+
+<ng-container *ngIf="!hasLoaded">
+  <lib-spinner></lib-spinner>
+</ng-container>
+
+<div class="gallery" [ngClass]="{ 'is-loading': !hasLoaded, 'fade-in': hasLoaded }">
+  <ng-container *ngIf="directoryIds.length; else noPhotos">
+    <div id="gallery-{{ id }}" *ngFor="let id of directoryIds">
+      <h3>{{ directories[id]['name'] }}</h3>
+
+      <div class="photos">
+        <ng-container *ngFor="let photo of photos[id]">
+          <image-loader #galleryImage [src]="photo.url" [alt]="photo.name"></image-loader>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #noPhotos>
+    <h2>There aren&#39;t any photos.</h2>
+  </ng-template>
+</div>

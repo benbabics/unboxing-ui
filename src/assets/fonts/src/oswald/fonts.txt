@@ -1,0 +1,8 @@
+https://assets.prod.mediazilla.com/fonts/oswald/v16/TK3hWkUHHAIjg75-sh0Tvs9CE5Q.woff2
+https://assets.prod.mediazilla.com/fonts/oswald/v16/TK3hWkUHHAIjg75-sh0Ttc9CE5Q.woff2
+https://assets.prod.mediazilla.com/fonts/oswald/v16/TK3hWkUHHAIjg75-sh0TtM9CE5Q.woff2
+https://assets.prod.mediazilla.com/fonts/oswald/v16/TK3hWkUHHAIjg75-sh0Tus9C.woff2
+https://assets.prod.mediazilla.com/fonts/oswald/v16/TK3hWkUHHAIjg75-ohoTvs9CE5Q.woff2
+https://assets.prod.mediazilla.com/fonts/oswald/v16/TK3hWkUHHAIjg75-ohoTtc9CE5Q.woff2
+https://assets.prod.mediazilla.com/fonts/oswald/v16/TK3hWkUHHAIjg75-ohoTtM9CE5Q.woff2
+https://assets.prod.mediazilla.com/fonts/oswald/v16/TK3hWkUHHAIjg75-ohoTus9C.woff2
