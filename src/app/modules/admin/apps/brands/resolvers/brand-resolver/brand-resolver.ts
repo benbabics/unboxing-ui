@@ -3,7 +3,7 @@ import { Resolve } from '@angular/router';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { withLatestFrom }  from 'rxjs/operators';
-import { Brand, BrandState } from 'app/data';
+import { Brand, BrandState } from '@libCommon';
 
 @Injectable({
   providedIn: 'root'

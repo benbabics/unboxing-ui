@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Slide, SlideState, Theme, ThemeState } from 'app/data';
+import { Slide, SlideState, Theme, ThemeState } from '@libCommon';
 import { SetActive } from '@ngxs-labs/entity-state';
 
 @Component({

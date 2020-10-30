@@ -4,7 +4,7 @@ import { Store, Select } from "@ngxs/store";
 import { Observable } from "rxjs";
 import { finalize, map, tap, withLatestFrom } from "rxjs/operators";
 import { Membership, MembershipState } from '../states';
-import { App, CurrentMembership, CurrentMembershipState } from 'app/data';
+import { App, CurrentMembership, CurrentMembershipState } from '@libCommon';
 
 @Injectable()
 export class ContextGuard implements CanActivate {

@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, Output, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
 import { get, xor } from 'lodash';
-import { AssetDirectory, AssetElement, AssetElementFormat } from 'app/data';
+import { AssetDirectory, AssetElement, AssetElementFormat } from '@libCommon';
 import { AssetIconComponent } from '../asset-icon/asset-icon.component';
 
 interface AssetElementSelectable extends AssetElement {

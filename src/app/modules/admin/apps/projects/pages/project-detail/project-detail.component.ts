@@ -4,7 +4,7 @@ import { ClearActive, Reset, SetActive } from '@ngxs-labs/entity-state';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
-import { ProjectActive, ProjectState } from 'app/data';
+import { ProjectActive, ProjectState } from '@libCommon';
 
 @Component({
   selector: 'project-detail',

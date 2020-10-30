@@ -5,7 +5,7 @@ import { EntityActionType, ofEntityActionSuccessful, Reset } from '@ngxs-labs/en
 import { Component, OnDestroy } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Select, Actions, Store } from '@ngxs/store';
-import { Project, ProjectInvitation, ProjectInvitationState, ProjectMember, ProjectMembershipState, ProjectState, ProjectUserState } from 'app/data';
+import { Project, ProjectInvitation, ProjectInvitationState, ProjectMember, ProjectMembershipState, ProjectState, ProjectUserState } from '@libCommon';
 
 @Component({
   selector: 'project-edit',

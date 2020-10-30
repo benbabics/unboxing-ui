@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Store, Actions } from '@ngxs/store';
 import { Component, OnDestroy } from '@angular/core';
-import { Project, ProjectState } from 'app/data';
+import { Project, ProjectState } from '@libCommon';
 import { ProjectFormView } from '../../components';
 import { Subject } from 'rxjs';
 

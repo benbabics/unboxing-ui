@@ -32,7 +32,7 @@ import {
   UiState,
   UiPreferencesState,
   UserState,
-} from './data/states';
+} from '@libCommon';
 import { PostMessageModule } from '@tekool/ngx-post-message-angular-9';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';

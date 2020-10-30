@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { AuthService } from './../../../core/auth/auth.service';
 import { TreoMockApi } from '@treo/lib/mock-api/mock-api.interfaces';
 import { TreoMockApiService } from '@treo/lib/mock-api/mock-api.service';
-import { CurrentMembershipState } from 'app/data';
+import { CurrentMembershipState } from '@libCommon';
 
 @Injectable({
   providedIn: 'root'

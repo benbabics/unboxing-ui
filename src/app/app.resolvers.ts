@@ -4,7 +4,7 @@ import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/r
 import { forkJoin, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Store } from '@ngxs/store';
-import { Ui } from 'app/data';
+import { Ui } from '@libCommon';
 
 @Injectable({
   providedIn: 'root'

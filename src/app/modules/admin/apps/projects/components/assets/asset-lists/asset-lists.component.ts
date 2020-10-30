@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Store } from '@ngxs/store';
-import { AssetDirectory, AssetDirectoryState, AssetElement, AssetElementFormat, AssetElementState } from 'app/data';
+import { AssetDirectory, AssetDirectoryState, AssetElement, AssetElementFormat, AssetElementState } from '@libCommon';
 
 @Component({
   selector: 'asset-lists',

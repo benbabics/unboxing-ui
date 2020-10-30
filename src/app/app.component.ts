@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { flatMap, tap, map } from 'rxjs/operators';
 import { Store, Actions, ofActionSuccessful } from '@ngxs/store';
 import { TreoConfigService } from '@treo/services/config/config.service';
-import { AppState, Auth, CurrentMembershipState, CurrentMembership, CurrentUser, Ui, UiPreferencesState } from 'app/data';
+import { AppState, Auth, CurrentMembershipState, CurrentMembership, CurrentUser, Ui, UiPreferencesState } from '@libCommon';
 
 @Component({
   selector: 'app-root',

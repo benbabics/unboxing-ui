@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { AssetDirectory, AssetElement, AssetElementFormat } from 'app/data';
+import { AssetDirectory, AssetElement, AssetElementFormat } from '@libCommon';
 import { get } from 'lodash';
 
 @Component({
