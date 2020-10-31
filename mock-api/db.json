@@ -57,6 +57,22 @@
       "projectId": "3",
       "senderId": 1,
       "id": 2
+    },
+    {
+      "role": "USER",
+      "token": "67336ff4-3ae7-4a54-936b-54fc7a714eea",
+      "email": "caspertheghost@example.com",
+      "projectId": "1",
+      "senderId": 1,
+      "id": 3
+    },
+    {
+      "role": "USER",
+      "token": "9c6271af-16b6-4cf5-aeed-6fcaab326c24",
+      "email": "dracula@example.com",
+      "projectId": "1",
+      "senderId": 1,
+      "id": 4
     }
   ],
   "memberships": [
@@ -1378,8 +1394,7 @@
     {
       "id": 2,
       "attributes": {
-        "galleries": [
-        ]
+        "galleries": []
       },
       "projectId": 2,
       "themeId": "theme-default",
@@ -1389,8 +1404,7 @@
       "id": 3,
       "attributes": {
         "title": "My Video Trailers Title",
-        "trailers": [
-        ]
+        "trailers": []
       },
       "projectId": 2,
       "themeId": "theme-default",

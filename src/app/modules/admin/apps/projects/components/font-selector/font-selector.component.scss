@@ -1,0 +1,14 @@
+:host {
+  ::ng-deep {
+    .mat-form-field-flex {
+      padding-right: 0 !important;
+    }
+    .mat-form-field-prefix {
+      width: 100%;
+    }
+    
+    img {
+      width: auto;
+    }
+  }
+}

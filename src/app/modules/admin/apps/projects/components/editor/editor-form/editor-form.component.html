@@ -23,6 +23,10 @@
       </ng-template>
         
       <ng-template ngSwitchCase="options-font">
+        <font-selector
+          [fontId]="form.value[ field.id ]"
+          (onSelection)="handleSelectedFont( $event, field.id )">
+        </font-selector>
       </ng-template>
 
       <ng-template ngSwitchCase="iterable">
