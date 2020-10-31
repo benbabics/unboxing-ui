@@ -38,6 +38,7 @@ const routes: Routes = [
           {
             path: "",
             data: { breadcrumb: "View" },
+            canDeactivate: [ ProjectFormGuard, ],
             component: ProjectShowComponent,
           },
           {
