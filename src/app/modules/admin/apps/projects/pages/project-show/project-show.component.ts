@@ -1,20 +1,24 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { TreoMediaWatcherService } from '@treo/services/media-watcher';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { ComponentCanDeactivate } from '../../guards';
+import { EditorInspectorComponent } from '../../components/editor/editor-inspector/editor-inspector.component';
 
 @Component({
   selector: 'project-show',
   templateUrl: './project-show.component.html',
   styleUrls: ['./project-show.component.scss']
 })
-export class ProjectShowComponent implements OnInit, OnDestroy {
+export class ProjectShowComponent implements OnInit, OnDestroy, ComponentCanDeactivate {
 
   private _destroy$ = new Subject();
   
   drawerOpened: boolean;
   drawerMode: 'over' | 'side';
   scrollMode: 'inner' | 'drawer-content';
+
+  @ViewChild('editorInspector', { static: false }) editorInspector: EditorInspectorComponent;
 
   constructor(
     private _treoMediaWatcherService: TreoMediaWatcherService,
@@ -42,5 +46,9 @@ export class ProjectShowComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this._destroy$.next( true );
     this._destroy$.complete();
+  }
+
+  canDeactivate(): Observable<boolean> {
+    return this.editorInspector.canDeactivate();
   }
 }

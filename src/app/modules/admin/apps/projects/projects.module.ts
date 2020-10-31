@@ -48,20 +48,22 @@ import {
   ProjectShowComponent,
 } from './pages';
 import { 
-  UserAvatarComponent,
-  RoleBadgeComponent,
+  AssetListsComponent,
+  AssetListComponent,
+  AssetIconComponent,
   EditorNavigatorComponent,
-  EditorContentComponent
+  EditorContentComponent,
+  EditorInspectorComponent,
+  EditorFormComponent,
+  EditorNavigationComponent,
+  FontSelectorComponent,
+  RoleBadgeComponent,
+  UserAvatarComponent,
 } from './components';
+import {
+  EditorChangeHistoryService,
+} from './services';
 import { TagIconPipe } from './pipes';
-import { EditorInspectorComponent } from './components/editor/editor-inspector/editor-inspector.component';
-import { EditorFormComponent } from './components/editor/editor-form/editor-form.component';
-import { AssetListsComponent } from './components/assets/asset-lists/asset-lists.component';
-import { AssetListComponent } from './components/assets/asset-list/asset-list.component';
-import { AssetIconComponent } from './components/assets/asset-icon/asset-icon.component';
-import { EditorNavigationComponent } from './components/editor/editor-navigation/editor-navigation.component';
-import { FontSelectorComponent } from './components/font-selector/font-selector.component';
-
 
 @NgModule({
   imports: [
@@ -131,6 +133,7 @@ import { FontSelectorComponent } from './components/font-selector/font-selector.
         verticalPosition:   'bottom',
       }
     },
+    EditorChangeHistoryService,
   ]
 })
 export class ProjectsModule { }

@@ -5,3 +5,15 @@
     (onAttributesUpdate)="handleSlideAttributesUpdate( $event )">
   </editor-form>
 </ng-container>
+
+
+<!-- Save Changes Modal -->
+<ng-template #dialogSaveChanges>
+  <h2 mat-dialog-title>Discard Changes?</h2>
+
+  <mat-dialog-content class="mat-typography">
+    <p>Your changes have not been saved. Are sure you want to leave?</p>
+    <button mat-button [mat-dialog-close]="true" class="mr-1">Yes</button>
+    <button mat-button [mat-dialog-close]="false" cdkFocusInitial color="primary">No</button>
+  </mat-dialog-content>
+</ng-template>

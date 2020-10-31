@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { get } from 'lodash';
 import { Store } from '@ngxs/store';
+import { MatDialog } from '@angular/material/dialog';
 import { UpdateActive } from '@ngxs-labs/entity-state';
-import { Observable, Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { filter, takeUntil, tap } from 'rxjs/operators';
+import { ComponentCanDeactivate } from '../../../guards';
+import { EditorChangeHistoryService } from '../../../services';
 import { Slide, SlideState, ThemeState, ThemeTemplate } from '@libCommon';
 
 @Component({
@@ -11,12 +14,14 @@ import { Slide, SlideState, ThemeState, ThemeTemplate } from '@libCommon';
   templateUrl: './editor-inspector.component.html',
   styleUrls: ['./editor-inspector.component.scss']
 })
-export class EditorInspectorComponent {
+export class EditorInspectorComponent implements ComponentCanDeactivate {
 
   private _destroy$ = new Subject<boolean>();
 
   slide: Slide;
   template: ThemeTemplate;
+
+  @ViewChild('dialogSaveChanges') dialogSaveChangesRef: TemplateRef<any>;
 
   get attributes(): any {
     return { ...this.slide.attributes };
@@ -28,6 +33,8 @@ export class EditorInspectorComponent {
 
   constructor(
     private _store: Store,
+    private _dialog: MatDialog,
+    private _history: EditorChangeHistoryService,
   ) {
     this._store.select( SlideState.active )
       .pipe(
@@ -47,6 +54,15 @@ export class EditorInspectorComponent {
     this._destroy$.unsubscribe();
   }
 
+  canDeactivate(): Observable<boolean> {
+    if ( this._history.totalOfChanges > 0 ) {
+      const dialogRef = this._dialog.open( this.dialogSaveChangesRef );
+      return dialogRef.afterClosed();
+    }
+
+    return of( true );
+  }
+  
   handleSlideAttributesUpdate(attributes: Slide): Observable<any> {
     return this._store.dispatch( new UpdateActive(SlideState, { attributes }) );
   }
