@@ -2,19 +2,23 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { takeUntil, tap, map } from 'rxjs/operators';
 import { EntityActionType, ofEntityActionSuccessful, Reset } from '@ngxs-labs/entity-state';
-import { Component, OnDestroy } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
+import { Observable, of, Subject } from 'rxjs';
 import { Select, Actions, Store } from '@ngxs/store';
 import { Project, ProjectInvitation, ProjectInvitationState, ProjectMember, ProjectMembershipState, ProjectState, ProjectUserState } from '@libCommon';
+import { ComponentCanDeactivate } from '../../guards';
+import { ProjectFormComponent } from '../../components';
 
 @Component({
   selector: 'project-edit',
   templateUrl: './project-edit.component.html',
   styleUrls: ['./project-edit.component.scss']
 })
-export class ProjectEditComponent implements OnDestroy {
+export class ProjectEditComponent implements OnDestroy, ComponentCanDeactivate {
 
   private _destroy$ = new Subject();
+
+  @ViewChild('projectForm', { static: false }) projectForm: ProjectFormComponent;
   
   @Select( ProjectState.active ) project$: Observable<Project>;
 
@@ -56,5 +60,9 @@ export class ProjectEditComponent implements OnDestroy {
       new Reset( ProjectInvitationState ),
       new Reset( ProjectMembershipState ),
     ]);
+  }
+
+  canDeactivate(): Observable<boolean> {
+    return this.projectForm.canDeactivate();
   }
 }

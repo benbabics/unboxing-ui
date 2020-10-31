@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
 import { FormGroup, FormControl, Validators, AbstractControl, FormArray } from '@angular/forms';
 import { debounce, snakeCase, get, pick, values, chain, last } from 'lodash';
 import { Subject, BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
@@ -9,6 +9,8 @@ import { CurrentMembershipState, Project, ProjectInvitation, ProjectInvitationSt
 import { EntityActionType, ofEntityActionSuccessful, SetLoading } from '@ngxs-labs/entity-state';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ProjectSlugValidator } from '../../validators';
+import { ComponentCanDeactivate } from '../../guards';
+import { MatDialog } from '@angular/material/dialog';
 
 export enum ProjectFormView {
   Wizard   = "PROJECT_VIEW_WIZARD",
@@ -21,7 +23,7 @@ export enum ProjectFormView {
   styleUrls: ['./project-form.component.scss'],
   providers: [ ProjectSlugValidator ],
 })
-export class ProjectFormComponent implements OnChanges, OnDestroy {
+export class ProjectFormComponent implements OnChanges, OnDestroy, ComponentCanDeactivate {
 
   private _destroy$ = new Subject();
   private _currentValueSlug: string;
@@ -45,8 +47,10 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
   @Output() onCancel = new EventEmitter<void>();
   @Output() onSumbit = new EventEmitter<Project>();
 
-  @Select(ProjectMemberState.entities) members$: Observable<ProjectMember[]>;
+  @Select( ProjectMemberState.entities ) members$: Observable<ProjectMember[]>;
   @Select( ProjectInvitationState.entities ) invitations$: Observable<ProjectInvitation[]>;
+
+  @ViewChild( 'dialogSaveChanges' ) dialogSaveChangesRef: TemplateRef<any>;
 
   get controlBrandId(): AbstractControl {
     return get(this.manageProjectForm, 'controls.section1.controls.brandId');
@@ -70,6 +74,7 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
     actions$: Actions,
     snackBar: MatSnackBar,
     private _store: Store,
+    private _dialog: MatDialog,
     private _slugValidator: ProjectSlugValidator,
   ) {
     this._store.dispatch(
@@ -231,6 +236,15 @@ export class ProjectFormComponent implements OnChanges, OnDestroy {
         tap(() => this.onSumbit.emit( payload ))
       )
       .subscribe();
+  }
+
+  canDeactivate(): Observable<boolean> {
+    if ( this.manageProjectForm.dirty ) {
+      const dialogRef = this._dialog.open( this.dialogSaveChangesRef );
+      return dialogRef.afterClosed();
+    }
+
+    return of( true );
   }
 
   private _buildForm(): void {

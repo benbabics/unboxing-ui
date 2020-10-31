@@ -3,10 +3,10 @@ import { ofEntityActionSuccessful, EntityActionType } from '@ngxs-labs/entity-st
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Store, Actions } from '@ngxs/store';
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { Project, ProjectState } from '@libCommon';
-import { ProjectFormView } from '../../components';
-import { Subject } from 'rxjs';
+import { ProjectFormComponent, ProjectFormView } from '../../components';
+import { Observable, Subject } from 'rxjs';
 
 @Component({
   selector: 'project-new',
@@ -20,6 +20,8 @@ export class ProjectNewComponent implements OnDestroy {
   ProjectFormView = ProjectFormView;
 
   activeView: ProjectFormView;
+
+  @ViewChild('projectForm', { static: false }) projectForm: ProjectFormComponent;
   
   constructor(
     actions$: Actions,
@@ -49,5 +51,9 @@ export class ProjectNewComponent implements OnDestroy {
   ngOnDestroy() {
     this._destroy$.next( true );
     this._destroy$.complete();
+  }
+
+  canDeactivate(): Observable<boolean> {
+    return this.projectForm.canDeactivate();
   }
 }
