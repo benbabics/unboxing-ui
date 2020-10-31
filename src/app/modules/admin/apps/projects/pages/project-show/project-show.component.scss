@@ -137,12 +137,22 @@
       }
     }
 
-    ::ng-deep .editor-navigation {
+    ::ng-deep .editor-navigation,
+    ::ng-deep .editor-history {
       @if ($is-dark) {
         background-color: rgba(39, 48, 63, .5);
       } @else {
-        border-bottom: 1px solid rgba(207, 216, 227, 1);
-        background-color: rgba(207, 216, 227, .5);
+        background-color: rgb(218, 224, 232);
+      }
+    }
+    ::ng-deep .editor-navigation {
+      @if ($is-dark == false) {
+        border-bottom: 1px solid rgb(207, 216, 227);
+      }
+    }
+    ::ng-deep .editor-history {
+      @if ($is-dark == false) {
+        border-top: 1px solid rgb(207, 216, 227);
       }
     }
   }
