@@ -1,0 +1,33 @@
+<div class="flex flex-col gt-xs:flex-row">
+  <mat-form-field class="flex-auto w-full">
+    <mat-label>Label</mat-label>
+
+    <mat-select 
+      matPrefix
+      panelClass="font-selector-panel"
+      [value]="selectedFont.id"
+      (selectionChange)="handleSelection( $event.value )">
+
+      <mat-select-trigger>
+        <ng-container *ngIf="selectedFont; else noFont">
+          <img src="/{{ selectedFont.thumbnail }}" [alt]="selectedFont.family" class="h-4" />
+        </ng-container>
+
+        <ng-template #noFont>
+          Default font
+        </ng-template>
+      </mat-select-trigger>
+
+      <mat-option [value]="null">
+        Default font
+      </mat-option>
+      
+        <mat-option *ngFor="let font of fonts" [value]="font.id">
+          <div class="flex items-center">
+            <img src="/{{ font.thumbnail }}" [alt]="font.family" class="h-4 w-auto" />
+          </div>
+        </mat-option>
+
+    </mat-select>
+  </mat-form-field>
+</div>

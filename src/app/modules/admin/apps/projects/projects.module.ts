@@ -60,6 +60,7 @@ import { AssetListsComponent } from './components/assets/asset-lists/asset-lists
 import { AssetListComponent } from './components/assets/asset-list/asset-list.component';
 import { AssetIconComponent } from './components/assets/asset-icon/asset-icon.component';
 import { EditorNavigationComponent } from './components/editor/editor-navigation/editor-navigation.component';
+import { FontSelectorComponent } from './components/font-selector/font-selector.component';
 
 
 @NgModule({
@@ -119,6 +120,7 @@ import { EditorNavigationComponent } from './components/editor/editor-navigation
     AssetListComponent,
     AssetIconComponent,
     EditorNavigationComponent,
+    FontSelectorComponent,
   ],
   providers: [
     { 
