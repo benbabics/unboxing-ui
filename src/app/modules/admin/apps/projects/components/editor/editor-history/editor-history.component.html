@@ -1,0 +1,37 @@
+<div class="flex items-center">
+  <mat-icon svgIcon="history" class="mr-2"></mat-icon>
+  {{ history.totalOfChanges | i18nPlural: {
+    '=1':    "# change",
+    'other': "# changes"
+  } }}
+  
+  <div class="ml-auto">
+    <button 
+      mat-button
+      class="p-2 min-w-0"
+      matTooltip="Undo"
+      [disabled]="!canUndo" 
+      (click)="handleUndo()">
+
+      <mat-icon 
+        matPrefix
+        svgIcon="undo"
+        class="icon-size-20"
+        [class.text-primary]="canUndo"></mat-icon>
+    </button>
+
+    <button 
+      mat-button
+      class="p-2 min-w-0"
+      matTooltip="Redo"
+      [disabled]="!canRedo"
+      (click)="handleRedo()">
+
+      <mat-icon 
+        matPrefix
+        svgIcon="redo"
+        class="icon-size-20"
+        [class.text-primary]="canRedo"></mat-icon>
+    </button>
+  </div>
+</div>

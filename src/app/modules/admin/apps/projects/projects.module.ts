@@ -64,6 +64,7 @@ import {
   EditorChangeHistoryService,
 } from './services';
 import { TagIconPipe } from './pipes';
+import { EditorHistoryComponent } from './components/editor/editor-history/editor-history.component';
 
 @NgModule({
   imports: [
@@ -123,6 +124,7 @@ import { TagIconPipe } from './pipes';
     AssetIconComponent,
     EditorNavigationComponent,
     FontSelectorComponent,
+    EditorHistoryComponent,
   ],
   providers: [
     { 
