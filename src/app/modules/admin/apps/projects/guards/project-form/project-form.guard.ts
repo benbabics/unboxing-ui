@@ -1,18 +1,23 @@
 import { Injectable } from '@angular/core';
-import { CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
+
+export interface ComponentCanDeactivate {
+  canDeactivate: () => Observable<boolean>;
+}
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProjectFormGuard implements CanDeactivate<unknown> {
+export class ProjectFormGuard implements CanDeactivate<ComponentCanDeactivate> {
 
   canDeactivate(
-    component: unknown,
+    component: ComponentCanDeactivate,
     currentRoute: ActivatedRouteSnapshot,
     currentState: RouterStateSnapshot,
-    nextState?: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    nextState?: RouterStateSnapshot
+  ): Observable<boolean> {
 
-    return true;
+    return component.canDeactivate();
   }
 }
