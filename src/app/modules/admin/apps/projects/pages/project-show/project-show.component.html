@@ -15,15 +15,30 @@
       <div class="navigator-wrapper">
         <div class="header">
           <editor-navigator>
-            <button [matMenuTriggerFor]="actionsMenu" class="ml-2 flex items-center" type="button">
-              <mat-icon class="icon-size-18" svgIcon="more_vert"></mat-icon>
+            <!-- Save button -->
+            <button 
+              class="w-8 h-8 min-h-0"
+              mat-icon-button 
+              [disabled]="false"
+              matTooltip="Save Project"
+              matBadgeSize="small"
+              matBadgeColor="accent"
+              [matBadge]="totalOfChanges"
+              [matBadgeHidden]="totalOfChanges == 0"
+              (click)="handleSaveProject()">
+
+              <mat-icon svgIcon="save" class="icon-size-20"></mat-icon>
             </button>
-            
-            <mat-menu #actionsMenu="matMenu">
-              <button mat-menu-item routerLink="/projects">
-                <span>Exit</span>
-              </button>
-            </mat-menu>
+
+            <!-- Exit button -->
+            <button
+              class="w-8 h-8 min-h-0"
+              mat-icon-button
+              matTooltip="Exit"
+              routerLink="/projects">
+
+              <mat-icon svgIcon="cancel" class="icon-size-20"></mat-icon>
+            </button>
           </editor-navigator>
         </div>
         
@@ -33,8 +48,8 @@
       </div>
 
       <div class="inspector-hitbox" (click)="matDrawer.toggle()">
-        <mat-icon class="icon-size-18 transform rotate-90 mb-2" svgIcon="tune"></mat-icon>
-        Inspector
+        <mat-icon class="icon-size-18 transform rotate-90 mb-2 " svgIcon="tune"></mat-icon>
+        <span class="uppercase">Page Inspector</span>
       </div>
     </mat-drawer-content>
     
@@ -48,7 +63,7 @@
     <button 
       class="absolute right-0 mt-1 mr-1"
       mat-icon-button
-      matTooltip="Hide Inspector"
+      matTooltip="Hide Page Inspector"
       (click)="matDrawer.close()">
 
       <mat-icon svgIcon="close" class="icon-size-14"></mat-icon>
