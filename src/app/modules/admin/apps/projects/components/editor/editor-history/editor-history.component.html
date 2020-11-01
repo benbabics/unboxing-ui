@@ -1,11 +1,11 @@
 <div class="flex items-center">
   <div class="flex items-center">
-    <mat-icon svgIcon="history" class="mr-2"></mat-icon>
+    <mat-icon svgIcon="history" class="mr-1"></mat-icon>
+    <span class="mr-1 font-bold text-secondary">Page History:</span>
     {{ history.changes.index | i18nPlural: {
       '=1':    "# change",
       'other': "# changes"
     } }}
-    <span class="ml-1 text-secondary">for this page</span>
   </div>
   
   <div class="ml-auto">

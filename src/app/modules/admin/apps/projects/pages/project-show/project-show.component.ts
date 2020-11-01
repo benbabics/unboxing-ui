@@ -4,6 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ComponentCanDeactivate } from '../../guards';
 import { EditorInspectorComponent } from '../../components/editor/editor-inspector/editor-inspector.component';
+import { EditorChangeHistoryService } from 'app/modules/admin/apps/projects/services';
 
 @Component({
   selector: 'project-show',
@@ -20,7 +21,12 @@ export class ProjectShowComponent implements OnInit, OnDestroy, ComponentCanDeac
 
   @ViewChild('editorInspector', { static: false }) editorInspector: EditorInspectorComponent;
 
+  get totalOfChanges(): number {
+    return this._history.totalOfChanges;
+  }
+
   constructor(
+    private _history: EditorChangeHistoryService,
     private _treoMediaWatcherService: TreoMediaWatcherService,
   ) {
     this.drawerOpened = true;
@@ -50,5 +56,9 @@ export class ProjectShowComponent implements OnInit, OnDestroy, ComponentCanDeac
 
   canDeactivate(): Observable<boolean> {
     return this.editorInspector.canDeactivate();
+  }
+
+  handleSaveProject(): void {
+    console.log('* handleSaveProject');
   }
 }
