@@ -1,9 +1,12 @@
 <div class="flex items-center">
-  <mat-icon svgIcon="history" class="mr-2"></mat-icon>
-  {{ history.totalOfChanges | i18nPlural: {
-    '=1':    "# change",
-    'other': "# changes"
-  } }}
+  <div class="flex items-center">
+    <mat-icon svgIcon="history" class="mr-2"></mat-icon>
+    {{ history.changes.index | i18nPlural: {
+      '=1':    "# change",
+      'other': "# changes"
+    } }}
+    <span class="ml-1 text-secondary">for this page</span>
+  </div>
   
   <div class="ml-auto">
     <button 
