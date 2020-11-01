@@ -35,19 +35,19 @@ export class Stack {
   }
 
   get item(): any {
-    return this.stack[this._index];
+    return this.stack[ this._index ];
   }
   get itemPrevious(): any {
-    return this.stack[this.indexPrevious];
+    return this.stack[ this.indexPrevious ];
   }
   get itemNext(): any {
-    return this.stack[this.indexNext];
+    return this.stack[ this.indexNext ];
   }
   get itemFirst(): any {
-    return this.stack[this.indexFirst];
+    return this.stack[ this.indexFirst ];
   }
   get itemLast(): any {
-    return this.stack[this.indexLast];
+    return this.stack[ this.indexLast ];
   }
   
   constructor(
@@ -60,19 +60,19 @@ export class Stack {
 
   previous(): void {
     this._index = this.indexPrevious;
-    this.onChangeIndex$.emit(this._index);
+    this.onChangeIndex$.emit( this._index );
   }
   next(): void {
     this._index = this.indexNext;
-    this.onChangeIndex$.emit(this._index);
+    this.onChangeIndex$.emit( this._index );
   }
 
   add(item: any): void {
-    this.stack.splice(this.index + 1, this.stack.length, item);
+    this.stack.splice( this.index + 1, this.stack.length, item );
     this.next();
   }
 
   remove(index: number): void {
-    this.stack.splice(index);
+    this.stack.splice( index );
   }
 }

@@ -22,6 +22,13 @@ export class EditorChangeHistoryService {
     return [ ...this._history.entries() ]
       .map(([ id, changes ]) => ({ id, changes }));
   }
+
+  get hasPrevious(): boolean {
+    return this.catalog.some(({ changes }) => changes.hasPrevious);
+  }
+  get hasNext(): boolean {
+    return this.catalog.some(({ changes }) => changes.hasNext);
+  }
   
   constructor(
     actions$: Actions,
@@ -41,7 +48,7 @@ export class EditorChangeHistoryService {
       .pipe(
         ofEntityActionSuccessful( SlideState, EntityActionType.UpdateActive ),
         withLatestFrom( store.select(SlideState.activeId) ),
-        debounceTime( 500 ),
+        debounceTime( 250 ),
         filter(([{ payload }]) => payload != this.changes.item),
         tap(([{ payload }, id]) => this._history.get( `${ id }` ).add( payload )), // TODO: deserialize payload ids to string
       )
@@ -60,12 +67,12 @@ export class EditorChangeHistoryService {
 
   undo(): void {
     this.changes.previous();
-    this.updateActiveSlide(this.changes.item);
+    this.updateActiveSlide( this.changes.item );
   }
 
   redo(): void {
     this.changes.next();
-    this.updateActiveSlide(this.changes.item);
+    this.updateActiveSlide( this.changes.item );
   }
 
   private updateActiveSlide(slide: Slide): void {
