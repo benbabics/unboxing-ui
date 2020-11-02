@@ -84,6 +84,11 @@ export class ProjectActiveState {
     ]);
   }
 
+  @Action( ProjectActive.SaveAssociatedSlides )
+  saveAssociatedSlides(ctx: StateContext<ProjectActiveStateModel>) {
+    console.log('* saveAssociatedSlides', ctx);
+  }
+
   ngxsOnInit(ctx: StateContext<ProjectActiveStateModel>) {
     this._actions$.pipe(
       ofEntityActionSuccessful( ProjectState, EntityActionType.SetActive ),

@@ -25,4 +25,8 @@ export namespace ProjectActive {
   export class ClearAssociations {
     static readonly type = '[ProjectActive] ClearAssociations';
   }
+
+  export class SaveAssociatedSlides {
+    static readonly type = '[ProjectActive] SaveAssociatedSlides';
+  }
 }
