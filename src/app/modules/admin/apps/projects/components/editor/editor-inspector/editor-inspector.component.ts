@@ -1,25 +1,26 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { get } from 'lodash';
 import { Store } from '@ngxs/store';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateActive } from '@ngxs-labs/entity-state';
 import { Observable, of, Subject } from 'rxjs';
-import { filter, takeUntil, tap } from 'rxjs/operators';
+import { delay, filter, flatMap, map, mapTo, take, takeUntil, tap } from 'rxjs/operators';
 import { ComponentCanDeactivate } from '../../../guards';
 import { EditorChangeHistoryService } from '../../../services';
-import { Slide, SlideState, ThemeState, ThemeTemplate } from '@libCommon';
+import { ProjectActive, Slide, SlideState, ThemeState, ThemeTemplate } from '@libCommon';
 
 @Component({
   selector: 'editor-inspector',
   templateUrl: './editor-inspector.component.html',
   styleUrls: ['./editor-inspector.component.scss']
 })
-export class EditorInspectorComponent implements ComponentCanDeactivate {
+export class EditorInspectorComponent implements OnInit, OnDestroy, ComponentCanDeactivate {
 
   private _destroy$ = new Subject<boolean>();
 
   slide: Slide;
   template: ThemeTemplate;
+  actionDialogSaveChanges = new Subject();
 
   @ViewChild('dialogSaveChanges') dialogSaveChangesRef: TemplateRef<any>;
 
@@ -49,6 +50,10 @@ export class EditorInspectorComponent implements ComponentCanDeactivate {
       .subscribe();
   }
 
+  ngOnInit() {
+    setTimeout(() => this._history.reset());
+  }
+  
   ngOnDestroy() {
     this._destroy$.next( true );
     this._destroy$.unsubscribe();
@@ -57,6 +62,22 @@ export class EditorInspectorComponent implements ComponentCanDeactivate {
   canDeactivate(): Observable<boolean> {
     if ( this._history.totalOfChanges > 0 ) {
       const dialogRef = this._dialog.open( this.dialogSaveChangesRef );
+
+      this.actionDialogSaveChanges.pipe(
+        take( 1 ),
+        flatMap(action => {
+          if ( action === "SAVE" ) {
+            return this._store.dispatch( new ProjectActive.SaveAssociatedSlides() )
+              .pipe( mapTo(action) );
+          }
+
+          return of( action );
+        }),
+        map(action => action !== "CANCEL"),
+        tap(result => dialogRef.close( result )),
+      )
+      .subscribe();
+
       return dialogRef.afterClosed();
     }
 
