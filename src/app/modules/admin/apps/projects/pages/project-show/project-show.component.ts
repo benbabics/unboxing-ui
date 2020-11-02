@@ -60,5 +60,6 @@ export class ProjectShowComponent implements OnInit, OnDestroy, ComponentCanDeac
 
   handleSaveProject(): void {
     console.log('* handleSaveProject');
+    this._history.reset();
   }
 }
