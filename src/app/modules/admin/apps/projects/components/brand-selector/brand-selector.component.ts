@@ -1,7 +1,7 @@
 import { Component, OnDestroy, Input, Output, EventEmitter, ContentChild, TemplateRef } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subject, Observable } from 'rxjs';
-import { filter, takeUntil, tap } from 'rxjs/operators';
+import { filter, map, takeUntil, tap } from 'rxjs/operators';
 import { Store } from '@ngxs/store';
 import { Brand, BrandState } from '@libCommon';
 
@@ -56,7 +56,10 @@ export class BrandSelectorComponent implements OnDestroy {
     this.brands$ = this._store.select( BrandState.sortedEntities )
       .pipe(
         filter((brands: Brand[]) => brands.length > 0),
-        tap(([{ id }]) => this.allowDefaultValue && this.handleUpdateBrand( id )),
+        // TODO: deserialize payload ids to string
+        map(brands => brands.map(brand => ({ ...brands, id: `${ brand.id }` }))),
+        tap(([{ id }]) => this.allowDefaultValue && this.handleUpdateBrand( `${id}` )),
+        map(brands => <any[]>brands)
       );
 
     const entities = this._store.selectSnapshot( BrandState.entities );
