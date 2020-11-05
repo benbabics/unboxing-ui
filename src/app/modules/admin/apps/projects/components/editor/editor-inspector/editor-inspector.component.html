@@ -14,9 +14,15 @@
   <mat-dialog-content class="mat-typography">
     <mat-nav-list>
       <mat-list-item (click)="actionDialogSaveChanges.next( 'SAVE' )">
-        <mat-icon mat-list-icon>arrow_forward</mat-icon>
+        <mat-icon mat-list-icon>
+          <mat-icon
+            [class.animate-spin]="isLoading"
+            [svgIcon]="isLoading ? 'dripicons:loading' : 'arrow_forward'">
+          </mat-icon>
+        </mat-icon>
+
         <span mat-line>Exit and save progress</span>
-        <span mat-line class="text-secondary">Save your progress, then exit. This will overwrite any previous changes you have made.</span>
+        <span mat-line>Save your progress, then exit. This will overwrite any previous changes you have made.</span>
       </mat-list-item>
 
       <mat-list-item (click)="actionDialogSaveChanges.next( 'EXIT' )">
