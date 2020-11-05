@@ -17,6 +17,11 @@ export interface ProjectActive {
 
 export namespace ProjectActive {
 
+  export class SetLoading {
+    static readonly type = '[ProjectActive] SetLoading';
+    constructor( public isLoading: boolean ) { }
+  }
+  
   export class SetAssociations {
     static readonly type = '[ProjectActive] SetAssociations';
     constructor( public payload: ProjectAssociations ) { }

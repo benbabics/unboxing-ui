@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { get } from 'lodash';
-import { Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdateActive } from '@ngxs-labs/entity-state';
 import { Observable, of, Subject } from 'rxjs';
 import { delay, filter, flatMap, map, mapTo, take, takeUntil, tap } from 'rxjs/operators';
 import { ComponentCanDeactivate } from '../../../guards';
 import { EditorChangeHistoryService } from '../../../services';
-import { ProjectActive, Slide, SlideState, ThemeState, ThemeTemplate } from '@libCommon';
+import { ProjectActive, ProjectActiveState, Slide, SlideState, ThemeState, ThemeTemplate } from '@libCommon';
 
 @Component({
   selector: 'editor-inspector',
@@ -21,8 +21,9 @@ export class EditorInspectorComponent implements OnInit, OnDestroy, ComponentCan
   slide: Slide;
   template: ThemeTemplate;
   actionDialogSaveChanges = new Subject();
+  isLoading: boolean = false;
 
-  @ViewChild('dialogSaveChanges') dialogSaveChangesRef: TemplateRef<any>;
+  @ViewChild( 'dialogSaveChanges' ) dialogSaveChangesRef: TemplateRef<any>;
 
   get attributes(): any {
     return { ...this.slide.attributes };
@@ -46,6 +47,13 @@ export class EditorInspectorComponent implements OnInit, OnDestroy, ComponentCan
           const template = ThemeState.findTemplate( templateId );
           this.template  = this._store.selectSnapshot( template );
         }),
+      )
+      .subscribe();
+
+    this._store.select( ProjectActiveState.isLoading )
+      .pipe(
+        takeUntil( this._destroy$ ),
+        tap(isLoading => this.isLoading = isLoading),
       )
       .subscribe();
   }

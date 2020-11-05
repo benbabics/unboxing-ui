@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { ClearActive, CreateOrReplace, EntityActionType, ofEntityActionSuccessful, Reset, SetActive } from '@ngxs-labs/entity-state';
 import { Action, Actions, Selector, State, StateContext, Store } from '@ngxs/store';
 import { chain, get, values } from 'lodash';
-import { flatMap, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { delay, finalize, flatMap, tap } from 'rxjs/operators';
 import { ProjectState } from '../project.state';
 import { ProjectActive } from './active.action';
 import { AssetDirectoryState } from './asset-directory';
@@ -39,6 +40,11 @@ export interface ProjectActiveStateModel extends ProjectActive {
 export class ProjectActiveState {
 
   @Selector()
+  static isLoading({ isLoading }: ProjectActiveStateModel): boolean {
+    return isLoading;
+  }
+  
+  @Selector()
   static project(state: ProjectActiveStateModel) {
     return state.project;
   }
@@ -63,6 +69,11 @@ export class ProjectActiveState {
     private _actions$: Actions,
   ) { }
 
+  @Action( ProjectActive.SetLoading )
+  setLoading(ctx: StateContext<ProjectActiveStateModel>, { isLoading }: ProjectActive.SetLoading) {
+    ctx.patchState({ isLoading });
+  }
+  
   @Action( ProjectActive.SetAssociations )
   setAssociations(ctx: StateContext<ProjectActiveStateModel>, { payload }: ProjectActive.SetAssociations) {
     ctx.dispatch([
@@ -86,7 +97,12 @@ export class ProjectActiveState {
 
   @Action( ProjectActive.SaveAssociatedSlides )
   saveAssociatedSlides(ctx: StateContext<ProjectActiveStateModel>) {
-    console.log('* saveAssociatedSlides', ctx);
+    this.toggleLoading( true );
+    
+    return of({}).pipe(
+      delay( 2000 ),
+      finalize(() => this.toggleLoading( false )),
+    );
   }
 
   ngxsOnInit(ctx: StateContext<ProjectActiveStateModel>) {
@@ -108,5 +124,9 @@ export class ProjectActiveState {
       })),
     )
     .subscribe();
+  }
+
+  private toggleLoading(isLoading: boolean): void {
+    this._store.dispatch( new ProjectActive.SetLoading(isLoading) );
   }
 }
