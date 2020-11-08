@@ -5,7 +5,7 @@
     <mat-select 
       matPrefix
       panelClass="font-selector-panel"
-      [value]="selectedFont.id"
+      [value]="selectedFont?.id || ''"
       (selectionChange)="handleSelection( $event.value )">
 
       <mat-select-trigger>
@@ -18,7 +18,7 @@
         </ng-template>
       </mat-select-trigger>
 
-      <mat-option [value]="null">
+      <mat-option [value]="''">
         Default font
       </mat-option>
       
