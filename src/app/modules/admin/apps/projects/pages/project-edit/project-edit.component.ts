@@ -49,7 +49,7 @@ export class ProjectEditComponent implements OnDestroy, ComponentCanDeactivate {
   }
   
   handleCancel(): void {
-    this._router.navigateByUrl( "../" );
+    this._router.navigateByUrl( "/projects" );
   }
 
   handleSubmit(project): void {
