@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { omit } from 'lodash';
+import { omit, uniqBy } from 'lodash';
 import { Store } from '@ngxs/store';
 import { flatMap, map, tap } from 'rxjs/operators';
 import { AuthService } from './../../../core/auth/auth.service';
@@ -35,19 +35,22 @@ export class ProjectMemberMockApi implements TreoMockApi {
         let params = new HttpParams();
         params = params.append( '_expand', 'user' );
 
-        const appendMembershipIds = projects =>
-          projects.forEach(({ membershipId }) => appendMembershipId( membershipId ));
+        const appendMembershipIds = projects => projects.forEach(({ membershipId }) => 
+          params = params.append('id', membershipId ));
 
-        const appendMembershipId = id =>
-          params = params.append( 'id', id );
+        const baseUrl = `/mock-api/projects/${ request.params.get('projectId') }`;
 
-        const projectId = request.params.get( 'projectId' );
-
-        return this._http.get<any[]>( `/mock-api/projects/${ projectId }/projectIds` )
+        return this._http.get<any[]>( `${ baseUrl }/projectIds` )
           .pipe(
-            tap(projects => appendMembershipIds( projects )),
-            flatMap(() => this._http.get<any[]>( `/mock-api/projects/${ projectId }/memberships`, { params } )),
+            flatMap(projects => {
+              if ( projects.length ) {
+                appendMembershipIds( projects );
+                return this._http.get<any[]>( `${ baseUrl }/memberships`, { params } )
+              }
+              return [];
+            }),
             map(members => members.map(member => omit( member, [ 'user.password' ] ))),
+            map(members => uniqBy( members, 'userId' )),
             map(payload => [ 200, payload ]),
           );
       });

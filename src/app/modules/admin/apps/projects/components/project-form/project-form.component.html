@@ -213,7 +213,7 @@
               </ng-container>
 
               <ng-template #emptyInvitations>
-                <div class="text-center">There aren&#39;t any pending invitations.</div>
+                There aren&#39;t any pending invitations.
               </ng-template>
             </div>
           </ng-container>
@@ -251,15 +251,21 @@
               </div>
             </div>
             
-            <div class="rounded-md border-solid border border-gray-300 divide-y divide-gray-300 shadow-md w-80">
-              <div *ngFor="let member of memberships" class="pl-4 pr-2 py-2 flex items-center">
-                <user-avatar [user]="member.user" class="mr-3"></user-avatar>
-                <span class="truncate">{{ member.user.firstname }} {{ member.user.lastname }}</span>
-                <button mat-icon-button (click)="handleRemoveMember( member.id )" type="button" class="ml-auto">
-                  <mat-icon svgIcon="delete"></mat-icon>
-                </button>
+            <ng-container *ngIf="memberships.length; else emptyMemberships">
+              <div class="rounded-md border-solid border border-gray-300 divide-y divide-gray-300 shadow-md w-80">
+                <div *ngFor="let member of memberships" class="pl-4 pr-2 py-2 flex items-center">
+                  <user-avatar [user]="member.user" class="mr-3"></user-avatar>
+                  <span class="truncate">{{ member.user.firstname }} {{ member.user.lastname }}</span>
+                  <button mat-icon-button (click)="handleRemoveMember( member.id )" type="button" class="ml-auto">
+                    <mat-icon svgIcon="delete"></mat-icon>
+                  </button>
+                </div>
               </div>
-            </div>
+            </ng-container>
+
+            <ng-template #emptyMemberships>
+              There aren&#39;t any memberships.
+            </ng-template>
           </ng-container>
         </div>
       </div>
