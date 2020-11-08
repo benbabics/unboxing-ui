@@ -16,6 +16,19 @@
   }
 }
 
+.animate-spin {
+  animation: spin 1s linear infinite;
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
 
 // -----------------------------------------------------------------------------------------------------
 // @ Theming
@@ -30,4 +43,11 @@
   .mat-simple-snackbar-action {
     color: map-get($primary, default);
   }
+
+  .font-selector-option {
+    @if ($is-dark) {
+      filter: invert(1);
+    }
+  }
 }
+
