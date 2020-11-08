@@ -1382,7 +1382,7 @@
       "templateId": "videos"
     },
     {
-      "id": 1,
+      "id": 4,
       "attributes": {
         "title": "My Landing Title",
         "titleFont": "bangers"
@@ -1392,7 +1392,7 @@
       "templateId": "landing"
     },
     {
-      "id": 2,
+      "id": 5,
       "attributes": {
         "galleries": []
       },
@@ -1401,7 +1401,7 @@
       "templateId": "photos"
     },
     {
-      "id": 3,
+      "id": 6,
       "attributes": {
         "title": "My Video Trailers Title",
         "trailers": []
@@ -1411,7 +1411,7 @@
       "templateId": "videos"
     },
     {
-      "id": 1,
+      "id": 7,
       "attributes": {
         "title": "My Landing Title",
         "titleFont": "bangers"
@@ -1421,7 +1421,7 @@
       "templateId": "landing"
     },
     {
-      "id": 2,
+      "id": 8,
       "attributes": {
         "galleries": []
       },
@@ -1430,7 +1430,7 @@
       "templateId": "photos"
     },
     {
-      "id": 3,
+      "id": 9,
       "attributes": {
         "title": "My Video Trailers Title",
         "trailers": []
