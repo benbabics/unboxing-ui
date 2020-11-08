@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Store } from '@ngxs/store';
-import { map } from 'rxjs/operators';
+import { delay, flatMap, map } from 'rxjs/operators';
 import { AuthService } from './../../../core/auth/auth.service';
 import { TreoMockApi } from '@treo/lib/mock-api/mock-api.interfaces';
 import { TreoMockApiService } from '@treo/lib/mock-api/mock-api.service';
 import { CurrentMembershipState, Project } from '@libCommon';
+import { forkJoin } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -77,8 +78,18 @@ export class ProjectMockApi implements TreoMockApi {
         
         const projectId = request.params.get( 'projectId' );
         request.body.id = projectId;
-        return this._http.patch( `/mock-api/projects/${ projectId }`, request.body )
-          .pipe(map(project => [ 200, project ]));
+
+        const { invitation, member, slides=[], ...params } = request.body;
+        console.log('* mock invitation & member', invitation, member); // TODO: udpate Invitation & Member when updating Project
+        
+        return forkJoin([
+          this._http.patch( `/mock-api/projects/${ projectId }`, params ),
+          ...slides.map(slide => this._http.patch( `/mock-api/slides/${ slide.id }`, slide )),
+        ])
+        .pipe(
+          delay( 500 ),
+          map(([ project ]) => [ 200, project ]),
+        );
       });
   }
 }
