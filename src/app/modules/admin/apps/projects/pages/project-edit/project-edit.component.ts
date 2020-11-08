@@ -43,7 +43,6 @@ export class ProjectEditComponent implements OnDestroy, ComponentCanDeactivate {
       takeUntil( this._destroy$ ),
       map(({ payload }) => payload.data),
       tap(({ title }) => snackBar.open( `${ title } was updated successfully.`, `Ok` )),
-      tap(({ id }) => _router.navigate([ '/projects', id ])),
     )
     .subscribe();
   }
