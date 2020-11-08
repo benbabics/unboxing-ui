@@ -20,6 +20,7 @@
 
         <project-form
           #projectForm
+          [(activeView)]="activeView"
           (onCancel)="handleCancel()"
           (onSumbit)="handleSubmit( $event )">
         </project-form>

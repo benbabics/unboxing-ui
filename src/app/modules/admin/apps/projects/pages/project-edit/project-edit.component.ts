@@ -7,7 +7,7 @@ import { Observable, of, Subject } from 'rxjs';
 import { Select, Actions, Store } from '@ngxs/store';
 import { Project, ProjectInvitation, ProjectInvitationState, ProjectMember, ProjectMembershipState, ProjectState, ProjectUserState } from '@libCommon';
 import { ComponentCanDeactivate } from '../../guards';
-import { ProjectFormComponent } from '../../components';
+import { ProjectFormComponent, ProjectFormView } from '../../components';
 
 @Component({
   selector: 'project-edit',
@@ -17,6 +17,9 @@ import { ProjectFormComponent } from '../../components';
 export class ProjectEditComponent implements OnDestroy, ComponentCanDeactivate {
 
   private _destroy$ = new Subject();
+
+  ProjectFormView = ProjectFormView;
+  activeView: ProjectFormView;
 
   @ViewChild('projectForm', { static: false }) projectForm: ProjectFormComponent;
   
@@ -28,6 +31,8 @@ export class ProjectEditComponent implements OnDestroy, ComponentCanDeactivate {
     private _store: Store,
     private _router: Router,
   ) {
+    this.activeView = ProjectFormView.Update;
+
     this._store.dispatch([
       new ProjectMember.Index(),
       new ProjectInvitation.Index(),
