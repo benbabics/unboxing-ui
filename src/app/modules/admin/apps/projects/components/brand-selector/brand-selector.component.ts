@@ -57,7 +57,7 @@ export class BrandSelectorComponent implements OnDestroy {
       .pipe(
         filter((brands: Brand[]) => brands.length > 0),
         // TODO: deserialize payload ids to string
-        map(brands => brands.map(brand => ({ ...brands, id: `${ brand.id }` }))),
+        map(brands => brands.map(brand => ({ ...brand, id: `${ brand.id }` }))),
         tap(([{ id }]) => this.allowDefaultValue && this.handleUpdateBrand( `${id}` )),
         map(brands => <any[]>brands)
       );
