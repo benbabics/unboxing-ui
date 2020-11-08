@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Store } from '@ngxs/store';
-import { map } from 'rxjs/operators';
+import { flatMap, map, mapTo } from 'rxjs/operators';
 import { chain, isString, omit } from 'lodash';
 import { TreoMockApi } from '@treo/lib/mock-api/mock-api.interfaces';
 import { TreoMockApiService } from '@treo/lib/mock-api/mock-api.service';
 import { AuthService } from './../../../core/auth/auth.service';
-import { CurrentUserState, Project, User } from '@libCommon';
+import { CurrentMembershipState, CurrentUserState, Project, User } from '@libCommon';
+import { forkJoin, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -77,16 +78,36 @@ export class AccountMockApi implements TreoMockApi {
         if ( !this._authService.isAuthenticated ) {
           return [ 403, { error: "Unauthorized" } ];
         }
-
-        const accountId = request.params.get( 'accountId' );
-        request.body.themeId = "theme-default";
-
-        const { invitation, member, ...params } = request.body;
-        console.log('* mock invitation & member', invitation, member); // TODO: create Invitation & Member when creating Project
         
+        // Create Association: Membership
+        const membershipId = this._store.selectSnapshot( CurrentMembershipState.id );
+        const createMembership = id => this._http.post(`/mock-api/projects/${ id }/projectIds`, { membershipId });
+        
+        // Create Association: Slides
+        const createSlides = id => this._http.get( `/mock-api/themes/1` )
+          .pipe(
+            map((theme: any) => ({
+              themeId:   theme.slug,
+              templates: theme.templates.map(({ id }) => id),
+            })),
+            map(({ themeId, templates }: any) => templates.map(templateId => {
+              const payload = { themeId, templateId, attributes: {} };
+              return this._http.post( `/mock-api/projects/${ id }/slides`, payload );
+            })),
+            flatMap(slides$ => forkJoin( slides$ )),
+          );
+        
+        // Project Payload
+        request.body.themeId = "theme-default";
+        const { invitation, member, ...params } = request.body;
+        const accountId = request.params.get( 'accountId' );
+
+        // Create Project
         return this._http.post( `/mock-api/accounts/${ accountId }/projects`, params )
           .pipe(
-            map(brand => [ 200, brand ]),
+            flatMap((project: any) => createMembership( project.id ).pipe( mapTo( project ) )),
+            flatMap((project: any) => createSlides( project.id ).pipe( mapTo( project ) )),
+            map(project => [ 200, project ]),
           );
       });
 
