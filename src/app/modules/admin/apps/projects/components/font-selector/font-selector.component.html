@@ -10,7 +10,7 @@
 
       <mat-select-trigger>
         <ng-container *ngIf="selectedFont; else noFont">
-          <img src="/{{ selectedFont.thumbnail }}" [alt]="selectedFont.family" class="h-4" />
+          <img src="/{{ selectedFont.thumbnail }}" [alt]="selectedFont.family" class="h-4 font-selector-option" />
         </ng-container>
 
         <ng-template #noFont>
@@ -24,7 +24,7 @@
       
         <mat-option *ngFor="let font of fonts" [value]="font.id">
           <div class="flex items-center">
-            <img src="/{{ font.thumbnail }}" [alt]="font.family" class="h-4 w-auto" />
+            <img src="/{{ font.thumbnail }}" [alt]="font.family" class="h-4 w-auto font-selector-option" />
           </div>
         </mat-option>
 

@@ -4,7 +4,7 @@ import { Font, FontIds, FontMap } from '@projects/lib-common/src/public-api';
 @Component({
   selector: 'font-selector',
   templateUrl: './font-selector.component.html',
-  styleUrls: ['./font-selector.component.scss']
+  styleUrls: ['./font-selector.component.scss'],
 })
 export class FontSelectorComponent {
 
