@@ -34,7 +34,7 @@ export class ProjectNewComponent implements OnDestroy {
       ofEntityActionSuccessful( ProjectState, EntityActionType.Add ),
       takeUntil( this._destroy$ ),
       tap(({ payload }) => snackBar.open( `${ payload.title } was created successfully.`, `Ok` )),
-      tap(({ payload }) => _router.navigate([ '/projects', payload.id ])),
+      tap(({ payload }) => _router.navigate([ '/projects', payload.id, 'edit' ])),
     )
     .subscribe();
   }
