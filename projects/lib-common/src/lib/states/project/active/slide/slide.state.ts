@@ -23,40 +23,40 @@ export class SlideState extends EntityState<Slide> {
     return state => {
       const entities = state.project.projectActive.slide.entities;
       const slides: Slide[] = Object.values( entities );
-      return find(slides, { templateId });
+      return find( slides, { templateId } );
     }
   }
   
   get associations(): { projectId: string } {
     const getId = selector =>
-      get(this.store.selectSnapshot(selector), 'id');
+      get( this._store.selectSnapshot(selector), 'id' );
     
     return {
-      projectId: getId(ProjectState.activeId),
+      projectId: getId( ProjectState.activeId ),
     };
   }
   
   constructor(
-    private store: Store,
-    private http: HttpClient,
+    private _store: Store,
+    private _http: HttpClient,
   ) {
-    super(SlideState, 'id', IdStrategy.EntityIdGenerator);
+    super( SlideState, 'id', IdStrategy.EntityIdGenerator );
   }
 
-  @Action(Slide.Index)
+  @Action( Slide.Index )
   crudIndex(ctx: StateContext<SlideStateModel>) {
-    this.toggleLoading(true);
+    this._toggleLoading( true );
 
     // temporary until real API
     const { projectId } = this.associations;
-    return this.http.get<Slide[]>(`/api/projects/${projectId}/slides`)
+    return this._http.get<Slide[]>( `/api/projects/${projectId}/slides` )
       .pipe(
-        tap(slides => this.store.dispatch(new CreateOrReplace(SlideState, slides))),
-        tap(() => this.toggleLoading(false)),
+        tap(slides => this._store.dispatch( new CreateOrReplace(SlideState, slides) )),
+        tap(() => this._toggleLoading( false )),
       );
   }
 
-  private toggleLoading(isLoading: boolean): void {
-    this.store.dispatch(new SetLoading(SlideState, isLoading));
+  private _toggleLoading(isLoading: boolean): void {
+    this._store.dispatch( new SetLoading(SlideState, isLoading) );
   }
 }

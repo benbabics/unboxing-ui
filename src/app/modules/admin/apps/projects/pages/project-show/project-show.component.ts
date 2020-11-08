@@ -1,10 +1,13 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { TreoMediaWatcherService } from '@treo/services/media-watcher';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { flatMap, map, take, takeUntil, tap } from 'rxjs/operators';
 import { ComponentCanDeactivate } from '../../guards';
 import { EditorInspectorComponent } from '../../components/editor/editor-inspector/editor-inspector.component';
 import { EditorChangeHistoryService } from 'app/modules/admin/apps/projects/services';
+import { Actions, ofActionSuccessful, Store } from '@ngxs/store';
+import { ProjectActive, ProjectActiveState } from '@projects/lib-common/src/lib/states';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'project-show',
@@ -18,6 +21,7 @@ export class ProjectShowComponent implements OnInit, OnDestroy, ComponentCanDeac
   drawerOpened: boolean;
   drawerMode: 'over' | 'side';
   scrollMode: 'inner' | 'drawer-content';
+  isLoading: boolean = false;
 
   @ViewChild('editorInspector', { static: false }) editorInspector: EditorInspectorComponent;
 
@@ -26,12 +30,30 @@ export class ProjectShowComponent implements OnInit, OnDestroy, ComponentCanDeac
   }
 
   constructor(
+    actions$: Actions,
+    snackBar: MatSnackBar,
+    private _store: Store,
     private _history: EditorChangeHistoryService,
     private _treoMediaWatcherService: TreoMediaWatcherService,
   ) {
     this.drawerOpened = true;
     this.drawerMode = 'side';
     this.scrollMode = 'inner';
+
+    this._store.select( ProjectActiveState.isLoading )
+      .pipe(
+        takeUntil( this._destroy$ ),
+        tap(isLoading => this.isLoading = isLoading),
+      )
+      .subscribe();
+
+    actions$.pipe(
+      ofActionSuccessful( ProjectActive.SaveAssociatedSlides ),
+      takeUntil( this._destroy$ ),
+      flatMap(() => _store.selectOnce( ProjectActiveState.project )),
+      tap(({ title }) => snackBar.open( `${ title } was updated successfully.`, `Ok` )),
+    )
+    .subscribe();
   }
 
   ngOnInit() {
@@ -59,7 +81,9 @@ export class ProjectShowComponent implements OnInit, OnDestroy, ComponentCanDeac
   }
 
   handleSaveProject(): void {
-    console.log('* handleSaveProject');
-    this._history.reset();
+    this._store.dispatch( new ProjectActive.SaveAssociatedSlides() )
+      .toPromise()
+      .then(() => console.log('* Project Save completed'))
+      .then(() => this._history.reset());
   }
 }

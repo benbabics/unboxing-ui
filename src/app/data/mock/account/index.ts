@@ -80,8 +80,14 @@ export class AccountMockApi implements TreoMockApi {
 
         const accountId = request.params.get( 'accountId' );
         request.body.themeId = "theme-default";
-        return this._http.post( `/mock-api/accounts/${ accountId }/projects`, request.body)
-          .pipe(map(brand => [ 200, brand ]));
+
+        const { invitation, member, ...params } = request.body;
+        console.log('* mock invitation & member', invitation, member); // TODO: create Invitation & Member when creating Project
+        
+        return this._http.post( `/mock-api/accounts/${ accountId }/projects`, params )
+          .pipe(
+            map(brand => [ 200, brand ]),
+          );
       });
 
     /**

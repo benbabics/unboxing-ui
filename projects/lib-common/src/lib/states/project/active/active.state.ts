@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ClearActive, CreateOrReplace, EntityActionType, ofEntityActionSuccessful, Reset, SetActive } from '@ngxs-labs/entity-state';
 import { Action, Actions, Selector, State, StateContext, Store } from '@ngxs/store';
@@ -66,6 +67,7 @@ export class ProjectActiveState {
   
   constructor(
     private _store: Store,
+    private _http: HttpClient,
     private _actions$: Actions,
   ) { }
 
@@ -98,11 +100,12 @@ export class ProjectActiveState {
   @Action( ProjectActive.SaveAssociatedSlides )
   saveAssociatedSlides(ctx: StateContext<ProjectActiveStateModel>) {
     this.toggleLoading( true );
-    
-    return of({}).pipe(
-      delay( 2000 ),
-      finalize(() => this.toggleLoading( false )),
-    );
+
+    const slides    = this._store.selectSnapshot( SlideState.entities );
+    const projectId = this._store.selectSnapshot( ProjectActiveState.projectId );
+
+    return this._http.patch( `/api/projects/${ projectId }`, { slides } )
+      .pipe( finalize(() => this.toggleLoading( false )) );
   }
 
   ngxsOnInit(ctx: StateContext<ProjectActiveStateModel>) {
