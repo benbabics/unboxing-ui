@@ -3,96 +3,51 @@
   [ngxsForm]="formPath">
 
   <ng-container [ngSwitch]="activeView">
-    <ng-template [ngSwitchCase]="ProjectFormView.Wizard">
-      <ng-container *ngTemplateOutlet="formWizard"></ng-container>
+    <ng-template [ngSwitchCase]="ProjectFormView.Create">
+      <ng-container *ngTemplateOutlet="formCreate"></ng-container>
     </ng-template>
 
-    <ng-template [ngSwitchCase]="ProjectFormView.Advanced">
-      <ng-container *ngTemplateOutlet="formAdvanced"></ng-container>
+    <ng-template [ngSwitchCase]="ProjectFormView.Update">
+      <ng-container *ngTemplateOutlet="formUpdate"></ng-container>
     </ng-template>
   </ng-container>
 </form>
 
 
-<!-- Wizard Form -->
-<ng-template #formWizard>
-  <div class="p-4 bg-card shadow rounded overflow-hidden">
-    <mat-vertical-stepper 
-      linear
-      #verticalStepper
-      [formGroup]="manageProjectForm">
+<!-- Create Form -->
+<ng-template #formCreate>
+  <ng-container *ngIf="{
+    isValidatingSlug: isValidatingSlug$ | async
+  } as context">
+    <div class="flex flex-col mt-8 p-8 pb-5 bg-card rounded shadow overflow-hidden">
+      <p class="text-lg font-medium">Basic information</p>
+      <p class="text-secondary">Set your login preferences, help us personalize your experience and make big account
+        changes here</p>
 
-      <ng-container *ngIf="{
-        isValidatingSlug: isValidatingSlug$ | async
-      } as context">
-        <mat-step
-          #verticalStepperStep1
-          formGroupName="section1"
-          [stepControl]="manageProjectForm.get( 'section1' )">
+      <div class="mt-8">
+        <ng-container *ngTemplateOutlet="section1; context: context"></ng-container>
+      </div>
+    </div>
 
-          <ng-template matStepLabel>Basic information</ng-template>
-          <p class="my-6 font-medium">Set your login preferences, help us personalize your experience and make big account changes here</p>
+    <div class="flex items-center justify-end mt-10">
+      <button mat-button type="button" (click)="handleCancel()">
+        Cancel
+      </button>
 
-          <ng-container *ngTemplateOutlet="section1; context: context"></ng-container>
-
-          <div class="flex justify-end">
-            <button 
-              matStepperNext
-              class="px-8"
-              type="button"
-              mat-flat-button
-              color="primary"
-              [disabled]="verticalStepperStep1.stepControl.pristine || verticalStepperStep1.stepControl.invalid || context.isValidatingSlug">
-              Next
-            </button>
-          </div>
-        </mat-step>
-      </ng-container>
-
-      <mat-step 
-        #verticalStepperStep2
-        [stepControl]="manageProjectForm.get( 'section2' )">
-
-        <ng-template matStepLabel>People</ng-template>
-        <p class="my-6 font-medium">People here will get to know you with this information</p>
-
-        <div class="flex flex-col gt-xs:flex-row">
-          <ng-container *ngTemplateOutlet="section2"></ng-container>
-        </div>
-
-        <div class="flex justify-end">
-          <button 
-            class="px-8 mr-2"
-            type="button"
-            mat-flat-button
-            matStepperPrevious
-            color="accent">
-            Back
-          </button>
-          <button 
-            class="px-8"
-            color="primary"
-            type="button"
-            matStepperNext
-            mat-flat-button
-            [disabled]="isLoading"
-            (click)="handleSubmit()">
-            <mat-icon 
-              *ngIf="isLoading"
-              class="icon-size-18 animate-spin mr-3"
-              svgIcon="dripicons:loading">
-            </mat-icon>
-            Next
-          </button>
-        </div>
-      </mat-step>
-    </mat-vertical-stepper>
-  </div>
+      <button class="px-6 ml-3" color="primary" type="button" mat-flat-button
+        [disabled]="isLoading || manageProjectForm.pristine || manageProjectForm.invalid || context.isValidatingSlug"
+        (click)="handleSubmit()">
+        <mat-icon *ngIf="isLoading" class="icon-size-18 animate-spin mr-3" svgIcon="dripicons:loading">
+        </mat-icon>
+        Create
+      </button>
+    </div>
+  </ng-container>
 </ng-template>
 
 
-<!-- Advanced Form -->
-<ng-template #formAdvanced>
+<!-- Update Form -->
+<ng-template #formUpdate>
   <ng-container *ngIf="{
     isValidatingSlug: isValidatingSlug$ | async
   } as context">
@@ -134,7 +89,7 @@
           class="icon-size-18 animate-spin mr-3"
           svgIcon="dripicons:loading">
         </mat-icon>
-        Save
+        Update
       </button>
     </div>
   </ng-container>

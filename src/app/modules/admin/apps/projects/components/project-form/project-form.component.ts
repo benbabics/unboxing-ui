@@ -13,8 +13,8 @@ import { ComponentCanDeactivate } from '../../guards';
 import { MatDialog } from '@angular/material/dialog';
 
 export enum ProjectFormView {
-  Wizard   = "PROJECT_VIEW_WIZARD",
-  Advanced = "PROJECT_VIEW_ADVANCED",
+  Create = "PROJECT_FORM_CREATE",
+  Update = "PROJECT_FORM_UPDATE",
 }
 
 @Component({
@@ -27,6 +27,7 @@ export class ProjectFormComponent implements OnChanges, OnDestroy, ComponentCanD
 
   private _destroy$ = new Subject();
   private _currentValueSlug: string;
+  private _projectId: string;
 
   readonly formPath = "project.projectActive.manageProjectForm";
   
@@ -41,7 +42,7 @@ export class ProjectFormComponent implements OnChanges, OnDestroy, ComponentCanD
   members: ProjectMembership[];
   invitations: ProjectInvitation[];
 
-  @Input()  activeView: ProjectFormView = ProjectFormView.Advanced;
+  @Input()  activeView: ProjectFormView;
   @Output() activeViewChange = new EventEmitter<ProjectFormView>();
 
   @Output() onCancel = new EventEmitter<void>();
@@ -80,6 +81,10 @@ export class ProjectFormComponent implements OnChanges, OnDestroy, ComponentCanD
     this._store.dispatch(
       new UpdateFormDirty({ path: this.formPath, dirty: false })
     );
+
+    this._store.select( ProjectState.activeId )
+      .pipe( takeUntil(this._destroy$) )
+      .subscribe(projectId => this._projectId = projectId);
 
     this._buildForm();
 
@@ -187,11 +192,10 @@ export class ProjectFormComponent implements OnChanges, OnDestroy, ComponentCanD
   }
 
   handleSubmitInvitation(): void {
-    const projectId = this._store.selectSnapshot( ProjectState.activeId );
     const email = get( this.manageProjectForm, 'value.section2.invitation.email' );
 
     if ( email ) {
-      this._store.dispatch( new ProjectInvitation.Create(projectId, email) )
+      this._store.dispatch( new ProjectInvitation.Create(this._projectId, email) )
         .pipe(
           tap(() => this._store.dispatch([
             new UpdateFormValue({

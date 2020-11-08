@@ -18,7 +18,6 @@ export class ProjectNewComponent implements OnDestroy {
   private _destroy$ = new Subject();
   
   ProjectFormView = ProjectFormView;
-
   activeView: ProjectFormView;
 
   @ViewChild('projectForm', { static: false }) projectForm: ProjectFormComponent;
@@ -29,8 +28,8 @@ export class ProjectNewComponent implements OnDestroy {
     private _store: Store,
     private _router: Router,
   ) {
-    this.activeView = ProjectFormView.Wizard;
-
+    this.activeView = ProjectFormView.Create;
+    
     actions$.pipe(
       ofEntityActionSuccessful( ProjectState, EntityActionType.Add ),
       takeUntil( this._destroy$ ),

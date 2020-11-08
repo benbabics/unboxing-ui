@@ -11,8 +11,6 @@
             <mat-icon svgIcon="arrow_back"></mat-icon>
             <span>Back to Projects</span>
           </a>
-
-          <ng-container *ngTemplateOutlet="activeViewMenu"></ng-container>
         </div>
 
         <h1>New Project</h1>
@@ -28,49 +26,3 @@
     </div>
   </div>
 </div>
-
-
-<!-- ActiveView Menu -->
-<ng-template #activeViewMenu>
-  <button 
-    class="ml-auto"
-    mat-flat-button
-    color="primary"
-    [matMenuTriggerFor]="activeViewMenu">
-
-    <span class="ml-2 xs:hidden">
-      <ng-container [ngSwitch]="activeView">
-        <ng-template [ngSwitchCase]="ProjectFormView.Wizard">Wizard Mode</ng-template>
-        <ng-template [ngSwitchCase]="ProjectFormView.Advanced">Advanced Mode</ng-template>
-      </ng-container>
-    </span>
-
-    <mat-icon class="ml-2 icon-size-18" svgIcon="unfold_more"></mat-icon>
-  </button>
-
-  <mat-menu #activeViewMenu>
-    <button 
-      mat-menu-item
-      (click)="activeView = ProjectFormView.Wizard">
-      
-      <span>Wizard</span>
-      <mat-icon 
-        class="ml-6 mr-0 icon-size-18"
-        *ngIf="activeView === ProjectFormView.Wizard"
-        svgIcon="check">
-      </mat-icon>
-    </button>
-
-    <button 
-      mat-menu-item
-      (click)="activeView = ProjectFormView.Advanced">
-      
-      <span>Advanced</span>
-      <mat-icon 
-        class="ml-6 mr-0 icon-size-18"
-        *ngIf="activeView === ProjectFormView.Advanced"
-        svgIcon="check">
-      </mat-icon>
-    </button>
-  </mat-menu>
-</ng-template>
