@@ -1,6 +1,6 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { TreoMediaWatcherService } from '@treo/services/media-watcher';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { flatMap, map, take, takeUntil, tap } from 'rxjs/operators';
 import { ComponentCanDeactivate } from '../../guards';
 import { EditorInspectorComponent } from '../../components/editor/editor-inspector/editor-inspector.component';
@@ -14,14 +14,19 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './project-show.component.html',
   styleUrls: ['./project-show.component.scss']
 })
-export class ProjectShowComponent implements OnInit, OnDestroy, ComponentCanDeactivate {
+export class ProjectShowComponent implements OnInit, AfterViewInit, OnDestroy, ComponentCanDeactivate {
 
   private _destroy$ = new Subject();
+
+  selectedTabId$ = new BehaviorSubject( '' );
   
   drawerOpened: boolean;
   drawerMode: 'over' | 'side';
   scrollMode: 'inner' | 'drawer-content';
   isLoading: boolean = false;
+
+  tabSelected: ElementRef;
+  @ViewChildren('tab', { read: ElementRef }) tabs: QueryList<ElementRef>;
 
   @ViewChild('editorInspector', { static: false }) editorInspector: EditorInspectorComponent;
 
@@ -71,6 +76,13 @@ export class ProjectShowComponent implements OnInit, OnDestroy, ComponentCanDeac
       });
   }
 
+  ngAfterViewInit() {
+    this.selectedTabId$.subscribe(id => {
+      const tab = this.tabs.find(({ nativeElement }) => nativeElement.getAttribute( 'value' ) === id);
+      if (tab) this.tabSelected = tab;
+    });
+  }
+
   ngOnDestroy() {
     this._destroy$.next( true );
     this._destroy$.complete();
@@ -78,6 +90,10 @@ export class ProjectShowComponent implements OnInit, OnDestroy, ComponentCanDeac
 
   canDeactivate(): Observable<boolean> {
     return this.editorInspector.canDeactivate();
+  }
+
+  handleTabChange(id: string): void {
+    id && setTimeout(() => this.selectedTabId$.next( id ));
   }
 
   handleSaveProject(): void {
