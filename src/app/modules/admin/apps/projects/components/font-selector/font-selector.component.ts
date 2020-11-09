@@ -10,6 +10,8 @@ export class FontSelectorComponent {
 
   fonts: Font[] = FontIds;
 
+  @Input() label: string = "Font";
+
   @Input() fontId: string;
   @Output() onSelection = new EventEmitter<string>();
 
