@@ -55,7 +55,7 @@
 
       <div class="inspector-hitbox" (click)="matDrawer.toggle()">
         <mat-icon class="icon-size-18 transform rotate-90 mb-2 " svgIcon="tune"></mat-icon>
-        <span class="uppercase">Page Inspector</span>
+        Project Editor
       </div>
     </mat-drawer-content>
     
@@ -69,7 +69,7 @@
     <button 
       class="absolute right-0 mt-1 mr-1"
       mat-icon-button
-      matTooltip="Hide Page Inspector"
+      matTooltip="Hide Project Editor"
       (click)="matDrawer.close()">
 
       <mat-icon svgIcon="close" class="icon-size-14"></mat-icon>
@@ -80,20 +80,33 @@
     <div class="flex flex-col flex-shrink-0">
       <mat-button-toggle-group 
         class="inspector-button-toggle flex-0 w-full light:border-cool-gray-300"
-        [value]="'format'"
-        #inspectorViewToggleGroup="matButtonToggleGroup">
+        #inspectorViewToggleGroup="matButtonToggleGroup"
+        value="style"
+        (valueChange)="handleTabChange( $event )">
 
-        <mat-button-toggle value="format" class="w-1/3">
-          Format
+        <div
+          class="tab-indicator absolute bottom-0 border-b-2 border-primary-600"
+          [style.left.px]="tabSelected?.nativeElement.offsetLeft"
+          [style.width.px]="tabSelected?.nativeElement.offsetWidth">
+        </div>
+
+        <mat-button-toggle #tab value="style" class="px-2">
+          <mat-icon class="icon-size-18" svgIcon="dripicons:brush" [class.text-primary-600]="inspectorViewToggleGroup.value == 'style'"></mat-icon>
+          Style
         </mat-button-toggle>
-        <mat-button-toggle value="settings" class="w-1/3">
+        <mat-button-toggle #tab value="media" class="px-2">
+          <mat-icon class="icon-size-20 mr-1" svgIcon="dripicons:photo-group" [class.text-primary-600]="inspectorViewToggleGroup.value == 'media'"></mat-icon>
+          Media
+        </mat-button-toggle>
+        <mat-button-toggle #tab value="settings" class="px-2">
+          <mat-icon class="icon-size-18" svgIcon="feather:settings" [class.text-primary-600]="inspectorViewToggleGroup.value == 'settings'"></mat-icon>
           Settings
         </mat-button-toggle>
       </mat-button-toggle-group>
     </div>
 
     <ng-container [ngSwitch]="inspectorViewToggleGroup.value">
-      <ng-template ngSwitchCase="format">
+      <ng-template ngSwitchCase="style">
         <div class="mb-8 p-6 editor-navigation">
           <editor-navigation></editor-navigation>
         </div>
@@ -105,6 +118,12 @@
         </div>
       </ng-template>
     
+      <ng-template ngSwitchCase="media">
+        <div class="p-6">
+          <p>Media content here.</p>
+        </div>
+      </ng-template>
+      
       <ng-template ngSwitchCase="settings">
         <div class="p-6">
           <p>Settings content here.</p>

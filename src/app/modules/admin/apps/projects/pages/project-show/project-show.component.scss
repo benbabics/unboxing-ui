@@ -46,9 +46,9 @@
     }
     
     .mat-drawer {
-      width:     400px !important;
-      min-width: 400px !important;
-      max-width: 400px !important;
+      width:     450px !important;
+      min-width: 450px !important;
+      max-width: 450px !important;
 
       @include treo-breakpoint('lt-lg') {
         width:     512px !important;
@@ -61,6 +61,12 @@
         min-width: 100% !important;
         max-width: 100% !important;
       }
+    }
+
+    ::ng-deep .tab-indicator {
+       -webkit-transition: all .25s linear;
+        -o-transition:     all .25s linear;
+        transition:        all .25s linear;
     }
 
     ::ng-deep .mat-drawer-inner-container {
@@ -137,7 +143,7 @@
 
         &.mat-button-toggle-checked {
           color: map-get($primary, default);
-          box-shadow: inset 0 -2px 0 map-get($primary, default);
+          // box-shadow: inset 0 -2px 0 map-get($primary, default);
         }
       }
     }
