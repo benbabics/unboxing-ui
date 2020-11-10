@@ -1,6 +1,4 @@
-export * from "./assets/asset-lists/asset-lists.component";
-export * from "./assets/asset-list/asset-list.component";
-export * from "./assets/asset-icon/asset-icon.component";
+export * from "./assets";
 
 export * from "./brand-detail/brand-detail.component";
 export * from "./brand-list/brand-list.component";

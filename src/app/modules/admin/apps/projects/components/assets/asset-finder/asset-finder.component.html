@@ -1,0 +1,98 @@
+<mat-toolbar class="h-12 pl-1 sticky top-0 relative z-20">
+  <ng-container *ngIf="activeDirectory; else noTitle">
+    <button
+      class="mr-1"
+      mat-icon-button 
+      (click)="handleNavigateDirectory( activeDirectory.parentId )">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span class="text-base">{{ activeDirectory.name }}</span>
+  </ng-container>
+
+  <ng-template #noTitle>
+    <span class="ml-3 text-base">Root</span>
+  </ng-template>
+
+  <span class="example-spacer"></span>
+</mat-toolbar>
+
+
+<mat-list>
+  <ng-container 
+    *ngIf="directories.length > 0"
+    [ngTemplateOutlet]="listDirectories">
+  </ng-container>
+
+  <ng-container *ngIf="directories.length > 0 && elements.length > 0">
+    <mat-divider></mat-divider>
+  </ng-container>
+
+  <ng-container 
+    *ngIf="elements.length > 0"
+    [ngTemplateOutlet]="listElements">
+  </ng-container>
+</mat-list>
+
+
+<ng-template #listDirectories>
+  <div mat-subheader>Folders</div>
+
+  <mat-list-item *ngFor="let directory of directories" class="h-12">
+    <button 
+      class="flex w-full justify-start"
+      mat-button
+      (click)="handleNavigateDirectory( directory.id )">
+      <mat-icon mat-list-icon>folder</mat-icon>
+      <div mat-line>{{ directory.name }}</div>
+    </button>
+  </mat-list-item>
+</ng-template>
+
+
+<ng-template #listElements>
+  <div mat-subheader>Files</div>
+
+  <mat-list-item *ngFor="let element of elements" class="h-14 mb-1">
+    <ng-container [ngSwitch]="element.format">
+      <ng-template [ngSwitchCase]="Format.Photo">
+        <img
+          class="w-14 h-14 object-cover rounded-none"
+          matListAvatar
+          [src]="element.url"
+          [title]="element.name">
+        <div mat-line class="ml-4">{{ element.name || "Unnamed Photo" }}</div>
+      </ng-template>
+
+      <ng-template [ngSwitchCase]="Format.Video">
+        <mat-icon 
+          mat-list-icon 
+          svgIcon="iconsmind:film_video">
+        </mat-icon>
+        <div mat-line class="ml-4">{{ element.name }}</div>
+      </ng-template>
+
+      <button 
+        class="ml-auto"
+        mat-icon-button
+        [matMenuTriggerFor]="previousStatementMenu">
+        <mat-icon svgIcon="more_vert"></mat-icon>
+      </button>
+  
+      <mat-menu #previousStatementMenu="matMenu">
+        <button mat-menu-item>
+          <span class="flex items-center">
+            <mat-icon svgIcon="payment" class="icon-size-20 mr-3"></mat-icon>
+            <span>View statement</span>
+          </span>
+        </button>
+        <button mat-menu-item>
+          <span class="flex items-center">
+            <mat-icon svgIcon="attach_money" class="icon-size-20 mr-3"></mat-icon>
+            <span>Spending breakdown</span>
+          </span>
+        </button>
+      </mat-menu>
+    </ng-container>
+
+  </mat-list-item>
+</ng-template>

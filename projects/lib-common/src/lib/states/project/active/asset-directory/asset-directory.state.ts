@@ -25,16 +25,16 @@ export class AssetDirectoryState extends EntityState<AssetDirectory> {
 
   @Selector()
   static descendants(parentId: string) {
-    return ({ assetDirectory }) => {
-      const dirs: AssetDirectory[] = Object.values(assetDirectory.entities);
+    return state => {
+      const dirs: AssetDirectory[] = Object.values(state.project.projectActive.assetDirectory.entities);
       return filter(dirs, { parentId });
     }
   }
 
   @Selector([ AssetDirectoryState.entities ])
   static ancestors(id: string) {
-    return ({ assetDirectory }) => {
-      const dirs: AssetDirectory[] = Object.values(assetDirectory.entities);
+    return state => {
+      const dirs: AssetDirectory[] = Object.values(state.project.projectActive.assetDirectory.entities);
       return this.getAncestors(dirs, id).filter(dir => dir.id !== id);
     };
   }
