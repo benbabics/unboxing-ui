@@ -1,0 +1,40 @@
+@import "common";
+
+::ng-deep {
+  .mat-toolbar .mat-icon-button {
+    width:      32px !important;
+    height:     32px !important;
+    min-height: 32px !important;
+    max-height: 32px !important;
+    font-size:  32px !important;
+
+    .mat-icon {
+      width:       20px !important;
+      height:      20px !important;
+      min-width:   20px !important;
+      min-height:  20px !important;
+      font-size:   20px !important;
+      line-height: 20px !important;
+    }
+  }
+}
+
+
+@include treo-theme {
+
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+  $primary: map-get($theme, primary);
+  $is-dark: map-get($theme, is-dark);
+
+  :host {
+    ::ng-deep .mat-toolbar {
+      @if ($is-dark) {
+        background-color: rgb(33, 40, 53);
+      } @else {
+        border-bottom: 1px solid rgb(198, 204, 215);
+        background-color: rgb(213, 219, 228);
+      }
+    }
+  }
+}

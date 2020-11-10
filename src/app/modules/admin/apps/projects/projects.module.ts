@@ -25,6 +25,7 @@ import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/mater
 import { MatSortModule } from '@angular/material/sort';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTableModule } from '@angular/material/table';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import * as moment from 'moment';
 import { TreoCardModule } from '@treo/components/card';
@@ -50,11 +51,13 @@ import {
   ProjectShowComponent,
 } from './pages';
 import { 
+  AssetFinderComponent,
+  AssetIconComponent,
   AssetListsComponent,
   AssetListComponent,
-  AssetIconComponent,
   EditorNavigatorComponent,
   EditorContentComponent,
+  EditorHistoryComponent,
   EditorInspectorComponent,
   EditorFormComponent,
   EditorNavigationComponent,
@@ -66,7 +69,6 @@ import {
   EditorChangeHistoryService,
 } from './services';
 import { TagIconPipe } from './pipes';
-import { EditorHistoryComponent } from './components/editor/editor-history/editor-history.component';
 
 @NgModule({
   imports: [
@@ -97,6 +99,7 @@ import { EditorHistoryComponent } from './components/editor/editor-history/edito
     MatSortModule,
     MatStepperModule,
     MatTableModule,
+    MatToolbarModule,
     MatTooltipModule,
     TreoCardModule,
     TreoAutogrowModule,
@@ -129,6 +132,7 @@ import { EditorHistoryComponent } from './components/editor/editor-history/edito
     EditorNavigationComponent,
     FontSelectorComponent,
     EditorHistoryComponent,
+    AssetFinderComponent,
   ],
   providers: [
     { 
