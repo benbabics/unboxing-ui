@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
 import { get } from 'lodash';
 import { Select, Store } from '@ngxs/store';
 import { MatDialog } from '@angular/material/dialog';
@@ -14,7 +14,7 @@ import { ProjectActive, ProjectActiveState, Slide, SlideState, ThemeState, Theme
   templateUrl: './editor-inspector.component.html',
   styleUrls: ['./editor-inspector.component.scss']
 })
-export class EditorInspectorComponent implements OnInit, OnDestroy, ComponentCanDeactivate {
+export class EditorInspectorComponent implements OnDestroy, ComponentCanDeactivate {
 
   private _destroy$ = new Subject<boolean>();
 
@@ -56,10 +56,6 @@ export class EditorInspectorComponent implements OnInit, OnDestroy, ComponentCan
         tap(isLoading => this.isLoading = isLoading),
       )
       .subscribe();
-  }
-
-  ngOnInit() {
-    setTimeout(() => this._history.reset());
   }
   
   ngOnDestroy() {
