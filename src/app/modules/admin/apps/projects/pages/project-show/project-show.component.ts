@@ -62,6 +62,8 @@ export class ProjectShowComponent implements OnInit, AfterViewInit, OnDestroy, C
   }
 
   ngOnInit() {
+    setTimeout(() => this._history.reset());
+    
     this._treoMediaWatcherService.onMediaChange$
       .pipe( takeUntil(this._destroy$) )
       .subscribe(({ matchingAliases }) => {
