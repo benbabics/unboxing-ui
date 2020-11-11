@@ -29,6 +29,7 @@ export class AssetFinderComponent implements OnInit, OnDestroy {
   @Output() onSelectIterationIds = new EventEmitter();
 
   @ViewChild('dialogRename') dialogRenameRef: TemplateRef<any>;
+  @ViewChild('dialogMoveAsset') dialogMoveAssetRef: TemplateRef<any>;
   @ViewChild('dialogCreateDirectory') dialogCreateDirectoryRef: TemplateRef<any>;
   
   constructor(
@@ -38,14 +39,14 @@ export class AssetFinderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this._directoryId$.pipe(
-      takeUntil(this._destroy$),
-      tap(dirId => this.mapToActiveDirectory( dirId )),
-      tap(dirId => this.mapToDirectories( dirId )),
-      tap(dirId => this.mapToElements( dirId )),
+      takeUntil( this._destroy$ ),
+      tap(dirId => this._mapToActiveDirectory( dirId )),
+      tap(dirId => this._mapToDirectories( dirId )),
+      tap(dirId => this._mapToElements( dirId )),
     )
     .subscribe();
     
-    this.setActiveDirectory( null );
+    this._setActiveDirectory( null );
   }
 
   ngOnDestroy() {
@@ -70,7 +71,7 @@ export class AssetFinderComponent implements OnInit, OnDestroy {
   }
 
   handleNavigateDirectory(id: string): void {
-    this.setActiveDirectory( id );
+    this._setActiveDirectory( id );
   }
 
   handleSelectDirectory(id: string): void {
@@ -84,23 +85,43 @@ export class AssetFinderComponent implements OnInit, OnDestroy {
     this._store.dispatch( new ClearActive(AssetElementState) );
   }
 
-  handleOpenModalRenameDirectory(): void {
+  handleCreateDirectory(): void {
+    this._openModal(this.dialogCreateDirectoryRef, { name: "" })
+      .toPromise()
+      .then(data => console.log('* handleCreateDirectory', data));
+  }
+
+  handleRemoveDirectory(): void {
+    console.log('* handleRemoveDirectory', this.activeDirectory);
+  }
+  handleRemoveElement(): void {
+    const element = this._store.selectSnapshot( AssetElementState.active );
+    console.log('* handleRemoveElement', element);
+  }
+  
+  handleRenameDirectory(): void {
     const name = this.activeDirectory.name;
     this._openModal(this.dialogRenameRef, { name, original: name })
       .toPromise()
-      .then(data => console.log('* handleOpenModalRenameDirectory', data));
+      .then(data => console.log('* handleRenameDirectory', data));
   }
-  handleOpenModalRenameElement(): void {
+  handleRenameElement(): void {
     const element = this._store.selectSnapshot( AssetElementState.active );
     this._openModal(this.dialogRenameRef, { name: element.name, original: element.name })
       .toPromise()
-      .then(data => console.log('* handleOpenModalRenameElement', data));
+      .then(data => console.log('* handleRenameElement', data));
   }
 
-  handleOpenModalCreateDirectory(): void {
-    this._openModal(this.dialogCreateDirectoryRef, { name: "" })
+  handleMoveDirectory(): void {
+    this._openModal(this.dialogMoveAssetRef, { id: this.activeDirectory.parentId })
       .toPromise()
-      .then(data => console.log('* handleOpenModalCreateDirectory', data));
+      .then(data => console.log('* handleMoveDirectory', data));
+  }
+  handleMoveElement(): void {
+    const element = this._store.selectSnapshot( AssetElementState.active );
+    this._openModal(this.dialogMoveAssetRef, { id: element.assetDirectoryId })
+      .toPromise()
+      .then(data => console.log('* handleMoveElement', data));
   }
 
   private _openModal(tmplRef: TemplateRef<any>, data: any): Observable<any> {
@@ -108,22 +129,22 @@ export class AssetFinderComponent implements OnInit, OnDestroy {
     return dialogRef.afterClosed();
   }
   
-  private setActiveDirectory(id: string): void {
+  private _setActiveDirectory(id: string): void {
     this._directoryId$.next( id );
   }
 
-  private mapToActiveDirectory(dirId: string): void {
+  private _mapToActiveDirectory(dirId: string): void {
     const dirs = this._store.selectSnapshot( AssetDirectoryState.entities );
     this.activeDirectory = find(dirs, [ 'id', dirId ]);
   }
 
-  private mapToDirectories(dirId: string): void {
+  private _mapToDirectories(dirId: string): void {
     this.directories = this._store.selectSnapshot(
       AssetDirectoryState.descendants( dirId )
     );
   }
 
-  private mapToElements(dirId: string): void {
+  private _mapToElements(dirId: string): void {
     const els = this._store.selectSnapshot( AssetElementState.descendants(dirId) );
 
     if (this.entityType !== AssetElementFormat.All) {
