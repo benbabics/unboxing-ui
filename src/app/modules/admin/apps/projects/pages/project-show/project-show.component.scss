@@ -61,6 +61,25 @@
         min-width: 100% !important;
         max-width: 100% !important;
       }
+
+      .actions {
+        .mat-icon-button {
+          width:      32px !important;
+          height:     32px !important;
+          min-height: 32px !important;
+          max-height: 32px !important;
+          font-size:  32px !important;
+
+          .mat-icon {
+            width:       20px !important;
+            height:      20px !important;
+            min-width:   20px !important;
+            min-height:  20px !important;
+            font-size:   20px !important;
+            line-height: 20px !important;
+          }
+        }
+      }
     }
 
     ::ng-deep .tab-indicator {
