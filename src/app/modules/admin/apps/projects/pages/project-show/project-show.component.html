@@ -130,3 +130,37 @@
     </ng-container>
   </div>
 </ng-template>
+
+
+<!-- Save Changes Modal -->
+<ng-template #dialogSaveChanges>
+  <h2 mat-dialog-title>What would you like to do with your changes?</h2>
+
+  <mat-dialog-content class="mat-typography">
+    <mat-nav-list>
+      <mat-list-item (click)="actionDialogSaveChanges.next( 'SAVE' )">
+        <mat-icon mat-list-icon>
+          <mat-icon
+            [class.animate-spin]="isLoading"
+            [svgIcon]="isLoading ? 'dripicons:loading' : 'arrow_forward'">
+          </mat-icon>
+        </mat-icon>
+
+        <span mat-line>Exit and save progress</span>
+        <span mat-line>Save your progress, then exit. This will overwrite any previous changes you have made.</span>
+      </mat-list-item>
+
+      <mat-list-item (click)="actionDialogSaveChanges.next( 'EXIT' )">
+        <mat-icon mat-list-icon>arrow_forward</mat-icon>
+        <span mat-line>Exit and don&#39;t save</span>
+        <span mat-line class="text-secondary">Exit without saving your changes. Your changes will be lost and cannot be undone.</span>
+      </mat-list-item>
+
+      <mat-list-item (click)="actionDialogSaveChanges.next( 'CANCEL' )">
+        <mat-icon mat-list-icon>arrow_back</mat-icon>
+        <span mat-line>Don&#39;t exit</span>
+        <span mat-line class="text-secondary">Return to your changes.</span>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-dialog-content>
+</ng-template>
