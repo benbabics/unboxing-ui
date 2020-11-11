@@ -21,7 +21,7 @@ export namespace AssetDirectory {
 
   export class Update {
     static readonly type = '[AssetDirectory API] Update';
-    constructor(public payload: AssetDirectory) { }
+    constructor(public payload: Partial<AssetDirectory>) { }
   }
 
   export class Destroy {
