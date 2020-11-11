@@ -1,9 +1,11 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
 import { filter, find } from 'lodash';
 import { AssetDirectory, AssetDirectoryState, AssetElement, AssetElementFormat, AssetElementState } from '@projects/lib-common/src/public-api';
+import { ClearActive, SetActive } from '@ngxs-labs/entity-state';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'asset-finder',
@@ -25,9 +27,13 @@ export class AssetFinderComponent implements OnInit, OnDestroy {
   @Input() iterationIds: string[] = [];
 
   @Output() onSelectIterationIds = new EventEmitter();
+
+  @ViewChild('dialogRename') dialogRenameRef: TemplateRef<any>;
+  @ViewChild('dialogCreateDirectory') dialogCreateDirectoryRef: TemplateRef<any>;
   
   constructor(
     private _store: Store,
+    private _dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -69,6 +75,37 @@ export class AssetFinderComponent implements OnInit, OnDestroy {
 
   handleSelectDirectory(id: string): void {
     this.onSelectIterationIds.emit([ id ]);
+  }
+
+  handleElementMenuOpened(id: string): void {
+    this._store.dispatch( new SetActive(AssetElementState, id) );
+  }
+  handleElementMenuClosed(): void {
+    this._store.dispatch( new ClearActive(AssetElementState) );
+  }
+
+  handleOpenModalRenameDirectory(): void {
+    const name = this.activeDirectory.name;
+    this._openModal(this.dialogRenameRef, { name, original: name })
+      .toPromise()
+      .then(data => console.log('* handleOpenModalRenameDirectory', data));
+  }
+  handleOpenModalRenameElement(): void {
+    const element = this._store.selectSnapshot( AssetElementState.active );
+    this._openModal(this.dialogRenameRef, { name: element.name, original: element.name })
+      .toPromise()
+      .then(data => console.log('* handleOpenModalRenameElement', data));
+  }
+
+  handleOpenModalCreateDirectory(): void {
+    this._openModal(this.dialogCreateDirectoryRef, { name: "" })
+      .toPromise()
+      .then(data => console.log('* handleOpenModalCreateDirectory', data));
+  }
+
+  private _openModal(tmplRef: TemplateRef<any>, data: any): Observable<any> {
+    const dialogRef = this._dialog.open(tmplRef, { data, width: "400px" });
+    return dialogRef.afterClosed();
   }
   
   private setActiveDirectory(id: string): void {
