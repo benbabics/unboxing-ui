@@ -26,7 +26,7 @@ export class AssetDirectoryState extends EntityState<AssetDirectory> {
   @Selector()
   static descendants(parentId: string) {
     return state => {
-      const dirs: AssetDirectory[] = Object.values(state.project.projectActive.assetDirectory.entities);
+      const dirs: AssetDirectory[] = Object.values( state.project.projectActive.assetDirectory.entities );
       return filter(dirs, { parentId });
     }
   }
@@ -34,15 +34,15 @@ export class AssetDirectoryState extends EntityState<AssetDirectory> {
   @Selector([ AssetDirectoryState.entities ])
   static ancestors(id: string) {
     return state => {
-      const dirs: AssetDirectory[] = Object.values(state.project.projectActive.assetDirectory.entities);
-      return this.getAncestors(dirs, id).filter(dir => dir.id !== id);
+      const dirs: AssetDirectory[] = Object.values( state.project.projectActive.assetDirectory.entities );
+      return this.getAncestors( dirs, id ).filter(dir => dir.id !== id);
     };
   }
   
   @Selector([ AssetDirectoryState.entities ])
   static allPaths(dirs: AssetDirectory[]) {
     const getPath = (id: string) => {
-      const ancestors = this.getAncestors( dirs, id ).map(dir => snakeCase(dir.name));
+      const ancestors = this.getAncestors( dirs, id ).map(dir => snakeCase( dir.name ));
       return `/${ ancestors.join('/') }`;
     }
 
@@ -50,66 +50,66 @@ export class AssetDirectoryState extends EntityState<AssetDirectory> {
   }
   
   constructor(
-    private store: Store,
-    private http: HttpClient,
+    private _store: Store,
+    private _http: HttpClient,
   ) {
     super( AssetDirectoryState, 'id', IdStrategy.EntityIdGenerator );
   }
 
-  @Action(AssetDirectory.Index)
+  @Action( AssetDirectory.Index )
   crudIndex(ctx: StateContext<AssetDirectoryStateModel>, { projectId }: AssetDirectory.Index) {
-    this.toggleLoading(true);
+    this.toggleLoading( true );
 
-    return this.http.get<AssetDirectory[]>(`/api/assetDirectories?projectId=${projectId}`)
+    return this._http.get<AssetDirectory[]>( `/api/assetDirectories?projectId=${ projectId }` )
       .pipe(
-        tap(dirs => this.store.dispatch(new CreateOrReplace(AssetDirectoryState, dirs))),
-        finalize(() => this.toggleLoading(false)),
+        tap(dirs => this._store.dispatch( new CreateOrReplace(AssetDirectoryState, dirs) )),
+        finalize(() => this.toggleLoading( false )),
       );
   }
 
-  @Action(AssetDirectory.Create)
+  @Action( AssetDirectory.Create )
   crudCreate(ctx: StateContext<AssetDirectoryStateModel>, { payload }: AssetDirectory.Create) {
-    this.toggleLoading(true);
+    this.toggleLoading( true );
 
-    return this.http.post<AssetDirectory>(`/api/assetDirectories/`, payload)
+    return this._http.post<AssetDirectory>( `/api/assetDirectories`, payload )
       .pipe(
-        flatMap(dir => this.store.dispatch(new Add(AssetDirectoryState, dir))),
-        finalize(() => this.toggleLoading(false)),
+        flatMap(dir => this._store.dispatch( new Add(AssetDirectoryState, dir) )),
+        finalize(() => this.toggleLoading( false )),
       );
   }
 
-  @Action(AssetDirectory.Update)
+  @Action( AssetDirectory.Update )
   crudUpdate(ctx: StateContext<AssetDirectoryStateModel>, { payload }: AssetDirectory.Update) {
-    this.toggleLoading(true);
+    this.toggleLoading( true );
 
-    return this.http.put<AssetDirectory>(`/api/assetDirectories/${payload.id}`, payload)
+    return this._http.patch<AssetDirectory>( `/api/assetDirectories/${ payload.id }`, payload )
       .pipe(
-        flatMap(dir => this.store.dispatch(new Update(AssetDirectoryState, dir.id, dir))),
-        finalize(() => this.toggleLoading(false)),
+        flatMap(dir => this._store.dispatch( new Update(AssetDirectoryState, dir.id, dir) )),
+        finalize(() => this.toggleLoading( false )),
       );
   }
 
-  @Action(AssetDirectory.Destroy)
+  @Action( AssetDirectory.Destroy )
   crudDestroy(ctx: StateContext<AssetDirectoryStateModel>, { id }: AssetDirectory.Destroy) {
-    this.toggleLoading(true);
+    this.toggleLoading( true );
 
-    return this.http.delete(`/api/assetDirectories/${id}`)
+    return this._http.delete( `/api/assetDirectories/${ id }` )
       .pipe(
-        flatMap(() => this.store.dispatch(new Remove(AssetDirectoryState, id))),
-        finalize(() => this.toggleLoading(false)),
+        flatMap(() => this._store.dispatch( new Remove(AssetDirectoryState, id) )),
+        finalize(() => this.toggleLoading( false )),
       );
   }
 
   private toggleLoading(isLoading: boolean): void {
-    this.store.dispatch(new SetLoading(AssetDirectoryState, isLoading));
+    this._store.dispatch( new SetLoading(AssetDirectoryState, isLoading) );
   }
 
   private static getAncestors(dirs: AssetDirectory[], id: string): AssetDirectory[] {
     let ancestors = filter(dirs, { id });
     
     do {
-      id = get(find(dirs, { id }), 'parentId', null);
-      id && ancestors.unshift(find(dirs, { id }));
+      id = get( find(dirs, { id }), 'parentId', null );
+      id && ancestors.unshift( find(dirs, { id }) );
     }
     while (id);
     

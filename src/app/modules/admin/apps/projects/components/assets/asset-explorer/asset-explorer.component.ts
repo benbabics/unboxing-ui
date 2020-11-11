@@ -1,8 +1,10 @@
 import { Component, ContentChild, Input, OnDestroy, OnInit, TemplateRef } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { filter, find } from 'lodash';
 import { Subject } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
-import { Store } from '@ngxs/store';
+import { map, mapTo, takeUntil, tap } from 'rxjs/operators';
+import { Actions, Store } from '@ngxs/store';
+import { EntityActionType, ofEntityActionSuccessful } from '@ngxs-labs/entity-state';
 import { AssetDirectory, AssetDirectoryState, AssetElement, AssetElementFormat, AssetElementState } from '@projects/lib-common/src/public-api';
 
 @Component({
@@ -34,8 +36,37 @@ export class AssetExplorerComponent implements OnInit, OnDestroy {
   @ContentChild( TemplateRef ) templateRef: TemplateRef<any>;
 
   constructor(
+    actions$: Actions,
+    snackBar: MatSnackBar,
     private _store: Store,
-  ) { }
+  ) {
+    actions$.pipe(
+      ofEntityActionSuccessful( AssetDirectoryState, EntityActionType.Add ),
+      takeUntil( this._destroy$ ),
+      map(({ payload }) => payload),
+      tap(({ name }) => snackBar.open(`The folder "${ name }" has been created.`, `Ok`)),
+      tap(({ parentId }) => this._setActiveDirectory( parentId )),
+    )
+      .subscribe();
+    
+    actions$.pipe(
+      ofEntityActionSuccessful( AssetDirectoryState, EntityActionType.Update ),
+      takeUntil( this._destroy$ ),
+      map(({ payload }) => payload.data),
+      tap(({ name }) => snackBar.open(`The folder "${ name }" has been updated.`, `Ok`)),
+      tap(({ id }) => this._setActiveDirectory( id )),
+    )
+      .subscribe();
+
+    actions$.pipe(
+      ofEntityActionSuccessful( AssetDirectoryState, EntityActionType.Remove ),
+      takeUntil( this._destroy$ ),
+      map(() => this.activeDirectory),
+      tap(({ name }) => snackBar.open(`The folder "${ name }" was deleted.`, `Ok`)),
+      tap(({ parentId }) => this._setActiveDirectory( parentId || null )),
+    )
+      .subscribe();
+  }
 
   ngOnInit() {
     this._directoryId$.pipe(
