@@ -50,12 +50,14 @@ export class AssetFinderComponent {
   }
 
   handleMoveDirectory(directory: AssetDirectory): void {
-    this._openModal(this.dialogMoveAssetRef, { id: directory.parentId })
+    const id = directory.id;
+    this._openModal(this.dialogMoveAssetRef, { id, original: id })
       .toPromise()
       .then(data => console.log('* handleMoveDirectory', data));
   }
   handleMoveElement(element: AssetElement): void {
-    this._openModal(this.dialogMoveAssetRef, { id: element.assetDirectoryId })
+    const id = element.assetDirectoryId;
+    this._openModal(this.dialogMoveAssetRef, { id, original: id })
       .toPromise()
       .then(data => console.log('* handleMoveElement', data));
   }

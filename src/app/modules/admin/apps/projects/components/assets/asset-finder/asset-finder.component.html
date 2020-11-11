@@ -1,4 +1,4 @@
-<asset-explorer #explorer>
+<asset-explorer #explorerMain>
   <ng-template 
     let-activeDirectory="activeDirectory"
     let-directories="directories"
@@ -6,35 +6,36 @@
     
     <ng-container
       [ngTemplateOutlet]="toolbar"
-      [ngTemplateOutletContext]="{ $implicit: activeDirectory }">
+      [ngTemplateOutletContext]="{ $implicit: activeDirectory, context: explorerMain }">
     </ng-container>
 
     <ng-container
       [ngTemplateOutlet]="lists"
-      [ngTemplateOutletContext]="{ directories: directories, elements: elements }">
+      [ngTemplateOutletContext]="{ directories: directories, elements: elements, context: explorerMain }">
     </ng-container>
   </ng-template>
 </asset-explorer>
 
 
-<!-- Directory Toolbar -->
-<ng-template #toolbar let-activeDirectory>
+<!-- Toolbar -->
+<ng-template #toolbar let-activeDirectory let-context="context">
   <mat-toolbar class="h-12 pl-1 sticky top-0 relative z-20">
     <ng-container *ngIf="activeDirectory; else titleRoot">
       <button
         class="mr-1"
         mat-icon-button 
-        (click)="explorer.handleNavigateDirectory( activeDirectory.parentId )">
+        (click)="context.handleNavigateDirectory( activeDirectory.parentId )">
         <mat-icon>arrow_back</mat-icon>
       </button>
       <span class="text-base">{{ activeDirectory.name }}</span>
     </ng-container>
 
     <ng-template #titleRoot>
-      <span class="ml-3 text-base">Root</span>
+      <span class="ml-3 text-base">Home</span>
     </ng-template>
 
     <span class="flex-1"></span>
+
     <button 
       mat-icon-button
       [matMenuTriggerFor]="menuDirectory"
@@ -46,12 +47,12 @@
 
 
 <!-- Layout of Lists -->
-<ng-template #lists let-directories="directories" let-elements="elements">
+<ng-template #lists let-directories="directories" let-elements="elements" let-context="context">
   <mat-list>
     <ng-container 
       *ngIf="directories.length > 0"
       [ngTemplateOutlet]="listDirectories"
-      [ngTemplateOutletContext]="{ $implicit: directories }">
+      [ngTemplateOutletContext]="{ $implicit: directories, context: context }">
     </ng-container>
 
     <ng-container *ngIf="directories.length > 0 && elements.length > 0">
@@ -84,14 +85,14 @@
 
 
 <!-- List: Directories -->
-<ng-template #listDirectories let-directories>
+<ng-template #listDirectories let-directories let-context="context">
   <div mat-subheader>Folders</div>
 
   <mat-list-item *ngFor="let directory of directories" class="h-12">
     <button 
       class="flex w-full justify-start"
       mat-button
-      (click)="explorer.handleNavigateDirectory( directory.id )">
+      (click)="context.handleNavigateDirectory( directory.id )">
       <mat-icon mat-list-icon>folder</mat-icon>
       <div mat-line>{{ directory.name }}</div>
     </button>
@@ -115,7 +116,7 @@
           mat-line
           class="ml-4"
           [ngClass]="{ 'italic': !element.name, 'text-secondary': !element.name }">
-          {{ element.name || "Unnamed Photo" }}
+          {{ element.name }}
         </div>
       </ng-template>
 
@@ -135,7 +136,6 @@
         <mat-icon svgIcon="more_vert"></mat-icon>
       </button>
     </ng-container>
-
   </mat-list-item>
 </ng-template>
 
@@ -212,21 +212,6 @@
 </mat-menu>
 
 
-<!-- Move Asset Modal -->
-<ng-template #dialogMoveAsset let-data>
-  <h2 mat-dialog-title>Move To</h2>
-
-  <mat-dialog-content>
-    <p>Tree here</p>
-  </mat-dialog-content>
-
-  <mat-dialog-actions class="pb-4 justify-end">
-    <button mat-button [mat-dialog-close]="">Cancel</button>
-    <button mat-button [mat-dialog-close]="true" color="primary" cdkFocusInitial>Move Here</button>
-  </mat-dialog-actions>
-</ng-template>
-
-
 <!-- Rename Modal -->
 <ng-template #dialogRename let-data>
   <h2 mat-dialog-title>Rename</h2>
@@ -267,5 +252,83 @@
   <mat-dialog-actions class="pb-4 justify-end">
     <button mat-button [mat-dialog-close]="">Cancel</button>
     <button mat-button [disabled]="name.invalid" [mat-dialog-close]="data.name" color="primary">Create</button>
+  </mat-dialog-actions>
+</ng-template>
+
+
+<!-- Move Asset Modal -->
+<ng-template #dialogMoveAsset let-data>
+  <h2 mat-dialog-title>Move To</h2>
+
+  <mat-dialog-content>
+    <asset-explorer 
+      #explorerRelocate
+      [directoryId]="data.original">
+
+      <ng-template 
+        let-activeDirectory="activeDirectory"
+        let-directories="directories"
+        let-elements="elements">
+        
+        <mat-toolbar class="h-12 sticky top-0 relative z-20 light:bg-cool-gray-100">
+          <ng-container *ngIf="activeDirectory; else titleRoot">
+            <button
+              class="mr-1"
+              mat-icon-button 
+              (click)="explorerRelocate.handleNavigateDirectory( activeDirectory.parentId )">
+              <mat-icon>arrow_back</mat-icon>
+            </button>
+            <span class="text-base">{{ activeDirectory.name }}</span>
+          </ng-container>
+
+          <ng-template #titleRoot>
+            <span class="ml-3 text-base">Home</span>
+          </ng-template>
+        </mat-toolbar>
+
+        <mat-list>
+          <ng-container *ngIf="directories.length > 0">
+            <div mat-subheader>Folders</div>
+            <mat-list-item *ngFor="let directory of directories" class="h-12">
+              <button 
+                class="flex w-full justify-start"
+                mat-button
+                [class.bg-primary-100]="data.id == directory.id"
+                [color]="data.id == directory.id ? 'primary' : null"
+                (click)="data.id = directory.id"
+                (click)="explorerRelocate.handleNavigateDirectory( directory.id )">
+                <mat-icon mat-list-icon>folder</mat-icon>
+                <div mat-line>{{ directory.name }}</div>
+              </button>
+            </mat-list-item>
+          </ng-container>
+
+          <ng-container *ngIf="directories.length > 0 && elements.length > 0">
+            <mat-divider class="my-3 light:border-cool-gray-300"></mat-divider>
+          </ng-container>
+
+          <ng-container *ngIf="elements.length > 0">
+            <div mat-subheader>Files</div>
+            <mat-list-item *ngFor="let element of elements" class="pl-4 h-8">
+              <ng-container [ngSwitch]="element.format">
+                <ng-template [ngSwitchCase]="Format.Photo">
+                  <mat-icon mat-list-icon>photo</mat-icon>
+                  <div mat-line class="ml-2">{{ element.name }}</div>
+                </ng-template>
+                <ng-template [ngSwitchCase]="Format.Video">
+                  <mat-icon mat-list-icon>ondemand_video</mat-icon>
+                  <div mat-line class="ml-2">{{ element.name }}</div>
+                </ng-template>
+              </ng-container>
+            </mat-list-item>
+          </ng-container>
+        </mat-list>
+      </ng-template>
+    </asset-explorer>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="pb-4 justify-end">
+    <button mat-button [mat-dialog-close]="">Cancel</button>
+    <button mat-button [disabled]="data.id == data.original" [mat-dialog-close]="data.id" color="primary" cdkFocusInitial>Move Here</button>
   </mat-dialog-actions>
 </ng-template>
