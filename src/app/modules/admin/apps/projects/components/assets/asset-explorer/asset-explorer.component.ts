@@ -29,6 +29,7 @@ export class AssetExplorerComponent implements OnInit, OnDestroy {
   directories: AssetDirectory[] = [];
   activeDirectory: AssetDirectory;
 
+  @Input() directoryId: string = null;
   @Input() entityType: AssetElementFormat = AssetElementFormat.All;
   @ContentChild( TemplateRef ) templateRef: TemplateRef<any>;
 
@@ -45,7 +46,7 @@ export class AssetExplorerComponent implements OnInit, OnDestroy {
     )
     .subscribe();
     
-    this._setActiveDirectory( null );
+    this._setActiveDirectory( this.directoryId );
   }
 
   ngOnDestroy() {
