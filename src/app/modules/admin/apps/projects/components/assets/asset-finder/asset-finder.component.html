@@ -21,6 +21,7 @@
   </button>
 </mat-toolbar>
 
+
 <mat-list>
   <ng-container 
     *ngIf="directories.length > 0"
@@ -82,7 +83,12 @@
           matListAvatar
           [src]="element.url"
           [title]="element.name">
-        <div mat-line class="ml-4">{{ element.name || "Unnamed Photo" }}</div>
+        <div 
+          mat-line
+          class="ml-4"
+          [ngClass]="{ 'italic': !element.name, 'text-secondary': !element.name }">
+          {{ element.name || "Unnamed Photo" }}
+        </div>
       </ng-template>
 
       <ng-template [ngSwitchCase]="Format.Video">
@@ -96,7 +102,10 @@
       <button 
         class="ml-auto"
         mat-icon-button
-        [matMenuTriggerFor]="menuElement">
+        [matMenuTriggerFor]="menuElement"
+        [matMenuTriggerData]="{ name: element.name }"
+        (menuOpened)="handleElementMenuOpened( element.id )"
+        (menuClosed)="handleElementMenuClosed()">
         <mat-icon svgIcon="more_vert"></mat-icon>
       </button>
     </ng-container>
@@ -107,36 +116,36 @@
 
 <!-- Menu: Directory -->
 <mat-menu #menuDirectory="matMenu">
-  <button mat-menu-item>
+  <button mat-menu-item (click)="handleOpenModalCreateDirectory()">
     <span class="flex items-center">
       <mat-icon svgIcon="create_new_folder" class="icon-size-20 mr-3"></mat-icon>
-      <span>New Folder</span>
+      <span>New folder</span>
     </span>
   </button>
   <button mat-menu-item>
     <span class="flex items-center">
       <mat-icon svgIcon="cloud_upload" class="icon-size-20 mr-3"></mat-icon>
-      <span>Upload Contents</span>
+      <span>Upload contents</span>
     </span>
   </button>
   <mat-divider class="my-2"></mat-divider>
   <button mat-menu-item [disabled]="!activeDirectory">
     <span class="flex items-center">
       <mat-icon svgIcon="forward" class="icon-size-20 mr-3"></mat-icon>
-      <span>Move Folder</span>
+      <span>Move to</span>
     </span>
   </button>
-  <button mat-menu-item [disabled]="!activeDirectory">
+  <button mat-menu-item [disabled]="!activeDirectory" (click)="handleOpenModalRenameDirectory()">
     <span class="flex items-center">
       <mat-icon svgIcon="edit" class="icon-size-20 mr-3"></mat-icon>
-      <span>Rename Folder</span>
+      <span>Rename</span>
     </span>
   </button>
   <mat-divider class="my-2"></mat-divider>
   <button mat-menu-item [disabled]="!activeDirectory">
     <span class="flex items-center">
       <mat-icon svgIcon="delete" class="icon-size-20 mr-3"></mat-icon>
-      <span>Delete Folder</span>
+      <span>Remove</span>
     </span>
   </button>
 </mat-menu>
@@ -147,27 +156,71 @@
   <button mat-menu-item>
     <span class="flex items-center">
       <mat-icon svgIcon="remove_red_eye" class="icon-size-20 mr-3"></mat-icon>
-      <span>Preview File</span>
+      <span>Preview</span>
     </span>
   </button>
   <mat-divider class="my-2"></mat-divider>
   <button mat-menu-item>
     <span class="flex items-center">
       <mat-icon svgIcon="forward" class="icon-size-20 mr-3"></mat-icon>
-      <span>Move File</span>
+      <span>Move to</span>
     </span>
   </button>
-  <button mat-menu-item>
+  <button mat-menu-item (click)="handleOpenModalRenameElement()">
     <span class="flex items-center">
       <mat-icon svgIcon="edit" class="icon-size-20 mr-3"></mat-icon>
-      <span>Rename File</span>
+      <span>Rename</span>
     </span>
   </button>
   <mat-divider class="my-2"></mat-divider>
   <button mat-menu-item>
     <span class="flex items-center">
       <mat-icon svgIcon="delete" class="icon-size-20 mr-3"></mat-icon>
-      <span>Delete File</span>
+      <span>Remove</span>
     </span>
   </button>
 </mat-menu>
+
+
+<!-- Rename Modal -->
+<ng-template #dialogRename let-data>
+  <h2 mat-dialog-title>Rename</h2>
+
+  <mat-dialog-content>
+    <mat-form-field class="w-full">
+      <input 
+        required
+        matInput
+        cdkFocusInitial
+        #name="ngModel"
+        [(ngModel)]="data.name">
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="pb-4 justify-end">
+    <button mat-button [mat-dialog-close]="data.original">Cancel</button>
+    <button mat-button [disabled]="name.invalid" [mat-dialog-close]="data.name" color="primary">Ok</button>
+  </mat-dialog-actions>
+</ng-template>
+
+
+<!-- Create Directory Modal -->
+<ng-template #dialogCreateDirectory let-data>
+  <h2 mat-dialog-title>New Folder</h2>
+
+  <mat-dialog-content>
+    <mat-form-field class="w-full">
+      <input 
+        required
+        matInput
+        cdkFocusInitial
+        #name="ngModel"
+        [(ngModel)]="data.name">
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="pb-4 justify-end">
+    <button mat-button [mat-dialog-close]="">Cancel</button>
+    <button mat-button [disabled]="name.invalid" [mat-dialog-close]="data.name" color="primary">Create</button>
+  </mat-dialog-actions>
+</ng-template>
