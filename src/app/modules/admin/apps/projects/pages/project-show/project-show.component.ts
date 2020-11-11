@@ -1,13 +1,14 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, QueryList, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
 import { TreoMediaWatcherService } from '@treo/services/media-watcher';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { flatMap, map, take, takeUntil, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { flatMap, map, mapTo, take, takeUntil, tap } from 'rxjs/operators';
 import { ComponentCanDeactivate } from '../../guards';
 import { EditorInspectorComponent } from '../../components/editor/editor-inspector/editor-inspector.component';
 import { EditorChangeHistoryService } from 'app/modules/admin/apps/projects/services';
 import { Actions, ofActionSuccessful, Store } from '@ngxs/store';
 import { ProjectActive, ProjectActiveState } from '@projects/lib-common/src/lib/states';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'project-show',
@@ -19,6 +20,7 @@ export class ProjectShowComponent implements OnInit, AfterViewInit, OnDestroy, C
   private _destroy$ = new Subject();
 
   selectedTabId$ = new BehaviorSubject( '' );
+  actionDialogSaveChanges = new Subject();
   
   drawerOpened: boolean;
   drawerMode: 'over' | 'side';
@@ -29,6 +31,7 @@ export class ProjectShowComponent implements OnInit, AfterViewInit, OnDestroy, C
   @ViewChildren('tab', { read: ElementRef }) tabs: QueryList<ElementRef>;
 
   @ViewChild('editorInspector', { static: false }) editorInspector: EditorInspectorComponent;
+  @ViewChild('dialogSaveChanges') dialogSaveChangesRef: TemplateRef<any>;
 
   get totalOfChanges(): number {
     return this._history.totalOfChanges;
@@ -38,6 +41,7 @@ export class ProjectShowComponent implements OnInit, AfterViewInit, OnDestroy, C
     actions$: Actions,
     snackBar: MatSnackBar,
     private _store: Store,
+    private _dialog: MatDialog,
     private _history: EditorChangeHistoryService,
     private _treoMediaWatcherService: TreoMediaWatcherService,
   ) {
@@ -91,7 +95,28 @@ export class ProjectShowComponent implements OnInit, AfterViewInit, OnDestroy, C
   }
 
   canDeactivate(): Observable<boolean> {
-    return this.editorInspector.canDeactivate();
+    if ( this._history.totalOfChanges > 0 ) {
+      const dialogRef = this._dialog.open( this.dialogSaveChangesRef );
+
+      this.actionDialogSaveChanges.pipe(
+        take( 1 ),
+        flatMap(action => {
+          if ( action === "SAVE" ) {
+            return this._store.dispatch( new ProjectActive.SaveAssociatedSlides() )
+              .pipe( mapTo(action) );
+          }
+
+          return of( action );
+        }),
+        map(action => action !== "CANCEL"),
+        tap(result => dialogRef.close( result )),
+      )
+      .subscribe();
+
+      return dialogRef.afterClosed();
+    }
+
+    return of( true );
   }
 
   handleTabChange(id: string): void {
