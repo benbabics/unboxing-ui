@@ -51,6 +51,7 @@ import {
   ProjectShowComponent,
 } from './pages';
 import { 
+  AssetExplorerComponent,
   AssetFinderComponent,
   AssetIconComponent,
   AssetListsComponent,
@@ -126,13 +127,14 @@ import { TagIconPipe } from './pipes';
     EditorContentComponent,
     EditorInspectorComponent,
     EditorFormComponent,
+    EditorHistoryComponent,
+    EditorNavigationComponent,
+    AssetExplorerComponent,
+    AssetFinderComponent,
     AssetListsComponent,
     AssetListComponent,
     AssetIconComponent,
-    EditorNavigationComponent,
     FontSelectorComponent,
-    EditorHistoryComponent,
-    AssetFinderComponent,
   ],
   providers: [
     { 
