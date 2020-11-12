@@ -1,15 +1,18 @@
-import { Component, Input, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
-import { AssetDirectory, AssetElement, AssetElementFormat, ProjectActiveState } from '@projects/lib-common/src/public-api';
-import { MatDialog } from '@angular/material/dialog';
-import { filter, map, take, takeUntil, tap } from 'rxjs/operators';
 import { isUndefined } from 'lodash';
+import { Observable } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { filter, map, take } from 'rxjs/operators';
+import { AssetFormatPipe } from 'app/modules/admin/apps/projects/pipes';
+import { AssetDirectory, AssetElement, AssetElementFormat, ProjectActiveState } from '@projects/lib-common/src/public-api';
+import { Gallery } from 'angular-gallery';
 
 @Component({
   selector: 'asset-finder',
   templateUrl: './asset-finder.component.html',
-  styleUrls: ['./asset-finder.component.scss']
+  styleUrls: ['./asset-finder.component.scss'],
+  providers: [ AssetFormatPipe ]
 })
 export class AssetFinderComponent {
 
@@ -24,13 +27,14 @@ export class AssetFinderComponent {
   
   constructor(
     private _store: Store,
+    private _gallery: Gallery,
     private _dialog: MatDialog,
+    private _assetFormat: AssetFormatPipe,
   ) { }
 
   handleCreateDirectory(directory: AssetDirectory): void {
-    this._openModal(this.dialogCreateDirectoryRef, { name: "" })
+    this._openDialog(this.dialogCreateDirectoryRef, { name: "" })
       .pipe(
-        take( 1 ),
         filter(name => !!name),
         map(name => ({
           name,
@@ -41,56 +45,64 @@ export class AssetFinderComponent {
       .subscribe(payload => this._store.dispatch( new AssetDirectory.Create(payload) ));
   }
 
+  handlePreviewElement(element: AssetElement, elements: AssetElement[]): void {
+    const images: any[] = elements.map(({ url }) => ({ path: url }));
+    const index = elements.indexOf( element );
+    this._gallery.load({ images, index });
+  }
+
   handleRemoveDirectory(directory: AssetDirectory): void {
-    this._openModal(this.dialogDeleteAssetRef, { resource: "folder" })
-      .pipe(
-        take( 1 ),
-        filter(canDelete => !!canDelete),
-      )
+    this._dialogRemoveAsset({ resource: "folder" })
       .subscribe(() => this._store.dispatch( new AssetDirectory.Destroy(directory.id) ));
   }
   handleRemoveElement(element: AssetElement): void {
-    console.log('* handleRemoveElement', element);
+    let resource = this._assetFormat.transform( element.format );
+    this._dialogRemoveAsset({ resource })
+      .subscribe(() => this._store.dispatch( new AssetElement.Destroy(element.id) ));
   }
   
   handleRenameDirectory(directory: AssetDirectory): void {
     const name = directory.name;
-    this._openModal(this.dialogRenameRef, { name, original: name })
-      .pipe(
-        take( 1 ),
-        filter(name => !!name),
-        map(name => ({ name, id: directory.id })),
-      )
+    this._dialogRenameAsset({ name, original: name })
+      .pipe( map(name => ({ name, id: directory.id })) )
       .subscribe(payload => this._store.dispatch( new AssetDirectory.Update(payload) ));
   }
   handleRenameElement(element: AssetElement): void {
-    this._openModal(this.dialogRenameRef, { name: element.name, original: element.name })
-      .pipe( take( 1 ) )
-      .subscribe(data => console.log('* handleRenameElement', data));
+    this._dialogRenameAsset({ name: element.name, original: element.name })
+      .pipe( map(name => ({ name, id: element.id })) )
+      .subscribe(payload => this._store.dispatch(new AssetElement.Update(payload)));
   }
-
+  
   handleMoveDirectory(directory: AssetDirectory): void {
     const id = directory.id;
-    this._openModal(this.dialogMoveAssetRef, { id, original: id })
-      .pipe(
-        take( 1 ),
-        filter(id => !isUndefined( id )),
-        map(parentId => ({ parentId, id: directory.id })),
-      )
+    this._dialogMoveAsset({ id, original: id })
+      .pipe( map(parentId => ({ parentId, id: directory.id })) )
       .subscribe(payload => this._store.dispatch( new AssetDirectory.Update(payload) ));
   }
   handleMoveElement(element: AssetElement): void {
     const id = element.assetDirectoryId;
-    this._openModal(this.dialogMoveAssetRef, { id, original: id })
-      .pipe(
-        take( 1 ),
-        filter(id => !isUndefined( id )),
-      )
-      .subscribe(data => console.log('* handleMoveElement', data));
+    this._dialogMoveAsset({ id, original: id })
+      .pipe( map(assetDirectoryId => ({ assetDirectoryId, id: element.id })) )
+      .subscribe(payload => this._store.dispatch( new AssetElement.Update(payload) ));
   }
 
-  private _openModal(tmplRef: TemplateRef<any>, data: any): Observable<any> {
+  private _dialogRemoveAsset(payload): Observable<any> {
+    return this._openDialog(this.dialogDeleteAssetRef, payload)
+      .pipe( filter(canDelete => !!canDelete) );
+  }
+
+  private _dialogRenameAsset(payload): Observable<any> {
+    return this._openDialog( this.dialogRenameRef, payload )
+      .pipe( filter(name => !!name) );
+  }
+
+  private _dialogMoveAsset(payload): Observable<any> {
+    return this._openDialog( this.dialogMoveAssetRef, payload )
+      .pipe( filter(id => !isUndefined( id )) );
+  }
+  
+  private _openDialog(tmplRef: TemplateRef<any>, data: any): Observable<any> {
     const dialogRef = this._dialog.open(tmplRef, { data, width: "400px" });
-    return dialogRef.afterClosed();
+    return dialogRef.afterClosed().pipe( take( 1 ) );
   }
 }

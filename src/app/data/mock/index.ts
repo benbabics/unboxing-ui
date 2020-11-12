@@ -4,6 +4,7 @@ import { BrandMockApi } from 'app/data/mock/brand';
 import { MembershipMockApi } from 'app/data/mock/membership';
 import { ProjectMockApi } from 'app/data/mock/project';
 import { ProjectAssetDirectoryMockApi } from 'app/data/mock/project-assetDirectory';
+import { ProjectAssetElementMockApi } from 'app/data/mock/project-assetElement';
 import { ProjectInvitationMockApi } from 'app/data/mock/project-invitation';
 import { ProjectMemberMockApi } from 'app/data/mock/project-member';
 import { ProjectUserMockApi } from 'app/data/mock/user';
@@ -33,6 +34,7 @@ export const mockDataServices = [
   MembershipMockApi,
   ProjectMockApi,
   ProjectAssetDirectoryMockApi,
+  ProjectAssetElementMockApi,
   ProjectInvitationMockApi,
   ProjectMemberMockApi,
   ProjectUserMockApi,

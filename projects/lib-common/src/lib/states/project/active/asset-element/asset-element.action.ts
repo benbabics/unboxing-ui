@@ -28,7 +28,7 @@ export namespace AssetElement {
 
   export class Update {
     static readonly type = '[AssetElement API] Update';
-    constructor(public payload: AssetElement) { }
+    constructor(public payload: Partial<AssetElement>) { }
   }
 
   export class Destroy {

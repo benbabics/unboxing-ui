@@ -19,7 +19,7 @@ export interface AssetElementStateModel extends EntityStateModel<AssetElement> {
 @Injectable()
 export class AssetElementState extends EntityState<AssetElement> {
 
-  @Selector([AssetElementState.entities, AssetDirectoryState.activeId])
+  @Selector([ AssetElementState.entities, AssetDirectoryState.activeId ])
   static children(assetElements: AssetElement[], assetDirectoryId: string) {
     return filter(assetElements, { assetDirectoryId });
   }
@@ -47,69 +47,68 @@ export class AssetElementState extends EntityState<AssetElement> {
       const dirs: AssetDirectory[] = Object.values(assetDirectory.entities);
       
       const reducer = (collection: Set<AssetElement>, id: string) => {
-        filter(dirs, { parentId: id }).forEach(dir => reducer(collection, dir.id));
-        filter(els, { assetDirectoryId: id }).forEach(el => collection.add(el));
+        filter(dirs, { parentId: id }).forEach(dir => reducer( collection, dir.id ));
+        filter(els, { assetDirectoryId: id }).forEach(el => collection.add( el ));
       }
 
       const collection: Set<AssetElement> = new Set();
-      reducer(collection, directoryId);
-
-      return sortBy([...collection.values()], ['name']);
+      reducer( collection, directoryId );
+      return sortBy([ ...collection.values() ], [ 'name' ]);
     }
   }
   
   constructor(
-    private store: Store,
-    private http: HttpClient,
+    private _store: Store,
+    private _http: HttpClient,
   ) {
-    super(AssetElementState, 'id', IdStrategy.EntityIdGenerator);
+    super( AssetElementState, 'id', IdStrategy.EntityIdGenerator );
   }
 
-  @Action(AssetElement.Index)
+  @Action( AssetElement.Index )
   crudIndex(ctx: StateContext<AssetElementStateModel>, { projectId }: AssetElement.Index) {
-    this.toggleLoading(true);
+    this.toggleLoading( true );
 
-    return this.http.get<AssetElement[]>(`/api/assetElements?projectId=${projectId}`)
+    return this._http.get<AssetElement[]>(`/api/assetElements?projectId=${ projectId }`)
       .pipe(
-        tap(els => this.store.dispatch(new CreateOrReplace(AssetElementState, els))),
-        finalize(() => this.toggleLoading(false)),
+        tap(els => this._store.dispatch( new CreateOrReplace(AssetElementState, els) )),
+        finalize(() => this.toggleLoading( false )),
       );
   }
 
-  @Action(AssetElement.Create)
+  @Action( AssetElement.Create )
   crudCreate(ctx: StateContext<AssetElementStateModel>, { payload }: AssetElement.Create) {
-    this.toggleLoading(true);
+    this.toggleLoading( true );
 
-    return this.http.post<AssetElement>(`/api/assetElements/${payload.id}`, payload)
+    return this._http.post<AssetElement>(`/api/assetElements/${ payload.id }`, payload)
       .pipe(
-        flatMap(el => this.store.dispatch(new Add(AssetElementState, el))),
-        finalize(() => this.toggleLoading(false)),
+        flatMap(el => this._store.dispatch( new Add(AssetElementState, el) )),
+        finalize(() => this.toggleLoading( false )),
       );
   }
 
-  @Action(AssetElement.Update)
+  @Action( AssetElement.Update )
   crudUpdate(ctx: StateContext<AssetElementStateModel>, { payload }: AssetElement.Update) {
-    this.toggleLoading(true);
+    this.toggleLoading( true );
 
-    return this.http.put<AssetElement>(`/api/assetElements/${payload.id}`, payload)
+    return this._http.patch<AssetElement>(`/api/assetElements/${ payload.id }`, payload)
       .pipe(
-        flatMap(el => this.store.dispatch(new Update(AssetElementState, el.id, el))),
-        finalize(() => this.toggleLoading(false)),
+        flatMap(el => this._store.dispatch( new Update(AssetElementState, el.id, el) )),
+        finalize(() => this.toggleLoading( false )),
       );
   }
 
-  @Action(AssetElement.Destroy)
+  @Action( AssetElement.Destroy )
   crudDestroy(ctx: StateContext<AssetElementStateModel>, { id }: AssetElement.Destroy) {
-    this.toggleLoading(true);
+    this.toggleLoading( true );
 
-    return this.http.delete(`/api/assetElements/${id}`)
+    return this._http.delete(`/api/assetElements/${ id }`)
       .pipe(
-        flatMap(() => this.store.dispatch(new Remove(AssetElementState, id))),
-        finalize(() => this.toggleLoading(false)),
+        flatMap(() => this._store.dispatch( new Remove(AssetElementState, id) )),
+        finalize(() => this.toggleLoading( false )),
       );
   }
 
   private toggleLoading(isLoading: boolean): void {
-    this.store.dispatch(new SetLoading(AssetElementState, isLoading));
+    this._store.dispatch( new SetLoading(AssetElementState, isLoading) );
   }
 }
