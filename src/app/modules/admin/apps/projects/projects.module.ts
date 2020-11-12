@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxsFormPluginModule } from '@ngxs/form-plugin';
+import { IvyGalleryModule } from 'angular-gallery';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
@@ -76,6 +77,7 @@ import { TagIconPipe } from './pipes';
     ProjectsRoutingModule,
     ReactiveFormsModule,
     NgxsFormPluginModule,
+    IvyGalleryModule,
     MatAutocompleteModule,
     MatBadgeModule,
     MatButtonModule,

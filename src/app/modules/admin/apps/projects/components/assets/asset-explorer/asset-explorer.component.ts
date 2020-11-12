@@ -6,6 +6,7 @@ import { map, mapTo, takeUntil, tap } from 'rxjs/operators';
 import { Actions, Store } from '@ngxs/store';
 import { EntityActionType, ofEntityActionSuccessful } from '@ngxs-labs/entity-state';
 import { AssetDirectory, AssetDirectoryState, AssetElement, AssetElementFormat, AssetElementState } from '@projects/lib-common/src/public-api';
+import { AssetFormatPipe } from 'app/modules/admin/apps/projects/pipes';
 
 @Component({
   selector: 'asset-explorer',
@@ -18,7 +19,8 @@ import { AssetDirectory, AssetDirectoryState, AssetElement, AssetElementFormat, 
         elements: elements
       }">
     </ng-template>
-  `
+  `,
+  providers: [ AssetFormatPipe ]
 })
 export class AssetExplorerComponent implements OnInit, OnDestroy {
 
@@ -39,6 +41,7 @@ export class AssetExplorerComponent implements OnInit, OnDestroy {
     actions$: Actions,
     snackBar: MatSnackBar,
     private _store: Store,
+    private _assetFormat: AssetFormatPipe,
   ) {
     actions$.pipe(
       ofEntityActionSuccessful( AssetDirectoryState, EntityActionType.Add ),
@@ -59,11 +62,28 @@ export class AssetExplorerComponent implements OnInit, OnDestroy {
       .subscribe();
 
     actions$.pipe(
+      ofEntityActionSuccessful( AssetElementState, EntityActionType.Update ),
+      takeUntil( this._destroy$ ),
+      map(({ payload }) => ({ ...payload.data, resource: this._assetFormat.transform( payload.data.format ) })),
+      tap(({ name, resource }) => snackBar.open(`The ${ resource } "${ name }" has been updated.`, `Ok`)),
+      tap(({ assetDirectoryId }) => this._setActiveDirectory( assetDirectoryId )),
+    )
+      .subscribe();
+
+    actions$.pipe(
       ofEntityActionSuccessful( AssetDirectoryState, EntityActionType.Remove ),
       takeUntil( this._destroy$ ),
       map(() => this.activeDirectory),
       tap(({ name }) => snackBar.open(`The folder "${ name }" was deleted.`, `Ok`)),
       tap(({ parentId }) => this._setActiveDirectory( parentId || null )),
+    )
+      .subscribe();
+
+    actions$.pipe(
+      ofEntityActionSuccessful( AssetElementState, EntityActionType.Remove ),
+      takeUntil( this._destroy$ ),
+      tap(() => snackBar.open(`The media was deleted.`, `Ok`)),
+      tap(() => this._setActiveDirectory( this.activeDirectory.id )),
     )
       .subscribe();
   }

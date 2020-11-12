@@ -10,8 +10,8 @@ import { of } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class ProjectAssetDirectoryMockApi implements TreoMockApi {
-  
+export class ProjectAssetElementMockApi implements TreoMockApi {
+
   constructor(
     private _store: Store,
     private _http: HttpClient,
@@ -23,45 +23,45 @@ export class ProjectAssetDirectoryMockApi implements TreoMockApi {
 
   register(): void {
     /**
-     * POST /assetDirectories
+     * POST /assetElements
      */
     this._treoMockApiService
-      .onPost( "/api/assetDirectories" )
+      .onPost( "/api/assetElements" )
       .reply(request => {
         if ( !this._authService.isAuthenticated ) {
           return [ 403, { error: "Unauthorized" } ];
         }
 
-        return this._http.post( `/mock-api/assetDirectories`, request.body )
+        return this._http.post( `/mock-api/assetElements`, request.body )
           .pipe(map(assetDirectory => [ 200, assetDirectory ]));
       });
 
     /**
-     * PATCH /assetDirectories/:assetDirectoryId
+     * PATCH /assetElements/:assetElementId
      */
     this._treoMockApiService
-      .onPatch( "/api/assetDirectories/:assetDirectoryId" )
+      .onPatch( "/api/assetElements/:assetElementId" )
       .reply(request => {
         if ( !this._authService.isAuthenticated ) {
           return [ 403, { error: "Unauthorized" } ];
         }
 
-        const assetDirectoryId = request.params.get( 'assetDirectoryId' );
-        return this._http.patch( `/mock-api/assetDirectories/${ assetDirectoryId }`, request.body )
+        const assetElementId = request.params.get( 'assetElementId' );
+        return this._http.patch( `/mock-api/assetElements/${ assetElementId }`, request.body )
           .pipe(map(assetDirectory => [ 200, assetDirectory ]));
       });
 
     /**
-     * DELETE /assetDirectories/:assetDirectoryId
+     * DELETE /assetElements/:assetElementId
      */
     this._treoMockApiService
-      .onDelete( "/api/assetDirectories/:assetDirectoryId" )
+      .onDelete( "/api/assetElements/:assetElementId" )
       .reply(request => {
         if ( !this._authService.isAuthenticated ) {
           return [ 403, { error: "Unauthorized" } ];
         }
 
-        const assetDirectoryId = request.params.get( 'assetDirectoryId' );
+        const assetElementId = request.params.get( 'assetElementId' );
         return of('')
           .pipe(map(() => [ 200 ]));
       });
