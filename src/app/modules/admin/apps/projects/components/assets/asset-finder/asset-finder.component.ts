@@ -74,14 +74,15 @@ export class AssetFinderComponent {
   }
   
   handleMoveDirectory(directory: AssetDirectory): void {
-    const id = directory.id;
-    this._dialogMoveAsset({ id, original: id })
+    const parentId = directory.parentId;
+    this._dialogMoveAsset({ id: parentId, original: directory.id, parentId: parentId, isFolder: true, icon: "folder", name: directory.name })
       .pipe( map(parentId => ({ parentId, id: directory.id })) )
       .subscribe(payload => this._store.dispatch( new AssetDirectory.Update(payload) ));
   }
   handleMoveElement(element: AssetElement): void {
     const id = element.assetDirectoryId;
-    this._dialogMoveAsset({ id, original: id })
+    const icon = this._assetFormat.transform( element.format );
+    this._dialogMoveAsset({ id, original: id, parentId: id, isFolder: false, icon, name: element.name })
       .pipe( map(assetDirectoryId => ({ assetDirectoryId, id: element.id })) )
       .subscribe(payload => this._store.dispatch( new AssetElement.Update(payload) ));
   }

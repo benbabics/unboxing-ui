@@ -276,17 +276,17 @@
 <ng-template #dialogMoveAsset let-data>
   <h2 mat-dialog-title>Move To</h2>
 
-  <mat-dialog-content>
-    <asset-explorer 
-      #explorerRelocate
-      [directoryId]="data.original">
+  <asset-explorer 
+    #explorerRelocate
+    [directoryId]="data.id">
 
-      <ng-template 
-        let-activeDirectory="activeDirectory"
-        let-directories="directories"
-        let-elements="elements">
-        
-        <mat-toolbar class="h-12 sticky top-0 relative z-20 light:bg-cool-gray-100">
+    <ng-template 
+      let-activeDirectory="activeDirectory"
+      let-directories="directories"
+      let-elements="elements">
+
+      <mat-dialog-content>
+        <mat-toolbar class="sticky top-0 px-2 relative z-20 h-12 rounded light:bg-cool-gray-200">
           <ng-container *ngIf="activeDirectory; else titleRoot">
             <button
               class="mr-1"
@@ -303,20 +303,47 @@
           </ng-template>
         </mat-toolbar>
 
+        <ng-container *ngIf="data.id != (activeDirectory?.id || null) || data.parentId != (activeDirectory?.id || null)">
+          <div class="mt-4 ml-4 px-4 py-2 bg-orange-50 border-l-4 border-orange-500 text-orange-600" role="alert">
+            <div class="flex">
+              <mat-icon class="py-1 text-orange-600">{{ data.icon }}</mat-icon>
+              <div class="ml-2">
+                <p class="font-semibold">{{ data.name }}</p>
+                <p class="text-sm text-secondary">will be added to this folder.</p>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
         <mat-list>
           <ng-container *ngIf="directories.length > 0">
             <div mat-subheader>Folders</div>
             <mat-list-item *ngFor="let directory of directories" class="h-12">
-              <button 
-                class="flex w-full justify-start"
-                mat-button
-                [class.bg-primary-100]="data.id == directory.id"
-                [color]="data.id == directory.id ? 'primary' : null"
-                (click)="data.id = directory.id"
-                (click)="explorerRelocate.handleNavigateDirectory( directory.id )">
-                <mat-icon mat-list-icon>folder</mat-icon>
-                <div mat-line>{{ directory.name }}</div>
-              </button>
+              <ng-container *ngIf="data.isFolder">
+                <button 
+                  class="flex w-full justify-start"
+                  mat-button
+                  [class.bg-primary-100]="directory.id == data.original"
+                  [color]="directory.id == data.original ? 'primary' : null"
+                  (click)="data.id = directory.id == data.original ? data.id : directory.id"
+                  (click)="directory.id != data.original && explorerRelocate.handleNavigateDirectory( directory.id )">
+                  <mat-icon mat-list-icon>folder</mat-icon>
+                  <div mat-line>{{ directory.name }}</div>
+                </button>
+              </ng-container>
+
+              <ng-container *ngIf="!data.isFolder">
+                <button 
+                  class="flex w-full justify-start"
+                  mat-button
+                  [class.bg-primary-100]="directory.id == data.original"
+                  [color]="directory.id == data.original ? 'primary' : null"
+                  (click)="data.id = directory.id"
+                  (click)="explorerRelocate.handleNavigateDirectory( directory.id )">
+                  <mat-icon mat-list-icon>folder</mat-icon>
+                  <div mat-line>{{ directory.name }}</div>
+                </button>
+              </ng-container>
             </mat-list-item>
           </ng-container>
 
@@ -340,12 +367,12 @@
             </mat-list-item>
           </ng-container>
         </mat-list>
-      </ng-template>
-    </asset-explorer>
-  </mat-dialog-content>
+      </mat-dialog-content>
 
-  <mat-dialog-actions class="pb-4 justify-end">
-    <button mat-button [mat-dialog-close]="">Cancel</button>
-    <button mat-button [disabled]="data.id == data.original" [mat-dialog-close]="data.id" color="primary" cdkFocusInitial>Move Here</button>
-  </mat-dialog-actions>
+      <mat-dialog-actions class="pb-4 justify-end">
+        <button mat-button [mat-dialog-close]="">Cancel</button>
+        <button mat-button [disabled]="activeDirectory?.id == data.parentId || data.id == data.original" [mat-dialog-close]="data.id" color="primary" cdkFocusInitial>Move Here</button>
+      </mat-dialog-actions>
+    </ng-template>
+  </asset-explorer>
 </ng-template>
