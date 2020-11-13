@@ -50,16 +50,32 @@
       min-width: 450px !important;
       max-width: 450px !important;
 
+      ::ng-deep .asset-list-item {
+        width:  133px;
+        height: 133px;
+        background: red;
+      }
+
       @include treo-breakpoint('lt-lg') {
         width:     512px !important;
         min-width: 512px !important;
         max-width: 512px !important;
+
+        ::ng-deep .asset-list-item {
+          width:  154px;
+          height: 154px;
+        }
       }
 
       @include treo-breakpoint('xs') {
         width:     100% !important;
         min-width: 100% !important;
         max-width: 100% !important;
+
+        ::ng-deep .asset-list-item {
+          width:  25%;
+          height: 100%;
+        }
       }
 
       .actions {
