@@ -334,7 +334,7 @@
       "name": "photo-4.jpg",
       "format": "PHOTO",
       "projectId": 2,
-      "assetDirectoryId": "dir-02"
+      "assetDirectoryId": 2
     },
     {
       "id": 5,
@@ -342,7 +342,7 @@
       "name": "photo-5.jpg",
       "format": "PHOTO",
       "projectId": 2,
-      "assetDirectoryId": "dir-02"
+      "assetDirectoryId": 2
     },
     {
       "id": 6,

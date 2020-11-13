@@ -66,7 +66,8 @@ export class AssetExplorerComponent implements OnInit, OnDestroy {
       takeUntil( this._destroy$ ),
       map(({ payload }) => ({ ...payload.data, resource: this._assetFormat.transform( payload.data.format ) })),
       tap(({ name, resource }) => snackBar.open(`The ${ resource } "${ name }" has been updated.`, `Ok`)),
-      tap(({ assetDirectoryId }) => this._setActiveDirectory( assetDirectoryId )),
+      map(() => this.activeDirectory),
+      tap(dir => this._setActiveDirectory( dir?.id || null )),
     )
       .subscribe();
 
