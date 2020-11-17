@@ -12,11 +12,17 @@ export interface AuthStateModel extends Auth { }
   defaults: {
     token: null,
     email: null,
+    rememberMe: false,
   }
 })
 @Injectable()
 export class AuthState {
 
+  @Selector()
+  static details(state: AuthStateModel) {
+    return state;
+  }
+  
   @Selector()
   static email(state: AuthStateModel): string | null {
     return state.email;
@@ -32,26 +38,31 @@ export class AuthState {
     return !!state.token;
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private _http: HttpClient,
+  ) { }
 
-  @Action(Auth.Login)
+  @Action( Auth.Login )
   login(ctx: StateContext<AuthStateModel>, action: Auth.Login) {
     return new Promise((resolve, reject) => {
-      const { email, password } = action.payload;
-      this.http.post(`/api/signin`, { email, password })
+      const { email, password, rememberMe } = action.payload;
+      this._http.post(`/api/signin`, { email, password })
         .pipe(
           map(({ accessToken }: any) => ({ email, token: accessToken })),
-          tap((state => ctx.patchState(state))),
+          tap((state => ctx.patchState({ ...state, rememberMe }))),
         )
         .subscribe(() => resolve(), err => reject(err));
     })
   }
 
-  @Action(Auth.Logout)
+  @Action( Auth.Logout )
   logout(ctx: StateContext<AuthStateModel>) {
-    ctx.patchState({
-      email: null,
-      token: null,
-    });
+    let state = { token: null };
+
+    if ( !ctx.getState().rememberMe ) {
+      state = { ...state, email: null } as any;
+    }
+    
+    ctx.patchState( state );
   }
 }
