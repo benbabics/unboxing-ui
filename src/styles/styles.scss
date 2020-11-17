@@ -51,3 +51,19 @@
   }
 }
 
+
+
+/**
+ * Theme Styling
+**/
+.binding-is-active,
+.binding-has-hover {
+  transition:         box-shadow .25s ease-in;
+  -o-transition:      box-shadow .25s ease-in;
+  -webkit-transition: box-shadow .25s ease-in;
+
+  outline: 1px solid #ffcc00;
+  box-shadow:         0 0 5px #ffcc00;
+  -moz-box-shadow:    0 0 5px #ffcc00;
+  -webkit-box-shadow: 0 0 5px #ffcc00;
+}

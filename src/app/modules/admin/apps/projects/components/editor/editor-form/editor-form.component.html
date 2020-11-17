@@ -1,4 +1,4 @@
-<form [formGroup]="form" class="flex flex-col">
+<form [formGroup]="form" autocomplete="off" class="flex flex-col">
   
   <ng-template ngFor let-field [ngForOf]="templateFields">
     <ng-container *ngIf="field.divider">
@@ -47,8 +47,9 @@
             <input 
               matInput
               [type]="field.type" 
-              [name]="field.id" 
+              [name]="field.id"
               [formControlName]="field.id"
+              [fieldBinding]="field.id"
               [required]="field.validators?.required" 
               [minlength]="field.validators?.minlength"
               [maxlength]="field.validators?.maxlength">
