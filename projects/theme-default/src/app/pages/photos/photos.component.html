@@ -1,6 +1,14 @@
 <ng-container *ngIf="slide$ | async as slide">
-  <h1>{{ slide.attributes.title }}</h1>
-  <h2>{{ slide.attributes.subtitle }}</h2>
+  <h1 
+    *ngIf="slide.attributes.title" 
+    elementBinding="title">
+    {{ slide.attributes.title }}
+  </h1>
+  <h2 
+    *ngIf="slide.attributes.subtitle" 
+    elementBinding="subtitle">
+    {{ slide.attributes.subtitle }}
+  </h2>
 </ng-container>
 
 <ng-container *ngIf="!hasLoaded">

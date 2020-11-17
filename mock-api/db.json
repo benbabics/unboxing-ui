@@ -1394,7 +1394,12 @@
     {
       "id": 5,
       "attributes": {
-        "galleries": []
+        "galleries": [],
+        "fields": null,
+        "title": "foo",
+        "subtitle": "bar",
+        "galleries-title": null,
+        "galleries-order": null
       },
       "projectId": 2,
       "themeId": "theme-default",

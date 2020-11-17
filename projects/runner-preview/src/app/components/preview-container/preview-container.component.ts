@@ -2,8 +2,8 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { PostMessageBridgeFactory, IPostMessageBridge } from '@tekool/ngx-post-message-angular-9';
 import { Add, Remove, SetActive, UpdateActive, Update, CreateOrReplace, EntityActionType, ofEntityActionSuccessful } from '@ngxs-labs/entity-state';
 import { Subject } from 'rxjs';
-import { Store } from '@ngxs/store';
-import { filter, map, take, takeUntil } from 'rxjs/operators';
+import { Actions, ofActionDispatched, Store } from '@ngxs/store';
+import { filter, map, take, takeUntil, tap } from 'rxjs/operators';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { AssetDirectoryState, AssetElementState, ProjectActive, ProjectActiveState, ProjectState, Slide, SlideState, ThemeState } from '@libCommon';
 
@@ -18,6 +18,7 @@ export class PreviewContainerComponent implements OnInit, OnDestroy {
   private _destroy$ = new Subject();
   
   constructor(
+    private _actions$: Actions,
     private _store: Store,
     private _router: Router,
     private _route: ActivatedRoute,
@@ -55,6 +56,12 @@ export class PreviewContainerComponent implements OnInit, OnDestroy {
         map(({ templateId }) => ({ pageId: templateId })),
       )
       .subscribe(data => this._handleSendAction({ type: 'page-active', data }));
+
+    this._actions$.pipe(
+      ofActionDispatched( Slide.FocusElement ),
+      takeUntil( this._destroy$ ),
+    )
+    .subscribe(({ name }) => this._handleSendAction({ type: 'element-focus', data: name }));
 
     const findRoute = route =>
       route.snapshot.data.isThemeWrapper ? route.firstChild : findRoute( route.firstChild );
@@ -101,6 +108,7 @@ export class PreviewContainerComponent implements OnInit, OnDestroy {
       ProjectActiveState,
       AssetDirectoryState,
       AssetElementState,
+      { name: "slide" },
       SlideState,
       ThemeState,
     ];
@@ -117,6 +125,7 @@ export class PreviewContainerComponent implements OnInit, OnDestroy {
         case "createOrReplace":   return new CreateOrReplace( entity, data );
         case "setAssociations":   return new ProjectActive.SetAssociations(data);
         case "clearAssociations": return new ProjectActive.ClearAssociations();
+        case "focusField":        return new Slide.FocusField( data );
       }
     }
 

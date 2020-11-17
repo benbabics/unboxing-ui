@@ -22,12 +22,14 @@ import {
   VideosComponent,
   WrapperComponent
 } from './pages';
+import { SharedModule } from 'app/shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     LibCommonModule,
     AppRoutingModule,
+    SharedModule,
   ],
   declarations: [
     AppComponent,
@@ -35,9 +37,9 @@ import {
     PhotosComponent,
     VideosComponent,
     LandingComponent,
-    FontFamilyDirective,
     ImageLoaderComponent,
     VideoPlayerComponent,
+    FontFamilyDirective,
   ],
   providers: [
     AssetService,

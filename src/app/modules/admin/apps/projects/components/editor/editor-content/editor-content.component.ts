@@ -1,9 +1,9 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { merge, Subject } from 'rxjs';
-import { Actions, Store } from '@ngxs/store';
+import { Actions, ofActionDispatched, Store } from '@ngxs/store';
 import { EntityActionType, ofEntityActionSuccessful, SetActive } from '@ngxs-labs/entity-state';
 import { IPostMessageBridge, IPostMessageEventTarget, PostMessageBridgeFactory } from '@tekool/ngx-post-message-angular-9';
-import { ProjectActiveState, ProjectState, SlideState, ThemeState } from '@libCommon';
+import { ProjectActiveState, ProjectState, Slide, SlideState, ThemeState } from '@libCommon';
 import { map, takeUntil, tap } from 'rxjs/operators';
 
 @Component({
@@ -34,6 +34,14 @@ export class EditorContentComponent implements OnInit, OnDestroy {
     assignAction( SlideState, EntityActionType.SetActive );
     assignAction( SlideState, EntityActionType.Update );
     assignAction( SlideState, EntityActionType.UpdateActive );
+
+    actions$.pipe(
+      ofActionDispatched( Slide.FocusField ),
+      takeUntil( this._destroy$ ),
+    )
+    .subscribe(({ name }) => {
+      this._sendAction({ resource: "slide", action: "focusField", data: name });
+    });
   }
 
   ngOnInit() {
@@ -97,6 +105,10 @@ export class EditorContentComponent implements OnInit, OnDestroy {
       case "page-active":
         const slide = this._store.selectSnapshot( SlideState.getByTemplateId(data.pageId) );
         this._store.dispatch( new SetActive(SlideState, slide.id) );
+      break;
+
+      case "element-focus":
+        this._store.dispatch( new Slide.FocusElement(data) );
       break;
     }
   }
