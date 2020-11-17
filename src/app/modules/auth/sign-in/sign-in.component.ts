@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { TreoAnimations } from '@treo/animations';
 import { AuthService } from 'app/core/auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngxs/store';
+import { AuthState } from '@projects/lib-common/src/lib/states';
 
 @Component({
     selector: 'auth-sign-in',
@@ -18,20 +20,22 @@ export class AuthSignInComponent implements OnInit {
   message: any;
 
   constructor(
-    private _activatedRoute: ActivatedRoute,
+    private _store: Store,
     private _authService: AuthService,
     private _formBuilder: FormBuilder,
-    private _router: Router
   ) {
     this.message = null;
   }
 
   ngOnInit(): void {
-    this.signInForm = this._formBuilder.group({
-      email:      [ '' ],
-      password:   [ '' ],
-      rememberMe: [ '' ],
-    });
+    this._store.selectOnce( AuthState.details )
+      .subscribe(state => {
+        this.signInForm = this._formBuilder.group({
+          password:   [ '' ],
+          email:      [ state.email ],
+          rememberMe: [ state.rememberMe ],
+        });
+      });
   }
 
   signIn(): void {

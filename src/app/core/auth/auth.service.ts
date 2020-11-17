@@ -19,8 +19,8 @@ export class AuthService {
     return this.store.selectSnapshot(AuthState.isAuthenticated);
   }
 
-  signIn(credentials: { email: string, password: string }): Observable<any> {
-    if (this.isAuthenticated ) {
+  signIn(credentials: { email: string, password: string, rememberMe: boolean }): Observable<any> {
+    if ( this.isAuthenticated ) {
       return throwError('User is already logged in.');
     }
 
