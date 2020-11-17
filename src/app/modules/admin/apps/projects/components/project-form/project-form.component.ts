@@ -237,6 +237,9 @@ export class ProjectFormComponent implements OnChanges, OnDestroy, ComponentCanD
           return this._slugValidator.checkDuplicateValue( payload.slug );
         }),
         filter(isValid => isValid),
+        flatMap(() => this._store.dispatch(
+          new UpdateFormDirty({ path: this.formPath, dirty: false }) 
+        )),
         tap(() => this.onSumbit.emit( payload ))
       )
       .subscribe();
