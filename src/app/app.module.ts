@@ -33,6 +33,7 @@ import {
   UiPreferencesState,
   UserState,
 } from '@libCommon';
+import { NgTippyModule } from 'angular-tippy';
 import { PostMessageModule } from '@tekool/ngx-post-message-angular-9';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
@@ -67,6 +68,7 @@ const routerConfig: ExtraOptions = {
     LayoutModule,
 
     // 3rd party modules
+    NgTippyModule,
     PostMessageModule,
     MarkdownModule.forRoot({}),
 
