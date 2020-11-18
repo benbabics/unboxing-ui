@@ -52,6 +52,7 @@
     "@ngxs/store": "^3.7.0",
     "@tekool/ngx-post-message-angular-9": "^1.5.9",
     "angular-gallery": "^1.0.2",
+    "angular-tippy": "^0.0.3",
     "apexcharts": "3.19.3",
     "crypto-js": "3.3.0",
     "highlight.js": "10.1.1",
