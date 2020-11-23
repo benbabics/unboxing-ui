@@ -1,10 +1,21 @@
 import { Directive, ElementRef, HostListener, Input, OnInit, OnDestroy, Renderer2 } from '@angular/core';
 import { Actions, ofActionDispatched, Store } from '@ngxs/store';
-import { isNil } from 'lodash';
+import { isArray, isNil } from 'lodash';
 import { merge, Subject } from 'rxjs';
 import { delay, map, takeUntil, tap } from 'rxjs/operators';
 import { Slide } from '@projects/lib-common/src/lib/states';
 import { NgTippyService, Instance } from 'angular-tippy';
+
+export enum ElementBindingAction {
+  Edit   = "EDIT",
+  Delete = "DELETE",
+}
+
+export interface ElementBindingButton {
+  action: ElementBindingAction;
+  label: string;
+  name: string;
+}
 
 @Directive({
   selector: '[elementBinding]'
@@ -14,15 +25,8 @@ export class ElementBindingDirective implements OnInit, OnDestroy {
   private _destroy$  = new Subject();
   private _tooltip: Instance;
 
-  @Input() elementBinding: string;
-
-  @HostListener( 'click' ) 
-  onClick() {
-    // separate thread to resolve "tap" issues 
-    setTimeout(() => this._store.dispatch( 
-      new Slide.FocusElement( this.elementBinding )
-    ));
-  }
+  @Input() elementBindingLabel: string;
+  @Input() elementBinding: ElementBindingButton[];
   
   @HostListener( 'mouseenter' ) 
   onMouseEnter() {
@@ -47,7 +51,7 @@ export class ElementBindingDirective implements OnInit, OnDestroy {
     .pipe(
       takeUntil( this._destroy$ ),
       delay( 0 ),
-      map(({ name }) => name === this.elementBinding),
+      map(({ name }) => this.elementBinding.map(({ name }) => name).includes( name )),
       tap(isActive => this.toggle( 'binding-is-active', isActive )),
       tap(isActive => this.renderTooltip( isActive )),
       tap(()       => this.handleFocusElement())
@@ -56,13 +60,53 @@ export class ElementBindingDirective implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    function renderButton(data: ElementBindingButton): string {
+      let label;
+
+      switch( data.action ) {
+        case ElementBindingAction.Edit:
+          label = data.label || "Edit Text";
+          break;
+
+        case ElementBindingAction.Delete:
+          label = data.label || "Delete";
+          break;
+      }
+
+      return `
+        <button
+          class="btn"
+          data-action="${ data.action }"
+          data-name="${ data.name }">
+          ${ label }
+        </button>
+      `;
+    }
+    
     this._tooltip = this._tippy.init(this._elementRef, {
       arrow:       true,
       allowHTML:   true,
       interactive: true,
       interactiveBorder: 30,
       theme: "light-border",
-      content: `<strong>Bolded content</strong>`,
+      content: `
+        <strong>${ this.elementBindingLabel }</strong>
+        ${ this.elementBinding.map(button => renderButton( button )).join( '' ) }
+      `,
+      onShown: (instance) => {
+        const handleClick = ({ target }) => {
+          switch ( target.dataset.action ) {
+            case ElementBindingAction.Edit:
+            case ElementBindingAction.Delete:
+              this._dispatchFocusEvent( target.dataset.name );
+            break;
+          }
+
+          instance.hide();
+        };
+
+        instance.popper.addEventListener( 'click', handleClick );
+      },
     });
   }
 
@@ -85,9 +129,9 @@ export class ElementBindingDirective implements OnInit, OnDestroy {
       this._tooltip.disable();
     }
     else {
+      this._tooltip.enable();
       this._tooltip.hide();
       this._tooltip.set({ trigger: "mouseenter focus" });
-      this._tooltip.enable();
     }
   }
 
@@ -97,5 +141,11 @@ export class ElementBindingDirective implements OnInit, OnDestroy {
       inline:   "end",
       behavior: "smooth",
     });
+  }
+
+  private _dispatchFocusEvent(name: string): void {
+    setTimeout(() => this._store.dispatch( 
+      new Slide.FocusElement( name )
+    ));
   }
 }

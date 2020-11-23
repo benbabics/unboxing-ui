@@ -13,7 +13,7 @@ export class FieldBindingDirective implements OnDestroy {
 
   @Input() fieldBinding: string;
 
-  @HostListener( 'click' ) 
+  @HostListener( 'focus' ) 
   onClick() {
     this._store.dispatch( new Slide.FocusField(this.fieldBinding) );
   }
