@@ -1,5 +1,5 @@
-import { catchError } from 'rxjs/operators';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { catchError, delay, map, tap } from 'rxjs/operators';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { TreoAnimations } from '@treo/animations';
 import { AuthService } from 'app/core/auth/auth.service';
@@ -14,8 +14,11 @@ import { AuthState } from '@projects/lib-common/src/lib/states';
     encapsulation: ViewEncapsulation.None,
     animations: TreoAnimations
 })
-export class AuthSignInComponent implements OnInit {
+export class AuthSignInComponent implements OnInit, AfterViewInit {
 
+  @ViewChild( 'emailField' ) fieldEmail: ElementRef<any>;
+  @ViewChild( 'passwordField' ) fieldPassword: ElementRef<any>;
+  
   signInForm: FormGroup;
   message: any;
 
@@ -36,6 +39,16 @@ export class AuthSignInComponent implements OnInit {
           rememberMe: [ state.rememberMe ],
         });
       });
+  }
+
+  ngAfterViewInit() {
+    this._store.selectOnce( AuthState.details )
+      .pipe(
+        delay( 100 ),
+        map(({ rememberMe }) => rememberMe ? this.fieldPassword : this.fieldEmail),
+        tap(field => field.nativeElement.focus()),
+      )
+      .subscribe();
   }
 
   signIn(): void {
