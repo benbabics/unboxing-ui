@@ -5,6 +5,7 @@
     <mat-select 
       matPrefix
       panelClass="font-selector-panel"
+      [fieldBinding]="fieldBindingId"
       [value]="selectedFont?.id || ''"
       (selectionChange)="handleSelection( $event.value )">
 

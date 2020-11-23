@@ -1,5 +1,12 @@
 <ng-container *ngIf="slide$ | async as slide">
-  <h1 elementBinding="title" [fontFamily]="slide.attributes.titleFont">
+  <h1 
+    [elementBinding]="[
+      { action: 'EDIT', name: 'title',     label: 'Edit Text' },
+      { action: 'EDIT', name: 'titleFont', label: 'Edit Font' }
+    ]"
+    elementBindingLabel="Page Title"
+    [fontFamily]="slide.attributes.titleFont">
+
     {{ slide.attributes.title }}
   </h1>
 </ng-container>

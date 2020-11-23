@@ -1,13 +1,15 @@
 <ng-container *ngIf="slide$ | async as slide">
   <h1 
     *ngIf="slide.attributes.title" 
-    elementBinding="title">
+    elementBindingLabel="Page Title"
+    [elementBinding]="[{ action: 'EDIT', name: 'title' }]">
     {{ slide.attributes.title }}
   </h1>
   <br>
   <h2 
     *ngIf="slide.attributes.subtitle" 
-    elementBinding="subtitle">
+    elementBindingLabel="Page Subitle"
+    [elementBinding]="[{ action: 'EDIT', name: 'subtitle' }]">
     {{ slide.attributes.subtitle }}
   </h2>
 </ng-container>

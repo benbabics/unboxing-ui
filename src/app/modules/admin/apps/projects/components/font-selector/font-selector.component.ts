@@ -10,6 +10,7 @@ export class FontSelectorComponent {
 
   fonts: Font[] = FontIds;
 
+  @Input() fieldBindingId: string;
   @Input() label: string = "Font";
 
   @Input() fontId: string;
