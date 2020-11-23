@@ -2,7 +2,7 @@ import { Directive, ElementRef, HostListener, Input, OnInit, OnDestroy, Renderer
 import { Actions, ofActionDispatched, Store } from '@ngxs/store';
 import { isArray, isNil } from 'lodash';
 import { merge, Subject } from 'rxjs';
-import { delay, map, takeUntil, tap } from 'rxjs/operators';
+import { delay, filter, map, takeUntil, tap } from 'rxjs/operators';
 import { Slide } from '@projects/lib-common/src/lib/states';
 import { NgTippyService, Instance } from 'angular-tippy';
 
@@ -57,6 +57,15 @@ export class ElementBindingDirective implements OnInit, OnDestroy {
       tap(()       => this.handleFocusElement())
     )
     .subscribe();
+
+    actions$.pipe(
+      ofActionDispatched( Slide.ClearElement ),
+      takeUntil( this._destroy$ ),
+      filter(({ name }) => this.elementBinding.map(({ name }) => name).includes( name )),
+      tap(() => this.toggle( 'binding-is-active', false )),
+      tap(() => this.renderTooltip( false )),
+    )
+    .subscribe();
   }
 
   ngOnInit() {
@@ -65,7 +74,7 @@ export class ElementBindingDirective implements OnInit, OnDestroy {
 
       switch( data.action ) {
         case ElementBindingAction.Edit:
-          label = data.label || "Edit Text";
+          label = data.label || "Edit";
           break;
 
         case ElementBindingAction.Delete:
@@ -97,8 +106,11 @@ export class ElementBindingDirective implements OnInit, OnDestroy {
         const handleClick = ({ target }) => {
           switch ( target.dataset.action ) {
             case ElementBindingAction.Edit:
+              this._dispatchEvent( new Slide.FocusElement(target.dataset.name) );
+            break;
+
             case ElementBindingAction.Delete:
-              this._dispatchFocusEvent( target.dataset.name );
+              this._dispatchEvent( new Slide.ClearElement(target.dataset.name) );
             break;
           }
 
@@ -143,9 +155,7 @@ export class ElementBindingDirective implements OnInit, OnDestroy {
     });
   }
 
-  private _dispatchFocusEvent(name: string): void {
-    setTimeout(() => this._store.dispatch( 
-      new Slide.FocusElement( name )
-    ));
+  private _dispatchEvent(event: Slide.FocusElement | Slide.ClearElement): void {
+    setTimeout(() => this._store.dispatch( event ));
   }
 }

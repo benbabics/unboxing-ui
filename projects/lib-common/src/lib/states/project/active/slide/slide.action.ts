@@ -41,6 +41,10 @@ export namespace Slide {
     static readonly type = '[Slide] FocusElement';
     constructor( public name: string ) { }
   }
+  export class ClearElement {
+    static readonly type = '[Slide] ClearElement';
+    constructor( public name: string ) { }
+  }
 
   export class FocusField {
     static readonly type = '[Slide] FocusField';

@@ -2,14 +2,20 @@
   <h1 
     *ngIf="slide.attributes.title" 
     elementBindingLabel="Page Title"
-    [elementBinding]="[{ action: 'EDIT', name: 'title' }]">
+    [elementBinding]="[
+      { action: 'EDIT',   name: 'title' },
+      { action: 'DELETE', name: 'title' }
+    ]">
     {{ slide.attributes.title }}
   </h1>
   <br>
   <h2 
     *ngIf="slide.attributes.subtitle" 
     elementBindingLabel="Page Subitle"
-    [elementBinding]="[{ action: 'EDIT', name: 'subtitle' }]">
+    [elementBinding]="[
+      { action: 'EDIT',   name: 'subtitle' },
+      { action: 'DELETE', name: 'subtitle' }
+    ]">
     {{ slide.attributes.subtitle }}
   </h2>
 </ng-container>

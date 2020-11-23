@@ -55,13 +55,19 @@ export class PreviewContainerComponent implements OnInit, OnDestroy {
         filter(slide => !!slide),
         map(({ templateId }) => ({ pageId: templateId })),
       )
-      .subscribe(data => this._handleSendAction({ type: 'page-active', data }));
+      .subscribe(data => this._handleSendAction({ type: "page-active", data }));
 
     this._actions$.pipe(
       ofActionDispatched( Slide.FocusElement ),
       takeUntil( this._destroy$ ),
     )
-    .subscribe(({ name }) => this._handleSendAction({ type: 'element-focus', data: name }));
+    .subscribe(({ name }) => this._handleSendAction({ type: "element-focus", data: name }));
+
+    this._actions$.pipe(
+      ofActionDispatched( Slide.ClearElement ),
+      takeUntil( this._destroy$ ),
+    )
+    .subscribe(({ name }) => this._handleSendAction({ type: "element-clear", data: name }));
 
     const findRoute = route =>
       route.snapshot.data.isThemeWrapper ? route.firstChild : findRoute( route.firstChild );

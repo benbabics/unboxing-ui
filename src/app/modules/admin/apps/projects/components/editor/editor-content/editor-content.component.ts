@@ -110,6 +110,10 @@ export class EditorContentComponent implements OnInit, OnDestroy {
       case "element-focus":
         this._store.dispatch( new Slide.FocusElement(data) );
       break;
+
+      case "element-clear":
+        this._store.dispatch( new Slide.ClearElement(data) );
+      break;
     }
   }
 
