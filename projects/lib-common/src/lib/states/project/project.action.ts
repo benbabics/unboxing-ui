@@ -6,6 +6,7 @@ export interface Project {
   slug: string;
   title: string;
   date: Date;
+  published: boolean;
 
   // relationships
   accountId: string;

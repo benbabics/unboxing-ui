@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ClearActive, CreateOrReplace, EntityActionType, ofEntityActionSuccessful, Reset, SetActive } from '@ngxs-labs/entity-state';
+import { ClearActive, CreateOrReplace, EntityActionType, ofEntityActionSuccessful, Reset, SetActive, UpdateActive } from '@ngxs-labs/entity-state';
 import { Action, Actions, Selector, State, StateContext, Store } from '@ngxs/store';
 import { chain, get, values } from 'lodash';
 import { of } from 'rxjs';
@@ -108,6 +108,19 @@ export class ProjectActiveState {
       .pipe( finalize(() => this.toggleLoading( false )) );
   }
 
+  @Action( ProjectActive.SetVisibilityStatus )
+  setVisibilityStatus(ctx: StateContext<ProjectActiveStateModel>, { published }: ProjectActive.SetVisibilityStatus) {
+    this.toggleLoading( true );
+
+    const projectId = this._store.selectSnapshot( ProjectActiveState.projectId );
+
+    return this._http.patch( `/api/projects/${ projectId }`, { published } )
+      .pipe(
+        tap(project => this._store.dispatch( new UpdateActive( ProjectState, project ))),
+        finalize(() => this.toggleLoading( false )),
+      );
+  }
+
   ngxsOnInit(ctx: StateContext<ProjectActiveStateModel>) {
     this._actions$.pipe(
       ofEntityActionSuccessful( ProjectState, EntityActionType.SetActive ),
@@ -115,6 +128,15 @@ export class ProjectActiveState {
       tap(project => ctx.patchState({
         project,
         projectId: project.id
+      })),
+    )
+    .subscribe();
+
+    this._actions$.pipe(
+      ofEntityActionSuccessful( ProjectState, EntityActionType.UpdateActive ),
+      flatMap(() => this._store.selectOnce( ProjectState.active )),
+      tap(project => ctx.patchState({
+        project,
       })),
     )
     .subscribe();

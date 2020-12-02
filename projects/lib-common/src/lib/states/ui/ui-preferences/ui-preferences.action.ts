@@ -7,6 +7,7 @@ export interface UiPreferences {
   navigationAppearance: UiPreferencesNavigationAppearance;
   themeAppearance: UiPreferencesThemeAppearance;
   projectIndexDrawerOpened: boolean;
+  projectSettingAutoSave: boolean;
 }
 
 export namespace UiPreferences {
@@ -31,5 +32,11 @@ export namespace UiPreferences {
   export class ToggleProjectIndexDrawerOpened {
     static readonly type = '[UiPreferences] ToggleProjectIndexDrawerOpened';
     constructor( public isOpened?: boolean ) { }
+  }
+
+  // projectAutoSave
+  export class ToggleProjectSettingAutoSave {
+    static readonly type = '[UIPreferences] ToggleProjectSettingAutoSave'
+    constructor( public autoSave?: boolean ) { }
   }
 }

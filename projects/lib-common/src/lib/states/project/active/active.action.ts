@@ -21,6 +21,11 @@ export namespace ProjectActive {
     static readonly type = '[ProjectActive] SetLoading';
     constructor( public isLoading: boolean ) { }
   }
+
+  export class SetVisibilityStatus {
+    static readonly type = '[ProjectActive] SetVisibilityStatus';
+    constructor( public published: boolean ) { }
+  }
   
   export class SetAssociations {
     static readonly type = '[ProjectActive] SetAssociations';
