@@ -1,0 +1,17 @@
+@import "common";
+
+@include treo-theme {
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+  $primary: map-get($theme, primary);
+  $is-dark: map-get($theme, is-dark);
+
+  :host .settings-header {
+    @if ($is-dark) {
+      background-color: rgb(33, 40, 53);
+    } @else {
+      background-color: rgb(213, 219, 228);
+      border-bottom: 1px solid rgb(207, 216, 227);
+    }
+  }
+}
