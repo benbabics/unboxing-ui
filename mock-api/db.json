@@ -212,6 +212,7 @@
       "accountId": 1,
       "title": "Halloween Wedding",
       "slug": "spooky_wedding",
+      "published": false,
       "brandId": 1,
       "date": "2020-10-31 00:00:00",
       "themeId": "theme-default"
@@ -221,6 +222,7 @@
       "accountId": 1,
       "title": "Info Wars",
       "slug": "info_wars",
+      "published": false,
       "brandId": 1,
       "date": "2021-01-20 00:00:00",
       "themeId": "theme-default"
@@ -230,6 +232,7 @@
       "accountId": 1,
       "title": "Sandy Beach Wedding",
       "slug": "sandy_beach_wedding",
+      "published": false,
       "brandId": 1,
       "date": "2021-07-23 00:00:00",
       "themeId": "theme-default"

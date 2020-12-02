@@ -12,6 +12,7 @@ export interface UiPreferencesStateModel extends UiPreferences { }
     navigationAppearance: UiPreferencesNavigationAppearance.Dense,
     themeAppearance:      UiPreferencesThemeAppearance.Auto,
     projectIndexDrawerOpened: false,
+    projectSettingAutoSave:   true,
   }
 })
 @Injectable()
@@ -30,6 +31,11 @@ export class UiPreferencesState {
   @Selector()
   static projectIndexDrawerOpened({ projectIndexDrawerOpened }: UiPreferencesStateModel) {
     return projectIndexDrawerOpened;
+  }
+
+  @Selector()
+  static projectSettingAutoSave({ projectSettingAutoSave }: UiPreferencesStateModel) {
+    return projectSettingAutoSave;
   }
 
   @Action( UiPreferences.SetNavigationAppearance )
@@ -56,6 +62,14 @@ export class UiPreferencesState {
     const currentValue = ctx.getState().projectIndexDrawerOpened;
     ctx.patchState({
       projectIndexDrawerOpened: isNil( isOpened ) ? !currentValue : isOpened 
+    });
+  }
+
+  @Action( UiPreferences.ToggleProjectSettingAutoSave )
+  toggleProjectSettingAutoSave(ctx: StateContext<UiPreferencesStateModel>, { autoSave }: UiPreferences.ToggleProjectSettingAutoSave) {
+    const currentValue = ctx.getState().projectSettingAutoSave;
+    ctx.patchState({
+      projectSettingAutoSave: isNil( autoSave ) ? !currentValue : autoSave
     });
   }
 }
