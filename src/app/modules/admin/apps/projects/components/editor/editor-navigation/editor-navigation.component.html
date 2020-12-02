@@ -1,5 +1,5 @@
 <div class="flex">
-  <mat-icon class="mr-2" svgIcon="navigation"></mat-icon>
+  <mat-icon class="mr-1" svgIcon="navigation"></mat-icon>
   <label class="text-lg font-medium">Navigation</label>
 </div>
 
@@ -18,13 +18,13 @@
           *ngFor="let tmpl of context.theme.templates"
           [value]="tmpl.id">
           <div class="flex items-center">
-            <mat-icon matPrefix [svgIcon]="slideIcons[ tmpl.id ]"></mat-icon>
+            <mat-icon matPrefix [svgIcon]="slideIcons[ tmpl.id ]" class="mr-2"></mat-icon>
             {{ tmpl.title }}
           </div>
         </mat-option>
       </mat-select>
 
-      <mat-icon matPrefix [svgIcon]="slideIcons[ context.active.templateId ]"></mat-icon>
+      <mat-icon matPrefix [svgIcon]="slideIcons[ context.active.templateId ]" class="mr-2"></mat-icon>
     </mat-form-field>
   </div>
 
