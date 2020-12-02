@@ -22,6 +22,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -63,6 +64,7 @@ import {
   EditorInspectorComponent,
   EditorFormComponent,
   EditorNavigationComponent,
+  EditorSettingsComponent,
   FontSelectorComponent,
   RoleBadgeComponent,
   UserAvatarComponent,
@@ -98,6 +100,7 @@ import { TagIconPipe } from './pipes';
     MatRippleModule,
     MatSelectModule,
     MatSidenavModule,
+    MatSlideToggleModule,
     MatSnackBarModule,
     MatSortModule,
     MatStepperModule,
@@ -131,6 +134,7 @@ import { TagIconPipe } from './pipes';
     EditorFormComponent,
     EditorHistoryComponent,
     EditorNavigationComponent,
+    EditorSettingsComponent,
     AssetExplorerComponent,
     AssetFinderComponent,
     AssetListsComponent,
