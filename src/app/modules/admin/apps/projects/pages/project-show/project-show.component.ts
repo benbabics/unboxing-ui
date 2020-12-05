@@ -1,14 +1,15 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, QueryList, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
 import { TreoMediaWatcherService } from '@treo/services/media-watcher';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
-import { flatMap, map, mapTo, take, takeUntil, tap } from 'rxjs/operators';
+import { debounceTime, filter, flatMap, map, mapTo, take, takeUntil, tap } from 'rxjs/operators';
 import { ComponentCanDeactivate } from '../../guards';
 import { EditorInspectorComponent } from '../../components/editor/editor-inspector/editor-inspector.component';
 import { EditorChangeHistoryService } from 'app/modules/admin/apps/projects/services';
 import { Actions, ofActionSuccessful, Store } from '@ngxs/store';
-import { ProjectActive, ProjectActiveState } from '@projects/lib-common/src/lib/states';
+import { ProjectActive, ProjectActiveState, SlideState, UiPreferencesState } from '@projects/lib-common/src/lib/states';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
+import { EntityActionType, ofEntityActionSuccessful } from '@ngxs-labs/entity-state';
 
 @Component({
   selector: 'project-show',
@@ -26,6 +27,7 @@ export class ProjectShowComponent implements OnInit, AfterViewInit, OnDestroy, C
   drawerMode: 'over' | 'side';
   scrollMode: 'inner' | 'drawer-content';
   isLoading: boolean = false;
+  isAutoSaveEnabled: boolean = false;
 
   tabSelected: ElementRef;
   @ViewChildren('tab', { read: ElementRef }) tabs: QueryList<ElementRef>;
@@ -56,9 +58,28 @@ export class ProjectShowComponent implements OnInit, AfterViewInit, OnDestroy, C
       )
       .subscribe();
 
+    this._store.select( UiPreferencesState.projectSettingAutoSave )
+      .pipe(
+        takeUntil( this._destroy$ ),
+        tap(isEnabled => this.isAutoSaveEnabled = isEnabled),
+        filter(() => this.isAutoSaveEnabled),
+        tap(() => this.handleSaveProject()),
+      )
+      .subscribe();
+
+    actions$.pipe(
+      ofEntityActionSuccessful( SlideState, EntityActionType.UpdateActive ),
+      takeUntil( this._destroy$ ),
+      filter(() => this.isAutoSaveEnabled),
+      debounceTime( 500 ),
+      tap(() => this.handleSaveProject()),
+    )
+    .subscribe();
+
     actions$.pipe(
       ofActionSuccessful( ProjectActive.SaveAssociatedSlides ),
       takeUntil( this._destroy$ ),
+      filter(() => !this.isAutoSaveEnabled),
       flatMap(() => _store.selectOnce( ProjectActiveState.project )),
       tap(({ title }) => snackBar.open( `${ title } was updated successfully.`, `Ok` )),
     )
@@ -95,7 +116,7 @@ export class ProjectShowComponent implements OnInit, AfterViewInit, OnDestroy, C
   }
 
   canDeactivate(): Observable<boolean> {
-    if ( this._history.totalOfChanges > 0 ) {
+    if ( this._history.totalOfChanges > 0 && !this.isAutoSaveEnabled ) {
       const dialogRef = this._dialog.open( this.dialogSaveChangesRef );
 
       this.actionDialogSaveChanges.pipe(
@@ -125,8 +146,11 @@ export class ProjectShowComponent implements OnInit, AfterViewInit, OnDestroy, C
 
   handleSaveProject(): void {
     this._store.dispatch( new ProjectActive.SaveAssociatedSlides() )
-      .toPromise()
-      .then(() => console.log('* Project Save completed'))
-      .then(() => this._history.reset());
+      .pipe(
+        take( 1 ),
+        filter(() => !this.isAutoSaveEnabled),
+        tap(() => this._history.reset()),
+      )
+      .subscribe();
   }
 }

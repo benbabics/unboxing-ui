@@ -45,7 +45,6 @@ export class EditorSettingsComponent implements OnInit, OnDestroy {
     this._store.select( UiPreferencesState.projectSettingAutoSave )
       .pipe(
         takeUntil( this._destroy$ ),
-        tap(autoSave => console.log('* AutoSave Update', autoSave)),
         tap(autoSave => this.settingsForm.controls.autoSave.setValue( autoSave )),
       )
       .subscribe();

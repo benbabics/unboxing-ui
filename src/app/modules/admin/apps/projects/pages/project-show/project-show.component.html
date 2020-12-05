@@ -24,12 +24,12 @@
               <button 
                 class="w-8 h-8 min-h-0"
                 mat-icon-button 
-                matTooltip="Save Project"
                 matBadgeSize="small"
                 matBadgeColor="accent"
                 [matBadge]="totalOfChanges"
-                [matBadgeHidden]="totalOfChanges == 0"
-                [disabled]="totalOfChanges == 0"
+                [matTooltip]="isAutoSaveEnabled ? 'Project changes are automatically saved' : 'Save Project'"
+                [matBadgeHidden]="isAutoSaveEnabled || totalOfChanges == 0"
+                [disabled]="isAutoSaveEnabled || totalOfChanges == 0"
                 (click)="handleSaveProject()">
   
                 <mat-icon svgIcon="save" class="icon-size-20"></mat-icon>
