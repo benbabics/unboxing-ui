@@ -1,18 +1,21 @@
 <div class="settings-header mb-8 p-6">
   <div class="flex flex-row items-center">
-    <div class="flex-1 flex flex-row">
-      <div class="order-last text-lg tracking-wide">
-        <div class="flex flex-row items-center">
-          <div class="font-semibold">Project Status:</div>
-        </div>
-        <div class="text-secondary -mt-1">
-          {{ settingsForm.controls.published.value ? "Online" : "Offline" }}
-        </div>
+    <div class="flex-1 text-lg tracking-wide">
+      <div class="flex flex-row items-center">
+        <div class="font-semibold">Project Status:</div>
       </div>
-
-      <div class="mt-1 mr-2 icon-size-20">
-        <ng-container *ngTemplateOutlet="autoSaveIcons"></ng-container>
-      </div>
+      <span 
+        class="mt-1 inline-flex items-center font-bold text-sm px-2 py-2px rounded-full tracking-wide uppercase border"
+        [ngClass]="settingsForm.controls.published.value ? 'green-200 border-green-500' : 'gray-200 border-gray-500'">
+          <span
+            class="mr-1 icon-size-18"
+            [ngClass]="settingsForm.controls.published.value ? 'text-green' : 'text-gray'">
+            <ng-container *ngTemplateOutlet="autoSaveIcons"></ng-container>
+          </span>
+          <span class="pr-2px leading-relaxed whitespace-no-wrap">
+            {{ settingsForm.controls.published.value ? "Online" : "Offline" }}
+          </span>
+      </span>
     </div>
 
     <ng-container *ngIf="isProjectLoading; else autoSaveButtons">

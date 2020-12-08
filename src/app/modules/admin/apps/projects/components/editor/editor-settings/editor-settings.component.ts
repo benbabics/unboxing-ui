@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Select, Store } from '@ngxs/store';
 import { ProjectActive, ProjectActiveState, UiPreferences, UiPreferencesState } from '@projects/lib-common/src/lib/states';
 import { Observable, of, Subject } from 'rxjs';
-import { filter, flatMap, publish, take, takeUntil, tap } from 'rxjs/operators';
+import { filter, flatMap, map, publish, take, takeUntil, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'editor-settings',
@@ -23,6 +24,7 @@ export class EditorSettingsComponent implements OnInit, OnDestroy {
   constructor(
     private _store: Store,
     private _dialog: MatDialog,
+    private _snackBar: MatSnackBar,
   ) { }
 
   ngOnInit() {
@@ -67,6 +69,9 @@ export class EditorSettingsComponent implements OnInit, OnDestroy {
     confirm$.pipe(
       take( 1 ),
       flatMap(() => this._store.dispatch( new ProjectActive.SetVisibilityStatus(published) )),
+      flatMap(() => this._store.selectOnce( ProjectActiveState.project )),
+      map(({ published }) => published ? "published online" : "taken offline"),
+      tap(action => this._snackBar.open(`Project has been ${ action }.`, `Ok`)),
     )
       .subscribe();
   }
