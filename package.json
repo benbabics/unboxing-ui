@@ -13,6 +13,7 @@
     "build:common": "ng build libCommon",
     "start:preview": "ng serve --project runner-preview --port 4300 --disable-host-check",
     "build:preview": "ng build --project runner-preview",
+    "start:theme": "ng build --project theme-default --watch",
     "start:mocks": "node ./node_modules/json-server/lib/cli/bin ./mock-api/db.json --watch --routes ./mock-api/routes.json --middlewares ./node_modules/json-server-auth",
     "test": "ng test",
     "lint": "ng lint",
