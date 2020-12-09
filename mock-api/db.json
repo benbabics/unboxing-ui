@@ -1412,7 +1412,11 @@
       "id": 6,
       "attributes": {
         "title": "My Video Trailers Title",
-        "trailers": []
+        "trailers": [
+          "asset-01",
+          "asset-03",
+          "asset-04"
+        ]
       },
       "projectId": 2,
       "themeId": "theme-default",
