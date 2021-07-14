@@ -220,10 +220,10 @@
     {
       "id": 2,
       "accountId": 1,
-      "title": "Info Wars",
+      "title": "Info Wars!",
       "slug": "info_wars",
       "published": false,
-      "brandId": 1,
+      "brandId": "1",
       "date": "2021-01-20 00:00:00",
       "themeId": "theme-default"
     },
@@ -1368,7 +1368,9 @@
     {
       "id": 2,
       "attributes": {
-        "galleries": []
+        "galleries": [
+          1
+        ]
       },
       "projectId": 1,
       "themeId": "theme-default",
@@ -1397,7 +1399,11 @@
     {
       "id": 5,
       "attributes": {
-        "galleries": [],
+        "galleries": [
+          "asset-05",
+          "asset-12",
+          "asset-09"
+        ],
         "fields": null,
         "title": "foo",
         "subtitle": "bar",
@@ -1412,7 +1418,10 @@
       "id": 6,
       "attributes": {
         "title": "My Video Trailers Title",
-        "trailers": []
+        "trailers": [
+          "asset-01",
+          "asset-02"
+        ]
       },
       "projectId": 2,
       "themeId": "theme-default",
@@ -1421,8 +1430,8 @@
     {
       "id": 7,
       "attributes": {
-        "title": "My Landing Title",
-        "titleFont": "bangers"
+        "title": "adsflkjlkjasdf",
+        "titleFont": "georgia"
       },
       "projectId": 3,
       "themeId": "theme-default",
@@ -1431,7 +1440,9 @@
     {
       "id": 8,
       "attributes": {
-        "galleries": []
+        "galleries": [
+          6
+        ]
       },
       "projectId": 3,
       "themeId": "theme-default",
